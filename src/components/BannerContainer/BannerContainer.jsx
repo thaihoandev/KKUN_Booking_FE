@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Navigation, EffectFade, Autoplay } from "swiper/modules";
 import $ from "jquery";
 import "daterangepicker";
-
+import moment from "moment";
 import "swiper/css"; // Import CSS cho Swiper
 import "swiper/css/navigation"; // Import CSS cho Navigation
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -95,7 +95,7 @@ function BannerContainer() {
             opens: "left",
             autoUpdateInput: false,
             locale: {
-                format: "DD/MM/YYYY",
+                format: "YYYY/MM/DD", // The format you want
                 applyLabel: "Áp dụng",
                 cancelLabel: "Hủy bỏ",
                 fromLabel: "Từ",
@@ -118,6 +118,9 @@ function BannerContainer() {
                 ],
                 firstDay: 1,
             },
+            // Ensure moment.js is being used for the date handling
+            startDate: moment().startOf("month"),
+            endDate: moment().endOf("month"),
         });
 
         $(inputRef.current).on("apply.daterangepicker", (ev, picker) => {
@@ -127,9 +130,9 @@ function BannerContainer() {
             setDateRange(selectedRange); // Update date range state
         });
 
-        $(inputRef.current).on("cancel.daterangepicker", () =>
-            setDateRange("")
-        ); // Clear date range
+        $(inputRef.current).on("cancel.daterangepicker", () => {
+            setDateRange(""); // Clear the date range on cancel
+        });
 
         return () => {
             if (inputRef.current) {
@@ -209,15 +212,6 @@ function BannerContainer() {
             .format("YYYY-MM-DDTHH:mm:ss");
 
         try {
-            console.log(
-                "Date",
-
-                checkInDate,
-                checkOutDate,
-                formattedCheckInDate,
-                formattedCheckOutDate
-            );
-
             // Fetch API với axios sau khi validate thành công
             const response = await axios.get(
                 `${process.env.REACT_APP_BASE_API_URL}/search/hotels`,

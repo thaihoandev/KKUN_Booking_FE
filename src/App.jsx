@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     createBrowserRouter,
     RouterProvider,
@@ -6,13 +6,18 @@ import {
     Outlet,
 } from "react-router-dom";
 import { Provider } from "react-redux";
+import {
+    GoogleLogin,
+    GoogleOAuthProvider,
+    useGoogleLogin,
+} from "@react-oauth/google";
+
 import store from "./store/Store";
 
 import Home from "./pages/Home/Home";
 import AdminLayout from "./layouts/AdminLayout";
 import HotelOwnerLayout from "./layouts/HotelOwnerLayout";
 import Layout from "./layouts/Layout";
-
 const router = createBrowserRouter([
     {
         path: "/",
@@ -41,11 +46,13 @@ const router = createBrowserRouter([
 
 function App() {
     return (
-        <Provider store={store}>
-            <div className="App">
-                <RouterProvider router={router} />
-            </div>
-        </Provider>
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+            <Provider store={store}>
+                <div className="App">
+                    <RouterProvider router={router} />
+                </div>
+            </Provider>
+        </GoogleOAuthProvider>
     );
 }
 
