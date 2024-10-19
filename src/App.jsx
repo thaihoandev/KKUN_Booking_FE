@@ -18,6 +18,14 @@ import Home from "./pages/Home/Home";
 import AdminLayout from "./layouts/AdminLayout";
 import HotelOwnerLayout from "./layouts/HotelOwnerLayout";
 import Layout from "./layouts/Layout";
+import HotelOwnerSignUp from "./pages/HotelOwner/HotelOwnerSignUp/HotelOwnerSignUp";
+import ProfileSettings from "./pages/ProfileSettings/ProfileSettings";
+import HotelInfoes from "./pages/HotelOwner/HotelInfoes/HotelInfoes";
+import RoomList from "./pages/HotelOwner/RoomList/RoomList";
+import HotelOwnerDashBoard from "./pages/HotelOwner/DashBoard/HotelOwnerDashBoard";
+import BookedList from "./pages/HotelOwner/BookedList/BookedList";
+import CustomerList from "./pages/HotelOwner/CustomerList/CustomerList";
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -40,6 +48,14 @@ const router = createBrowserRouter([
         element: <HotelOwnerLayout />, // Hotel Owner layout
         children: [
             // Other hotel owner routes
+            { index: true, element: <HotelOwnerDashBoard /> },
+            { path: "sign-up", element: <HotelOwnerSignUp /> },
+            { path: "dashboard", element: <HotelOwnerDashBoard /> },
+            { path: "settings", element: <ProfileSettings /> },
+            { path: "hotel", element: <HotelInfoes /> },
+            { path: "rooms", element: <RoomList /> },
+            { path: "booked", element: <BookedList /> },
+            { path: "customer-list", element: <CustomerList /> },
         ],
     },
 ]);

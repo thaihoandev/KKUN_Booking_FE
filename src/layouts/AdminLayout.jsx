@@ -1,17 +1,20 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import Header from "../components/Header/Header";
+import SidebarMenu from "../components/SidebarMenu/SidebarMenu";
 
 const AdminLayout = () => {
     return (
         <div className="admin-layout">
             {/* <AdminSidebar /> */}
-            <div className="main-content">
-                {/* <AdminNavbar /> */}
-                <div className="content-wrapper">
-                    Admin layout
+            <Header />
+            <div className=" dashboard-wrapper">
+                {/* <HotelOwnerSidebar /> */}
+                <SidebarMenu />
+                <div className="main-content">
+                    {/* <HotelOwnerNavbar /> */}
                     <Outlet />
                 </div>
-                {/* <AdminFooter /> */}
             </div>
         </div>
     );

@@ -5,15 +5,22 @@ import { resetUser } from "../../store/UserSlide";
 import * as UserService from "../../services/UserService";
 import Loading from "../Loading/Loading";
 import Login from "../Login/Login";
-import { Button } from "bootstrap";
+import MenuDropdown from "./MenuDropdown/MenuDropdown";
 
 function Header() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false); // State để kiểm soát dropdown
 
     const user = useSelector((state) => state.user);
+
+    const toggleMenuDropdown = () => {
+        setIsOpen((prev) => !prev); // Đảo ngược trạng thái của dropdown
+    };
+
     const handleLogout = async () => {
         setIsLoading(true);
         await UserService.logoutUser();
@@ -27,6 +34,9 @@ function Header() {
     }
     const handleOpenLogin = () => {
         setIsLoginOpen(true);
+    };
+    const handleOpenRegister = () => {
+        setIsRegisterOpen(true);
     };
     return (
         <>
@@ -170,7 +180,7 @@ function Header() {
                         </div>
                     </div>
                 </div>
-                <div class="nav-right d-flex jsutify-content-end align-items-center">
+                <div class="nav-right d-flex justify-content-center align-items-center">
                     <ul class="icon-list">
                         <li class="d-lg-flex d-none">
                             {user && user.email ? (
@@ -206,11 +216,17 @@ function Header() {
                                         <i
                                             className="bi bi-person-circle"
                                             style={{
-                                                height: "27px !important",
-                                                width: "27px !important",
+                                                fontSize: "32px", // Thay đổi kích thước icon
+                                                height: "auto", // Tự động chiều cao
+                                                width: "auto", // Tự động chiều rộng
+                                                color: "#100C08",
                                             }}
                                         ></i>
                                     </Link>
+                                    <MenuDropdown
+                                        handleOpenLogin={handleOpenLogin}
+                                        handleOpenRegister={handleOpenRegister}
+                                    ></MenuDropdown>
                                 </>
                             )}
                         </li>
@@ -251,6 +267,8 @@ function Header() {
             <Login
                 isLoginOpen={isLoginOpen}
                 setIsLoginOpen={setIsLoginOpen}
+                isRegisterOpen={isRegisterOpen}
+                setIsRegisterOpen={setIsRegisterOpen}
             ></Login>
         </>
     );
