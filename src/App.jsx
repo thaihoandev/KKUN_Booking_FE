@@ -12,6 +12,8 @@ import Home from "./pages/Home/Home";
 import AdminLayout from "./layouts/AdminLayout";
 import HotelOwnerLayout from "./layouts/HotelOwnerLayout";
 import Layout from "./layouts/Layout";
+import Admin_Dashboard from "./pages/Home/Dashboard/Admin/Admin_Dashboard"
+import Dashboard from "./pages/Home/Dashboard/Admin/Dashboard";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +22,10 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <Home /> },
             { path: "home", element: <Home /> },
+            { path: "test", element: <Admin_Dashboard /> },
+            { path: "test2", element: <Dashboard /> },
+            // Other public routes can be added here
+            
             // Other public routes can be added here
         ],
     },
