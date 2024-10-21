@@ -42,7 +42,7 @@ export const getPersonalizedHotel = async (userId) => {
 };
 export const createHotel = async (data, access_token) => {
     const res = await axiosJWT.post(
-        `${process.env.REACT_APP_BASE_API_URL}/hotel/${id}`,
+        `${process.env.REACT_APP_BASE_API_URL}/hotels`,
         data,
         {
             headers: {
@@ -54,7 +54,7 @@ export const createHotel = async (data, access_token) => {
 };
 export const updateHotel = async (id, data, access_token) => {
     const res = await axiosJWT.put(
-        `${process.env.REACT_APP_BASE_API_URL}/hotel/${id}`,
+        `${process.env.REACT_APP_BASE_API_URL}/hotels/${id}`,
         data,
         {
             headers: {

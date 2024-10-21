@@ -6,70 +6,81 @@ import "swiper/css/navigation"; // Import CSS cho Navigation
 import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useMutation } from "react-query";
+import { useSelector } from "react-redux";
 
 import HotelItem from "../../components/HotelItem/HotelItem";
 import BannerContainer from "../../components/BannerContainer/BannerContainer";
 import Loading from "../../components/Loading/Loading";
+import * as HotelService from "../../services/HotelService";
 function Home() {
     const [popularHotels, setPopularHotels] = useState([]);
     const [ratingHotels, setRatingHotels] = useState([]);
     const [personalizedHotels, setPersonalizedHotels] = useState([]);
     const [selectedCity, setSelectedCity] = useState("Hà Nội"); // Default city
+    const user = useSelector((state) => state.user);
 
     const [loading, setLoading] = useState(true);
 
-    // Fetch persionalized hotel data
+    // useMutation setup for personalized hotels
+    const mutationHotelPersonalized = useMutation(
+        () => HotelService.getPersonalizedHotel(user.id),
+        {
+            onSuccess: (data) => {
+                setPersonalizedHotels(data);
+                setLoading(false);
+            },
+            onError: (error) => {
+                console.error("Error fetching personalized hotel data:", error);
+                setLoading(false);
+            },
+        }
+    );
+
+    // useMutation setup for top-rating hotels
+    const mutationHotelTopRating = useMutation(
+        () => HotelService.getTopRatingHotel(),
+        {
+            onSuccess: (data) => {
+                setRatingHotels(data);
+                setLoading(false);
+            },
+            onError: (error) => {
+                console.error("Error fetching top-rating hotel data:", error);
+                setLoading(false);
+            },
+        }
+    );
+
+    // useMutation setup for trending hotels
+    const mutationHotelTrending = useMutation(
+        () => HotelService.getTrendingHotel(),
+        {
+            onSuccess: (data) => {
+                setPopularHotels(data);
+                setLoading(false);
+            },
+            onError: (error) => {
+                console.error("Error fetching trending hotel data:", error);
+                setLoading(false);
+            },
+        }
+    );
+
+    // Fetch personalized hotel data
     useEffect(() => {
-        const fetchHotels = async () => {
-            try {
-                const response = await axios.get(
-                    `${process.env.REACT_APP_BASE_API_URL}/recommendations/personalized/userId`
-                ); // Replace with your API endpoint
-                setPersonalizedHotels(response.data); // Assuming API returns an array of hotel objects
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching hotel data:", error);
-                setLoading(false);
-            }
-        };
+        mutationHotelPersonalized.mutate();
+    }, [user.id]);
 
-        fetchHotels();
-    }, []);
-
-    // Fetch popular hotel data
+    // Fetch top-rating hotel data
     useEffect(() => {
-        const fetchHotels = async () => {
-            try {
-                const response = await axios.get(
-                    `${process.env.REACT_APP_BASE_API_URL}/recommendations/top-rating`
-                ); // Replace with your API endpoint
-                setRatingHotels(response.data); // Assuming API returns an array of hotel objects
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching hotel data:", error);
-                setLoading(false);
-            }
-        };
+        mutationHotelTopRating.mutate();
+    }, []); // This will run when the component mounts
 
-        fetchHotels();
-    }, []);
-    // Fetch popular hotel data
+    // Fetch trending hotel data
     useEffect(() => {
-        const fetchHotels = async () => {
-            try {
-                const response = await axios.get(
-                    `${process.env.REACT_APP_BASE_API_URL}/recommendations/trending`
-                ); // Replace with your API endpoint
-                setPopularHotels(response.data); // Assuming API returns an array of hotel objects
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching hotel data:", error);
-                setLoading(false);
-            }
-        };
-
-        fetchHotels();
-    }, []);
+        mutationHotelTrending.mutate();
+    }, []); // This will also run when the component mounts
 
     // Lọc dữ liệu khách sạn theo thành phố được chọn
     const filteredHotels = ratingHotels.filter((hotel) =>

@@ -1,15 +1,34 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import * as UserService from "../../../services/UserService";
+import { useDispatch } from "react-redux";
+import { resetUser } from "../../../store/UserSlide";
 
 const SidebarMenuItem = ({ item, openMenu, toggleMenu }) => {
-    const hasChildren = item.children && item.children.length > 0;
+    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    const hasChildren = item.children && item.children.length > 0;
+    const handleLogout = async () => {
+        setIsLoading(true);
+        await UserService.logoutUser();
+        dispatch(resetUser());
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("state");
+        setIsLoading(false);
+        navigate("/");
+    };
+    const handleClick = () => {
+        if (item.key === "logout") {
+            handleLogout();
+        } else if (hasChildren) {
+            toggleMenu(item.key);
+        }
+    };
     return (
         <li className={hasChildren ? "item-has-children" : ""}>
-            <Link
-                to={item.path}
-                onClick={() => hasChildren && toggleMenu(item.key)}
-            >
+            <Link to={item.path} onClick={handleClick}>
                 {item.icon && <i className={`bi ${item.icon}`}></i>}
                 <h6>{item.title}</h6>
             </Link>

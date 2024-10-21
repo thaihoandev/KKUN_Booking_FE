@@ -15,24 +15,40 @@ import {
 import store from "./store/Store";
 
 import Home from "./pages/Home/Home";
-import AdminLayout from "./layouts/AdminLayout";
-import HotelOwnerLayout from "./layouts/HotelOwnerLayout";
-import Layout from "./layouts/Layout";
-import HotelOwnerSignUp from "./pages/HotelOwner/HotelOwnerSignUp/HotelOwnerSignUp";
+import AdminLayout from "./layouts/AdminLayout/AdminLayout";
+import HotelOwnerLayout from "./layouts/HotelOwnerLayout/HotelOwnerLayout";
+import Layout from "./layouts/Layout/Layout";
 import ProfileSettings from "./pages/ProfileSettings/ProfileSettings";
-import HotelInfoes from "./pages/HotelOwner/HotelInfoes/HotelInfoes";
 import RoomList from "./pages/HotelOwner/RoomList/RoomList";
-import HotelOwnerDashBoard from "./pages/HotelOwner/DashBoard/HotelOwnerDashBoard";
 import BookedList from "./pages/HotelOwner/BookedList/BookedList";
 import CustomerList from "./pages/HotelOwner/CustomerList/CustomerList";
-
+import AdminCustomerList from "./pages/Admin/AdminCustomerList/AdminCustomerList";
+import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
+import HotelOwnerSignUp from "./pages/HotelOwner/HotelOwnerSignUp/HotelOwnerSignUp";
+import HotelOwnerDashBoard from "./pages/HotelOwner/HotelOwnerDashboard/HotelOwnerDashboard";
+import HotelInfoes from "./pages/HotelOwner/HotelInofes/HotelInfoes";
+import CustomerLayout from "./layouts/CustomerLayout/CustomerLayout";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Layout />, // Your main layout
+        element: <Layout />,
         children: [
             { index: true, element: <Home /> },
             { path: "home", element: <Home /> },
+
+            { path: "sign-up/hotel-owner", element: <HotelOwnerSignUp /> },
+            // Other public routes can be added here
+        ],
+    },
+    {
+        path: "/customer",
+        element: <CustomerLayout />,
+        children: [
+            { index: true, element: <ProfileSettings /> },
+
+            { path: "profile", element: <ProfileSettings /> },
+
+            { path: "sign-up/hotel-owner", element: <HotelOwnerSignUp /> },
             // Other public routes can be added here
         ],
     },
@@ -41,6 +57,10 @@ const router = createBrowserRouter([
         element: <AdminLayout />, // Admin layout
         children: [
             // Other admin routes
+            { index: true, element: <AdminDashboard /> },
+            { path: "dashboard", element: <AdminDashboard /> },
+            { path: "customer-list", element: <AdminCustomerList /> },
+            { path: "settings", element: <ProfileSettings /> },
         ],
     },
     {
@@ -49,7 +69,7 @@ const router = createBrowserRouter([
         children: [
             // Other hotel owner routes
             { index: true, element: <HotelOwnerDashBoard /> },
-            { path: "sign-up", element: <HotelOwnerSignUp /> },
+
             { path: "dashboard", element: <HotelOwnerDashBoard /> },
             { path: "settings", element: <ProfileSettings /> },
             { path: "hotel", element: <HotelInfoes /> },

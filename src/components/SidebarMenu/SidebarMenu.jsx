@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import SidebarMenuItem from "./SidebarMenuItem/SidebarMenuItem";
 function SidebarMenu({ menuItems }) {
     const [openMenu, setOpenMenu] = useState("");

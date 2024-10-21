@@ -71,40 +71,21 @@ function Header() {
                     </div>
 
                     <ul className="menu-list">
-                        <li className="menu-item-has-children active">
-                            <a href="index.html" className="drop-down">
-                                Trang chủ
-                            </a>
-                            <i className="bi bi-plus dropdown-icon"></i>
-                            <ul className="sub-menu">
-                                <li className="active">
-                                    <a href="index.html">Home 01</a>
-                                </li>
-                                <li>
-                                    <a href="index2.html">Home 02</a>
-                                </li>
-                            </ul>
+                        <li className=" active">
+                            <Link to={`/`}>Trang chủ</Link>
                         </li>
                         <li>
-                            <a href="about.html" className="drop-down">
-                                Khách sạn
-                            </a>
+                            <Link to={`/hotels`}>Khách sạn</Link>
                         </li>
                         <li>
-                            <a href="about.html" className="drop-down">
-                                Về chúng tôi
-                            </a>
+                            <Link to={`/about`}>Về chúng tôi</Link>
                         </li>
 
                         <li>
-                            <a href="about.html" className="drop-down">
-                                Cẩm nang
-                            </a>
+                            <Link to={`/handbooks`}>Cẩm nang</Link>
                         </li>
                         <li className="menu-item-has-children">
-                            <a href="package-grid.html" className="drop-down">
-                                Hành trình
-                            </a>
+                            <Link to={`/travels`}>Hành trình</Link>
                             <i className="bi bi-plus dropdown-icon"></i>
                             <ul className="sub-menu">
                                 <li>
@@ -185,7 +166,7 @@ function Header() {
                         <li class="d-lg-flex d-none">
                             {user && user.email ? (
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <Link to="/profile">
+                                    <Link to="/customer/profile">
                                         <img
                                             alt={
                                                 user.firstName +
@@ -195,13 +176,6 @@ function Header() {
                                             className="img-fluid"
                                             src={user.avatar}
                                         />
-                                    </Link>
-                                    <span> | </span>
-                                    <Link
-                                        className="btn"
-                                        onClick={handleLogout}
-                                    >
-                                        <span>Đăng xuất</span>
                                     </Link>
                                 </div>
                             ) : (
@@ -223,12 +197,14 @@ function Header() {
                                             }}
                                         ></i>
                                     </Link>
-                                    <MenuDropdown
-                                        handleOpenLogin={handleOpenLogin}
-                                        handleOpenRegister={handleOpenRegister}
-                                    ></MenuDropdown>
                                 </>
                             )}
+                            <MenuDropdown
+                                handleOpenLogin={handleOpenLogin}
+                                handleOpenRegister={handleOpenRegister}
+                                user={user}
+                                handleLogout={handleLogout}
+                            ></MenuDropdown>
                         </li>
                     </ul>
                     <div class="hotline-area d-xl-flex d-none">

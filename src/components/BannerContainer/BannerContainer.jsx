@@ -16,7 +16,6 @@ import "react-toastify/dist/ReactToastify.css";
 import dayjs from "dayjs";
 
 import Banner from "../../components/BannerContainer/Banner/Banner";
-import Notification from "../Notification/Notification";
 import useToast from "../../utils/toast";
 
 function BannerContainer() {

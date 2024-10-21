@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import SidebarMenu from "../components/SidebarMenu/SidebarMenu";
-import Header from "../components/Header/Header"; // Adjust the path to your Header component
+import SidebarMenu from "../../components/SidebarMenu/SidebarMenu";
+import Header from "../../components/Header/Header"; // Adjust the path to your Header component
 
 const HotelOwnerLayout = () => {
     const menuItems = [
