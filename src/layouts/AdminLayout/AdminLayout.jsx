@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu";
+import { ToastContainer } from "react-toastify";
 
 const AdminLayout = () => {
     const menuItems = [
@@ -44,15 +45,17 @@ const AdminLayout = () => {
     ];
 
     return (
-        <div className="admin-layout">
-            <Header />
-            <div className=" dashboard-wrapper">
-                <SidebarMenu menuItems={menuItems} />
-                <div className="main-content">
-                    <Outlet />
+        <>
+            <div className="admin-layout">
+                <Header />
+                <div className=" dashboard-wrapper">
+                    <SidebarMenu menuItems={menuItems} />
+                    <div className="main-content">
+                        <Outlet />
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

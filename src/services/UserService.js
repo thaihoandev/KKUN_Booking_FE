@@ -25,6 +25,7 @@ export const loginGoogleUser = async (data) => {
     }
 };
 export const signupUser = async (data) => {
+    console.log("data user", data);
     const res = await axios.post(
         `${process.env.REACT_APP_BASE_API_URL}/auth/register`,
         data
@@ -35,7 +36,7 @@ export const signupUser = async (data) => {
 export const getDetailsUser = async (id, access_token) => {
     const res = await axiosJWT.get(
         `${process.env.REACT_APP_BASE_API_URL}/users/${id}`,
-        { headers: { token: `Bearer ${access_token}` } }
+        { headers: { Authorization: `Bearer ${access_token}` } }
     );
     return res.data;
 };
@@ -59,16 +60,22 @@ export const logoutUser = async () => {
     return res.data;
 };
 export const updateUser = async (id, data, access_token) => {
-    const res = await axiosJWT.put(
-        `${process.env.REACT_APP_BASE_API_URL}/users/${id}`,
-        data,
-        {
-            headers: {
-                token: `Bearer ${access_token}`,
-            },
-        }
-    );
-    return res.data;
+    try {
+        const res = await axiosJWT.put(
+            `${process.env.REACT_APP_BASE_API_URL}/users/${id}`,
+            data,
+            {
+                headers: {
+                    Authorization: `Bearer ${access_token}`, // Use 'Authorization' for Bearer tokens
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
+        return res.data;
+    } catch (error) {
+        console.error("Error updating user:", error.response || error);
+        throw error; // Re-throw the error so it can be handled by the caller
+    }
 };
 
 export const deleteUser = async (id, access_token, data) => {

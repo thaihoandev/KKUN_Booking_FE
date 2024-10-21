@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu";
 import Header from "../../components/Header/Header"; // Adjust the path to your Header component
+import { ToastContainer } from "react-toastify";
 
 const HotelOwnerLayout = () => {
     const menuItems = [
@@ -60,18 +61,20 @@ const HotelOwnerLayout = () => {
         },
     ];
     return (
-        <div className="hotel-owner-layout">
-            <Header />
-            <div className=" dashboard-wrapper">
-                {/* <HotelOwnerSidebar /> */}
-                <SidebarMenu menuItems={menuItems} />
-                <div className="main-content">
-                    {/* <HotelOwnerNavbar /> */}
-                    <Outlet />
+        <>
+            <div className="hotel-owner-layout">
+                <Header />
+                <div className=" dashboard-wrapper">
+                    {/* <HotelOwnerSidebar /> */}
+                    <SidebarMenu menuItems={menuItems} />
+                    <div className="main-content">
+                        {/* <HotelOwnerNavbar /> */}
+                        <Outlet />
+                    </div>
                 </div>
+                {/* <HotelOwnerFooter /> */}
             </div>
-            {/* <HotelOwnerFooter /> */}
-        </div>
+        </>
     );
 };
 

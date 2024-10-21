@@ -11,15 +11,16 @@ function useAuth({ onLoginSuccess } = {}) {
     const navigate = useNavigate();
 
     // Helper function to store accessToken and dispatch user data
-    const handleLoginSuccess = (accessToken) => {
-        localStorage.setItem("access_token", accessToken);
-        const decoded = jwtDecode(accessToken);
+    const handleLoginSuccess = (access_token) => {
+        localStorage.setItem("access_token", access_token);
+        const decoded = jwtDecode(access_token);
+        console.log(decoded);
         dispatch(
             updateUser({
                 email: decoded.sub,
                 _id: decoded.userId,
                 role: decoded.role,
-                access_token: accessToken,
+                access_token: access_token,
                 firstName: decoded.firstName,
                 lastName: decoded.lastName,
             })
@@ -55,6 +56,7 @@ function useAuth({ onLoginSuccess } = {}) {
         onSuccess: (response, variables) => {
             if (response && response.id) {
                 // Auto login after successful registration
+                console.log("data", response);
                 handleLogin({
                     email: variables.email,
                     password: variables.password,
@@ -69,9 +71,9 @@ function useAuth({ onLoginSuccess } = {}) {
     // Google login mutation
     const mutationLoginGoogle = useMutation(UserService.loginGoogleUser, {
         onSuccess: (response) => {
-            const { accessToken } = response;
-            if (accessToken) {
-                handleLoginSuccess(accessToken); // Reuse login success handler
+            const { access_token } = response;
+            if (access_token) {
+                handleLoginSuccess(access_token); // Reuse login success handler
             }
         },
         onError: (error) => {
@@ -86,12 +88,11 @@ function useAuth({ onLoginSuccess } = {}) {
 
     // Handle registration
     const handleRegister = (data) => {
-        console.log("Register data before mutation:", data); // Thêm log này
         const registerData = {
             ...data,
             type: "customer",
         };
-        console.log("Register data after format:", registerData); // Thêm log này
+
         mutationRegister.mutate(registerData);
     };
 
