@@ -28,6 +28,7 @@ import HotelOwnerSignUp from "./pages/HotelOwner/HotelOwnerSignUp/HotelOwnerSign
 import HotelOwnerDashBoard from "./pages/HotelOwner/HotelOwnerDashboard/HotelOwnerDashboard";
 import HotelInfoes from "./pages/HotelOwner/HotelInofes/HotelInfoes";
 import CustomerLayout from "./layouts/CustomerLayout/CustomerLayout";
+import { ToastContainer } from "react-toastify";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -86,6 +87,7 @@ function App() {
             <Provider store={store}>
                 <div className="App">
                     <RouterProvider router={router} />
+                    <ToastContainer />
                 </div>
             </Provider>
         </GoogleOAuthProvider>

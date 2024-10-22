@@ -1,8 +1,12 @@
 import React, { useCallback, useState } from "react";
 
 import ProfileInfoes from "../../components/ProfileInfoes/ProfileInfoes";
+import ChangePassword from "../../components/ChangePassword/ChangePassword";
+import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 function ProfileSettings() {
+    const user = useSelector((state) => state.user);
     return (
         <>
             <div class="row">
@@ -261,80 +265,7 @@ function ProfileSettings() {
                                     </div>
                                 </div>
                             </div>
-                            <div
-                                class="tab-pane fade"
-                                id="change-pass"
-                                role="tabpanel"
-                                aria-labelledby="change-pass-tab"
-                            >
-                                <div class="dashboard-profile-tab-content">
-                                    <div class="profile-tab-content-title">
-                                        <h6>Thay đổi mật khẩu của bạn</h6>
-                                    </div>
-                                    <form>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-inner mb-30">
-                                                    <label>Mật khẩu cũ*</label>
-                                                    <input
-                                                        id="password4"
-                                                        type="password"
-                                                        placeholder="*** ***"
-                                                    />
-                                                    <i
-                                                        class="bi bi-eye-slash"
-                                                        id="togglePassword4"
-                                                    ></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-inner mb-30">
-                                                    <label>Mật khẩu mới*</label>
-                                                    <input
-                                                        id="password5"
-                                                        type="password"
-                                                        placeholder="*** ***"
-                                                    />
-                                                    <i
-                                                        class="bi bi-eye-slash"
-                                                        id="togglePassword5"
-                                                    ></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-inner mb-50">
-                                                    <label>
-                                                        Xác nhận mật khẩu*
-                                                    </label>
-                                                    <input
-                                                        id="password6"
-                                                        type="password"
-                                                        placeholder="*** ***"
-                                                    />
-                                                    <i
-                                                        class="bi bi-eye-slash"
-                                                        id="togglePassword6"
-                                                    ></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <div class="change-password-form-btns">
-                                        <button
-                                            type="submit"
-                                            class="primary-btn3"
-                                        >
-                                            Lưu thay đổi
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            class="primary-btn3 cancel"
-                                        >
-                                            Hủy
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            <ChangePassword user={user} />
                         </div>
                     </div>
                 </div>

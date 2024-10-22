@@ -352,7 +352,7 @@ function Home() {
                                                     <HotelItem
                                                         imageUrl={
                                                             hotel
-                                                                ?.exterior_images?.[0] ||
+                                                                ?.exteriorImages?.[0] ||
                                                             "defaultImageUrl.jpg"
                                                         } // Fallback to a default image if none exists
                                                         adults={
@@ -366,18 +366,18 @@ function Home() {
                                                         rating={hotel.rating}
                                                         roomType={
                                                             hotel?.rooms?.[0]
-                                                                ?.type_display_name ||
+                                                                ?.typeDisplayName ||
                                                             "Unknown"
                                                         } // Fallback text
                                                         paymentInfo={
-                                                            hotel.payment_policy
+                                                            hotel.paymentPolicy
                                                         }
                                                         price={
                                                             hotel?.rooms?.[0]
-                                                                ?.base_price ||
+                                                                ?.basePrice ||
                                                             "N/A"
                                                         } // Default price if not available
-                                                        original_price="$3000" // Adjust as necessary
+                                                        originalPrice="$3000" // Adjust as necessary
                                                     />
                                                 </div>
                                             )
@@ -454,7 +454,7 @@ function Home() {
                                                 <HotelItem
                                                     imageUrl={
                                                         hotel
-                                                            ?.exterior_images?.[0] ||
+                                                            ?.exteriorImages?.[0] ||
                                                         "defaultImageUrl.jpg"
                                                     } // Fallback to a default image if none exists
                                                     adults={
@@ -466,18 +466,17 @@ function Home() {
                                                     rating={hotel.rating}
                                                     roomType={
                                                         hotel?.rooms?.[0]
-                                                            ?.type_display_name ||
+                                                            ?.typeDisplayName ||
                                                         "Unknown"
                                                     } // Fallback text
                                                     paymentInfo={
-                                                        hotel.payment_policy
+                                                        hotel.paymentPolicy
                                                     }
                                                     price={
                                                         hotel?.rooms?.[0]
-                                                            ?.base_price ||
-                                                        "N/A"
+                                                            ?.basePrice || "N/A"
                                                     } // Default price if not available
-                                                    original_price="$3000" // Adjust as necessary
+                                                    originalPrice="$3000" // Adjust as necessary
                                                 />
                                             </div>
                                         ))}
@@ -650,7 +649,7 @@ function Home() {
                                                             <HotelItem
                                                                 imageUrl={
                                                                     hotel
-                                                                        ?.exterior_images?.[0] ||
+                                                                        ?.exteriorImages?.[0] ||
                                                                     "defaultImageUrl.jpg"
                                                                 } // Fallback to a default image if none exists
                                                                 adults={
@@ -671,19 +670,19 @@ function Home() {
                                                                 roomType={
                                                                     hotel
                                                                         ?.rooms?.[0]
-                                                                        ?.type_display_name ||
+                                                                        ?.typeDisplayName ||
                                                                     "Unknown"
                                                                 } // Fallback text
                                                                 paymentInfo={
-                                                                    hotel.payment_policy
+                                                                    hotel.paymentPolicy
                                                                 }
                                                                 price={
                                                                     hotel
                                                                         ?.rooms?.[0]
-                                                                        ?.base_price ||
+                                                                        ?.basePrice ||
                                                                     "N/A"
                                                                 } // Default price if not available
-                                                                original_price="$3000" // Adjust as necessary
+                                                                originalPrice="$3000" // Adjust as necessary
                                                             />
                                                         </div>
                                                     </SwiperSlide>

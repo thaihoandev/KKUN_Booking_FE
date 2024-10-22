@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { toast } from "react-toastify";
 export const axiosJWT = axios.create();
 
 export const loginUser = async (data) => {
@@ -25,28 +25,70 @@ export const loginGoogleUser = async (data) => {
     }
 };
 export const signupUser = async (data) => {
-    console.log("data user", data);
+    console.log("Sign", data);
     const res = await axios.post(
         `${process.env.REACT_APP_BASE_API_URL}/auth/register`,
         data
     );
     return res.data;
 };
+export const changePasswordUser = async (userId, request, accessToken) => {
+    try {
+        const response = await axios.post(
+            `${process.env.REACT_APP_BASE_API_URL}/users/${userId}/change-password`,
+            request,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
 
-export const getDetailsUser = async (id, access_token) => {
-    const res = await axiosJWT.get(
-        `${process.env.REACT_APP_BASE_API_URL}/users/${id}`,
-        { headers: { Authorization: `Bearer ${access_token}` } }
-    );
-    return res.data;
+        return response.data; // Trả về dữ liệu thành công nếu request thành công
+    } catch (error) {
+        // Nếu có lỗi từ BE, throw error ra ngoài với thông tin lỗi từ response
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            // Trường hợp lỗi khác (mạng, server...)
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};
+export const getDetailsUser = async (id, accessToken) => {
+    try {
+        const res = await axiosJWT.get(
+            `${process.env.REACT_APP_BASE_API_URL}/users/${id}`,
+            {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            }
+        );
+
+        return res.data;
+    } catch (error) {
+        if (error.response) {
+            // Log chi tiết nếu API trả về lỗi
+            console.error(
+                "Server responded with an error:",
+                error.response.data
+            );
+        } else if (error.request) {
+            // Nếu không nhận được phản hồi từ server
+            console.error("No response received from server:", error.request);
+        } else {
+            // Lỗi khác
+            console.error("Error setting up request:", error.message);
+        }
+        throw error; // Ném lỗi để mutation có thể xử lý
+    }
 };
 
-export const getAllUser = async (access_token) => {
+export const getAllUser = async (accessToken) => {
     const res = await axiosJWT.get(
         `${process.env.REACT_APP_BASE_API_URL}/users`,
         {
             headers: {
-                token: `Bearer ${access_token}`,
+                Authorization: `Bearer ${accessToken}`,
             },
         }
     );
@@ -59,14 +101,14 @@ export const logoutUser = async () => {
     );
     return res.data;
 };
-export const updateUser = async (id, data, access_token) => {
+export const updateUser = async (id, data, accessToken) => {
     try {
         const res = await axiosJWT.put(
             `${process.env.REACT_APP_BASE_API_URL}/users/${id}`,
             data,
             {
                 headers: {
-                    Authorization: `Bearer ${access_token}`, // Use 'Authorization' for Bearer tokens
+                    Authorization: `Bearer ${accessToken}`, // Use 'Authorization' for Bearer tokens
                     "Content-Type": "multipart/form-data",
                 },
             }
@@ -78,13 +120,13 @@ export const updateUser = async (id, data, access_token) => {
     }
 };
 
-export const deleteUser = async (id, access_token, data) => {
+export const deleteUser = async (id, accessToken, data) => {
     const res = await axiosJWT.delete(
         `${process.env.REACT_APP_BASE_API_URL}/users/${id}`,
         data,
         {
             headers: {
-                token: `Bearer ${access_token}`,
+                token: `Bearer ${accessToken}`,
             },
         }
     );

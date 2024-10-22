@@ -53,3 +53,48 @@ export const registerSchema = yup.object().shape({
         .required("Vui lòng xác nhận mật khẩu")
         .oneOf([yup.ref("password")], "Mật khẩu xác nhận không khớp"),
 });
+
+export const changePasswordSchema = yup.object().shape({
+    oldPassword: yup.string().when(["$authProvider", "$hasPassword"], {
+        is: (authProvider, hasPassword) => {
+            // Yêu cầu oldPassword nếu:
+            // 1. Là tài khoản LOCAL
+            // 2. Hoặc là tài khoản GOOGLE nhưng đã có mật khẩu
+            return (
+                authProvider === "LOCAL" ||
+                (authProvider === "GOOGLE" && hasPassword)
+            );
+        },
+        then: () =>
+            yup
+                .string()
+                .required("Vui lòng nhập mật khẩu cũ")
+                .min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
+        otherwise: () => yup.string().optional(),
+    }),
+
+    newPassword: yup
+        .string()
+        .required("Vui lòng nhập mật khẩu mới")
+        .min(6, "Mật khẩu mới phải có ít nhất 6 ký tự")
+        .test(
+            "not-same-as-old",
+            "Mật khẩu mới phải khác mật khẩu cũ",
+            function (value) {
+                const { authProvider, hasPassword } = this.options.context;
+                // Kiểm tra khi có oldPassword (LOCAL hoặc GOOGLE có mật khẩu)
+                if (
+                    this.parent.oldPassword &&
+                    (authProvider === "LOCAL" || hasPassword)
+                ) {
+                    return value !== this.parent.oldPassword;
+                }
+                return true;
+            }
+        ),
+
+    confirmNewPassword: yup
+        .string()
+        .required("Vui lòng xác nhận mật khẩu mới")
+        .oneOf([yup.ref("newPassword")], "Mật khẩu xác nhận không khớp"),
+});

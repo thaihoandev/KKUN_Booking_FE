@@ -16,8 +16,8 @@ function ProfileInfoes() {
     const options = ["United Kingdom", "Bangladesh", "United States"];
     const [formData, setFormData] = useState({
         id: user.id,
-        firstName: user.first_name || "",
-        lastName: user.last_name || "",
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
         email: user.email || "",
         phone: user.phone || "",
         address: user.address || "",
@@ -51,8 +51,8 @@ function ProfileInfoes() {
                 // Update the formData with the new user details
                 setFormData({
                     id: data.id,
-                    firstName: data.first_name || "",
-                    lastName: data.last_name || "",
+                    firstName: data.firstName || "",
+                    lastName: data.lastName || "",
                     email: data.email || "",
                     phone: data.phone || "",
                     address: data.address || "",
@@ -74,11 +74,12 @@ function ProfileInfoes() {
                 // Update the formData with the returned user details
                 setFormData({
                     id: data.id,
-                    firstName: data.first_name || "",
-                    lastName: data.last_name || "",
+                    firstName: data.firstName || "",
+                    lastName: data.lastName || "",
                     email: data.email || "",
                     phone: data.phone || "",
                     address: data.address || "",
+                    avatar: data.avatar || "",
                     country: "Viet Nam", // Adjust if needed
                 });
                 showToast("success", TOAST_MESSAGES.SAVE_SUCCESS);

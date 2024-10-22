@@ -10,24 +10,50 @@ function useAuth({ onLoginSuccess } = {}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    // Mutation để lấy chi tiết user
+    const mutationUserDetails = useMutation(
+        ({ userId, accessToken }) =>
+            UserService.getDetailsUser(userId, accessToken),
+        {
+            onSuccess: (data) => {
+                dispatch(
+                    updateUser({
+                        phone: data.phone,
+                        address: data.address,
+                        avatar: data.avatar,
+                        authProvider: data.authProvider,
+                        hasPassword: data.hasPassword,
+                    })
+                );
+            },
+            onError: (error) => {
+                console.error("Lỗi khi lấy thông tin người dùng:", error);
+            },
+        }
+    );
+
     // Helper function to store accessToken and dispatch user data
-    const handleLoginSuccess = (access_token) => {
-        localStorage.setItem("access_token", access_token);
-        const decoded = jwtDecode(access_token);
-        console.log(decoded);
+    const handleLoginSuccess = (accessToken) => {
+        localStorage.setItem("accessToken", accessToken);
+        const decoded = jwtDecode(accessToken);
         dispatch(
             updateUser({
                 email: decoded.sub,
                 _id: decoded.userId,
                 role: decoded.role,
-                access_token: access_token,
+                access_token: accessToken,
                 firstName: decoded.firstName,
                 lastName: decoded.lastName,
             })
         );
-        if (decoded.role == "ADMIN") {
+        mutationUserDetails.mutate({
+            userId: decoded.userId,
+            access_token: accessToken,
+        });
+
+        if (decoded.role === "ADMIN") {
             navigate("/admin"); // Navigate after successful login
-        } else if (decoded.role == "HOTELOWNER") {
+        } else if (decoded.role === "HOTELOWNER") {
             navigate("/hotelowner"); // Navigate after successful login
         } else {
             navigate("/"); // Navigate after successful login
@@ -52,28 +78,30 @@ function useAuth({ onLoginSuccess } = {}) {
     });
 
     // Register mutation, automatically log in the user on successful registration
-    const mutationRegister = useMutation(UserService.signupUser, {
-        onSuccess: (response, variables) => {
-            if (response && response.id) {
-                // Auto login after successful registration
-                console.log("data", response);
-                handleLogin({
-                    email: variables.email,
-                    password: variables.password,
-                });
-            }
-        },
-        onError: (error) => {
-            console.error("Registration failed:", error);
-        },
-    });
+    const mutationRegister = useMutation(
+        (registerData) => UserService.signupUser(registerData),
+        {
+            onSuccess: (response, variables) => {
+                if (response && response.id) {
+                    // Auto login after successful registration
+                    handleLogin({
+                        email: variables.email,
+                        password: variables.password,
+                    });
+                }
+            },
+            onError: (error) => {
+                console.error("Registration failed:", error);
+            },
+        }
+    );
 
     // Google login mutation
     const mutationLoginGoogle = useMutation(UserService.loginGoogleUser, {
         onSuccess: (response) => {
-            const { access_token } = response;
-            if (access_token) {
-                handleLoginSuccess(access_token); // Reuse login success handler
+            const { accessToken } = response;
+            if (accessToken) {
+                handleLoginSuccess(accessToken); // Reuse login success handler
             }
         },
         onError: (error) => {
@@ -88,17 +116,20 @@ function useAuth({ onLoginSuccess } = {}) {
 
     // Handle registration
     const handleRegister = (data) => {
+        console.log("data", data);
+
         const registerData = {
             ...data,
             type: "customer",
         };
-
+        console.log(registerData);
         mutationRegister.mutate(registerData);
     };
 
     // Google login
     const loginGoogle = useGoogleLogin({
         onSuccess: (credentialResponse) => {
+            console.log("credentialResponse", credentialResponse);
             const accessToken = credentialResponse.access_token;
             const loginGoogleData = { accessToken };
             mutationLoginGoogle.mutate(loginGoogleData);

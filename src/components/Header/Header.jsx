@@ -16,7 +16,6 @@ function Header() {
     const [isOpen, setIsOpen] = useState(false); // State để kiểm soát dropdown
 
     const user = useSelector((state) => state.user);
-
     const toggleMenuDropdown = () => {
         setIsOpen((prev) => !prev); // Đảo ngược trạng thái của dropdown
     };
@@ -38,6 +37,7 @@ function Header() {
     const handleOpenRegister = () => {
         setIsRegisterOpen(true);
     };
+
     return (
         <>
             <header className="header-area style-1">
@@ -174,8 +174,16 @@ function Header() {
                                                 user.lastName
                                             }
                                             className="img-fluid"
+                                            style={{
+                                                height: "32px",
+                                                width: "32px",
+                                                borderRadius: "50%",
+                                            }}
                                             src={user.avatar}
                                         />
+                                        <strong className="text-dark mx-2">
+                                            {user.lastName}
+                                        </strong>
                                     </Link>
                                 </div>
                             ) : (
