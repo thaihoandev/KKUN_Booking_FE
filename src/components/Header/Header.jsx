@@ -37,7 +37,7 @@ function Header() {
     const handleOpenRegister = () => {
         setIsRegisterOpen(true);
     };
-
+    console.log("Usr", user);
     return (
         <>
             <header className="header-area style-1">
@@ -45,15 +45,20 @@ function Header() {
                 <div className="header-logo d-lg-none d-flex">
                     <Link to={`/`}>
                         <img
+                            style={{ height: "32px" }}
                             alt="image"
                             className="img-fluid"
-                            src="assets/img/logo.svg"
+                            src={`${process.env.PUBLIC_URL}/assets/img/logo_kkun/Trans_logo_kkunbooking.png`}
                         />
                     </Link>
                 </div>
                 <div className="company-logo d-lg-flex d-none">
                     <Link to={`/`}>
-                        <img alt="image" src="assets/img/logo.svg" />
+                        <img
+                            style={{ height: "32px" }}
+                            alt="image"
+                            src={`${process.env.PUBLIC_URL}/assets/img/logo_kkun/Trans_logo_kkunbooking.png`}
+                        />
                     </Link>
                 </div>
 
@@ -61,9 +66,13 @@ function Header() {
                 <div className="main-menu">
                     <div className="mobile-logo-area d-lg-none d-flex justify-content-between align-items-center">
                         <div className="mobile-logo-wrap">
-                            <a href="index.html">
-                                <img alt="image" src="assets/img/logo.svg" />
-                            </a>
+                            <Link to={`/`}>
+                                <img
+                                    style={{ height: "32px" }}
+                                    alt="image"
+                                    src={`${process.env.PUBLIC_URL}/assets/img/logo_kkun/Trans_logo_kkunbooking.png`}
+                                />
+                            </Link>
                         </div>
                         <div className="menu-close-btn">
                             <i className="bi bi-x"></i>
@@ -178,6 +187,7 @@ function Header() {
                                                 height: "32px",
                                                 width: "32px",
                                                 borderRadius: "50%",
+                                                objectFit: "cover",
                                             }}
                                             src={user.avatar}
                                         />

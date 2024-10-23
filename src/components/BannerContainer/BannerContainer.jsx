@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 
 import Banner from "../../components/BannerContainer/Banner/Banner";
 import useToast from "../../utils/toast";
+import LocationSearchInput from "../LocationSearchInput/LocationSearchInput";
 
 function BannerContainer() {
     // State for dropdowns and selected values
@@ -32,43 +33,8 @@ function BannerContainer() {
     const inputRef = useRef(null);
     // Khởi tạo điều hướng
     const navigate = useNavigate();
-    // List of destinations
-    const destinations = [
-        { name: "Dubai", country: "United Arab Emirates", code: "AE" },
-        { name: "Cox's Bazar", country: "Bangladesh", code: "BD" },
-        { name: "Kathmandu", country: "Nepal", code: "NP" },
-        { name: "Delhi", country: "India", code: "IN" },
-        { name: "Sao Paulo", country: "Brazil", code: "BR" },
-        { name: "Bangkok", country: "Thailand", code: "TH" },
-        { name: "Barcelona", country: "Spain", code: "ES" },
-        { name: "Abu Dhabi", country: "United Arab Emirates", code: "AE" },
-        { name: "New York", country: "United States", code: "US" },
-    ];
 
-    // Set filtered destinations on component mount
-    useEffect(() => {
-        setFilteredDestinations(destinations);
-    }, []);
-
-    // Dropdown toggle functions
-    const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
     const toggleDropdownGuest = () => setDropdownOpenGuest(!dropdownOpenGuest);
-
-    // Handle selecting a destination
-    const handleSelectDestination = (name) => {
-        setSelectedDestination(name);
-        setDropdownOpen(false);
-    };
-
-    // Filter destinations based on search input
-    const handleSearchChange = (e) => {
-        const searchText = e.target.value.toLowerCase();
-        setSearchQuery(searchText);
-        const filtered = destinations.filter((dest) =>
-            dest.name.toLowerCase().includes(searchText)
-        );
-        setFilteredDestinations(filtered);
-    };
 
     // Close dropdowns when clicking outside
     const handleClickOutside = (e) => {
@@ -546,101 +512,21 @@ function BannerContainer() {
                                                                     <path d="M13.5 4.79883C11.3192 4.79883 9.54492 6.57308 9.54492 8.75391C9.54492 10.9347 11.3192 12.709 13.5 12.709C15.6808 12.709 17.4551 10.9347 17.4551 8.75391C17.4551 6.57308 15.6808 4.79883 13.5 4.79883ZM13.5 11.127C12.1915 11.127 11.127 10.0624 11.127 8.75391C11.127 7.44541 12.1915 6.38086 13.5 6.38086C14.8085 6.38086 15.873 7.44541 15.873 8.75391C15.873 10.0624 14.8085 11.127 13.5 11.127Z" />
                                                                 </svg>
                                                             </div>
-                                                            <div
-                                                                className="searchbox-input"
-                                                                ref={
-                                                                    dropdownSearchRef
-                                                                }
-                                                            >
-                                                                <label>
-                                                                    Vị trí
-                                                                </label>
-                                                                <div className="custom-select-dropdown">
-                                                                    <div
-                                                                        className="select-input"
-                                                                        onClick={
-                                                                            toggleDropdown
-                                                                        }
-                                                                    >
-                                                                        <input
-                                                                            type="text"
-                                                                            readOnly
-                                                                            value={
-                                                                                selectedDestination
-                                                                            }
-                                                                            placeholder="Địa điểm tìm kiếm"
-                                                                        />
-                                                                        <i className="bi bi-chevron-down"></i>
-                                                                    </div>
-
-                                                                    {dropdownOpen && (
-                                                                        <div className="custom-select-wrap active">
-                                                                            <div className="custom-select-search-area">
-                                                                                <i className="bx bx-search"></i>
-                                                                                <input
-                                                                                    type="text"
-                                                                                    placeholder="Nhập vị trí"
-                                                                                    value={
-                                                                                        searchQuery
-                                                                                    }
-                                                                                    onChange={
-                                                                                        handleSearchChange
-                                                                                    }
-                                                                                />
-                                                                            </div>
-                                                                            <ul className="option-list">
-                                                                                {filteredDestinations.map(
-                                                                                    (
-                                                                                        dest,
-                                                                                        index
-                                                                                    ) => (
-                                                                                        <li
-                                                                                            key={
-                                                                                                index
-                                                                                            }
-                                                                                            onClick={() =>
-                                                                                                handleSelectDestination(
-                                                                                                    dest.name
-                                                                                                )
-                                                                                            }
-                                                                                        >
-                                                                                            <div className="destination">
-                                                                                                <h6>
-                                                                                                    {
-                                                                                                        dest.name
-                                                                                                    }
-                                                                                                </h6>
-                                                                                                <p>
-                                                                                                    {
-                                                                                                        dest.country
-                                                                                                    }
-                                                                                                </p>
-                                                                                            </div>
-                                                                                            <div className="tour">
-                                                                                                <span>
-                                                                                                    {
-                                                                                                        dest.code
-                                                                                                    }
-                                                                                                </span>
-                                                                                            </div>
-                                                                                        </li>
-                                                                                    )
-                                                                                )}
-                                                                            </ul>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            </div>
+                                                            <LocationSearchInput
+                                                                onLocationSelect={(
+                                                                    location
+                                                                ) => {
+                                                                    // Cập nhật state trong component cha
+                                                                    setSelectedDestination(
+                                                                        location.display_name
+                                                                    );
+                                                                    // Hoặc lưu toàn bộ thông tin địa điểm nếu cần
+                                                                    // setSelectedLocation(location);
+                                                                }}
+                                                            />
                                                         </div>
                                                     </div>
-                                                    {/* Hidden input for selected destination */}
-                                                    <input
-                                                        type="hidden"
-                                                        name="location"
-                                                        value={
-                                                            selectedDestination
-                                                        } // Set hidden input value to selected destination
-                                                    />
+
                                                     <div className="col-xl-3 col-md-6 d-flex justify-content-center divider">
                                                         <div className="single-search-box">
                                                             <div className="icon">

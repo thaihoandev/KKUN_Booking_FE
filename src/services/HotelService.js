@@ -4,76 +4,122 @@ export const axiosJWT = axios.create();
 
 export const getAllHotel = async () => {
     try {
-        const response = await axios.post(
+        const response = await axios.get(
             `${process.env.REACT_APP_BASE_API_URL}/hotels`
         );
-        return response.data; // Ensure the data is returned properly
+        return response.data;
     } catch (error) {
-        throw error; // Throw the error to be caught by the mutation hook
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
     }
-};
-export const signupUser = async (data) => {
-    const res = await axios.post(
-        `${process.env.REACT_APP_BASE_API_URL}/auth/register`,
-        data
-    );
-    return res.data;
 };
 
 export const getTopRatingHotel = async () => {
-    const res = await axiosJWT.get(
-        `${process.env.REACT_APP_BASE_API_URL}/recommendations/top-rating`
-    );
-    return res.data;
+    try {
+        const res = await axiosJWT.get(
+            `${process.env.REACT_APP_BASE_API_URL}/recommendations/top-rating`
+        );
+        return res.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
 };
 
 export const getTrendingHotel = async () => {
-    const res = await axiosJWT.get(
-        `${process.env.REACT_APP_BASE_API_URL}/recommendations/trending`
-    );
-    return res.data;
+    try {
+        const res = await axiosJWT.get(
+            `${process.env.REACT_APP_BASE_API_URL}/recommendations/trending`
+        );
+        return res.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
 };
 
 export const getPersonalizedHotel = async (userId) => {
-    const res = await axiosJWT.get(
-        `${process.env.REACT_APP_BASE_API_URL}/recommendations/personalized/${userId}`
-    );
-    return res.data;
-};
-export const createHotel = async (data, access_token) => {
-    const res = await axiosJWT.post(
-        `${process.env.REACT_APP_BASE_API_URL}/hotels`,
-        data,
-        {
-            headers: {
-                token: `Bearer ${access_token}`,
-            },
+    try {
+        const res = await axiosJWT.get(
+            `${process.env.REACT_APP_BASE_API_URL}/recommendations/personalized/${userId}`
+        );
+        return res.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
         }
-    );
-    return res.data;
-};
-export const updateHotel = async (id, data, access_token) => {
-    const res = await axiosJWT.put(
-        `${process.env.REACT_APP_BASE_API_URL}/hotels/${id}`,
-        data,
-        {
-            headers: {
-                token: `Bearer ${access_token}`,
-            },
-        }
-    );
-    return res.data;
+    }
 };
 
-export const deleteHotel = async (id, access_token, data) => {
-    const res = await axiosJWT.delete(
-        `${process.env.REACT_APP_BASE_API_URL}/hotels/${id}`,
-        data,
-        {
-            headers: {
-                token: `Bearer ${access_token}`,
-            },
+export const createHotel = async (data, access_token) => {
+    try {
+        const res = await axiosJWT.post(
+            `${process.env.REACT_APP_BASE_API_URL}/hotels`,
+            data,
+            {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            }
+        );
+        return res.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
         }
-    );
-    return res.data;
+    }
+};
+
+export const updateHotel = async (id, data, access_token) => {
+    try {
+        const res = await axiosJWT.put(
+            `${process.env.REACT_APP_BASE_API_URL}/hotels/${id}`,
+            data,
+            {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            }
+        );
+        return res.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};
+
+export const deleteHotel = async (id, access_token) => {
+    try {
+        const res = await axiosJWT.delete(
+            `${process.env.REACT_APP_BASE_API_URL}/hotels/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            }
+        );
+        return res.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
 };

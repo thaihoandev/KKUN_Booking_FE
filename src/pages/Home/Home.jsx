@@ -13,9 +13,11 @@ import HotelItem from "../../components/HotelItem/HotelItem";
 import BannerContainer from "../../components/BannerContainer/BannerContainer";
 import Loading from "../../components/Loading/Loading";
 import * as HotelService from "../../services/HotelService";
+import { toast } from "react-toastify";
 function Home() {
     const [popularHotels, setPopularHotels] = useState([]);
     const [ratingHotels, setRatingHotels] = useState([]);
+    const [defaultHotels, setDefaultHotels] = useState([]);
     const [personalizedHotels, setPersonalizedHotels] = useState([]);
     const [selectedCity, setSelectedCity] = useState("Hà Nội"); // Default city
     const user = useSelector((state) => state.user);
@@ -31,12 +33,21 @@ function Home() {
                 setLoading(false);
             },
             onError: (error) => {
-                console.error("Error fetching personalized hotel data:", error);
+                toast.error(error.message);
                 setLoading(false);
             },
         }
     );
-
+    const mutationHotelDefault = useMutation(() => HotelService.getAllHotel(), {
+        onSuccess: (data) => {
+            setDefaultHotels(data);
+            setLoading(false);
+        },
+        onError: (error) => {
+            toast.error(error.message);
+            setLoading(false);
+        },
+    });
     // useMutation setup for top-rating hotels
     const mutationHotelTopRating = useMutation(
         () => HotelService.getTopRatingHotel(),
@@ -46,7 +57,7 @@ function Home() {
                 setLoading(false);
             },
             onError: (error) => {
-                console.error("Error fetching top-rating hotel data:", error);
+                toast.error(error.message);
                 setLoading(false);
             },
         }
@@ -61,7 +72,7 @@ function Home() {
                 setLoading(false);
             },
             onError: (error) => {
-                console.error("Error fetching trending hotel data:", error);
+                toast.error(error.message);
                 setLoading(false);
             },
         }
@@ -69,14 +80,19 @@ function Home() {
 
     // Fetch personalized hotel data
     useEffect(() => {
-        mutationHotelPersonalized.mutate();
-    }, [user.id]);
+        if (user && user.id) {
+            mutationHotelPersonalized.mutate();
+        }
+    }, [user]);
 
     // Fetch top-rating hotel data
     useEffect(() => {
         mutationHotelTopRating.mutate();
     }, []); // This will run when the component mounts
-
+    // Fetch default hotel data
+    useEffect(() => {
+        mutationHotelDefault.mutate();
+    }, []); // This will run when the component mounts
     // Fetch trending hotel data
     useEffect(() => {
         mutationHotelTrending.mutate();
@@ -343,45 +359,43 @@ function Home() {
                                     aria-labelledby="Hotel-tab"
                                 >
                                     <div className="row g-4">
-                                        {personalizedHotels.map(
-                                            (hotel, index) => (
-                                                <div
-                                                    className="col-xxl-4 col-md-6"
-                                                    key={index}
-                                                >
-                                                    <HotelItem
-                                                        imageUrl={
-                                                            hotel
-                                                                ?.exteriorImages?.[0] ||
-                                                            "defaultImageUrl.jpg"
-                                                        } // Fallback to a default image if none exists
-                                                        adults={
-                                                            hotel?.rooms?.[0]
-                                                                ?.capacity || 0
-                                                        } // Default to 0 if capacity is not available
-                                                        hotelName={hotel.name}
-                                                        location={
-                                                            hotel.location
-                                                        }
-                                                        rating={hotel.rating}
-                                                        roomType={
-                                                            hotel?.rooms?.[0]
-                                                                ?.typeDisplayName ||
-                                                            "Unknown"
-                                                        } // Fallback text
-                                                        paymentInfo={
-                                                            hotel.paymentPolicy
-                                                        }
-                                                        price={
-                                                            hotel?.rooms?.[0]
-                                                                ?.basePrice ||
-                                                            "N/A"
-                                                        } // Default price if not available
-                                                        originalPrice="$3000" // Adjust as necessary
-                                                    />
-                                                </div>
-                                            )
-                                        )}
+                                        {(personalizedHotels.length > 0
+                                            ? personalizedHotels
+                                            : defaultHotels
+                                        ).map((hotel, index) => (
+                                            <div
+                                                className="col-xxl-4 col-md-6"
+                                                key={index}
+                                            >
+                                                <HotelItem
+                                                    imageUrl={
+                                                        hotel
+                                                            ?.exteriorImages?.[0] ||
+                                                        "defaultImageUrl.jpg"
+                                                    } // Fallback to a default image if none exists
+                                                    adults={
+                                                        hotel?.rooms?.[0]
+                                                            ?.capacity || 0
+                                                    } // Default to 0 if capacity is not available
+                                                    hotelName={hotel.name}
+                                                    location={hotel.location}
+                                                    rating={hotel.rating}
+                                                    roomType={
+                                                        hotel?.rooms?.[0]
+                                                            ?.typeDisplayName ||
+                                                        "Unknown"
+                                                    } // Fallback text
+                                                    paymentInfo={
+                                                        hotel.paymentPolicy
+                                                    }
+                                                    price={
+                                                        hotel?.rooms?.[0]
+                                                            ?.basePrice || "N/A"
+                                                    } // Default price if not available
+                                                    originalPrice="$3000" // Adjust as necessary
+                                                />
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>

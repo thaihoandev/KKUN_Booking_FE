@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import * as UserService from "../../services/UserService";
 import NiceSelect from "../NiceSelect/NiceSelect";
 import useToast from "../../utils/toast";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 function ProfileInfoes() {
     const user = useSelector((state) => state.user);
@@ -60,7 +60,7 @@ function ProfileInfoes() {
                 });
             },
             onError: (error) => {
-                showToast("error", TOAST_MESSAGES.API_ERROR);
+                toast.error(error.message);
             },
         }
     );
@@ -85,8 +85,7 @@ function ProfileInfoes() {
                 showToast("success", TOAST_MESSAGES.SAVE_SUCCESS);
             },
             onError: (error) => {
-                console.error("Error updating user data:", error);
-                showToast("error", TOAST_MESSAGES.SAVE_ERROR);
+                toast.error(error.message);
             },
         }
     );
@@ -140,7 +139,7 @@ function ProfileInfoes() {
                                 <input
                                     type="text"
                                     name="firstName"
-                                    placeholder="Jhon"
+                                    placeholder="Nhập họ..."
                                     value={formData.firstName}
                                     onChange={handleInputChange}
                                 />
@@ -152,7 +151,7 @@ function ProfileInfoes() {
                                 <input
                                     type="text"
                                     name="lastName"
-                                    placeholder="Ex- Rocky"
+                                    placeholder="Nhập tên..."
                                     value={formData.lastName}
                                     onChange={handleInputChange}
                                 />
@@ -165,7 +164,7 @@ function ProfileInfoes() {
                                     type="email"
                                     name="email"
                                     readOnly
-                                    placeholder="info@gmail.com"
+                                    placeholder="Nhập email..."
                                     value={formData.email}
                                 />
                             </div>
@@ -176,7 +175,7 @@ function ProfileInfoes() {
                                 <input
                                     type="text"
                                     name="phone"
-                                    placeholder="01245302....."
+                                    placeholder="Nhập số điện thoại..."
                                     value={formData.phone}
                                     onChange={handleInputChange}
                                 />
@@ -188,7 +187,7 @@ function ProfileInfoes() {
                                 <input
                                     type="text"
                                     name="address"
-                                    placeholder="Mirpur DOHS, Dhaka"
+                                    placeholder="Nhập địa chỉ..."
                                     value={formData.address}
                                     onChange={handleInputChange}
                                 />

@@ -29,6 +29,8 @@ import HotelOwnerDashBoard from "./pages/HotelOwner/HotelOwnerDashboard/HotelOwn
 import HotelInfoes from "./pages/HotelOwner/HotelInofes/HotelInfoes";
 import CustomerLayout from "./layouts/CustomerLayout/CustomerLayout";
 import { ToastContainer } from "react-toastify";
+
+import ProtectedRoute from "./routes/ProtectedRoute";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -36,28 +38,29 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <Home /> },
             { path: "home", element: <Home /> },
-
             { path: "sign-up/hotel-owner", element: <HotelOwnerSignUp /> },
-            // Other public routes can be added here
         ],
     },
     {
         path: "/customer",
-        element: <CustomerLayout />,
+        element: (
+            <ProtectedRoute requiredRole="CUSTOMER">
+                <CustomerLayout />
+            </ProtectedRoute>
+        ),
         children: [
             { index: true, element: <ProfileSettings /> },
-
             { path: "profile", element: <ProfileSettings /> },
-
-            { path: "sign-up/hotel-owner", element: <HotelOwnerSignUp /> },
-            // Other public routes can be added here
         ],
     },
     {
         path: "/admin",
-        element: <AdminLayout />, // Admin layout
+        element: (
+            <ProtectedRoute requiredRole="ADMIN">
+                <AdminLayout />
+            </ProtectedRoute>
+        ),
         children: [
-            // Other admin routes
             { index: true, element: <AdminDashboard /> },
             { path: "dashboard", element: <AdminDashboard /> },
             { path: "customer-list", element: <AdminCustomerList /> },
@@ -66,11 +69,13 @@ const router = createBrowserRouter([
     },
     {
         path: "/hotel-owner",
-        element: <HotelOwnerLayout />, // Hotel Owner layout
+        element: (
+            <ProtectedRoute requiredRole="HOTELOWNER">
+                <HotelOwnerLayout />
+            </ProtectedRoute>
+        ),
         children: [
-            // Other hotel owner routes
             { index: true, element: <HotelOwnerDashBoard /> },
-
             { path: "dashboard", element: <HotelOwnerDashBoard /> },
             { path: "settings", element: <ProfileSettings /> },
             { path: "hotel", element: <HotelInfoes /> },
