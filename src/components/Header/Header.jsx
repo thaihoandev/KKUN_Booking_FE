@@ -26,6 +26,7 @@ function Header() {
         dispatch(resetUser());
         localStorage.removeItem("access_token");
         localStorage.removeItem("state");
+        navigate("/");
         setIsLoading(false);
     };
     if (isLoading) {
@@ -37,7 +38,7 @@ function Header() {
     const handleOpenRegister = () => {
         setIsRegisterOpen(true);
     };
-    console.log("Usr", user);
+
     return (
         <>
             <header className="header-area style-1">

@@ -31,6 +31,7 @@ import CustomerLayout from "./layouts/CustomerLayout/CustomerLayout";
 import { ToastContainer } from "react-toastify";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
+import HotelSearchList from "./pages/HotelSearchList/HotelSearchList";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
             { index: true, element: <Home /> },
             { path: "home", element: <Home /> },
             { path: "sign-up/hotel-owner", element: <HotelOwnerSignUp /> },
+            { path: "hotels/search", element: <HotelSearchList /> },
         ],
     },
     {
@@ -68,7 +70,7 @@ const router = createBrowserRouter([
         ],
     },
     {
-        path: "/hotel-owner",
+        path: "/hotelowner",
         element: (
             <ProtectedRoute requiredRole="HOTELOWNER">
                 <HotelOwnerLayout />
