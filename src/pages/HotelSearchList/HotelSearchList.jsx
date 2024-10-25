@@ -4,19 +4,18 @@ import HotelItemHorizontal from "../../components/HotelItem/HotelItemHorizontal/
 import SidebarHotelSearch from "../../components/SidebarHotelSearch/SidebarHotelSearch";
 import SearchContainer from "../../components/SearchContainer/SearchContainer";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Make sure this is imported
 
 function HotelSearchList() {
     const location = useLocation();
     const initialResults = location.state?.results || [];
     const [searchResults, setSearchResults] = useState(initialResults);
-
-    // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const resultsPerPage = 1;
 
     const handleSearchResults = (results) => {
         setSearchResults(results);
-        setCurrentPage(1); // Reset to the first page when new results are loaded
+        setCurrentPage(1);
     };
 
     useEffect(() => {
@@ -25,25 +24,23 @@ function HotelSearchList() {
         }
     }, [initialResults]);
 
-    // Calculate the index range for the current page
     const indexOfLastResult = currentPage * resultsPerPage;
     const indexOfFirstResult = indexOfLastResult - resultsPerPage;
     const currentResults = searchResults.slice(
         indexOfFirstResult,
         indexOfLastResult
     );
-
-    // Calculate total pages
     const totalPages = Math.ceil(searchResults.length / resultsPerPage);
 
-    // Handle page change
     const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
+        if (pageNumber >= 1 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        }
     };
 
     return (
         <>
-            <ToastContainer />
+            <ToastContainer position="top-right" autoClose={5000} />
             <div className="home1-banner-bottom" style={{ marginTop: "10px" }}>
                 <SearchContainer
                     shouldNavigate={false}
@@ -80,7 +77,6 @@ function HotelSearchList() {
                                     <div className="col-lg-12">
                                         <nav className="inner-pagination-area">
                                             <ul className="pagination-list">
-                                                {/* Previous button */}
                                                 <li>
                                                     <button
                                                         onClick={() =>
@@ -92,12 +88,18 @@ function HotelSearchList() {
                                                         disabled={
                                                             currentPage === 1
                                                         }
+                                                        style={{
+                                                            cursor:
+                                                                currentPage ===
+                                                                1
+                                                                    ? "not-allowed"
+                                                                    : "pointer",
+                                                        }}
                                                     >
                                                         <i className="bi bi-chevron-left"></i>
                                                     </button>
                                                 </li>
 
-                                                {/* Dynamic page numbers */}
                                                 {Array.from(
                                                     { length: totalPages },
                                                     (_, i) => (
@@ -108,12 +110,20 @@ function HotelSearchList() {
                                                                         i + 1
                                                                     )
                                                                 }
-                                                                className={
+                                                                className={`pagination-button ${
                                                                     i + 1 ===
                                                                     currentPage
                                                                         ? "active"
                                                                         : ""
-                                                                }
+                                                                }`}
+                                                                style={{
+                                                                    border: "none",
+                                                                    background:
+                                                                        "none",
+                                                                    padding:
+                                                                        "8px 16px",
+                                                                    cursor: "pointer",
+                                                                }}
                                                             >
                                                                 {i + 1}
                                                             </button>
@@ -121,7 +131,6 @@ function HotelSearchList() {
                                                     )
                                                 )}
 
-                                                {/* Next button */}
                                                 <li>
                                                     <button
                                                         onClick={() =>
@@ -134,6 +143,13 @@ function HotelSearchList() {
                                                             currentPage ===
                                                             totalPages
                                                         }
+                                                        style={{
+                                                            cursor:
+                                                                currentPage ===
+                                                                totalPages
+                                                                    ? "not-allowed"
+                                                                    : "pointer",
+                                                        }}
                                                     >
                                                         <i className="bi bi-chevron-right"></i>
                                                     </button>

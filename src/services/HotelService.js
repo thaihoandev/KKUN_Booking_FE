@@ -16,7 +16,20 @@ export const getAllHotel = async () => {
         }
     }
 };
-
+export const getHotelById = async (hotelId) => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/hotels/${hotelId}`
+        );
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};
 export const getTopRatingHotel = async () => {
     try {
         const res = await axiosJWT.get(

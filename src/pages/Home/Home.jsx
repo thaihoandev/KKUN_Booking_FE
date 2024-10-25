@@ -367,33 +367,7 @@ function Home() {
                                                 className="col-xxl-4 col-md-6"
                                                 key={index}
                                             >
-                                                <HotelItem
-                                                    imageUrl={
-                                                        hotel
-                                                            ?.exteriorImages?.[0] ||
-                                                        "defaultImageUrl.jpg"
-                                                    } // Fallback to a default image if none exists
-                                                    adults={
-                                                        hotel?.rooms?.[0]
-                                                            ?.capacity || 0
-                                                    } // Default to 0 if capacity is not available
-                                                    hotelName={hotel.name}
-                                                    location={hotel.location}
-                                                    rating={hotel.rating}
-                                                    roomType={
-                                                        hotel?.rooms?.[0]
-                                                            ?.typeDisplayName ||
-                                                        "Unknown"
-                                                    } // Fallback text
-                                                    paymentInfo={
-                                                        hotel.paymentPolicy
-                                                    }
-                                                    price={
-                                                        hotel?.rooms?.[0]
-                                                            ?.basePrice || "N/A"
-                                                    } // Default price if not available
-                                                    originalPrice="$3000" // Adjust as necessary
-                                                />
+                                                <HotelItem hotel={hotel} />
                                             </div>
                                         ))}
                                     </div>
@@ -465,33 +439,7 @@ function Home() {
                                                 className="col-xxl-4 col-md-6"
                                                 key={index}
                                             >
-                                                <HotelItem
-                                                    imageUrl={
-                                                        hotel
-                                                            ?.exteriorImages?.[0] ||
-                                                        "defaultImageUrl.jpg"
-                                                    } // Fallback to a default image if none exists
-                                                    adults={
-                                                        hotel?.rooms?.[0]
-                                                            ?.capacity || 0
-                                                    } // Default to 0 if capacity is not available
-                                                    hotelName={hotel.name}
-                                                    location={hotel.location}
-                                                    rating={hotel.rating}
-                                                    roomType={
-                                                        hotel?.rooms?.[0]
-                                                            ?.typeDisplayName ||
-                                                        "Unknown"
-                                                    } // Fallback text
-                                                    paymentInfo={
-                                                        hotel.paymentPolicy
-                                                    }
-                                                    price={
-                                                        hotel?.rooms?.[0]
-                                                            ?.basePrice || "N/A"
-                                                    } // Default price if not available
-                                                    originalPrice="$3000" // Adjust as necessary
-                                                />
+                                                <HotelItem hotel={hotel} />
                                             </div>
                                         ))}
                                     </div>
@@ -661,42 +609,7 @@ function Home() {
                                                     <SwiperSlide key={index}>
                                                         <div className="col-xxl-12 col-md-12">
                                                             <HotelItem
-                                                                imageUrl={
-                                                                    hotel
-                                                                        ?.exteriorImages?.[0] ||
-                                                                    "defaultImageUrl.jpg"
-                                                                } // Fallback to a default image if none exists
-                                                                adults={
-                                                                    hotel
-                                                                        ?.rooms?.[0]
-                                                                        ?.capacity ||
-                                                                    0
-                                                                } // Default to 0 if capacity is not available
-                                                                hotelName={
-                                                                    hotel.name
-                                                                }
-                                                                location={
-                                                                    hotel.location
-                                                                }
-                                                                rating={
-                                                                    hotel.rating
-                                                                }
-                                                                roomType={
-                                                                    hotel
-                                                                        ?.rooms?.[0]
-                                                                        ?.typeDisplayName ||
-                                                                    "Unknown"
-                                                                } // Fallback text
-                                                                paymentInfo={
-                                                                    hotel.paymentPolicy
-                                                                }
-                                                                price={
-                                                                    hotel
-                                                                        ?.rooms?.[0]
-                                                                        ?.basePrice ||
-                                                                    "N/A"
-                                                                } // Default price if not available
-                                                                originalPrice="$3000" // Adjust as necessary
+                                                                hotel={hotel}
                                                             />
                                                         </div>
                                                     </SwiperSlide>
