@@ -8,11 +8,14 @@ import axios from "axios";
 
 import useToast from "../../utils/toast";
 import LocationSearchInput from "../LocationSearchInput/LocationSearchInput";
+import { useDispatch } from "react-redux";
+import { resetBookingDate, updateBookingDate } from "../../store/BookingSlide";
 function SearchContainer({ shouldNavigate = false, onSearch }) {
     // State for dropdowns and selected values
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [dropdownOpenGuest, setDropdownOpenGuest] = useState(false);
     const [dateRange, setDateRange] = useState("");
+
     const [selectedDestination, setSelectedDestination] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredDestinations, setFilteredDestinations] = useState([]);
@@ -25,6 +28,7 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
     const inputRef = useRef(null);
     // Khởi tạo điều hướng
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const toggleDropdownGuest = () => setDropdownOpenGuest(!dropdownOpenGuest);
 
@@ -78,19 +82,39 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                 firstDay: 1,
             },
             // Ensure moment.js is being used for the date handling
-            startDate: moment().startOf("month"),
-            endDate: moment().endOf("month"),
+            startDate: moment(),
+            endDate: moment().add(1, "days"),
         });
+
+        // Khởi tạo giá trị mặc định cho dateRange
+        const defaultRange = `${moment().format("YYYY/MM/DD")} - ${moment()
+            .add(1, "days")
+            .format("YYYY/MM/DD")}`;
+        setDateRange(defaultRange);
+        dispatch(
+            updateBookingDate({
+                checkInDate: moment().format("YYYY-MM-DD"),
+                checkOutDate: moment().add(1, "days").format("YYYY-MM-DD"),
+            })
+        );
 
         $(inputRef.current).on("apply.daterangepicker", (ev, picker) => {
             const selectedRange = `${picker.startDate.format(
                 "YYYY/MM/DD"
             )} - ${picker.endDate.format("YYYY/MM/DD")}`;
+
             setDateRange(selectedRange); // Update date range state
+            dispatch(
+                updateBookingDate({
+                    checkInDate: picker.startDate.format("YYYY-MM-DD"),
+                    checkOutDate: picker.endDate.format("YYYY-MM-DD"),
+                })
+            );
         });
 
         $(inputRef.current).on("cancel.daterangepicker", () => {
             setDateRange(""); // Clear the date range on cancel
+            dispatch(resetBookingDate()); // Reset ngày trong Redux
         });
 
         return () => {
@@ -98,7 +122,7 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                 $(inputRef.current).daterangepicker("destroy");
             }
         };
-    }, []);
+    }, [dispatch]);
 
     const handleIncrease = (e) => {
         e.preventDefault();
@@ -142,6 +166,21 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
             return;
         }
 
+        // Kiểm tra xem dateRange không được nhỏ hơn ngày hiện tại
+        const [checkInDate, checkOutDate] = dateRange.split(" - ");
+        const formattedCheckInDate = dayjs(checkInDate, "YYYY/MM/DD");
+        const formattedCheckOutDate = dayjs(checkOutDate, "YYYY/MM/DD");
+
+        if (formattedCheckInDate.isBefore(dayjs(), "day")) {
+            showToast("error", TOAST_MESSAGES.DATE_IN_PAST);
+            return;
+        }
+
+        if (formattedCheckOutDate.isBefore(formattedCheckInDate, "day")) {
+            showToast("error", TOAST_MESSAGES.CHECKOUT_BEFORE_CHECKIN);
+            return;
+        }
+
         if (quantity < 1) {
             showToast("error", TOAST_MESSAGES.REQUIRED_ROOMS);
             return;
@@ -157,14 +196,13 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
         try {
             loadingToastId = showLoading();
 
-            const [checkInDate, checkOutDate] = dateRange.split(" - ");
-            const formattedCheckInDate = dayjs(checkInDate, "YYYY/MM/DD")
+            const checkInDateFormatted = formattedCheckInDate
                 .set("hour", 14)
                 .set("minute", 0)
                 .set("second", 0)
                 .format("YYYY-MM-DDTHH:mm:ss");
 
-            const formattedCheckOutDate = dayjs(checkOutDate, "YYYY/MM/DD")
+            const checkOutDateFormatted = formattedCheckOutDate
                 .set("hour", 12)
                 .set("minute", 0)
                 .set("second", 0)
@@ -175,8 +213,8 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                 {
                     params: {
                         location: selectedDestination,
-                        checkInDate: formattedCheckInDate,
-                        checkOutDate: formattedCheckOutDate,
+                        checkInDate: checkInDateFormatted,
+                        checkOutDate: checkOutDateFormatted,
                         guests: adultQty + childQty,
                         roomQty: quantity,
                     },

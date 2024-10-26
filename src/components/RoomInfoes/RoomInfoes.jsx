@@ -3,7 +3,6 @@ import convertToVND from "../../utils/convertToVND";
 import getRatingDescription from "../../utils/getRatingDescription";
 
 function RoomInfoes({ hotel, room }) {
-    console.log("hotel", hotel);
     return (
         <>
             <div className="location-and-review">

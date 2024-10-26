@@ -136,3 +136,21 @@ export const deleteHotel = async (id, access_token) => {
         }
     }
 };
+export const getNearbyPlaces = async (hotelId, address) => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/hotels/${hotelId}/nearby-places`,
+
+            {
+                params: { address },
+            }
+        );
+        return response.data; // Trả về danh sách các địa điểm gần gũi
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};

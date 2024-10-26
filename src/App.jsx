@@ -33,6 +33,7 @@ import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import HotelSearchList from "./pages/HotelSearchList/HotelSearchList";
 import RoomDetails from "./pages/RoomDetails/RoomDetails";
+import BookingCheckout from "./pages/BookingCheckout/BookingCheckout";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
             {
                 path: "hotels/:hotelName/rooms/:roomId",
                 element: <RoomDetails />,
+            },
+            {
+                path: "booking/:roomId/checkout",
+                element: <BookingCheckout />,
             },
         ],
     },

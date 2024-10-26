@@ -19,7 +19,8 @@ const TOAST_MESSAGES = {
     REQUIRED_DATE: "Vui lòng chọn ngày nhận phòng và trả phòng!",
     REQUIRED_ROOMS: "Vui lòng chọn số lượng phòng!",
     REQUIRED_ADULTS: "Vui lòng chọn số lượng người lớn!",
-
+    DATE_IN_PAST: "Ngày nhận phòng không được nhỏ hơn ngày hiện tại.",
+    CHECKOUT_BEFORE_CHECKIN: "Ngày trả phòng phải sau ngày nhận phòng.",
     // Status messages
     LOADING: "Đang xử lý...",
     SUCCESS: "Thành công!",

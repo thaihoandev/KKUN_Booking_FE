@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 
@@ -10,13 +10,14 @@ import BookingForm from "../../components/BookingForm/BookingForm";
 import BannerCardBooking from "../../components/BannerContainer/Banner/BannerCardBooking/BannerCardBooking";
 import ReviewWrapper from "../../components/ReviewWrapper/ReviewWrapper";
 import RoomInfoes from "../../components/RoomInfoes/RoomInfoes";
+import NearbyPlaces from "../../components/NearbyPlaces/NearbyPlaces";
 
 function RoomDetails() {
     const { roomId } = useParams();
     const [room, setRoom] = useState({});
     const [hotel, setHotel] = useState({});
     const [loading, setLoading] = useState(true);
-
+    const navigate = useNavigate();
     const mutationRoom = useMutation(
         (roomId) => RoomService.getRoomById(roomId),
         {
@@ -44,6 +45,10 @@ function RoomDetails() {
             },
         }
     );
+
+    const handleCheckout = (roomId) => {
+        navigate(`/booking/${roomId}/checkout`);
+    };
 
     useEffect(() => {
         mutationRoom.mutate(roomId);
@@ -179,8 +184,20 @@ function RoomDetails() {
                             <ReviewWrapper />
                         </div>
                         <div className="col-xl-4">
-                            <BookingForm />
-                            <BannerCardBooking />
+                            <div className="w-100 px-4 py-2">
+                                <Link
+                                    onClick={() => handleCheckout(room.id)}
+                                    className="primary-btn1 two w-100 "
+                                    style={{
+                                        display: "flex", // Sử dụng flexbox
+                                        justifyContent: "center", // Căn giữa theo chiều ngang
+                                        alignItems: "center", // Căn giữa theo chiều dọc
+                                    }}
+                                >
+                                    Đặt ngay
+                                </Link>
+                            </div>
+                            <NearbyPlaces hotel={hotel} />
                         </div>
                     </div>
                 </div>
