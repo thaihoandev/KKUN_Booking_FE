@@ -1,148 +1,294 @@
-import React from "react";
+import React, { useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import {
+    bookingFormSchema,
+    paymentFormSchema,
+} from "../../schemas/validationSchemas";
+import { toast } from "react-toastify";
+import FormField from "../Form/FormField/FormField";
 
-function BookingForm() {
+const TABS = {
+    CONTACT: "v-pills-contact",
+    PAYMENT: "v-pills-booking",
+};
+const MAIN_PAYMENT_METHODS = {
+    ELECTRONIC: "electronic",
+    CREDIT: "credit",
+};
+const ELECTRONIC_PAYMENT_OPTIONS = {
+    MOMO: "momo",
+    VNPAY: "vnpay",
+};
+
+// Component for displaying the No Card Required message
+const NoCardRequiredMessage = () => (
+    <div className="max-w-2xl p-4 rounded-lg border mb-2">
+        <div className="flex items-start gap-3">
+            <div className="row m-0">
+                <div className="d-flex align-items-center">
+                    <i className="bi bi-credit-card"></i>
+                    <span className="px-2">
+                        <strong>Không yêu cầu thẻ tín dụng</strong>
+                    </span>
+                </div>
+                <p>
+                    Tin vui! Bạn có thể đặt phòng ngay mà không cần cung cấp chi
+                    tiết thanh toán, và có thể thanh toán tại chỗ nghỉ trong
+                    thời gian lưu trú.
+                </p>
+            </div>
+        </div>
+    </div>
+);
+
+// Component for each radio option
+const RadioOption = ({ label, value, name, register, error }) => (
+    <div
+        className="checkbox-container"
+        style={{ margin: "0 0", paddingBottom: "10px" }}
+    >
+        <label className="check-container">
+            {label}
+            <input
+                type="radio"
+                className="services_check"
+                value={value}
+                {...register(name)}
+            />
+            <span className="checkmark"></span>
+        </label>
+        {error && <span className="text-danger">{error.message}</span>}
+    </div>
+);
+
+// Component for each sub radio option (like VNPay and MoMo)
+const RadioOptionSub = ({ label, value, name, register }) => (
+    <div
+        className="checkbox-container"
+        style={{ borderBottom: "none", margin: "0 20px 0 0" }}
+    >
+        <label className="check-container">
+            {label}
+            <input
+                type="radio"
+                className="services_check"
+                value={value}
+                {...register(name)}
+            />
+            <span className="checkmark"></span>
+        </label>
+    </div>
+);
+
+// Tab button component
+const TabButton = ({ isActive, id, label, onClick }) => (
+    <button
+        className={`nav-link ${isActive ? "active" : ""}`}
+        id={`${id}-tab`}
+        data-bs-toggle="pill"
+        data-bs-target={`#${id}`}
+        type="button"
+        role="tab"
+        aria-controls={id}
+        aria-selected={isActive}
+        onClick={onClick}
+    >
+        {label}
+    </button>
+);
+
+function BookingForm({ hotel }) {
+    const [activeTab, setActiveTab] = useState(TABS.CONTACT);
+    const [isBookingValid, setIsBookingValid] = useState(false);
+
+    const {
+        register: registerBooking,
+        handleSubmit: handleSubmitBooking,
+        trigger: triggerBookingForm,
+        formState: { errors: bookingErrors },
+    } = useForm({
+        resolver: yupResolver(bookingFormSchema),
+        mode: "onChange",
+    });
+
+    const {
+        register: registerPayment,
+        handleSubmit: handleSubmitPayment,
+        formState: { errors: paymentErrors },
+        watch: watchPayment,
+    } = useForm({
+        resolver: yupResolver(paymentFormSchema),
+        defaultValues: {
+            mainPaymentMethod: MAIN_PAYMENT_METHODS.ELECTRONIC,
+            electronicPaymentOption: ELECTRONIC_PAYMENT_OPTIONS.VNPAY,
+        },
+        mode: "onChange",
+    });
+
+    // Watch the mainPaymentMethod value to conditionally render electronic payment options
+    const mainPaymentMethod = watchPayment("mainPaymentMethod");
+
+    const handleFormSubmit = {
+        booking: (data) => {
+            console.log("Booking data:", data);
+            setIsBookingValid(true); // Mark booking as valid
+            setActiveTab(TABS.PAYMENT); // Move to payment tab
+        },
+        payment: async (data) => {
+            const bookingData = await triggerBookingForm();
+            if (!bookingData) {
+                toast.error(
+                    "Vui lòng hoàn thành thông tin đặt phòng trước khi thanh toán!"
+                );
+                setActiveTab(TABS.CONTACT);
+                return;
+            }
+            console.log("Payment data:", data);
+            toast.success("Đặt phòng thành công!");
+        },
+    };
+
+    const handleTabChange = (tabId) => {
+        if (tabId === TABS.PAYMENT && !isBookingValid) {
+            toast.error("Vui lòng hoàn thành thông tin đặt phòng trước!");
+            return;
+        }
+        setActiveTab(tabId);
+    };
+
+    const renderContactForm = () => (
+        <form onSubmit={handleSubmitBooking(handleFormSubmit.booking)}>
+            <FormField
+                label="Tên đầy đủ"
+                error={bookingErrors.fullName}
+                register={registerBooking("fullName")}
+                placeholder="Nhập tên đầy đủ"
+            />
+            <FormField
+                label="Địa chỉ Email"
+                type="email"
+                error={bookingErrors.email}
+                register={registerBooking("email")}
+                placeholder="Nhập địa chỉ Email"
+            />
+            <FormField
+                label="Số điện thoại"
+                error={bookingErrors.phone}
+                register={registerBooking("phone")}
+                placeholder="Nhập số điện thoại"
+            />
+            <FormField
+                label="Ghi chú"
+                type="textarea"
+                register={registerBooking("notes")}
+                placeholder="Thêm ghi chú"
+            />
+            <button type="submit" className="primary-btn1 two">
+                Kế tiếp
+            </button>
+        </form>
+    );
+
+    const renderPaymentForm = () => (
+        <form onSubmit={handleSubmitPayment(handleFormSubmit.payment)}>
+            <RadioOption
+                label="Thanh toán điện tử"
+                value={MAIN_PAYMENT_METHODS.ELECTRONIC}
+                name="mainPaymentMethod"
+                register={registerPayment}
+                error={paymentErrors.mainPaymentMethod}
+            />
+
+            {mainPaymentMethod === MAIN_PAYMENT_METHODS.ELECTRONIC && (
+                <div className="ms-4 d-flex">
+                    <RadioOptionSub
+                        label="VNPay"
+                        value={ELECTRONIC_PAYMENT_OPTIONS.VNPAY}
+                        name="electronicPaymentOption"
+                        register={registerPayment}
+                    />
+                    <RadioOptionSub
+                        label="MoMo"
+                        value={ELECTRONIC_PAYMENT_OPTIONS.MOMO}
+                        name="electronicPaymentOption"
+                        register={registerPayment}
+                    />
+                    {paymentErrors.electronicPaymentOption && (
+                        <span className="text-danger">
+                            {paymentErrors.electronicPaymentOption.message}
+                        </span>
+                    )}
+                </div>
+            )}
+
+            <RadioOption
+                label="Thẻ tín dụng/Ghi nợ"
+                value={MAIN_PAYMENT_METHODS.CREDIT}
+                name="mainPaymentMethod"
+                register={registerPayment}
+                error={paymentErrors.mainPaymentMethod}
+            />
+
+            <button type="submit" className="primary-btn1 two mt-5">
+                Hoàn tất ngay
+            </button>
+        </form>
+    );
+
     return (
         <>
+            {hotel.paymentPolicy !== "ONLINE" && <NoCardRequiredMessage />}
+
             <div className="booking-form-wrap mb-30">
-                <h4>Đặt phòng ngay</h4>
-                <p>
-                    Đặt phòng ngay để được tận hưởng những ưu đãi, tiện ích sớm
-                    để không gặp phải những rắc rối!
-                </p>
                 <div className="nav nav-pills mb-40" role="tablist">
-                    <button
-                        className="nav-link show active"
-                        id="v-pills-contact-tab"
-                        data-bs-toggle="pill"
-                        data-bs-target="#v-pills-contact"
-                        type="button"
-                        role="tab"
-                        aria-controls="v-pills-contact"
-                        aria-selected="false"
-                    >
-                        Biểu mẫu thông tin
-                    </button>
-                    <button
-                        className="nav-link "
-                        id="v-pills-booking-tab"
-                        data-bs-toggle="pill"
-                        data-bs-target="#v-pills-booking"
-                        type="button"
-                        role="tab"
-                        aria-controls="v-pills-booking"
-                        aria-selected="true"
-                    >
-                        Thanh toán
-                    </button>
+                    <TabButton
+                        isActive={activeTab === TABS.CONTACT}
+                        id={TABS.CONTACT}
+                        label="Biểu mẫu thông tin"
+                        onClick={() => handleTabChange(TABS.CONTACT)}
+                    />
+
+                    {/* Only show the Payment tab if payment policy is ONLINE */}
+                    {hotel.paymentPolicy === "ONLINE" && (
+                        <TabButton
+                            isActive={activeTab === TABS.PAYMENT}
+                            id={TABS.PAYMENT}
+                            label="Thanh toán"
+                            onClick={() => handleTabChange(TABS.PAYMENT)}
+                        />
+                    )}
                 </div>
+
                 <div className="tab-content" id="v-pills-tabContent2">
                     <div
-                        className="tab-pane fade  active show"
-                        id="v-pills-contact"
+                        className={`tab-pane fade ${
+                            activeTab === TABS.CONTACT ? "show active" : ""
+                        }`}
+                        id={TABS.CONTACT}
                         role="tabpanel"
-                        aria-labelledby="v-pills-contact-tab"
+                        aria-labelledby={`${TABS.CONTACT}-tab`}
                     >
                         <div className="sidebar-booking-form">
-                            <form>
-                                <div className="form-inner mb-20">
-                                    <label>
-                                        Tên đầy đủ <span>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="Nhập tên đầy đủ"
-                                    />
-                                </div>
-                                <div className="form-inner mb-20">
-                                    <label>
-                                        Địa chỉ Email <span>*</span>
-                                    </label>
-                                    <input
-                                        type="email"
-                                        placeholder="Nhập địa chỉ Email"
-                                    />
-                                </div>
-                                <div className="form-inner mb-20">
-                                    <label>
-                                        Số điện thoại <span>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="Nhập số điện thoại"
-                                    />
-                                </div>
-                                <div className="form-inner mb-30">
-                                    <label>
-                                        Ghi chú <span>*</span>
-                                    </label>
-                                    <textarea placeholder="Thêm ghi chú"></textarea>
-                                </div>
-                                <div className="form-inner">
-                                    <button
-                                        type="submit"
-                                        className="primary-btn1 two"
-                                    >
-                                        Kế tiếp
-                                    </button>
-                                </div>
-                            </form>
+                            {renderContactForm()}
                         </div>
                     </div>
-                    <div
-                        className="tab-pane fade"
-                        id="v-pills-booking"
-                        role="tabpanel"
-                        aria-labelledby="v-pills-booking-tab"
-                    >
-                        <div className="sidebar-booking-form">
-                            <form>
-                                <div className="booking-form-item-type">
-                                    <h5>Chọn phương thức thanh toán</h5>
-                                    <div className="checkbox-container">
-                                        <label className="check-container">
-                                            THANH TOÁN ĐIỆN TỬ
-                                            <input
-                                                type="checkbox"
-                                                className="services_check"
-                                                name="services_list[]"
-                                                value="0"
-                                            />
-                                            <span className="checkmark"></span>
-                                        </label>
-                                        <label className="check-container">
-                                            THẺ TÍN DỤNG/GHI NỢ
-                                            <input
-                                                type="checkbox"
-                                                className="services_check"
-                                                name="services_list[]"
-                                                value="0"
-                                            />
-                                            <span className="checkmark"></span>
-                                        </label>
-                                    </div>
-                                    <div className="checkbox-container">
-                                        <label className="check-container">
-                                            THANH TOÁN TẠI CHỖ NGHỈ
-                                            <input
-                                                type="checkbox"
-                                                className="services_check"
-                                                name="services_list[]"
-                                                value="0"
-                                            />
-                                            <span className="checkmark"></span>
-                                        </label>
-                                    </div>
-                                </div>
 
-                                <button
-                                    type="submit"
-                                    className="primary-btn1 two"
-                                >
-                                    Hoàn tất ngay
-                                </button>
-                            </form>
+                    {/* Only show the Payment form if payment policy is ONLINE */}
+                    {hotel.paymentPolicy === "ONLINE" && (
+                        <div
+                            className={`tab-pane fade ${
+                                activeTab === TABS.PAYMENT ? "show active" : ""
+                            }`}
+                            id={TABS.PAYMENT}
+                            role="tabpanel"
+                            aria-labelledby={`${TABS.PAYMENT}-tab`}
+                        >
+                            <div className="sidebar-booking-form">
+                                {renderPaymentForm()}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </>

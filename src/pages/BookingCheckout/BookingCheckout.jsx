@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import * as RoomService from "../../services/RoomService";
 import * as HotelService from "../../services/HotelService";
 import Loading from "../../components/Loading/Loading";
+import CountDownNotification from "../../components/CountDownNotification/CountDownNotification";
 function BookingCheckout() {
     const { roomId } = useParams();
     const [room, setRoom] = useState({});
@@ -53,9 +54,10 @@ function BookingCheckout() {
     return (
         <>
             <div className="container my-3">
+                <CountDownNotification />
                 <div className="row ">
                     <div className="col-8">
-                        <BookingForm />
+                        <BookingForm hotel={hotel} />
                     </div>
                     <div className="col-4">
                         <SidebarBookingForm

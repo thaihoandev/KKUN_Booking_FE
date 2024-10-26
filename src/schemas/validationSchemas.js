@@ -98,3 +98,37 @@ export const changePasswordSchema = yup.object().shape({
         .required("Vui lòng xác nhận mật khẩu mới")
         .oneOf([yup.ref("newPassword")], "Mật khẩu xác nhận không khớp"),
 });
+
+export const bookingFormSchema = yup.object().shape({
+    fullName: yup
+        .string()
+        .required("Vui lòng nhập tên đầy đủ")
+        .min(2, "Tên phải có ít nhất 2 ký tự"),
+
+    email: yup
+        .string()
+        .required("Vui lòng nhập địa chỉ email")
+        .email("Email không hợp lệ"),
+
+    phone: yup
+        .string()
+        .required("Vui lòng nhập số điện thoại")
+        .matches(/^[0-9]+$/, "Số điện thoại chỉ được chứa số")
+        .min(10, "Số điện thoại phải có ít nhất 10 số")
+        .max(11, "Số điện thoại không được quá 11 số"),
+
+    notes: yup.string().nullable(),
+});
+
+export const paymentFormSchema = yup.object().shape({
+    mainPaymentMethod: yup
+        .string()
+        .required("Vui lòng chọn phương thức thanh toán"),
+
+    electronicPaymentOption: yup.string().when("mainPaymentMethod", {
+        is: "electronic",
+        then: (schema) =>
+            schema.required("Vui lòng chọn hình thức thanh toán điện tử"),
+        otherwise: (schema) => schema.nullable(),
+    }),
+});

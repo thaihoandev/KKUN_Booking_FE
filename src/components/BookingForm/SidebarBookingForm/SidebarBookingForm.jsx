@@ -9,7 +9,7 @@ function SidebarBookingForm({ bookingDate, hotel, room }) {
             <div className="row ">
                 <div className="position-relative col-4">
                     <img
-                        src="https://q-xx.bstatic.com/xdata/images/hotel/max500/543435176.jpg?k=e408cee93e187032fbc0f15bdc2c3e1e5f9a91730788eceb43767793ba2d99c4&o=&s=116x"
+                        src={hotel.exteriorImages?.[0]}
                         alt="Hotel room"
                         className="rounded w-100 h-100 object-fit-cover"
                     />
@@ -88,7 +88,7 @@ function SidebarBookingForm({ bookingDate, hotel, room }) {
             <div className="row py-2 border rounded mt-2">
                 <div className="col-3">
                     <img
-                        src="https://q-xx.bstatic.com/xdata/images/hotel/max500/543435176.jpg?k=e408cee93e187032fbc0f15bdc2c3e1e5f9a91730788eceb43767793ba2d99c4&o=&s=116x"
+                        src={room.roomImages?.[0]}
                         alt="Room"
                         className="rounded w-100 h-100 object-fit-cover"
                     />
