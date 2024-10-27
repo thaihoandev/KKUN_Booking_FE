@@ -5,10 +5,10 @@ import $ from "jquery";
 import moment from "moment";
 import dayjs from "dayjs";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 import useToast from "../../utils/toast";
 import LocationSearchInput from "../LocationSearchInput/LocationSearchInput";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resetBookingDate, updateBookingDate } from "../../store/BookingSlide";
 function SearchContainer({ shouldNavigate = false, onSearch }) {
     // State for dropdowns and selected values
@@ -22,6 +22,7 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
     // Room quantity state and functions
     const [quantity, setQuantity] = useState(1);
 
+    const bookingDate = useSelector((state) => state.bookingDate);
     // Refs for dropdowns
     const dropdownRef = useRef(null);
     const dropdownSearchRef = useRef(null);
@@ -51,14 +52,30 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
     }, []);
 
     // Initialize date range picker
+    const BOOKING_TIME_CONFIG = {
+        checkIn: {
+            hour: 14,
+            minute: 0,
+            second: 0,
+        },
+        checkOut: {
+            hour: 12,
+            minute: 0,
+            second: 0,
+        },
+        minStay: 12, // Số giờ tối thiểu
+        maxStay: 30, // Số ngày tối đa đặt trước
+    };
+
     useEffect(() => {
         if (!inputRef.current) return;
 
+        // Khởi tạo daterangepicker với các options
         $(inputRef.current).daterangepicker({
             opens: "left",
             autoUpdateInput: false,
             locale: {
-                format: "YYYY/MM/DD", // The format you want
+                format: "YYYY/MM/DD",
                 applyLabel: "Áp dụng",
                 cancelLabel: "Hủy bỏ",
                 fromLabel: "Từ",
@@ -81,42 +98,96 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                 ],
                 firstDay: 1,
             },
-            // Ensure moment.js is being used for the date handling
+            minDate: moment(), // Không cho chọn ngày trong quá khứ
+            maxDate: moment().add(BOOKING_TIME_CONFIG.maxStay, "days"),
             startDate: moment(),
             endDate: moment().add(1, "days"),
         });
 
-        // Khởi tạo giá trị mặc định cho dateRange
-        const defaultRange = `${moment().format("YYYY/MM/DD")} - ${moment()
+        // Khởi tạo giá trị mặc định
+        const defaultStartDate = moment().set(BOOKING_TIME_CONFIG.checkIn);
+        const defaultEndDate = moment()
             .add(1, "days")
-            .format("YYYY/MM/DD")}`;
+            .set(BOOKING_TIME_CONFIG.checkOut);
+
+        // Format hiển thị cho người dùng
+        const defaultRange = `${defaultStartDate.format(
+            "YYYY/MM/DD"
+        )} - ${defaultEndDate.format("YYYY/MM/DD")}`;
         setDateRange(defaultRange);
+
+        // Dispatch giá trị mặc định với thời gian
         dispatch(
             updateBookingDate({
-                checkInDate: moment().format("YYYY-MM-DD"),
-                checkOutDate: moment().add(1, "days").format("YYYY-MM-DD"),
+                checkInDate: defaultStartDate.format("YYYY-MM-DDTHH:mm:ss"),
+                checkOutDate: defaultEndDate.format("YYYY-MM-DDTHH:mm:ss"),
             })
         );
 
+        // Xử lý khi người dùng chọn ngày
         $(inputRef.current).on("apply.daterangepicker", (ev, picker) => {
-            const selectedRange = `${picker.startDate.format(
-                "YYYY/MM/DD"
-            )} - ${picker.endDate.format("YYYY/MM/DD")}`;
+            // Validate thời gian
+            if (picker.startDate.isBefore(moment(), "day")) {
+                toast.error("Không thể chọn ngày trong quá khứ");
+                return;
+            }
 
-            setDateRange(selectedRange); // Update date range state
+            // Thêm giờ mặc định vào ngày được chọn
+            const selectedCheckIn = picker.startDate.set(
+                BOOKING_TIME_CONFIG.checkIn
+            );
+            const selectedCheckOut = picker.endDate.set(
+                BOOKING_TIME_CONFIG.checkOut
+            );
+
+            // Validate thời gian lưu trú tối thiểu
+            const duration = moment.duration(
+                selectedCheckOut.diff(selectedCheckIn)
+            );
+            if (duration.asHours() < BOOKING_TIME_CONFIG.minStay) {
+                toast.error(
+                    `Thời gian lưu trú tối thiểu là ${BOOKING_TIME_CONFIG.minStay} giờ`
+                );
+                return;
+            }
+
+            // Format hiển thị cho người dùng
+            const selectedRange = `${selectedCheckIn.format(
+                "YYYY/MM/DD"
+            )} - ${selectedCheckOut.format("YYYY/MM/DD")}`;
+            setDateRange(selectedRange);
+
+            // Dispatch với datetime đầy đủ
             dispatch(
                 updateBookingDate({
-                    checkInDate: picker.startDate.format("YYYY-MM-DD"),
-                    checkOutDate: picker.endDate.format("YYYY-MM-DD"),
+                    checkInDate: selectedCheckIn.format("YYYY-MM-DDTHH:mm:ss"),
+                    checkOutDate: selectedCheckOut.format(
+                        "YYYY-MM-DDTHH:mm:ss"
+                    ),
                 })
+            );
+
+            // Thông báo giờ check-in/check-out
+            toast.info(
+                <>
+                    Giờ nhận phòng:
+                    <br />
+                    {bookingDate.checkInDate}
+                    <br />
+                    Giờ trả phòng:
+                    <br />
+                    {bookingDate.checkOutDate}
+                </>
             );
         });
 
+        // Xử lý khi hủy chọn
         $(inputRef.current).on("cancel.daterangepicker", () => {
-            setDateRange(""); // Clear the date range on cancel
-            dispatch(resetBookingDate()); // Reset ngày trong Redux
+            setDateRange("");
+            dispatch(resetBookingDate());
         });
 
+        // Cleanup
         return () => {
             if (inputRef.current) {
                 $(inputRef.current).daterangepicker("destroy");

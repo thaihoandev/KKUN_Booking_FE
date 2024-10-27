@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import {
@@ -7,6 +7,9 @@ import {
 } from "../../schemas/validationSchemas";
 import { toast } from "react-toastify";
 import FormField from "../Form/FormField/FormField";
+import { useSelector } from "react-redux";
+import { useMutation } from "react-query";
+import * as BookingService from "../../services/BookingService";
 
 const TABS = {
     CONTACT: "v-pills-contact",
@@ -17,8 +20,8 @@ const MAIN_PAYMENT_METHODS = {
     CREDIT: "credit",
 };
 const ELECTRONIC_PAYMENT_OPTIONS = {
-    MOMO: "momo",
-    VNPAY: "vnpay",
+    MOMO: "MOMO",
+    VNPAY: "VNPAY",
 };
 
 // Component for displaying the No Card Required message
@@ -98,10 +101,12 @@ const TabButton = ({ isActive, id, label, onClick }) => (
     </button>
 );
 
-function BookingForm({ hotel }) {
+function BookingForm({ hotel, room }) {
     const [activeTab, setActiveTab] = useState(TABS.CONTACT);
     const [isBookingValid, setIsBookingValid] = useState(false);
-
+    const bookingDate = useSelector((state) => state.bookingDate);
+    const user = useSelector((state) => state.user);
+    const [formData, setFormData] = useState({});
     const {
         register: registerBooking,
         handleSubmit: handleSubmitBooking,
@@ -129,9 +134,42 @@ function BookingForm({ hotel }) {
     // Watch the mainPaymentMethod value to conditionally render electronic payment options
     const mainPaymentMethod = watchPayment("mainPaymentMethod");
 
+    useEffect(() => {
+        setFormData((prevData) => ({
+            ...prevData,
+            checkinDate: bookingDate.checkInDate, // Thêm bookingDate từ Redux
+            checkoutDate: bookingDate.checkOutDate,
+            userId: user.id ? user.id : null, // Chỉ thêm user nếu user tồn tại
+            roomId: room.id, // Thêm room.id
+        }));
+    }, [bookingDate, user, room.id]);
+
+    const mutationBookingSubmit = useMutation(
+        ({ data, accessToken }) =>
+            BookingService.createBooking(data, accessToken),
+        {
+            onSuccess: (data) => {
+                toast.success("Đặt phòng thành công!");
+                if (data.paymentUrl) {
+                    window.location.href = data.paymentUrl;
+                }
+            },
+            onError: (error) => {
+                // Hiển thị message nếu có hoặc là nội dung lỗi chung
+                toast.error(error.message || "Đã xảy ra lỗi.");
+            },
+        }
+    );
+
     const handleFormSubmit = {
         booking: (data) => {
-            console.log("Booking data:", data);
+            setFormData((prevData) => ({
+                ...prevData,
+                bookingName: data.fullName,
+                bookingPhone: data.phone,
+                bookingEmail: data.email,
+                bookingNotes: data.notes,
+            }));
             setIsBookingValid(true); // Mark booking as valid
             setActiveTab(TABS.PAYMENT); // Move to payment tab
         },
@@ -144,8 +182,15 @@ function BookingForm({ hotel }) {
                 setActiveTab(TABS.CONTACT);
                 return;
             }
-            console.log("Payment data:", data);
-            toast.success("Đặt phòng thành công!");
+            // Tạo biến tạm để chứa formData mới nhất
+            const tempFormData = {
+                ...formData,
+                paymentType: data.electronicPaymentOption, // Cập nhật dữ liệu payment
+            };
+            mutationBookingSubmit.mutate({
+                data: tempFormData,
+                accessToken: user.accessToken,
+            });
         },
     };
 

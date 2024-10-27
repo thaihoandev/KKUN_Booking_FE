@@ -34,6 +34,9 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import HotelSearchList from "./pages/HotelSearchList/HotelSearchList";
 import RoomDetails from "./pages/RoomDetails/RoomDetails";
 import BookingCheckout from "./pages/BookingCheckout/BookingCheckout";
+import BookingSuccess from "./pages/BookingSuccess/BookingSuccess";
+import PaymentCallback from "./pages/PaymentCallback/PaymentCallback";
+import BookingFailure from "./pages/BookingFailure/BookingFailure";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -51,6 +54,10 @@ const router = createBrowserRouter([
                 path: "booking/:roomId/checkout",
                 element: <BookingCheckout />,
             },
+            { path: "bookings/booking-success", element: <BookingSuccess /> },
+            { path: "bookings/booking-failure", element: <BookingFailure /> },
+
+            { path: "bookings/payment-callback", element: <PaymentCallback /> },
         ],
     },
     {

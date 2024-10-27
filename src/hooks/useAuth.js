@@ -41,14 +41,14 @@ function useAuth({ onLoginSuccess } = {}) {
                 email: decoded.sub,
                 _id: decoded.userId,
                 role: decoded.role,
-                access_token: accessToken,
+                accessToken: accessToken,
                 firstName: decoded.firstName,
                 lastName: decoded.lastName,
             })
         );
         mutationUserDetails.mutate({
             userId: decoded.userId,
-            access_token: accessToken,
+            accessToken: accessToken,
         });
 
         if (decoded.role === "ADMIN") {
@@ -129,7 +129,6 @@ function useAuth({ onLoginSuccess } = {}) {
     // Google login
     const loginGoogle = useGoogleLogin({
         onSuccess: (credentialResponse) => {
-            console.log("credentialResponse", credentialResponse);
             const accessToken = credentialResponse.access_token;
             const loginGoogleData = { accessToken };
             mutationLoginGoogle.mutate(loginGoogleData);

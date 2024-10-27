@@ -24,7 +24,7 @@ function Header() {
         setIsLoading(true);
         await UserService.logoutUser();
         dispatch(resetUser());
-        localStorage.removeItem("access_token");
+        localStorage.removeItem("accessToken");
         localStorage.removeItem("state");
         navigate("/");
         setIsLoading(false);

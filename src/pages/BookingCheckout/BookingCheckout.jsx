@@ -4,7 +4,7 @@ import SidebarBookingForm from "../../components/BookingForm/SidebarBookingForm/
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useMutation } from "react-query";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 import * as RoomService from "../../services/RoomService";
 import * as HotelService from "../../services/HotelService";
@@ -53,11 +53,12 @@ function BookingCheckout() {
     }
     return (
         <>
+            <ToastContainer />
             <div className="container my-3">
                 <CountDownNotification />
                 <div className="row ">
                     <div className="col-8">
-                        <BookingForm hotel={hotel} />
+                        <BookingForm hotel={hotel} room={room} />
                     </div>
                     <div className="col-4">
                         <SidebarBookingForm
