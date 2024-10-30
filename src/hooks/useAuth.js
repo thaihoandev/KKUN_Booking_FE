@@ -1,19 +1,19 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode"; // Fix import as 'jwtDecode' is the default export.
+import { jwtDecode } from "jwt-decode";
 import { useMutation } from "react-query";
 import { useGoogleLogin } from "@react-oauth/google";
 import * as UserService from "../services/UserService";
-import { updateUser } from "../store/UserSlide";
+import { updateUser, resetUser } from "../store/UserSlide";
+import { toast } from "react-toastify";
+import { resetBookingDate } from "../store/BookingSlide";
 
 function useAuth({ onLoginSuccess } = {}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // Mutation để lấy chi tiết user
     const mutationUserDetails = useMutation(
-        ({ userId, accessToken }) =>
-            UserService.getDetailsUser(userId, accessToken),
+        (userId) => UserService.getDetailsUser(userId),
         {
             onSuccess: (data) => {
                 dispatch(
@@ -27,118 +27,113 @@ function useAuth({ onLoginSuccess } = {}) {
                 );
             },
             onError: (error) => {
-                console.error("Lỗi khi lấy thông tin người dùng:", error);
+                toast.error("Lỗi khi lấy thông tin người dùng");
             },
         }
     );
 
-    // Helper function to store accessToken and dispatch user data
-    const handleLoginSuccess = (accessToken) => {
+    const handleLoginSuccess = (response) => {
+        const { accessToken, refreshToken } = response;
+        console.log("login", response);
+        // Lưu tokens
         localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+
+        // Decode và lưu thông tin user
         const decoded = jwtDecode(accessToken);
         dispatch(
             updateUser({
                 email: decoded.sub,
                 _id: decoded.userId,
                 role: decoded.role,
-                accessToken: accessToken,
                 firstName: decoded.firstName,
                 lastName: decoded.lastName,
+                accessToken,
+                refreshToken,
             })
         );
-        mutationUserDetails.mutate({
-            userId: decoded.userId,
-            accessToken: accessToken,
-        });
 
+        // Lấy thêm thông tin user
+        mutationUserDetails.mutate(decoded.userId);
+
+        // Điều hướng dựa trên role
         if (decoded.role === "ADMIN") {
-            navigate("/admin"); // Navigate after successful login
+            navigate("/admin");
         } else if (decoded.role === "HOTELOWNER") {
-            navigate("/hotelowner"); // Navigate after successful login
+            navigate("/hotelowner");
         } else {
-            navigate("/"); // Navigate after successful login
+            navigate("/");
         }
-        // Close modal after successful login
+
         if (onLoginSuccess) {
             onLoginSuccess();
         }
     };
 
-    // Login mutation
     const mutationLogin = useMutation(UserService.loginUser, {
-        onSuccess: (response) => {
-            const { accessToken } = response;
-            if (accessToken) {
-                handleLoginSuccess(accessToken); // Reuse login success handler
-            }
-        },
+        onSuccess: handleLoginSuccess,
         onError: (error) => {
-            console.error("Login failed:", error);
+            toast.error(error.message);
         },
     });
 
-    // Register mutation, automatically log in the user on successful registration
-    const mutationRegister = useMutation(
-        (registerData) => UserService.signupUser(registerData),
-        {
-            onSuccess: (response, variables) => {
-                if (response && response.id) {
-                    // Auto login after successful registration
-                    handleLogin({
-                        email: variables.email,
-                        password: variables.password,
-                    });
-                }
-            },
-            onError: (error) => {
-                console.error("Registration failed:", error);
-            },
-        }
-    );
+    const mutationRegister = useMutation(UserService.signupUser, {
+        onSuccess: (response, variables) => {
+            toast.success("Đăng ký thành công!");
+            handleLogin({
+                email: variables.email,
+                password: variables.password,
+            });
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        },
+    });
 
-    // Google login mutation
     const mutationLoginGoogle = useMutation(UserService.loginGoogleUser, {
-        onSuccess: (response) => {
-            const { accessToken } = response;
-            if (accessToken) {
-                handleLoginSuccess(accessToken); // Reuse login success handler
-            }
-        },
+        onSuccess: handleLoginSuccess,
         onError: (error) => {
-            console.error("Google login failed:", error);
+            toast.error("Đăng nhập Google thất bại");
         },
     });
 
-    // Handle regular login
+    const handleLogout = async () => {
+        try {
+            await UserService.logoutUser();
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            dispatch(resetBookingDate());
+
+            dispatch(resetUser());
+            navigate("/");
+            toast.success("Đăng xuất thành công!");
+        } catch (error) {
+            toast.error("Đăng xuất thất bại");
+        }
+    };
+
     const handleLogin = (data) => {
         mutationLogin.mutate(data);
     };
 
-    // Handle registration
     const handleRegister = (data) => {
-        console.log("data", data);
-
         const registerData = {
             ...data,
             type: "customer",
         };
-        console.log(registerData);
         mutationRegister.mutate(registerData);
     };
 
-    // Google login
     const loginGoogle = useGoogleLogin({
         onSuccess: (credentialResponse) => {
             const accessToken = credentialResponse.access_token;
-            const loginGoogleData = { accessToken };
-            mutationLoginGoogle.mutate(loginGoogleData);
+            mutationLoginGoogle.mutate({ accessToken });
         },
         onError: () => {
-            console.error("Google Login Failed");
+            toast.error("Đăng nhập Google thất bại");
         },
     });
 
-    // Trigger Google login on button click
     const handleLoginGoogle = (e) => {
         e.preventDefault();
         loginGoogle();
@@ -148,6 +143,7 @@ function useAuth({ onLoginSuccess } = {}) {
         handleLogin,
         handleRegister,
         handleLoginGoogle,
+        handleLogout,
         isLoading:
             mutationLogin.isLoading ||
             mutationRegister.isLoading ||

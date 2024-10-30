@@ -5,23 +5,17 @@ import Loading from "../Loading/Loading";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { calculateNumberOfNights } from "../../utils/utils";
 
 function NearbyPlaces({ hotel, room }) {
     const [nearbyPlaces, setNearbyPlaces] = useState([]);
     const [loading, setLoading] = useState(true);
     const bookingDate = useSelector((state) => state.bookingDate);
 
-    const checkInDate = bookingDate.checkInDate
-        ? moment(bookingDate.checkInDate)
-        : null;
-    const checkOutDate = bookingDate.checkOutDate
-        ? moment(bookingDate.checkOutDate)
-        : null;
-
-    const numberOfNights =
-        checkInDate && checkOutDate
-            ? checkOutDate.diff(checkInDate, "days")
-            : 0;
+    const numberOfNights = calculateNumberOfNights(
+        bookingDate.checkInDate,
+        bookingDate.checkOutDate
+    );
 
     const mutationNearbyPlaces = useMutation(
         (hotel) => HotelService.getNearbyPlaces(hotel.id, hotel.location), // Truyền cả hotelId và location

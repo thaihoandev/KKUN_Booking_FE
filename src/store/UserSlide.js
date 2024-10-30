@@ -8,6 +8,7 @@ const initialState = {
     address: "",
     avatar: "",
     accessToken: "",
+    refreshToken: "",
     id: "",
     role: "",
     authProvider: "",
@@ -24,6 +25,7 @@ export const userSlide = createSlice({
                 lastName = "",
                 email = "",
                 accessToken = "",
+                refreshToken = "",
                 address = "",
                 phone = "",
                 avatar = "",
@@ -43,6 +45,10 @@ export const userSlide = createSlice({
                 ? authProvider
                 : state.authProvider;
             state.accessToken = accessToken ? accessToken : state.accessToken;
+            state.refreshToken = refreshToken
+                ? refreshToken
+                : state.refreshToken;
+
             state.role = role ? role : state.role;
             state.hasPassword = hasPassword; // Cập nhật hasPassword vào state
         },
@@ -55,6 +61,7 @@ export const userSlide = createSlice({
             state.avatar = "";
             state.id = "";
             state.accessToken = "";
+            state.refreshToken = "";
             state.role = "";
             state.authProvider = "";
             state.hasPassword = false; // Đặt lại hasPassword về false

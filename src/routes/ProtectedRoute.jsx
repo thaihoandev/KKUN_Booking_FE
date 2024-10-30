@@ -7,21 +7,20 @@ import Header from "../components/Header/Header";
 const ProtectedRoute = ({ children, requiredRole }) => {
     const user = useSelector((state) => state.user);
 
-    // Kiểm tra nếu user không tồn tại hoặc không có quyền phù hợp
-    if (!user || !user.role || user.role !== requiredRole) {
-        // Điều hướng người dùng đến trang đăng nhập hoặc trang lỗi
+    // Nếu có yêu cầu về vai trò cụ thể nhưng người dùng không có quyền phù hợp
+    if (requiredRole && (!user || user.role !== requiredRole)) {
         return (
             <>
-                <Header></Header>
+                <Header />
                 <ErrorPage
-                    error={"404"}
-                    message={"Không tìm thấy trang này!"}
+                    error="403"
+                    message="Bạn không có quyền truy cập trang này!"
                 />
             </>
         );
     }
 
-    // Nếu user có quyền phù hợp, render component con
+    // Cho phép truy cập nếu không có yêu cầu về vai trò hoặc người dùng có quyền phù hợp
     return children;
 };
 

@@ -37,6 +37,7 @@ import BookingCheckout from "./pages/BookingCheckout/BookingCheckout";
 import BookingSuccess from "./pages/BookingSuccess/BookingSuccess";
 import PaymentCallback from "./pages/PaymentCallback/PaymentCallback";
 import BookingFailure from "./pages/BookingFailure/BookingFailure";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -54,10 +55,19 @@ const router = createBrowserRouter([
                 path: "booking/:roomId/checkout",
                 element: <BookingCheckout />,
             },
-            { path: "bookings/booking-success", element: <BookingSuccess /> },
-            { path: "bookings/booking-failure", element: <BookingFailure /> },
-
-            { path: "bookings/payment-callback", element: <PaymentCallback /> },
+            {
+                path: "bookings/booking-success",
+                element: <BookingSuccess />,
+            },
+            {
+                path: "bookings/booking-failure",
+                element: <BookingFailure />,
+            },
+            {
+                path: "bookings/payment-callback",
+                element: <PaymentCallback />,
+            },
+            { path: "*", element: <NotFoundPage /> },
         ],
     },
     {
@@ -70,6 +80,7 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <ProfileSettings /> },
             { path: "profile", element: <ProfileSettings /> },
+            { path: "*", element: <NotFoundPage /> },
         ],
     },
     {
@@ -84,6 +95,7 @@ const router = createBrowserRouter([
             { path: "dashboard", element: <AdminDashboard /> },
             { path: "customer-list", element: <AdminCustomerList /> },
             { path: "settings", element: <ProfileSettings /> },
+            { path: "*", element: <NotFoundPage /> },
         ],
     },
     {
@@ -101,6 +113,7 @@ const router = createBrowserRouter([
             { path: "rooms", element: <RoomList /> },
             { path: "booked", element: <BookedList /> },
             { path: "customer-list", element: <CustomerList /> },
+            { path: "*", element: <NotFoundPage /> },
         ],
     },
 ]);

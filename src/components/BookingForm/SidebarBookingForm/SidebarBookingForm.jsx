@@ -1,8 +1,16 @@
 import React from "react";
 import moment from "moment";
 import convertToVND from "../../../utils/convertToVND";
+import { calculateNumberOfNights } from "../../../utils/utils";
+import getRatingDescription from "../../../utils/getRatingDescription";
 
 function SidebarBookingForm({ bookingDate, hotel, room }) {
+    const numberOfNights = calculateNumberOfNights(
+        bookingDate.checkInDate,
+        bookingDate.checkOutDate
+    );
+    const totalDatesPrice = numberOfNights * room.basePrice;
+    const VATPrice = (totalDatesPrice * 10) / 100;
     return (
         <div className="card p-4 mb-4 booking-form-wrap mb-30">
             {/* Header Section */}
@@ -29,11 +37,11 @@ function SidebarBookingForm({ bookingDate, hotel, room }) {
                         <div className="d-flex align-items-center gap-1">
                             <span className="fw-semibold">{hotel.rating}</span>
                             <span className="text-primary small">
-                                Trên cả tuyệt vời
+                                {getRatingDescription(hotel.rating)}
                             </span>
                         </div>
                         <span className="text-secondary small ms-1">
-                            {hotel.numOfReviews}
+                            {hotel.numOfReviews} đánh giá
                         </span>
                     </div>
                     <div className="text-danger small mt-1">
@@ -99,7 +107,7 @@ function SidebarBookingForm({ bookingDate, hotel, room }) {
                         1 x {room.typeDisplayName}
                     </h3>
                     <div className="d-flex gap-2 text-secondary small mt-1">
-                        <span>12 m²</span>
+                        <span>{room.area} m²</span>
                         <span>•</span>
                         <span>Tối đa: {room.capacity} người lớn</span>
                     </div>
@@ -141,13 +149,7 @@ function SidebarBookingForm({ bookingDate, hotel, room }) {
                             <i class="bi bi-x-lg"></i>
                         </li>
                         <li>
-                            <strong>1</strong> Đêm
-                        </li>
-                        <li>
-                            <i class="bi bi-x-lg"></i>
-                        </li>
-                        <li>
-                            <strong>1</strong> Đêm
+                            <strong>{numberOfNights}</strong> Đêm
                         </li>
                     </ul>
                     <svg
@@ -162,14 +164,15 @@ function SidebarBookingForm({ bookingDate, hotel, room }) {
                             d="M23.999 5.44668L25.6991 7.4978L23.9991 9.54878H0V10.5743H23.1491L20.0135 14.3575L20.7834 14.9956L26.7334 7.81687L26.9979 7.4978L26.7334 7.17873L20.7834 0L20.0135 0.638141L23.149 4.42114H0V5.44668H23.999Z"
                         ></path>
                     </svg>
-                    <div class="total">{convertToVND(room.basePrice)}</div>
+                    <div class="total">{convertToVND(totalDatesPrice)}</div>
                 </div>
             </div>
             <div class="total-price mb-1 d-flex justify-content-between">
-                <span>Giá cuối cùng:</span> {convertToVND(room.basePrice)}
+                <span>Giá cuối cùng:</span>{" "}
+                {convertToVND(totalDatesPrice + VATPrice)}
             </div>
             <span className="small">
-                Giá đã bao gồm: VAT <span>{convertToVND(room.basePrice)}</span>
+                Giá đã bao gồm: VAT <span>{convertToVND(VATPrice)}</span>
             </span>
         </div>
     );

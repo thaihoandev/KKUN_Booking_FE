@@ -70,10 +70,39 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
     useEffect(() => {
         if (!inputRef.current) return;
 
+        // Xác định ngày bắt đầu và kết thúc cho daterangepicker
+        let initialStartDate = moment();
+        let initialEndDate = moment().add(1, "days");
+
+        if (bookingDate.checkInDate && bookingDate.checkOutDate) {
+            // Đảm bảo parse đúng định dạng từ bookingDate
+            initialStartDate = moment(
+                bookingDate.checkInDate,
+                "YYYY-MM-DDTHH:mm:ss"
+            );
+            initialEndDate = moment(
+                bookingDate.checkOutDate,
+                "YYYY-MM-DDTHH:mm:ss"
+            );
+        } else {
+            // Set giờ mặc định cho ngày hiện tại
+            initialStartDate = moment().set({
+                hour: BOOKING_TIME_CONFIG.checkIn.hour,
+                minute: BOOKING_TIME_CONFIG.checkIn.minute,
+                second: BOOKING_TIME_CONFIG.checkIn.second,
+            });
+
+            initialEndDate = moment().add(1, "days").set({
+                hour: BOOKING_TIME_CONFIG.checkOut.hour,
+                minute: BOOKING_TIME_CONFIG.checkOut.minute,
+                second: BOOKING_TIME_CONFIG.checkOut.second,
+            });
+        }
+
         // Khởi tạo daterangepicker với các options
-        $(inputRef.current).daterangepicker({
+        const picker = $(inputRef.current).daterangepicker({
             opens: "left",
-            autoUpdateInput: false,
+            autoUpdateInput: true, // Thay đổi thành true
             locale: {
                 format: "YYYY/MM/DD",
                 applyLabel: "Áp dụng",
@@ -98,103 +127,135 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                 ],
                 firstDay: 1,
             },
-            minDate: moment(), // Không cho chọn ngày trong quá khứ
+            minDate: moment().startOf("day"),
             maxDate: moment().add(BOOKING_TIME_CONFIG.maxStay, "days"),
-            startDate: moment(),
-            endDate: moment().add(1, "days"),
+            startDate: initialStartDate,
+            endDate: initialEndDate,
+            isInvalidDate: function (date) {
+                return date.isBefore(moment().startOf("day"));
+            },
         });
 
-        // Khởi tạo giá trị mặc định
-        const defaultStartDate = moment().set(BOOKING_TIME_CONFIG.checkIn);
-        const defaultEndDate = moment()
-            .add(1, "days")
-            .set(BOOKING_TIME_CONFIG.checkOut);
-
-        // Format hiển thị cho người dùng
-        const defaultRange = `${defaultStartDate.format(
-            "YYYY/MM/DD"
-        )} - ${defaultEndDate.format("YYYY/MM/DD")}`;
-        setDateRange(defaultRange);
-
-        // Dispatch giá trị mặc định với thời gian
-        dispatch(
-            updateBookingDate({
-                checkInDate: defaultStartDate.format("YYYY-MM-DDTHH:mm:ss"),
-                checkOutDate: defaultEndDate.format("YYYY-MM-DDTHH:mm:ss"),
-            })
-        );
+        // Set giá trị hiển thị ban đầu nếu có
+        if (initialStartDate.isValid() && initialEndDate.isValid()) {
+            const displayRange = `${initialStartDate.format(
+                "YYYY/MM/DD"
+            )} - ${initialEndDate.format("YYYY/MM/DD")}`;
+            setDateRange(displayRange);
+        }
 
         // Xử lý khi người dùng chọn ngày
-        $(inputRef.current).on("apply.daterangepicker", (ev, picker) => {
-            // Validate thời gian
-            if (picker.startDate.isBefore(moment(), "day")) {
-                toast.error("Không thể chọn ngày trong quá khứ");
-                return;
+        $(inputRef.current).on(
+            "apply.daterangepicker",
+            function (event, picker) {
+                if (!picker.startDate || !picker.endDate) {
+                    console.error("Invalid date selection");
+                    return;
+                }
+
+                try {
+                    const now = moment();
+
+                    // Clone và format lại ngày để đảm bảo tính nhất quán
+                    const startDate = moment(
+                        picker.startDate.format("YYYY-MM-DD")
+                    );
+                    const endDate = moment(picker.endDate.format("YYYY-MM-DD"));
+
+                    // Kiểm tra ngày trong quá khứ
+                    if (startDate.isBefore(now, "day")) {
+                        toast.error("Không thể chọn ngày trong quá khứ");
+                        return;
+                    }
+
+                    // Thêm giờ mặc định vào ngày được chọn
+                    const selectedCheckIn = startDate.set({
+                        hour: BOOKING_TIME_CONFIG.checkIn.hour || 14,
+                        minute: BOOKING_TIME_CONFIG.checkIn.minute || 0,
+                        second: BOOKING_TIME_CONFIG.checkIn.second || 0,
+                    });
+
+                    const selectedCheckOut = endDate.set({
+                        hour: BOOKING_TIME_CONFIG.checkOut.hour || 12,
+                        minute: BOOKING_TIME_CONFIG.checkOut.minute || 0,
+                        second: BOOKING_TIME_CONFIG.checkOut.second || 0,
+                    });
+
+                    // Validate thời gian lưu trú tối thiểu
+                    const duration = selectedCheckOut.diff(
+                        selectedCheckIn,
+                        "hours"
+                    );
+                    if (duration < BOOKING_TIME_CONFIG.minStay) {
+                        toast.error(
+                            `Thời gian lưu trú tối thiểu là ${BOOKING_TIME_CONFIG.minStay} giờ`
+                        );
+                        return;
+                    }
+
+                    // Format hiển thị cho người dùng - sử dụng format của daterangepicker
+                    const selectedRange = `${selectedCheckIn.format(
+                        "YYYY/MM/DD"
+                    )} - ${selectedCheckOut.format("YYYY/MM/DD")}`;
+                    setDateRange(selectedRange);
+
+                    // Dispatch với datetime đầy đủ - sử dụng ISO string format
+                    const bookingUpdate = {
+                        checkInDate: selectedCheckIn.format(
+                            "YYYY-MM-DDTHH:mm:ss"
+                        ),
+                        checkOutDate: selectedCheckOut.format(
+                            "YYYY-MM-DDTHH:mm:ss"
+                        ),
+                    };
+
+                    // Log để debug
+                    console.log("Selected dates:", {
+                        startDate: selectedCheckIn.format(),
+                        endDate: selectedCheckOut.format(),
+                        range: selectedRange,
+                        bookingUpdate,
+                    });
+
+                    dispatch(updateBookingDate(bookingUpdate));
+
+                    toast.info(
+                        <>
+                            Giờ nhận phòng:
+                            <br />
+                            {selectedCheckIn.format("DD/MM/YYYY HH:mm")}
+                            <br />
+                            Giờ trả phòng:
+                            <br />
+                            {selectedCheckOut.format("DD/MM/YYYY HH:mm")}
+                        </>
+                    );
+                } catch (error) {
+                    console.error("Error in date selection:", error);
+                    toast.error(
+                        "Có lỗi xảy ra khi chọn ngày. Vui lòng thử lại."
+                    );
+                }
             }
-
-            // Thêm giờ mặc định vào ngày được chọn
-            const selectedCheckIn = picker.startDate.set(
-                BOOKING_TIME_CONFIG.checkIn
-            );
-            const selectedCheckOut = picker.endDate.set(
-                BOOKING_TIME_CONFIG.checkOut
-            );
-
-            // Validate thời gian lưu trú tối thiểu
-            const duration = moment.duration(
-                selectedCheckOut.diff(selectedCheckIn)
-            );
-            if (duration.asHours() < BOOKING_TIME_CONFIG.minStay) {
-                toast.error(
-                    `Thời gian lưu trú tối thiểu là ${BOOKING_TIME_CONFIG.minStay} giờ`
-                );
-                return;
-            }
-
-            // Format hiển thị cho người dùng
-            const selectedRange = `${selectedCheckIn.format(
-                "YYYY/MM/DD"
-            )} - ${selectedCheckOut.format("YYYY/MM/DD")}`;
-            setDateRange(selectedRange);
-
-            // Dispatch với datetime đầy đủ
-            dispatch(
-                updateBookingDate({
-                    checkInDate: selectedCheckIn.format("YYYY-MM-DDTHH:mm:ss"),
-                    checkOutDate: selectedCheckOut.format(
-                        "YYYY-MM-DDTHH:mm:ss"
-                    ),
-                })
-            );
-
-            // Thông báo giờ check-in/check-out
-            toast.info(
-                <>
-                    Giờ nhận phòng:
-                    <br />
-                    {bookingDate.checkInDate}
-                    <br />
-                    Giờ trả phòng:
-                    <br />
-                    {bookingDate.checkOutDate}
-                </>
-            );
-        });
+        );
 
         // Xử lý khi hủy chọn
-        $(inputRef.current).on("cancel.daterangepicker", () => {
+        $(inputRef.current).on("cancel.daterangepicker", function (ev, picker) {
             setDateRange("");
             dispatch(resetBookingDate());
         });
 
         // Cleanup
         return () => {
-            if (inputRef.current) {
-                $(inputRef.current).daterangepicker("destroy");
+            try {
+                if (inputRef.current) {
+                    $(inputRef.current).daterangepicker("destroy");
+                }
+            } catch (error) {
+                console.error("Error during cleanup:", error);
             }
         };
-    }, [dispatch]);
-
+    }, [dispatch, bookingDate]);
     const handleIncrease = (e) => {
         e.preventDefault();
         setQuantity((prevQuantity) => prevQuantity + 1);
@@ -267,25 +328,13 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
         try {
             loadingToastId = showLoading();
 
-            const checkInDateFormatted = formattedCheckInDate
-                .set("hour", 14)
-                .set("minute", 0)
-                .set("second", 0)
-                .format("YYYY-MM-DDTHH:mm:ss");
-
-            const checkOutDateFormatted = formattedCheckOutDate
-                .set("hour", 12)
-                .set("minute", 0)
-                .set("second", 0)
-                .format("YYYY-MM-DDTHH:mm:ss");
-
             const response = await axios.get(
                 `${process.env.REACT_APP_BASE_API_URL}/search/hotels`,
                 {
                     params: {
                         location: selectedDestination,
-                        checkInDate: checkInDateFormatted,
-                        checkOutDate: checkOutDateFormatted,
+                        checkInDate: bookingDate.checkInDate,
+                        checkOutDate: bookingDate.checkOutDate,
                         guests: adultQty + childQty,
                         roomQty: quantity,
                     },

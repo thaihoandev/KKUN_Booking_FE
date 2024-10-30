@@ -1,168 +1,167 @@
+// services/axiosConfig.js
 import axios from "axios";
 import { toast } from "react-toastify";
-export const axiosJWT = axios.create();
 
+// Create axios instances
+export const axiosJWT = axios.create({
+    baseURL: process.env.REACT_APP_BASE_API_URL,
+});
+
+const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_API_URL,
+});
+
+// Request interceptor
+axiosJWT.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
+// Response interceptor
+axiosJWT.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+
+            try {
+                const refreshToken = localStorage.getItem("refreshToken");
+                if (!refreshToken) {
+                    throw new Error("No refresh token");
+                }
+
+                const response = await axiosInstance.post(
+                    "/auth/refresh-token",
+                    {
+                        refreshToken,
+                    }
+                );
+
+                const {
+                    accessToken: newAccessToken,
+                    refreshToken: newRefreshToken,
+                } = response.data;
+
+                localStorage.setItem("accessToken", newAccessToken);
+                localStorage.setItem("refreshToken", newRefreshToken);
+
+                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+                return axiosJWT(originalRequest);
+            } catch (error) {
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                window.location.href = "/login";
+                return Promise.reject(error);
+            }
+        }
+
+        return Promise.reject(error);
+    }
+);
+
+// services/UserService.js
 export const loginUser = async (data) => {
     try {
-        const response = await axios.post(
-            `${process.env.REACT_APP_BASE_API_URL}/auth/login`,
-            data
-        );
+        const response = await axiosInstance.post("/auth/login", data);
         return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
+        handleError(error);
     }
 };
 
 export const loginGoogleUser = async (data) => {
     try {
-        const response = await axios.post(
-            `${process.env.REACT_APP_BASE_API_URL}/auth/google`,
-            data
-        );
+        const response = await axiosInstance.post("/auth/google", data);
         return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
+        handleError(error);
     }
 };
 
 export const signupUser = async (data) => {
     try {
-        const res = await axios.post(
-            `${process.env.REACT_APP_BASE_API_URL}/auth/register`,
-            data
-        );
-        return res.data;
-    } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
-    }
-};
-
-export const changePasswordUser = async (userId, request, accessToken) => {
-    try {
-        const response = await axios.post(
-            `${process.env.REACT_APP_BASE_API_URL}/users/${userId}/change-password`,
-            request,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }
-        );
-
+        const response = await axiosInstance.post("/auth/register", data);
         return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
+        handleError(error);
     }
 };
 
-export const getDetailsUser = async (id, accessToken) => {
+export const changePasswordUser = async (userId, request) => {
     try {
-        const res = await axiosJWT.get(
-            `${process.env.REACT_APP_BASE_API_URL}/users/${id}`,
-            {
-                headers: { Authorization: `Bearer ${accessToken}` },
-            }
+        const response = await axiosJWT.post(
+            `/users/${userId}/change-password`,
+            request
         );
-        return res.data;
+        return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
+        handleError(error);
     }
 };
 
-export const getAllUser = async (accessToken) => {
+export const getDetailsUser = async (id) => {
     try {
-        const res = await axiosJWT.get(
-            `${process.env.REACT_APP_BASE_API_URL}/users`,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }
-        );
-        return res.data;
+        const response = await axiosJWT.get(`/users/${id}`);
+        return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
+        handleError(error);
+    }
+};
+
+export const getAllUser = async () => {
+    try {
+        const response = await axiosJWT.get("/users");
+        return response.data;
+    } catch (error) {
+        handleError(error);
     }
 };
 
 export const logoutUser = async () => {
     try {
-        const res = await axios.post(
-            `${process.env.REACT_APP_BASE_API_URL}/auth/logout`
-        );
-        return res.data;
+        const response = await axiosJWT.post("/auth/logout");
+        return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
+        handleError(error);
     }
 };
 
-export const updateUser = async (id, data, accessToken) => {
+export const updateUser = async (id, data) => {
     try {
-        const res = await axiosJWT.put(
-            `${process.env.REACT_APP_BASE_API_URL}/users/${id}`,
-            data,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    "Content-Type": "multipart/form-data",
-                },
-            }
-        );
-        return res.data;
+        const response = await axiosJWT.put(`/users/${id}`, data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
+        handleError(error);
     }
 };
 
-export const deleteUser = async (id, accessToken) => {
+export const deleteUser = async (id) => {
     try {
-        const res = await axiosJWT.delete(
-            `${process.env.REACT_APP_BASE_API_URL}/users/${id}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }
-        );
-        return res.data;
+        const response = await axiosJWT.delete(`/users/${id}`);
+        return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
+        handleError(error);
     }
 };
+
+// Helper function to handle errors
+const handleError = (error) => {
+    const errorMessage =
+        error.response?.data || "Đã xảy ra lỗi khi kết nối tới máy chủ.";
+    toast.error(errorMessage);
+    throw new Error(errorMessage);
+};
+
+export default axiosJWT;

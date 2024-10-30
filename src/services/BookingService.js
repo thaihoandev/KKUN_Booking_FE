@@ -4,7 +4,7 @@ export const axiosJWT = axios.create();
 
 export const createBooking = async (data, access_token) => {
     try {
-        console.log("create booking", data, access_token);
+        console.log("booking", data);
         const response = await axios.post(
             `${process.env.REACT_APP_BASE_API_URL}/bookings/create`,
             data,
@@ -64,7 +64,7 @@ export const handlePaymentCallback = async (access_token, queryParams) => {
                 params: queryParams, // Thêm queryParams vào params
             }
         );
-        console.log("callback", response.data);
+
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {

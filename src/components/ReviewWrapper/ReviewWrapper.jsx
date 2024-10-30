@@ -1,33 +1,73 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReviewList from "./ReviewList/ReviewList";
+import { useMutation } from "react-query";
+import * as RoomService from "../../services/RoomService";
+import Loading from "../Loading/Loading";
+import { toast } from "react-toastify";
+function ReviewWrapper({ hotel, room }) {
+    const [reviews, setReviews] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-function ReviewWrapper() {
+    const mutationReviewRoom = useMutation(
+        (roomId) => {
+            return RoomService.getRoomReview(roomId);
+        },
+        {
+            onSuccess: (data) => {
+                setReviews(data);
+
+                setLoading(false);
+            },
+            onError: (error) => {
+                toast.error(error.message);
+                setLoading(false);
+            },
+        }
+    );
+
+    useEffect(() => {
+        mutationReviewRoom.mutate(room.id);
+    }, [room.id]);
+    if (loading) {
+        return <Loading />;
+    }
+
     return (
         <>
             <div className="review-wrapper mt-70">
                 <h4>Đánh giá</h4>
                 <div className="review-box">
                     <div className="total-review">
-                        <h2>9.5</h2>
+                        <h2>{hotel.rating}</h2>
                         <div className="review-wrap">
                             <ul className="star-list">
-                                <li>
-                                    <i className="bi bi-star-fill"></i>
-                                </li>
-                                <li>
-                                    <i className="bi bi-star-fill"></i>
-                                </li>
-                                <li>
-                                    <i className="bi bi-star-fill"></i>
-                                </li>
-                                <li>
-                                    <i className="bi bi-star-fill"></i>
-                                </li>
-                                <li>
-                                    <i className="bi bi-star-half"></i>
-                                </li>
+                                {Array.from({ length: 5 }, (_, index) => {
+                                    const fullStar =
+                                        index < Math.floor(hotel.rating);
+                                    const halfStar =
+                                        index === Math.floor(hotel.rating) &&
+                                        hotel.rating % 1 !== 0;
+
+                                    return (
+                                        <li key={index}>
+                                            <i
+                                                className={`bi ${
+                                                    fullStar
+                                                        ? "bi-star-fill" // Filled star
+                                                        : halfStar
+                                                        ? "bi-star-half" // Half star
+                                                        : "bi-star" // Empty star
+                                                }`}
+                                            ></i>
+                                        </li>
+                                    );
+                                })}
                             </ul>
-                            <span>2590 Reviews</span>
+                            <span>
+                                {hotel.numOfReviews > 0
+                                    ? `${hotel.numOfReviews} đánh giá`
+                                    : "Chưa có đánh giá"}
+                            </span>
                         </div>
                     </div>
 
@@ -205,7 +245,7 @@ function ReviewWrapper() {
                         GIVE A RATING
                     </a>
                 </div>
-                <ReviewList />
+                <ReviewList reviews={reviews} />
             </div>
         </>
     );

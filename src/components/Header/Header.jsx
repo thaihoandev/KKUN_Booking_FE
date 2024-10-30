@@ -6,6 +6,8 @@ import * as UserService from "../../services/UserService";
 import Loading from "../Loading/Loading";
 import Login from "../Login/Login";
 import MenuDropdown from "./MenuDropdown/MenuDropdown";
+import { useMutation } from "react-query";
+import useAuth from "../../hooks/useAuth";
 
 function Header() {
     const navigate = useNavigate();
@@ -20,18 +22,11 @@ function Header() {
         setIsOpen((prev) => !prev); // Đảo ngược trạng thái của dropdown
     };
 
-    const handleLogout = async () => {
-        setIsLoading(true);
-        await UserService.logoutUser();
-        dispatch(resetUser());
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("state");
-        navigate("/");
-        setIsLoading(false);
-    };
+    const { handleLogout } = useAuth();
     if (isLoading) {
         return <Loading />;
     }
+
     const handleOpenLogin = () => {
         setIsLoginOpen(true);
     };

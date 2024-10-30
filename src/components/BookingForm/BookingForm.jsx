@@ -1,30 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
+
 import {
     bookingFormSchema,
     paymentFormSchema,
 } from "../../schemas/validationSchemas";
-import { toast } from "react-toastify";
-import FormField from "../Form/FormField/FormField";
-import { useSelector } from "react-redux";
-import { useMutation } from "react-query";
 import * as BookingService from "../../services/BookingService";
+import FormField from "../Form/FormField/FormField";
 
 const TABS = {
     CONTACT: "v-pills-contact",
     PAYMENT: "v-pills-booking",
 };
+
 const MAIN_PAYMENT_METHODS = {
     ELECTRONIC: "electronic",
     CREDIT: "credit",
+    ON_CHECKOUT: "POC",
 };
+
 const ELECTRONIC_PAYMENT_OPTIONS = {
     MOMO: "MOMO",
     VNPAY: "VNPAY",
 };
 
-// Component for displaying the No Card Required message
 const NoCardRequiredMessage = () => (
     <div className="max-w-2xl p-4 rounded-lg border mb-2">
         <div className="flex items-start gap-3">
@@ -45,7 +49,6 @@ const NoCardRequiredMessage = () => (
     </div>
 );
 
-// Component for each radio option
 const RadioOption = ({ label, value, name, register, error }) => (
     <div
         className="checkbox-container"
@@ -65,7 +68,6 @@ const RadioOption = ({ label, value, name, register, error }) => (
     </div>
 );
 
-// Component for each sub radio option (like VNPay and MoMo)
 const RadioOptionSub = ({ label, value, name, register }) => (
     <div
         className="checkbox-container"
@@ -84,7 +86,6 @@ const RadioOptionSub = ({ label, value, name, register }) => (
     </div>
 );
 
-// Tab button component
 const TabButton = ({ isActive, id, label, onClick }) => (
     <button
         className={`nav-link ${isActive ? "active" : ""}`}
@@ -106,7 +107,9 @@ function BookingForm({ hotel, room }) {
     const [isBookingValid, setIsBookingValid] = useState(false);
     const bookingDate = useSelector((state) => state.bookingDate);
     const user = useSelector((state) => state.user);
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({});
+
     const {
         register: registerBooking,
         handleSubmit: handleSubmitBooking,
@@ -131,16 +134,16 @@ function BookingForm({ hotel, room }) {
         mode: "onChange",
     });
 
-    // Watch the mainPaymentMethod value to conditionally render electronic payment options
     const mainPaymentMethod = watchPayment("mainPaymentMethod");
 
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            checkinDate: bookingDate.checkInDate, // Thêm bookingDate từ Redux
+            checkinDate: bookingDate.checkInDate,
             checkoutDate: bookingDate.checkOutDate,
-            userId: user.id ? user.id : null, // Chỉ thêm user nếu user tồn tại
-            roomId: room.id, // Thêm room.id
+            userId: user.id ? user.id : null,
+            roomId: room.id,
+            baseRatePerNight: room.basePrice,
         }));
     }, [bookingDate, user, room.id]);
 
@@ -149,13 +152,15 @@ function BookingForm({ hotel, room }) {
             BookingService.createBooking(data, accessToken),
         {
             onSuccess: (data) => {
-                toast.success("Đặt phòng thành công!");
-                if (data.paymentUrl) {
+                toast.info("Đang tiến hành xử lý...!");
+                console.log(data);
+                if (data.code === "200" && data.paymentUrl != null) {
                     window.location.href = data.paymentUrl;
+                } else {
+                    navigate("/bookings/booking-success");
                 }
             },
             onError: (error) => {
-                // Hiển thị message nếu có hoặc là nội dung lỗi chung
                 toast.error(error.message || "Đã xảy ra lỗi.");
             },
         }
@@ -169,9 +174,24 @@ function BookingForm({ hotel, room }) {
                 bookingPhone: data.phone,
                 bookingEmail: data.email,
                 bookingNotes: data.notes,
+                paymentType:
+                    hotel.paymentPolicy === "CHECKOUT"
+                        ? MAIN_PAYMENT_METHODS.ON_CHECKOUT
+                        : null,
             }));
-            setIsBookingValid(true); // Mark booking as valid
-            setActiveTab(TABS.PAYMENT); // Move to payment tab
+            setIsBookingValid(true);
+
+            if (
+                hotel.paymentPolicy === "ONLINE" ||
+                hotel.paymentPolicy === "ONLINE_CHECKOUT"
+            ) {
+                setActiveTab(TABS.PAYMENT);
+            } else {
+                mutationBookingSubmit.mutate({
+                    data: formData,
+                    accessToken: user.accessToken,
+                });
+            }
         },
         payment: async (data) => {
             const bookingData = await triggerBookingForm();
@@ -182,10 +202,11 @@ function BookingForm({ hotel, room }) {
                 setActiveTab(TABS.CONTACT);
                 return;
             }
-            // Tạo biến tạm để chứa formData mới nhất
             const tempFormData = {
                 ...formData,
-                paymentType: data.electronicPaymentOption, // Cập nhật dữ liệu payment
+                paymentType:
+                    data.electronicPaymentOption ||
+                    MAIN_PAYMENT_METHODS.ON_CHECKOUT,
             };
             mutationBookingSubmit.mutate({
                 data: tempFormData,
@@ -230,7 +251,10 @@ function BookingForm({ hotel, room }) {
                 placeholder="Thêm ghi chú"
             />
             <button type="submit" className="primary-btn1 two">
-                Kế tiếp
+                {hotel.paymentPolicy === "ONLINE" ||
+                hotel.paymentPolicy === "ONLINE_CHECKOUT"
+                    ? "Kế tiếp"
+                    : "Hoàn tất ngay"}
             </button>
         </form>
     );
@@ -274,7 +298,16 @@ function BookingForm({ hotel, room }) {
                 register={registerPayment}
                 error={paymentErrors.mainPaymentMethod}
             />
-
+            {(hotel.paymentPolicy === "CHECKOUT" ||
+                hotel.paymentPolicy === "ONLINE_CHECKOUT") && (
+                <RadioOption
+                    label="Thanh toán tại nơi nghỉ"
+                    value={MAIN_PAYMENT_METHODS.ON_CHECKOUT}
+                    name="mainPaymentMethod"
+                    register={registerPayment}
+                    error={paymentErrors.mainPaymentMethod}
+                />
+            )}
             <button type="submit" className="primary-btn1 two mt-5">
                 Hoàn tất ngay
             </button>
@@ -294,8 +327,8 @@ function BookingForm({ hotel, room }) {
                         onClick={() => handleTabChange(TABS.CONTACT)}
                     />
 
-                    {/* Only show the Payment tab if payment policy is ONLINE */}
-                    {hotel.paymentPolicy === "ONLINE" && (
+                    {(hotel.paymentPolicy === "ONLINE" ||
+                        hotel.paymentPolicy === "ONLINE_CHECKOUT") && (
                         <TabButton
                             isActive={activeTab === TABS.PAYMENT}
                             id={TABS.PAYMENT}
@@ -319,8 +352,8 @@ function BookingForm({ hotel, room }) {
                         </div>
                     </div>
 
-                    {/* Only show the Payment form if payment policy is ONLINE */}
-                    {hotel.paymentPolicy === "ONLINE" && (
+                    {(hotel.paymentPolicy === "ONLINE" ||
+                        hotel.paymentPolicy === "ONLINE_CHECKOUT") && (
                         <div
                             className={`tab-pane fade ${
                                 activeTab === TABS.PAYMENT ? "show active" : ""

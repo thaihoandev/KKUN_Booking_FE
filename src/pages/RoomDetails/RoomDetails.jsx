@@ -181,7 +181,7 @@ function RoomDetails() {
                                     ></iframe>
                                 </div>
                             </div>
-                            <ReviewWrapper />
+                            <ReviewWrapper hotel={hotel} room={room} />
                         </div>
                         <div className="col-xl-4">
                             <div className="w-100 px-4 py-2">
