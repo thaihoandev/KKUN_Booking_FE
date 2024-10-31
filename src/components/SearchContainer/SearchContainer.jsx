@@ -97,6 +97,13 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                 minute: BOOKING_TIME_CONFIG.checkOut.minute,
                 second: BOOKING_TIME_CONFIG.checkOut.second,
             });
+            const bookingUpdate = {
+                checkInDate: initialStartDate.format("YYYY-MM-DDTHH:mm:ss"),
+                checkOutDate: initialEndDate.format("YYYY-MM-DDTHH:mm:ss"),
+            };
+
+            // Dispatch để lưu giá trị mặc định vào Redux store
+            dispatch(updateBookingDate(bookingUpdate));
         }
 
         // Khởi tạo daterangepicker với các options
@@ -209,14 +216,6 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                         ),
                     };
 
-                    // Log để debug
-                    console.log("Selected dates:", {
-                        startDate: selectedCheckIn.format(),
-                        endDate: selectedCheckOut.format(),
-                        range: selectedRange,
-                        bookingUpdate,
-                    });
-
                     dispatch(updateBookingDate(bookingUpdate));
 
                     toast.info(
@@ -231,7 +230,6 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                         </>
                     );
                 } catch (error) {
-                    console.error("Error in date selection:", error);
                     toast.error(
                         "Có lỗi xảy ra khi chọn ngày. Vui lòng thử lại."
                     );

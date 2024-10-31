@@ -113,9 +113,9 @@ function NearbyPlaces({ hotel, room }) {
                                     <div className="checkbox-container nearby-place-list">
                                         {nearbyPlaces &&
                                         nearbyPlaces.length > 0 ? (
-                                            nearbyPlaces.map((place) => (
+                                            nearbyPlaces.map((place, index) => (
                                                 <label
-                                                    key={place.id}
+                                                    key={index}
                                                     className="check-container"
                                                     style={{ fontSize: "14px" }}
                                                 >

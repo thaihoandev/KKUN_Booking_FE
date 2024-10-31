@@ -78,7 +78,7 @@ export const getPersonalizedHotel = async (userId) => {
 export const createHotel = async (data, access_token) => {
     try {
         const res = await axiosJWT.post(
-            `${process.env.REACT_APP_BASE_API_URL}/hotels`,
+            `${process.env.REACT_APP_BASE_API_URL}/hotels/create`,
             data,
             {
                 headers: {
@@ -99,7 +99,7 @@ export const createHotel = async (data, access_token) => {
 export const updateHotel = async (id, data, access_token) => {
     try {
         const res = await axiosJWT.put(
-            `${process.env.REACT_APP_BASE_API_URL}/hotels/${id}`,
+            `${process.env.REACT_APP_BASE_API_URL}/hotels/${id}/update`,
             data,
             {
                 headers: {
@@ -120,7 +120,7 @@ export const updateHotel = async (id, data, access_token) => {
 export const deleteHotel = async (id, access_token) => {
     try {
         const res = await axiosJWT.delete(
-            `${process.env.REACT_APP_BASE_API_URL}/hotels/${id}`,
+            `${process.env.REACT_APP_BASE_API_URL}/hotels/${id}/delete`,
             {
                 headers: {
                     Authorization: `Bearer ${access_token}`,

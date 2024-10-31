@@ -11,6 +11,7 @@ import BannerCardBooking from "../../components/BannerContainer/Banner/BannerCar
 import ReviewWrapper from "../../components/ReviewWrapper/ReviewWrapper";
 import RoomInfoes from "../../components/RoomInfoes/RoomInfoes";
 import NearbyPlaces from "../../components/NearbyPlaces/NearbyPlaces";
+import RoomList from "../../components/RoomList/RoomList";
 
 function RoomDetails() {
     const { roomId } = useParams();
@@ -181,7 +182,6 @@ function RoomDetails() {
                                     ></iframe>
                                 </div>
                             </div>
-                            <ReviewWrapper hotel={hotel} room={room} />
                         </div>
                         <div className="col-xl-4">
                             <div className="w-100 px-4 py-2">
@@ -198,6 +198,10 @@ function RoomDetails() {
                                 </Link>
                             </div>
                             <NearbyPlaces hotel={hotel} />
+                        </div>
+                        <div className="col-xl-12">
+                            <RoomList hotel={hotel} room={room} />
+                            <ReviewWrapper hotel={hotel} room={room} />
                         </div>
                     </div>
                 </div>

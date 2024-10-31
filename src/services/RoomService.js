@@ -85,3 +85,26 @@ export const getRoomReview = async (roomId) => {
         }
     }
 };
+export const getAvailableRooms = async (hotelId, checkInDate, checkOutDate) => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/hotels/${hotelId}/available-room`,
+            {
+                params: {
+                    checkinDate: checkInDate,
+                    checkoutDate: checkOutDate,
+                },
+            }
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching available rooms:", error);
+
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};

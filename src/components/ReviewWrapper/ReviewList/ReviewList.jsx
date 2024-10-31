@@ -3,16 +3,15 @@ import StarRating from "../../ReviewRating/StarRating/StarRating";
 import { formatDateDDMMYYYY } from "../../../utils/utils";
 
 function ReviewList({ reviews }) {
-    console.log("ReviewList", reviews);
     return (
         <>
-            <div className="review-area">
+            <div className="review-area ">
                 <ul className="comment">
                     {reviews && reviews.length > 0 ? (
                         <>
                             {reviews.map((review, index) => (
                                 <>
-                                    <li>
+                                    <li key={index}>
                                         <div className="single-comment-area">
                                             <div className="author-img">
                                                 <img
@@ -32,7 +31,7 @@ function ReviewList({ reviews }) {
                                                         )}
                                                     </span>
                                                 </div>
-                                                <ul className="review-item-list">
+                                                <ul className="review-item-list col-xl-6">
                                                     <li>
                                                         <span>Sạch sẽ</span>
                                                         <StarRating

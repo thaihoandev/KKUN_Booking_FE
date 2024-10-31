@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 function ReviewWrapper({ hotel, room }) {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
-
     const mutationReviewRoom = useMutation(
         (roomId) => {
             return RoomService.getRoomReview(roomId);
@@ -15,7 +14,6 @@ function ReviewWrapper({ hotel, room }) {
         {
             onSuccess: (data) => {
                 setReviews(data);
-
                 setLoading(false);
             },
             onError: (error) => {
@@ -35,7 +33,7 @@ function ReviewWrapper({ hotel, room }) {
     return (
         <>
             <div className="review-wrapper mt-70">
-                <h4>Đánh giá</h4>
+                <h4>Đánh giá khách sạn</h4>
                 <div className="review-box">
                     <div className="total-review">
                         <h2>{hotel.rating}</h2>
