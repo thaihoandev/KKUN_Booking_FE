@@ -4,19 +4,16 @@ import "swiper/css/navigation"; // Import CSS cho Navigation
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useState, useEffect } from "react";
 
-
 import Loading from "../../../components/Loading/Loading";
 
 function AdminCustomerList() {
- 
-
     return (
         <>
-        {/* ======================================== */}
-        
-        <div>Ehlo</div>
-        
-        {/* ======================================== */}
+            {/* ======================================== */}
+
+            <div>Ehlo</div>
+
+            {/* ======================================== */}
         </>
     );
 }

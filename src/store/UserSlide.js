@@ -7,9 +7,12 @@ const initialState = {
     phone: "",
     address: "",
     avatar: "",
-    access_token: "",
+    accessToken: "",
+    refreshToken: "",
     id: "",
     role: "",
+    authProvider: "",
+    hasPassword: false, // Thêm trường này vào initialState
 };
 
 export const userSlide = createSlice({
@@ -21,12 +24,15 @@ export const userSlide = createSlice({
                 firstName = "",
                 lastName = "",
                 email = "",
-                access_token = "",
+                accessToken = "",
+                refreshToken = "",
                 address = "",
                 phone = "",
                 avatar = "",
                 _id = "",
+                authProvider = "",
                 role,
+                hasPassword = false, // Nhận hasPassword từ payload
             } = action.payload;
             state.firstName = firstName ? firstName : state.firstName;
             state.lastName = lastName ? lastName : state.lastName;
@@ -35,10 +41,16 @@ export const userSlide = createSlice({
             state.phone = phone ? phone : state.phone;
             state.avatar = avatar ? avatar : state.avatar;
             state.id = _id ? _id : state.id;
-            state.access_token = access_token
-                ? access_token
-                : state.access_token;
+            state.authProvider = authProvider
+                ? authProvider
+                : state.authProvider;
+            state.accessToken = accessToken ? accessToken : state.accessToken;
+            state.refreshToken = refreshToken
+                ? refreshToken
+                : state.refreshToken;
+
             state.role = role ? role : state.role;
+            state.hasPassword = hasPassword; // Cập nhật hasPassword vào state
         },
         resetUser: (state) => {
             state.firstName = "";
@@ -48,8 +60,11 @@ export const userSlide = createSlice({
             state.phone = "";
             state.avatar = "";
             state.id = "";
-            state.access_token = "";
+            state.accessToken = "";
+            state.refreshToken = "";
             state.role = "";
+            state.authProvider = "";
+            state.hasPassword = false; // Đặt lại hasPassword về false
         },
     },
 });

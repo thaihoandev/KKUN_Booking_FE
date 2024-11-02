@@ -6,70 +6,97 @@ import "swiper/css/navigation"; // Import CSS cho Navigation
 import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useMutation } from "react-query";
+import { useSelector } from "react-redux";
 
 import HotelItem from "../../components/HotelItem/HotelItem";
 import BannerContainer from "../../components/BannerContainer/BannerContainer";
 import Loading from "../../components/Loading/Loading";
+import * as HotelService from "../../services/HotelService";
+import { toast } from "react-toastify";
 function Home() {
     const [popularHotels, setPopularHotels] = useState([]);
     const [ratingHotels, setRatingHotels] = useState([]);
+    const [defaultHotels, setDefaultHotels] = useState([]);
     const [personalizedHotels, setPersonalizedHotels] = useState([]);
     const [selectedCity, setSelectedCity] = useState("Hà Nội"); // Default city
+    const user = useSelector((state) => state.user);
 
     const [loading, setLoading] = useState(true);
 
-    // Fetch persionalized hotel data
+    // useMutation setup for personalized hotels
+    const mutationHotelPersonalized = useMutation(
+        () => HotelService.getPersonalizedHotel(user.id),
+        {
+            onSuccess: (data) => {
+                setPersonalizedHotels(data);
+                setLoading(false);
+            },
+            onError: (error) => {
+                toast.error(error.message);
+                setLoading(false);
+            },
+        }
+    );
+    const mutationHotelDefault = useMutation(() => HotelService.getAllHotel(), {
+        onSuccess: (data) => {
+            setDefaultHotels(data);
+            setLoading(false);
+        },
+        onError: (error) => {
+            toast.error(error.message);
+            setLoading(false);
+        },
+    });
+    // useMutation setup for top-rating hotels
+    const mutationHotelTopRating = useMutation(
+        () => HotelService.getTopRatingHotel(),
+        {
+            onSuccess: (data) => {
+                setRatingHotels(data);
+                setLoading(false);
+            },
+            onError: (error) => {
+                toast.error(error.message);
+                setLoading(false);
+            },
+        }
+    );
+
+    // useMutation setup for trending hotels
+    const mutationHotelTrending = useMutation(
+        () => HotelService.getTrendingHotel(),
+        {
+            onSuccess: (data) => {
+                setPopularHotels(data);
+                setLoading(false);
+            },
+            onError: (error) => {
+                toast.error(error.message);
+                setLoading(false);
+            },
+        }
+    );
+
+    // Fetch personalized hotel data
     useEffect(() => {
-        const fetchHotels = async () => {
-            try {
-                const response = await axios.get(
-                    `${process.env.REACT_APP_BASE_API_URL}/recommendations/personalized/userId`
-                ); // Replace with your API endpoint
-                setPersonalizedHotels(response.data); // Assuming API returns an array of hotel objects
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching hotel data:", error);
-                setLoading(false);
-            }
-        };
+        if (user && user.id) {
+            mutationHotelPersonalized.mutate();
+        }
+    }, [user]);
 
-        fetchHotels();
-    }, []);
-
-    // Fetch popular hotel data
+    // Fetch top-rating hotel data
     useEffect(() => {
-        const fetchHotels = async () => {
-            try {
-                const response = await axios.get(
-                    `${process.env.REACT_APP_BASE_API_URL}/recommendations/top-rating`
-                ); // Replace with your API endpoint
-                setRatingHotels(response.data); // Assuming API returns an array of hotel objects
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching hotel data:", error);
-                setLoading(false);
-            }
-        };
-
-        fetchHotels();
-    }, []);
-    // Fetch popular hotel data
+        mutationHotelTopRating.mutate();
+    }, []); // This will run when the component mounts
+    // Fetch default hotel data
     useEffect(() => {
-        const fetchHotels = async () => {
-            try {
-                const response = await axios.get(
-                    `${process.env.REACT_APP_BASE_API_URL}/recommendations/trending`
-                ); // Replace with your API endpoint
-                setPopularHotels(response.data); // Assuming API returns an array of hotel objects
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching hotel data:", error);
-                setLoading(false);
-            }
-        };
-
-        fetchHotels();
-    }, []);
+        mutationHotelDefault.mutate();
+    }, []); // This will run when the component mounts
+    // Fetch trending hotel data
+    useEffect(() => {
+        mutationHotelTrending.mutate();
+    }, []); // This will also run when the component mounts
 
     // Lọc dữ liệu khách sạn theo thành phố được chọn
     const filteredHotels = ratingHotels.filter((hotel) =>
@@ -332,44 +359,17 @@ function Home() {
                                     aria-labelledby="Hotel-tab"
                                 >
                                     <div className="row g-4">
-                                        {personalizedHotels.map(
-                                            (hotel, index) => (
-                                                <div
-                                                    className="col-xxl-4 col-md-6"
-                                                    key={index}
-                                                >
-                                                    <HotelItem
-                                                        imageUrl={
-                                                            hotel
-                                                                .exteriorImages[0]
-                                                        }
-                                                        adults={
-                                                            hotel.rooms[0]
-                                                                .capacity
-                                                        }
-                                                        hotelName={hotel.name}
-                                                        location={
-                                                            hotel.location
-                                                        }
-                                                        // distanceToCenter="2 km"
-                                                        // reviews={hotel.location}
-                                                        rating={hotel.rating}
-                                                        roomType={
-                                                            hotel.rooms[0]
-                                                                .typeDisplayName
-                                                        }
-                                                        paymentInfo={
-                                                            hotel.paymentPolicy
-                                                        }
-                                                        price={
-                                                            hotel.rooms[0]
-                                                                .basePrice
-                                                        }
-                                                        originalPrice="$3000"
-                                                    />
-                                                </div>
-                                            )
-                                        )}
+                                        {(personalizedHotels.length > 0
+                                            ? personalizedHotels
+                                            : defaultHotels
+                                        ).map((hotel, index) => (
+                                            <div
+                                                className="col-xxl-4 col-md-6"
+                                                key={index}
+                                            >
+                                                <HotelItem hotel={hotel} />
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -439,30 +439,7 @@ function Home() {
                                                 className="col-xxl-4 col-md-6"
                                                 key={index}
                                             >
-                                                <HotelItem
-                                                    imageUrl={
-                                                        hotel.exteriorImages[0]
-                                                    }
-                                                    adults={
-                                                        hotel.rooms[0].capacity
-                                                    }
-                                                    hotelName={hotel.name}
-                                                    location={hotel.location}
-                                                    // distanceToCenter="2 km"
-                                                    // reviews={hotel.location}
-                                                    rating={hotel.rating}
-                                                    roomType={
-                                                        hotel.rooms[0]
-                                                            .typeDisplayName
-                                                    }
-                                                    paymentInfo={
-                                                        hotel.paymentPolicy
-                                                    }
-                                                    price={
-                                                        hotel.rooms[0].basePrice
-                                                    }
-                                                    originalPrice="$3000"
-                                                />
+                                                <HotelItem hotel={hotel} />
                                             </div>
                                         ))}
                                     </div>
@@ -632,38 +609,7 @@ function Home() {
                                                     <SwiperSlide key={index}>
                                                         <div className="col-xxl-12 col-md-12">
                                                             <HotelItem
-                                                                imageUrl={
-                                                                    hotel
-                                                                        .exteriorImages[0]
-                                                                }
-                                                                adults={
-                                                                    hotel
-                                                                        .rooms[0]
-                                                                        .capacity
-                                                                }
-                                                                hotelName={
-                                                                    hotel.name
-                                                                }
-                                                                location={
-                                                                    hotel.location
-                                                                }
-                                                                rating={
-                                                                    hotel.rating
-                                                                }
-                                                                roomType={
-                                                                    hotel
-                                                                        .rooms[0]
-                                                                        .typeDisplayName
-                                                                }
-                                                                paymentInfo={
-                                                                    hotel.paymentPolicy
-                                                                }
-                                                                price={
-                                                                    hotel
-                                                                        .rooms[0]
-                                                                        .basePrice
-                                                                }
-                                                                originalPrice="$3000"
+                                                                hotel={hotel}
                                                             />
                                                         </div>
                                                     </SwiperSlide>

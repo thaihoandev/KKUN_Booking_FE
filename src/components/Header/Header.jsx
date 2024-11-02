@@ -6,6 +6,8 @@ import * as UserService from "../../services/UserService";
 import Loading from "../Loading/Loading";
 import Login from "../Login/Login";
 import MenuDropdown from "./MenuDropdown/MenuDropdown";
+import { useMutation } from "react-query";
+import useAuth from "../../hooks/useAuth";
 
 function Header() {
     const navigate = useNavigate();
@@ -16,28 +18,22 @@ function Header() {
     const [isOpen, setIsOpen] = useState(false); // State để kiểm soát dropdown
 
     const user = useSelector((state) => state.user);
-
     const toggleMenuDropdown = () => {
         setIsOpen((prev) => !prev); // Đảo ngược trạng thái của dropdown
     };
 
-    const handleLogout = async () => {
-        setIsLoading(true);
-        await UserService.logoutUser();
-        dispatch(resetUser());
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("state");
-        setIsLoading(false);
-    };
+    const { handleLogout } = useAuth();
     if (isLoading) {
         return <Loading />;
     }
+
     const handleOpenLogin = () => {
         setIsLoginOpen(true);
     };
     const handleOpenRegister = () => {
         setIsRegisterOpen(true);
     };
+
     return (
         <>
             <header className="header-area style-1">
@@ -45,15 +41,20 @@ function Header() {
                 <div className="header-logo d-lg-none d-flex">
                     <Link to={`/`}>
                         <img
+                            style={{ height: "32px" }}
                             alt="image"
                             className="img-fluid"
-                            src="assets/img/logo.svg"
+                            src={`${process.env.PUBLIC_URL}/assets/img/logo_kkun/Trans_logo_kkunbooking.png`}
                         />
                     </Link>
                 </div>
                 <div className="company-logo d-lg-flex d-none">
                     <Link to={`/`}>
-                        <img alt="image" src="assets/img/logo.svg" />
+                        <img
+                            style={{ height: "32px" }}
+                            alt="image"
+                            src={`${process.env.PUBLIC_URL}/assets/img/logo_kkun/Trans_logo_kkunbooking.png`}
+                        />
                     </Link>
                 </div>
 
@@ -61,9 +62,13 @@ function Header() {
                 <div className="main-menu">
                     <div className="mobile-logo-area d-lg-none d-flex justify-content-between align-items-center">
                         <div className="mobile-logo-wrap">
-                            <a href="index.html">
-                                <img alt="image" src="assets/img/logo.svg" />
-                            </a>
+                            <Link to={`/`}>
+                                <img
+                                    style={{ height: "32px" }}
+                                    alt="image"
+                                    src={`${process.env.PUBLIC_URL}/assets/img/logo_kkun/Trans_logo_kkunbooking.png`}
+                                />
+                            </Link>
                         </div>
                         <div className="menu-close-btn">
                             <i className="bi bi-x"></i>
@@ -71,40 +76,21 @@ function Header() {
                     </div>
 
                     <ul className="menu-list">
-                        <li className="menu-item-has-children active">
-                            <a href="index.html" className="drop-down">
-                                Trang chủ
-                            </a>
-                            <i className="bi bi-plus dropdown-icon"></i>
-                            <ul className="sub-menu">
-                                <li className="active">
-                                    <a href="index.html">Home 01</a>
-                                </li>
-                                <li>
-                                    <a href="index2.html">Home 02</a>
-                                </li>
-                            </ul>
+                        <li className=" active">
+                            <Link to={`/`}>Trang chủ</Link>
                         </li>
                         <li>
-                            <a href="about.html" className="drop-down">
-                                Khách sạn
-                            </a>
+                            <Link to={`/hotels`}>Khách sạn</Link>
                         </li>
                         <li>
-                            <a href="about.html" className="drop-down">
-                                Về chúng tôi
-                            </a>
+                            <Link to={`/about`}>Về chúng tôi</Link>
                         </li>
 
                         <li>
-                            <a href="about.html" className="drop-down">
-                                Cẩm nang
-                            </a>
+                            <Link to={`/handbooks`}>Cẩm nang</Link>
                         </li>
                         <li className="menu-item-has-children">
-                            <a href="package-grid.html" className="drop-down">
-                                Hành trình
-                            </a>
+                            <Link to={`/travels`}>Hành trình</Link>
                             <i className="bi bi-plus dropdown-icon"></i>
                             <ul className="sub-menu">
                                 <li>
@@ -185,7 +171,17 @@ function Header() {
                         <li class="d-lg-flex d-none">
                             {user && user.email ? (
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <Link to="/profile">
+                                    <Link
+                                        to={
+                                            user.role === "CUSTOMER"
+                                                ? "/customer/profile"
+                                                : user.role === "HOTELOWNER"
+                                                ? "/hotelowner/settings"
+                                                : user.role === "ADMIN"
+                                                ? "/admin/settings"
+                                                : "/customer/profile" // default fallback nếu không match role nào
+                                        }
+                                    >
                                         <img
                                             alt={
                                                 user.firstName +
@@ -193,15 +189,17 @@ function Header() {
                                                 user.lastName
                                             }
                                             className="img-fluid"
+                                            style={{
+                                                height: "32px",
+                                                width: "32px",
+                                                borderRadius: "50%",
+                                                objectFit: "cover",
+                                            }}
                                             src={user.avatar}
                                         />
-                                    </Link>
-                                    <span> | </span>
-                                    <Link
-                                        className="btn"
-                                        onClick={handleLogout}
-                                    >
-                                        <span>Đăng xuất</span>
+                                        <strong className="text-dark mx-2">
+                                            {user.lastName}
+                                        </strong>
                                     </Link>
                                 </div>
                             ) : (
@@ -223,12 +221,14 @@ function Header() {
                                             }}
                                         ></i>
                                     </Link>
-                                    <MenuDropdown
-                                        handleOpenLogin={handleOpenLogin}
-                                        handleOpenRegister={handleOpenRegister}
-                                    ></MenuDropdown>
                                 </>
                             )}
+                            <MenuDropdown
+                                handleOpenLogin={handleOpenLogin}
+                                handleOpenRegister={handleOpenRegister}
+                                user={user}
+                                handleLogout={handleLogout}
+                            ></MenuDropdown>
                         </li>
                     </ul>
                     <div class="hotline-area d-xl-flex d-none">

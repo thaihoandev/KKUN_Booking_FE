@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
+
+import ProfileInfoes from "../../components/ProfileInfoes/ProfileInfoes";
+import ChangePassword from "../../components/ChangePassword/ChangePassword";
+import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 function ProfileSettings() {
+    const user = useSelector((state) => state.user);
     return (
         <>
+            <ToastContainer />
             <div class="row">
                 <div class="col-xl-12">
                     <div class="main-content-title-profile mb-30">
@@ -106,150 +113,7 @@ function ProfileSettings() {
                                 role="tabpanel"
                                 aria-labelledby="profile-tab"
                             >
-                                <div class="dashboard-profile-tab-content">
-                                    <div class="profile-tab-content-title">
-                                        <h6>Thông tin của bạn</h6>
-                                    </div>
-                                    <form>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-inner mb-30">
-                                                    <label>Tên*</label>
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Ex- Rocky "
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-inner mb-30">
-                                                    <label>Họ*</label>
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Jhon"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-inner mb-30">
-                                                    <label>
-                                                        Địa chỉ Email*
-                                                    </label>
-                                                    <input
-                                                        type="email"
-                                                        placeholder="info@gmail.com"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-inner mb-30">
-                                                    <label>
-                                                        Số điện thoại*
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        placeholder="01245302....."
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-inner mb-30">
-                                                    <label>Địa chỉ*</label>
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Mirpur DOHS, Dhaka"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 mb-30">
-                                                <div class="form-inner">
-                                                    <label>Quốc gia*</label>
-                                                    <select
-                                                        style={{
-                                                            display: "none",
-                                                        }}
-                                                    >
-                                                        <option>
-                                                            United Kingdom
-                                                        </option>
-                                                        <option>
-                                                            Bangladesh
-                                                        </option>
-                                                        <option>
-                                                            United State
-                                                        </option>
-                                                    </select>
-                                                    <div
-                                                        class="nice-select"
-                                                        tabindex="0"
-                                                    >
-                                                        <span class="current">
-                                                            United Kingdom
-                                                        </span>
-                                                        <ul class="list">
-                                                            <li
-                                                                data-value="United Kingdom"
-                                                                class="option selected"
-                                                            >
-                                                                United Kingdom
-                                                            </li>
-                                                            <li
-                                                                data-value="Bangladesh"
-                                                                class="option"
-                                                            >
-                                                                Bangladesh
-                                                            </li>
-                                                            <li
-                                                                data-value="United State"
-                                                                class="option"
-                                                            >
-                                                                United State
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="upload-img-area">
-                                            <div class="upload-img-wrapper">
-                                                <div class="drag-area">
-                                                    <button
-                                                        type="button"
-                                                        class="upload-btn"
-                                                    >
-                                                        <i class="bi bi-plus-lg"></i>
-                                                    </button>
-                                                    <input type="file" hidden />
-                                                </div>
-                                            </div>
-                                            <div class="upload-img-area-content">
-                                                <h6>Tải ảnh đại diện</h6>
-                                                <p>
-                                                    Yêu cầu ảnh 300*300, định
-                                                    dạng JPGE hoặc PNG.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="form-inner mb-50">
-                                            <label class="containerss">
-                                                <input type="checkbox" />
-                                                <span class="checkmark"></span>
-                                                <span class="text">
-                                                    Cập nhật tất cả thông tin
-                                                    trong trang này.
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <div class="form-inner">
-                                            <button
-                                                type="submit"
-                                                class="primary-btn3"
-                                            >
-                                                Cập nhật thay đổi
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
+                                <ProfileInfoes></ProfileInfoes>
                             </div>
                             <div
                                 class="tab-pane fade"
@@ -402,80 +266,7 @@ function ProfileSettings() {
                                     </div>
                                 </div>
                             </div>
-                            <div
-                                class="tab-pane fade"
-                                id="change-pass"
-                                role="tabpanel"
-                                aria-labelledby="change-pass-tab"
-                            >
-                                <div class="dashboard-profile-tab-content">
-                                    <div class="profile-tab-content-title">
-                                        <h6>Thay đổi mật khẩu của bạn</h6>
-                                    </div>
-                                    <form>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-inner mb-30">
-                                                    <label>Mật khẩu cũ*</label>
-                                                    <input
-                                                        id="password4"
-                                                        type="password"
-                                                        placeholder="*** ***"
-                                                    />
-                                                    <i
-                                                        class="bi bi-eye-slash"
-                                                        id="togglePassword4"
-                                                    ></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-inner mb-30">
-                                                    <label>Mật khẩu mới*</label>
-                                                    <input
-                                                        id="password5"
-                                                        type="password"
-                                                        placeholder="*** ***"
-                                                    />
-                                                    <i
-                                                        class="bi bi-eye-slash"
-                                                        id="togglePassword5"
-                                                    ></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-inner mb-50">
-                                                    <label>
-                                                        Xác nhận mật khẩu*
-                                                    </label>
-                                                    <input
-                                                        id="password6"
-                                                        type="password"
-                                                        placeholder="*** ***"
-                                                    />
-                                                    <i
-                                                        class="bi bi-eye-slash"
-                                                        id="togglePassword6"
-                                                    ></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <div class="change-password-form-btns">
-                                        <button
-                                            type="submit"
-                                            class="primary-btn3"
-                                        >
-                                            Lưu thay đổi
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            class="primary-btn3 cancel"
-                                        >
-                                            Hủy
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            <ChangePassword user={user} />
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,4 @@
+import moment from "moment";
 export const isJsonString = (data) => {
     try {
         JSON.parse(data);
@@ -15,3 +16,20 @@ export const getBase64 = (file) =>
         reader.onload = () => resolve(reader.result);
         reader.onerror = (error) => reject(error);
     });
+
+export const calculateNumberOfNights = (checkInDateStr, checkOutDateStr) => {
+    const checkInDate = checkInDateStr ? moment(checkInDateStr) : null;
+    const checkOutDate = checkOutDateStr ? moment(checkOutDateStr) : null;
+
+    if (checkInDate && checkOutDate) {
+        const diffDays = checkOutDate.diff(checkInDate, "days");
+        return diffDays + (checkOutDate.isAfter(checkInDate, "day") ? 1 : 0);
+    }
+    return 0;
+};
+
+export const formatDateDDMMYYYY = (formatDate) => {
+    formatDate = (dateString) => {
+        return moment(dateString).format("DD/MM/YYYY");
+    };
+};

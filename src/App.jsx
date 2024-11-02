@@ -15,18 +15,33 @@ import {
 import store from "./store/Store";
 
 import Home from "./pages/Home/Home";
-import AdminLayout from "./layouts/AdminLayout";
-import HotelOwnerLayout from "./layouts/HotelOwnerLayout";
-import Layout from "./layouts/Layout";
-import HotelOwnerSignUp from "./pages/HotelOwner/HotelOwnerSignUp/HotelOwnerSignUp";
+import AdminLayout from "./layouts/AdminLayout/AdminLayout";
+import HotelOwnerLayout from "./layouts/HotelOwnerLayout/HotelOwnerLayout";
+import Layout from "./layouts/Layout/Layout";
 import ProfileSettings from "./pages/ProfileSettings/ProfileSettings";
-import HotelInfoes from "./pages/HotelOwner/HotelInfoes/HotelInfoes";
 import RoomList from "./pages/HotelOwner/RoomList/RoomList";
-import HotelOwnerDashBoard from "./pages/HotelOwner/DashBoard/HotelOwnerDashBoard";
-import BookedList from "./pages/HotelOwner/BookedList/BookedList";
+import BookedListHotelOwner from "./pages/HotelOwner/BookedList/BookedList";
 
 import CustomerList from "./pages/HotelOwner/CustomerList/CustomerList";
 import AdminCustomerList from "./pages/Admin/AdminCustomerList/AdminCustomerList";
+import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
+import HotelOwnerSignUp from "./pages/HotelOwner/HotelOwnerSignUp/HotelOwnerSignUp";
+import HotelOwnerDashBoard from "./pages/HotelOwner/HotelOwnerDashboard/HotelOwnerDashboard";
+import HotelInfoes from "./pages/HotelOwner/HotelInofes/HotelInfoes";
+import CustomerLayout from "./layouts/CustomerLayout/CustomerLayout";
+import { ToastContainer } from "react-toastify";
+
+import ProtectedRoute from "./routes/ProtectedRoute";
+import HotelSearchList from "./pages/HotelSearchList/HotelSearchList";
+import RoomDetails from "./pages/RoomDetails/RoomDetails";
+import BookingCheckout from "./pages/BookingCheckout/BookingCheckout";
+import BookingSuccess from "./pages/BookingSuccess/BookingSuccess";
+import PaymentCallback from "./pages/PaymentCallback/PaymentCallback";
+import BookingFailure from "./pages/BookingFailure/BookingFailure";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import ReviewPage from "./pages/ReviewPage/ReviewPage";
+import BookedListCustomer from "./pages/Customer/BookedList/BookedList";
+import RoomCreate from "./pages/HotelOwner/RoomCreate/RoomCreate";import AdminCustomerList from "./pages/Admin/AdminCustomerList/AdminCustomerList";
 import AdminBookingList from "./pages/Admin/AdminBooking/AdminBookingList";
 import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
 
@@ -35,16 +50,62 @@ import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Layout />, // Your main layout
+        element: <Layout />,
         children: [
             { index: true, element: <Home /> },
             { path: "home", element: <Home /> },
-            // Other public routes can be added here
+            { path: "sign-up/hotel-owner", element: <HotelOwnerSignUp /> },
+            { path: "hotels/search", element: <HotelSearchList /> },
+            {
+                path: "hotels/:hotelName/rooms/:roomId",
+                element: <RoomDetails />,
+            },
+            {
+                path: "booking/:roomId/checkout",
+                element: <BookingCheckout />,
+            },
+            {
+                path: "bookings/booking-success",
+                element: <BookingSuccess />,
+            },
+            {
+                path: "bookings/booking-failure",
+                element: <BookingFailure />,
+            },
+            {
+                path: "bookings/payment-callback",
+                element: <PaymentCallback />,
+            },
+            {
+                path: "rooms/:roomId/bookings/:bookingId/review",
+                element: <ReviewPage />,
+            },
+
+            { path: "*", element: <NotFoundPage /> },
+        ],
+    },
+    {
+        path: "/customer",
+        element: (
+            <ProtectedRoute requiredRole="CUSTOMER">
+                <CustomerLayout />
+            </ProtectedRoute>
+        ),
+        children: [
+            { index: true, element: <ProfileSettings /> },
+            { path: "profile", element: <ProfileSettings /> },
+            { path: "booked", element: <BookedListCustomer /> },
+
+            { path: "*", element: <NotFoundPage /> },
         ],
     },
     {
         path: "/admin",
-        element: <AdminLayout />, // Admin layout
+        element: (
+            <ProtectedRoute requiredRole="ADMIN">
+                <AdminLayout />
+            </ProtectedRoute>
+        ),
         children: [
             // Other admin routes
             { index: true, element: <AdminDashboard /> },
@@ -55,21 +116,30 @@ const router = createBrowserRouter([
 
 
 
+            { index: true, element: <AdminDashboard /> },
+            { path: "dashboard", element: <AdminDashboard /> },
+            { path: "customer-list", element: <AdminCustomerList /> },
+            { path: "settings", element: <ProfileSettings /> },
+            { path: "*", element: <NotFoundPage /> },
         ],
     },
     {
-        path: "/hotel-owner",
-        element: <HotelOwnerLayout />, // Hotel Owner layout
+        path: "/hotelowner",
+        element: (
+            <ProtectedRoute requiredRole="HOTELOWNER">
+                <HotelOwnerLayout />
+            </ProtectedRoute>
+        ),
         children: [
-            // Other hotel owner routes
             { index: true, element: <HotelOwnerDashBoard /> },
-            { path: "sign-up", element: <HotelOwnerSignUp /> },
             { path: "dashboard", element: <HotelOwnerDashBoard /> },
             { path: "settings", element: <ProfileSettings /> },
-            { path: "hotel", element: <HotelInfoes /> },
-            { path: "rooms", element: <RoomList /> },
-            { path: "booked", element: <BookedList /> },
+            { path: "my-hotel", element: <HotelInfoes /> },
+            { path: "add-room", element: <RoomCreate /> },
+            { path: "my-rooms", element: <RoomList /> },
+            { path: "booked", element: <BookedListHotelOwner /> },
             { path: "customer-list", element: <CustomerList /> },
+            { path: "*", element: <NotFoundPage /> },
         ],
     },
 ]);
