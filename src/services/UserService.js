@@ -107,9 +107,14 @@ export const changePasswordUser = async (userId, request) => {
     }
 };
 
-export const getDetailsUser = async (id) => {
+export const getDetailsUser = async (id, accessToken) => {
     try {
-        const response = await axiosJWT.get(`/users/${id}`);
+        const response = await axiosJWT.get(`/users/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
         return response.data;
     } catch (error) {
         handleError(error);
@@ -165,3 +170,24 @@ const handleError = (error) => {
 };
 
 export default axiosJWT;
+
+export const getBookingHistory = async (accessToken) => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/users/booking-hotel/history`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};

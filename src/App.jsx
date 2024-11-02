@@ -20,7 +20,7 @@ import HotelOwnerLayout from "./layouts/HotelOwnerLayout/HotelOwnerLayout";
 import Layout from "./layouts/Layout/Layout";
 import ProfileSettings from "./pages/ProfileSettings/ProfileSettings";
 import RoomList from "./pages/HotelOwner/RoomList/RoomList";
-import BookedList from "./pages/HotelOwner/BookedList/BookedList";
+import BookedListHotelOwner from "./pages/HotelOwner/BookedList/BookedList";
 import CustomerList from "./pages/HotelOwner/CustomerList/CustomerList";
 import AdminCustomerList from "./pages/Admin/AdminCustomerList/AdminCustomerList";
 import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
@@ -38,6 +38,9 @@ import BookingSuccess from "./pages/BookingSuccess/BookingSuccess";
 import PaymentCallback from "./pages/PaymentCallback/PaymentCallback";
 import BookingFailure from "./pages/BookingFailure/BookingFailure";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import ReviewPage from "./pages/ReviewPage/ReviewPage";
+import BookedListCustomer from "./pages/Customer/BookedList/BookedList";
+import RoomCreate from "./pages/HotelOwner/RoomCreate/RoomCreate";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -67,6 +70,11 @@ const router = createBrowserRouter([
                 path: "bookings/payment-callback",
                 element: <PaymentCallback />,
             },
+            {
+                path: "rooms/:roomId/bookings/:bookingId/review",
+                element: <ReviewPage />,
+            },
+
             { path: "*", element: <NotFoundPage /> },
         ],
     },
@@ -80,6 +88,8 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <ProfileSettings /> },
             { path: "profile", element: <ProfileSettings /> },
+            { path: "booked", element: <BookedListCustomer /> },
+
             { path: "*", element: <NotFoundPage /> },
         ],
     },
@@ -109,9 +119,10 @@ const router = createBrowserRouter([
             { index: true, element: <HotelOwnerDashBoard /> },
             { path: "dashboard", element: <HotelOwnerDashBoard /> },
             { path: "settings", element: <ProfileSettings /> },
-            { path: "hotel", element: <HotelInfoes /> },
-            { path: "rooms", element: <RoomList /> },
-            { path: "booked", element: <BookedList /> },
+            { path: "my-hotel", element: <HotelInfoes /> },
+            { path: "add-room", element: <RoomCreate /> },
+            { path: "my-rooms", element: <RoomList /> },
+            { path: "booked", element: <BookedListHotelOwner /> },
             { path: "customer-list", element: <CustomerList /> },
             { path: "*", element: <NotFoundPage /> },
         ],
@@ -124,7 +135,6 @@ function App() {
             <Provider store={store}>
                 <div className="App">
                     <RouterProvider router={router} />
-                    <ToastContainer />
                 </div>
             </Provider>
         </GoogleOAuthProvider>

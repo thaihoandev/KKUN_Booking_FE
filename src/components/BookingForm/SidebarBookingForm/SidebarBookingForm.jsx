@@ -2,7 +2,10 @@ import React from "react";
 import moment from "moment";
 import convertToVND from "../../../utils/convertToVND";
 import { calculateNumberOfNights } from "../../../utils/utils";
-import getRatingDescription from "../../../utils/getRatingDescription";
+import {
+    convertRating5To10Scale,
+    getRatingDescription,
+} from "../../../utils/ratingReview";
 
 function SidebarBookingForm({ bookingDate, hotel, room }) {
     const numberOfNights = calculateNumberOfNights(
@@ -35,7 +38,9 @@ function SidebarBookingForm({ bookingDate, hotel, room }) {
                     </div>
                     <div className="d-flex align-items-center mt-1">
                         <div className="d-flex align-items-center gap-1">
-                            <span className="fw-semibold">{hotel.rating}</span>
+                            <span className="fw-semibold">
+                                {convertRating5To10Scale(hotel.rating)}
+                            </span>
                             <span className="text-primary small">
                                 {getRatingDescription(hotel.rating)}
                             </span>

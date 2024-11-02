@@ -171,7 +171,17 @@ function Header() {
                         <li class="d-lg-flex d-none">
                             {user && user.email ? (
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <Link to="/customer/profile">
+                                    <Link
+                                        to={
+                                            user.role === "CUSTOMER"
+                                                ? "/customer/profile"
+                                                : user.role === "HOTELOWNER"
+                                                ? "/hotelowner/settings"
+                                                : user.role === "ADMIN"
+                                                ? "/admin/settings"
+                                                : "/customer/profile" // default fallback nếu không match role nào
+                                        }
+                                    >
                                         <img
                                             alt={
                                                 user.firstName +

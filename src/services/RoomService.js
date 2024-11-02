@@ -16,6 +16,21 @@ export const getAllRooms = async () => {
         }
     }
 };
+
+export const getRoomsByHotelId = async (hotelId) => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/rooms/hotel/${hotelId}`
+        );
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};
 export const getRoomById = async (roomId) => {
     try {
         const response = await axios.get(

@@ -126,7 +126,6 @@ function ProfileInfoes() {
 
     return (
         <>
-            <ToastContainer />
             <div className="dashboard-profile-tab-content">
                 <div className="profile-tab-content-title">
                     <h6>Thông tin của bạn</h6>

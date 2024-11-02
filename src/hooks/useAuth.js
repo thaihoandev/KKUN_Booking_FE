@@ -13,7 +13,8 @@ function useAuth({ onLoginSuccess } = {}) {
     const navigate = useNavigate();
 
     const mutationUserDetails = useMutation(
-        (userId) => UserService.getDetailsUser(userId),
+        ({ userId, accessToken }) =>
+            UserService.getDetailsUser(userId, accessToken),
         {
             onSuccess: (data) => {
                 dispatch(
@@ -34,7 +35,6 @@ function useAuth({ onLoginSuccess } = {}) {
 
     const handleLoginSuccess = (response) => {
         const { accessToken, refreshToken } = response;
-        console.log("login", response);
         // Lưu tokens
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
@@ -54,7 +54,7 @@ function useAuth({ onLoginSuccess } = {}) {
         );
 
         // Lấy thêm thông tin user
-        mutationUserDetails.mutate(decoded.userId);
+        mutationUserDetails.mutate({ userId: decoded.userId, accessToken });
 
         // Điều hướng dựa trên role
         if (decoded.role === "ADMIN") {

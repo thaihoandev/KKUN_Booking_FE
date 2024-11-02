@@ -1,7 +1,7 @@
 import React from "react";
 
 function HotelInfoes() {
-    return <div>HotelInfoes</div>;
+    return <>HotelInfoes</>;
 }
 
 export default HotelInfoes;

@@ -4,6 +4,7 @@ import { useMutation } from "react-query";
 import * as RoomService from "../../services/RoomService";
 import Loading from "../Loading/Loading";
 import { toast } from "react-toastify";
+import { convertRating5To10Scale } from "../../utils/ratingReview";
 function ReviewWrapper({ hotel, room }) {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -36,7 +37,7 @@ function ReviewWrapper({ hotel, room }) {
                 <h4>Đánh giá khách sạn</h4>
                 <div className="review-box">
                     <div className="total-review">
-                        <h2>{hotel.rating}</h2>
+                        <h2>{convertRating5To10Scale(hotel.rating)}</h2>
                         <div className="review-wrap">
                             <ul className="star-list">
                                 {Array.from({ length: 5 }, (_, index) => {

@@ -1,8 +1,11 @@
 import React from "react";
 import convertToVND from "../../utils/convertToVND";
-import getRatingDescription from "../../utils/getRatingDescription";
 import HotelAmenities from "../HotelAmenities/HotelAmenities";
 import RoomAmenities from "../RoomAmenities/RoomAmenities";
+import {
+    convertRating5To10Scale,
+    getRatingDescription,
+} from "../../utils/ratingReview";
 
 function RoomInfoes({ hotel, room }) {
     return (
@@ -42,7 +45,7 @@ function RoomInfoes({ hotel, room }) {
                         <strong>
                             {hotel.numOfReviews > 0 ? (
                                 <>
-                                    {hotel.rating} -{" "}
+                                    {convertRating5To10Scale(hotel.rating)} -{" "}
                                     {getRatingDescription(hotel.rating)}
                                 </>
                             ) : (

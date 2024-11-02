@@ -21,7 +21,7 @@ const HotelOwnerLayout = () => {
                 {
                     key: "hotelInfo",
                     title: "Thông tin khách sạn",
-                    path: "hotel-upload",
+                    path: "my-hotel",
                 },
                 {
                     key: "addRoom",
@@ -31,7 +31,7 @@ const HotelOwnerLayout = () => {
                 {
                     key: "allRooms",
                     title: "Tất cả các phòng",
-                    path: "all-rooms",
+                    path: "my-rooms",
                 },
             ],
         },

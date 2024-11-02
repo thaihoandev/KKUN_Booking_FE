@@ -54,7 +54,7 @@ function BookedList() {
         }
     };
     const mutationBookingHistory = useMutation(
-        (accessToken) => HotelService.getHotelBookingHistory(accessToken),
+        (accessToken) => UserService.getBookingHistory(accessToken),
         {
             onSuccess: async (data) => {
                 const bookingsWithDetails = await Promise.all(
@@ -373,11 +373,21 @@ function BookedList() {
                                                                     <td data-label="Review">
                                                                         {booking.reviewed ===
                                                                         false ? (
-                                                                            <strong className="text-primary">
-                                                                                Chưa
-                                                                                đánh
+                                                                            <a
+                                                                                style={{
+                                                                                    cursor: "pointer",
+                                                                                }}
+                                                                                class="primary-btn2"
+                                                                                onClick={() => {
+                                                                                    handleReviewBooking(
+                                                                                        booking
+                                                                                    );
+                                                                                }}
+                                                                            >
+                                                                                Đánh
                                                                                 giá
-                                                                            </strong>
+                                                                                <i class="bi bi-arrow-right"></i>
+                                                                            </a>
                                                                         ) : (
                                                                             <strong className="text-warning">
                                                                                 Đã

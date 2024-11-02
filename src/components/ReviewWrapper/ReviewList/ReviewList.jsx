@@ -31,7 +31,7 @@ function ReviewList({ reviews }) {
                                                         )}
                                                     </span>
                                                 </div>
-                                                <ul className="review-item-list col-xl-6">
+                                                <ul className="review-item-list col-xl-8">
                                                     <li>
                                                         <span>Sạch sẽ</span>
                                                         <StarRating
@@ -62,6 +62,16 @@ function ReviewList({ reviews }) {
                                                         <StarRating
                                                             rating={
                                                                 review.space
+                                                            }
+                                                        />
+                                                    </li>
+                                                    <li>
+                                                        <span>
+                                                            Giá cả phù hợp
+                                                        </span>
+                                                        <StarRating
+                                                            rating={
+                                                                review.valueForMoney
                                                             }
                                                         />
                                                     </li>

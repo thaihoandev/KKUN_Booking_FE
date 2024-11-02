@@ -1,6 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Header from "../components/Header/Header";
 

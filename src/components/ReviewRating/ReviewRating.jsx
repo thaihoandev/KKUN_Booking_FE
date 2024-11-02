@@ -1,5 +1,6 @@
 import React from "react";
 import StarRating from "./StarRating/StarRating";
+import { convertRating5To10Scale } from "../../utils/ratingReview";
 
 function ReviewRating({ rating, numOfReviews }) {
     return (
@@ -9,7 +10,9 @@ function ReviewRating({ rating, numOfReviews }) {
 
                 <span>
                     {rating > 0
-                        ? `${rating} - ${numOfReviews} đánh giá`
+                        ? `${convertRating5To10Scale(
+                              rating
+                          )} - ${numOfReviews} đánh giá`
                         : "Chưa có đánh giá"}
                 </span>
             </div>

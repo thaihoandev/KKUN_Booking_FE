@@ -9,6 +9,7 @@ function ProfileSettings() {
     const user = useSelector((state) => state.user);
     return (
         <>
+            <ToastContainer />
             <div class="row">
                 <div class="col-xl-12">
                     <div class="main-content-title-profile mb-30">

@@ -37,7 +37,7 @@ function HotelSearchList() {
             setCurrentPage(pageNumber);
         }
     };
-
+    console.log("hotel", initialResults);
     return (
         <>
             <ToastContainer position="top-right" autoClose={5000} />
