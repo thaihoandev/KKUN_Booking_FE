@@ -15,14 +15,44 @@ const AdminLayout = () => {
         {
             key: "hotelList",
             title: "Khách sạn",
-            path: "hotels",
+            path: "admin-all-hotel", // hiện thị luôn danh sách khách sạn
             icon: "bi-building",
+            // children: [
+            //     // {
+            //     //     key: "hotelInfo",
+            //     //     title: "Thông tin khách sạn",
+            //     //     path: "hotel-upload",
+            //     // },
+            //     {
+            //         key: "addHotel",
+            //         title: "Thêm khách sạn",
+            //         path: "admin-add-hotel",
+            //     },
+            //     {
+            //         key: "allHotel",
+            //         title: "Tất cả khách sạn",
+            //         path: "admin-all-hotel",
+            //     },
+            // ],
         },
         {
             key: "amenities",
             title: "Tiện ích",
-            path: "amenities",
+            path: "admin-all-amenities", // hiện thị luôn danh sách Tiện ích
             icon: "bi-calendar-check",
+            children: [
+                
+                {
+                    key: "addAmenities",
+                    title: "Thêm Tiện ích",
+                    path: "admin-add-amenities",
+                },
+                {
+                    key: "allAmenities",
+                    title: "Tất cả tiện ích",
+                    path: "admin-all-amenities",
+                },
+            ],
         },
         {
             key: "customerList",

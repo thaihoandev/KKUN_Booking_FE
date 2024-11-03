@@ -41,10 +41,13 @@ import BookingFailure from "./pages/BookingFailure/BookingFailure";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import ReviewPage from "./pages/ReviewPage/ReviewPage";
 import BookedListCustomer from "./pages/Customer/BookedList/BookedList";
-import RoomCreate from "./pages/HotelOwner/RoomCreate/RoomCreate";import AdminCustomerList from "./pages/Admin/AdminCustomerList/AdminCustomerList";
+import RoomCreate from "./pages/HotelOwner/RoomCreate/RoomCreate";
 import AdminBookingList from "./pages/Admin/AdminBooking/AdminBookingList";
-import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
+import AddNewHotell from "./pages/Admin/AdminHotel/AddNewHotel/AddNewHotel";
+import AllHotelList from "./pages/Admin/AdminHotel/AllHotel/AllHotel"
 
+import AddNewAmenities from "./pages/Admin/AdminAmenities/AddAmenities/AddAmenities"
+import AmenitiesList from "./pages/Admin/AdminAmenities/AmenitiesList/AmenitiesList"
 
 
 const router = createBrowserRouter([
@@ -110,9 +113,14 @@ const router = createBrowserRouter([
             // Other admin routes
             { index: true, element: <AdminDashboard /> },
             { path: "dashboard", element: <AdminDashboard /> },
-            { path: "customer-list", element: <AdminCustomerList/> },
-            { path: "booking-list", element: <AdminBookingList /> },
+            // { path: "customer-list", element: <AdminCustomerList/> },
+            // { path: "booking-list", element: <AdminBookingList /> },
+            
+             // { path: "admin-add-hotel", element: <AddNewHotell/> }, // thêm khách sạn mới
+            { path: "admin-all-hotel", element: <AllHotelList/> }, // xem danh sách khách sạn
 
+            { path: "admin-add-amenities", element: <AddNewAmenities/> }, // thêm tiện ích mới
+            { path: "admin-all-amenities", element: <AmenitiesList/> }, // xem danh sách tiện ích
 
 
 
@@ -121,6 +129,8 @@ const router = createBrowserRouter([
             { path: "customer-list", element: <AdminCustomerList /> },
             { path: "settings", element: <ProfileSettings /> },
             { path: "*", element: <NotFoundPage /> },
+
+            
         ],
     },
     {
