@@ -114,6 +114,12 @@ function RoomList() {
                                                                 "NaN"}
                                                         </a>
                                                     </h6>
+                                                    <p className="mb-3">
+                                                        <span>
+                                                            Mã:{" "}
+                                                            {room.id || "NaN"}{" "}
+                                                        </span>
+                                                    </p>
                                                     <p>
                                                         <span>
                                                             Diện tích:{" "}

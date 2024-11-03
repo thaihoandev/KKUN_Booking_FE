@@ -41,6 +41,7 @@ import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import ReviewPage from "./pages/ReviewPage/ReviewPage";
 import BookedListCustomer from "./pages/Customer/BookedList/BookedList";
 import RoomCreate from "./pages/HotelOwner/RoomCreate/RoomCreate";
+import HotelEditPage from "./pages/HotelOwner/HotelEditPage/HotelEditPage";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -120,6 +121,8 @@ const router = createBrowserRouter([
             { path: "dashboard", element: <HotelOwnerDashBoard /> },
             { path: "settings", element: <ProfileSettings /> },
             { path: "my-hotel", element: <HotelInfoes /> },
+            { path: "my-hotel/edit", element: <HotelEditPage /> },
+
             { path: "add-room", element: <RoomCreate /> },
             { path: "my-rooms", element: <RoomList /> },
             { path: "booked", element: <BookedListHotelOwner /> },

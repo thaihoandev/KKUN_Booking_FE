@@ -26,7 +26,16 @@ function ProfileInfoes() {
     });
 
     // Dropzone setup
-    const onDrop = useCallback((acceptedFiles) => {
+    const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+        // Kiểm tra file có vượt quá kích thước cho phép không
+        if (rejectedFiles.length > 0) {
+            const error = rejectedFiles[0].errors[0];
+            if (error.code === "file-too-large") {
+                toast.error("Kích thước ảnh vượt quá giới hạn 3MB");
+            }
+            return;
+        }
+
         const file = acceptedFiles[0];
         if (file) {
             setSelectedFile(file);
@@ -41,6 +50,7 @@ function ProfileInfoes() {
             "image/png": [".png"],
         },
         maxFiles: 1,
+        maxSize: 3 * 1024 * 1024, // Giới hạn 2MB
     });
 
     // Mutation for fetching user details

@@ -80,7 +80,7 @@ function Header() {
                             <Link to={`/`}>Trang chủ</Link>
                         </li>
                         <li>
-                            <Link to={`/hotels`}>Khách sạn</Link>
+                            <Link to={`/vouchers`}>Khuyến mãi</Link>
                         </li>
                         <li>
                             <Link to={`/about`}>Về chúng tôi</Link>

@@ -140,6 +140,15 @@ export const logoutUser = async () => {
 };
 
 export const updateUser = async (id, data) => {
+    if (data instanceof FormData) {
+        console.log("Logging FormData contents:");
+        for (let pair of data.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
+    } else {
+        console.log("data", data);
+    }
+
     try {
         const response = await axiosJWT.put(`/users/${id}`, data, {
             headers: {
