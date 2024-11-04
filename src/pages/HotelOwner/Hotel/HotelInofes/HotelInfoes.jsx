@@ -3,16 +3,16 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 
-import * as RoomService from "../../../services/RoomService";
-import * as HotelService from "../../../services/HotelService";
-import * as UserService from "../../../services/UserService";
-import Loading from "../../../components/Loading/Loading";
+import * as RoomService from "../../../../services/RoomService";
+import * as HotelService from "../../../../services/HotelService";
+import * as UserService from "../../../../services/UserService";
+import Loading from "../../../../components/Loading/Loading";
 import { useSelector } from "react-redux";
 import {
     convertRating5To10Scale,
     getRatingDescription,
-} from "../../../utils/ratingReview";
-import HotelAmenities from "../../../components/HotelAmenities/HotelAmenities";
+} from "../../../../utils/ratingReview";
+import HotelAmenities from "../../../../components/HotelAmenities/HotelAmenities";
 
 function HotelInfoes() {
     const { roomId } = useParams();

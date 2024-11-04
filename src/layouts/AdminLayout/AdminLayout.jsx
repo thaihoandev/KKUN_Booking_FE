@@ -21,8 +21,20 @@ const AdminLayout = () => {
         {
             key: "amenities",
             title: "Tiện ích",
-            path: "amenities",
+            path: "#",
             icon: "bi-calendar-check",
+            children: [
+                {
+                    key: "addAmenities",
+                    title: "Thêm Tiện ích",
+                    path: "add-amenity",
+                },
+                {
+                    key: "allAmenities",
+                    title: "Tất cả tiện ích",
+                    path: "amenities",
+                },
+            ],
         },
         {
             key: "customerList",

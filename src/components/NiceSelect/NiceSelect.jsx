@@ -4,11 +4,14 @@ function NiceSelect({ options, value, onChange, label }) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
-    const handleToggle = () => setIsOpen((prev) => !prev);
+    const handleToggle = () => {
+        setIsOpen((prev) => !prev); // Đảm bảo toggle trạng thái đúng
+    };
 
-    const handleOptionClick = (option) => {
+    const handleOptionClick = (option, event) => {
+        event.stopPropagation(); // Ngăn không cho sự kiện click lan đến handleToggle
         onChange(option);
-        setIsOpen(false);
+        setIsOpen(false); // Đóng dropdown sau khi chọn
     };
 
     const handleClickOutside = (event) => {
@@ -16,7 +19,7 @@ function NiceSelect({ options, value, onChange, label }) {
             dropdownRef.current &&
             !dropdownRef.current.contains(event.target)
         ) {
-            setIsOpen(false);
+            setIsOpen(false); // Đóng dropdown khi click bên ngoài
         }
     };
 
@@ -38,19 +41,23 @@ function NiceSelect({ options, value, onChange, label }) {
                 aria-haspopup="listbox"
                 aria-expanded={isOpen}
             >
-                <span className="current">{value}</span>
+                <span className="current">{value ? value.label : "Chọn"}</span>
                 <ul className={`list ${isOpen ? "show" : ""}`}>
                     {options.map((option) => (
                         <li
-                            key={option}
+                            key={option.value}
                             className={`option ${
-                                value === option ? "selected" : ""
+                                value && value.value === option.value
+                                    ? "selected"
+                                    : ""
                             }`}
-                            onClick={() => handleOptionClick(option)}
+                            onClick={(e) => handleOptionClick(option, e)} // Truyền event để ngăn propagation
                             role="option"
-                            aria-selected={value === option}
+                            aria-selected={
+                                value && value.value === option.value
+                            }
                         >
-                            {option}
+                            {option.label}
                         </li>
                     ))}
                 </ul>

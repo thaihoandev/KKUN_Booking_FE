@@ -19,14 +19,14 @@ import AdminLayout from "./layouts/AdminLayout/AdminLayout";
 import HotelOwnerLayout from "./layouts/HotelOwnerLayout/HotelOwnerLayout";
 import Layout from "./layouts/Layout/Layout";
 import ProfileSettings from "./pages/ProfileSettings/ProfileSettings";
-import RoomList from "./pages/HotelOwner/RoomList/RoomList";
+import RoomList from "./pages/HotelOwner/Room/RoomList/RoomList";
 import BookedListHotelOwner from "./pages/HotelOwner/BookedList/BookedList";
 import CustomerList from "./pages/HotelOwner/CustomerList/CustomerList";
 import AdminCustomerList from "./pages/Admin/AdminCustomerList/AdminCustomerList";
 import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
 import HotelOwnerSignUp from "./pages/HotelOwner/HotelOwnerSignUp/HotelOwnerSignUp";
 import HotelOwnerDashBoard from "./pages/HotelOwner/HotelOwnerDashboard/HotelOwnerDashboard";
-import HotelInfoes from "./pages/HotelOwner/HotelInofes/HotelInfoes";
+import HotelInfoes from "./pages/HotelOwner/Hotel/HotelInofes/HotelInfoes";
 import CustomerLayout from "./layouts/CustomerLayout/CustomerLayout";
 import { ToastContainer } from "react-toastify";
 
@@ -40,8 +40,12 @@ import BookingFailure from "./pages/BookingFailure/BookingFailure";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import ReviewPage from "./pages/ReviewPage/ReviewPage";
 import BookedListCustomer from "./pages/Customer/BookedList/BookedList";
-import RoomCreate from "./pages/HotelOwner/RoomCreate/RoomCreate";
-import HotelEditPage from "./pages/HotelOwner/HotelEditPage/HotelEditPage";
+import RoomCreate from "./pages/HotelOwner/Room/RoomCreate/RoomCreate";
+import HotelEditPage from "./pages/HotelOwner/Hotel/HotelEditPage/HotelEditPage";
+import AmenityCreate from "./pages/Admin/AmenityPage/AmenityCreate/AmenityCreate";
+import AmenityList from "./pages/Admin/AmenityPage/AmenityList/AmenityList";
+import AmenityEdit from "./pages/Admin/AmenityPage/AmenityEdit/AmenityEdit";
+import HotelList from "./pages/Admin/Hotel/HotelList/HotelList";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -104,8 +108,13 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <AdminDashboard /> },
             { path: "dashboard", element: <AdminDashboard /> },
+            { path: "hotels", element: <HotelList /> },
+
             { path: "customer-list", element: <AdminCustomerList /> },
             { path: "settings", element: <ProfileSettings /> },
+            { path: "amenities", element: <AmenityList /> },
+            { path: "add-amenity", element: <AmenityCreate /> },
+            { path: "amenities/:amenityId/edit", element: <AmenityEdit /> },
             { path: "*", element: <NotFoundPage /> },
         ],
     },

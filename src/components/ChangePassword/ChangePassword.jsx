@@ -48,11 +48,7 @@ const ChangePassword = ({ user }) => {
 
     const mutationChangePassword = useMutation(
         async ({ userId, requestBody, accessToken }) => {
-            return UserService.changePasswordUser(
-                userId,
-                requestBody,
-                accessToken
-            );
+            return UserService.changePasswordUser(requestBody, accessToken);
         },
         {
             onSuccess: (data) => {
@@ -83,7 +79,7 @@ const ChangePassword = ({ user }) => {
                 accessToken: user.accessToken,
             });
         } catch (error) {
-            console.error("Error details:", error.message);
+            toast.error(error.message);
         }
     };
 

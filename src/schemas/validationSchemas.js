@@ -132,3 +132,9 @@ export const paymentFormSchema = yup.object().shape({
         otherwise: (schema) => schema.nullable(),
     }),
 });
+
+export const amenityEditFormSchema = yup.object().shape({
+    name: yup.string().required("Tên tiện ích là bắt buộc"),
+    description: yup.string().required("Mô tả là bắt buộc"),
+    amenityType: yup.string().required("Loại tiện ích là bắt buộc"),
+});

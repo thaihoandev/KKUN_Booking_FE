@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useMutation } from "react-query";
-import * as RoomService from "../../../services/RoomService";
-import * as UserService from "../../../services/UserService";
+import * as RoomService from "../../../../services/RoomService";
+import * as UserService from "../../../../services/UserService";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import convertToVND from "../../../utils/convertToVND";
+import convertToVND from "../../../../utils/convertToVND";
 
 function RoomList() {
     const [hotelId, setHotelId] = useState();
@@ -21,7 +21,6 @@ function RoomList() {
         {
             onSuccess: (data) => {
                 setRooms(data);
-                console.log("list", data);
             },
             onError: (error) => {
                 toast.error(error.message || "Đã xảy ra lỗi.");

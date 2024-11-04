@@ -279,7 +279,7 @@ function BookedList() {
                                                         <th>Tổng tiền</th>
                                                         <th>Thanh toán</th>
                                                         <th>Tình trạng</th>
-                                                        <th>Ngày đặt</th>
+                                                        <th>Thời gian</th>
                                                         <th>#</th>
                                                     </tr>
                                                 </thead>
