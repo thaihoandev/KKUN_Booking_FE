@@ -38,19 +38,18 @@ const AdminLayout = () => {
         {
             key: "amenities",
             title: "Tiện ích",
-            path: "admin-all-amenities", // hiện thị luôn danh sách Tiện ích
+            path: "#",
             icon: "bi-calendar-check",
             children: [
-                
                 {
                     key: "addAmenities",
                     title: "Thêm Tiện ích",
-                    path: "admin-add-amenities",
+                    path: "add-amenity",
                 },
                 {
                     key: "allAmenities",
                     title: "Tất cả tiện ích",
-                    path: "admin-all-amenities",
+                    path: "amenities",
                 },
             ],
         },

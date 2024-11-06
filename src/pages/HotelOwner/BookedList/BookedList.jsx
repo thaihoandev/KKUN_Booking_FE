@@ -69,7 +69,7 @@ function BookedList() {
                                 );
                             return {
                                 ...booking,
-                                hotelImage: hotelDetails.exteriorImages[0],
+                                roomImage: roomDetails.roomImages[0],
                                 roomType: roomDetails.typeDisplayName,
                                 person: roomDetails.capacity,
                                 hotelName: hotelDetails.name,
@@ -187,7 +187,7 @@ function BookedList() {
                         >
                             <div className="recent-listing-area">
                                 <div className="title-and-tab">
-                                    <h6>Thông tin khách sạn</h6>
+                                    <h6>Thông tin đặt phòng</h6>
                                     <ul
                                         className="nav nav-tabs"
                                         id="myTab2"
@@ -274,12 +274,12 @@ function BookedList() {
                                             <table className="eg-table2">
                                                 <thead>
                                                     <tr>
-                                                        <th>Tên khách sạn</th>
+                                                        <th>Mã đặt phòng</th>
+                                                        <th>Liên hệ</th>
                                                         <th>Tổng tiền</th>
-                                                        <th>Loại phòng</th>
-                                                        <th>Số người</th>
+                                                        <th>Thanh toán</th>
                                                         <th>Tình trạng</th>
-                                                        <th>Ngày đặt</th>
+                                                        <th>Thời gian</th>
                                                         <th>#</th>
                                                     </tr>
                                                 </thead>
@@ -302,7 +302,7 @@ function BookedList() {
                                                                                             "cover",
                                                                                     }}
                                                                                     src={
-                                                                                        booking.hotelImage
+                                                                                        booking.roomImage
                                                                                     }
                                                                                     alt=""
                                                                                 />
@@ -311,26 +311,42 @@ function BookedList() {
                                                                                 <h6>
                                                                                     <a href="hotel-details.html">
                                                                                         {
-                                                                                            booking.hotelName
+                                                                                            booking.roomType
                                                                                         }
                                                                                     </a>
                                                                                 </h6>
-                                                                                <p>
-                                                                                    <svg
-                                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                                        width="18"
-                                                                                        height="18"
-                                                                                        viewBox="0 0 18 18"
-                                                                                    >
-                                                                                        <path d="M8.99939 0C5.40484 0 2.48047 2.92437 2.48047 6.51888C2.48047 10.9798 8.31426 17.5287 8.56264 17.8053C8.79594 18.0651 9.20326 18.0646 9.43613 17.8053C9.68451 17.5287 15.5183 10.9798 15.5183 6.51888C15.5182 2.92437 12.5939 0 8.99939 0ZM8.99939 9.79871C7.19088 9.79871 5.71959 8.32739 5.71959 6.51888C5.71959 4.71037 7.19091 3.23909 8.99939 3.23909C10.8079 3.23909 12.2791 4.71041 12.2791 6.51892C12.2791 8.32743 10.8079 9.79871 8.99939 9.79871Z"></path>
-                                                                                    </svg>{" "}
+                                                                                <p className="mb-1">
                                                                                     <span>
+                                                                                        Mã:{" "}
                                                                                         {
-                                                                                            booking.location
+                                                                                            booking.id
                                                                                         }
                                                                                     </span>
                                                                                 </p>
+                                                                                <span>
+                                                                                    Khách:{" "}
+                                                                                    <strong>
+                                                                                        {
+                                                                                            booking.bookingName
+                                                                                        }
+                                                                                    </strong>
+                                                                                </span>
                                                                             </div>
+                                                                        </div>
+                                                                    </td>
+
+                                                                    <td data-label="Contact">
+                                                                        <div className="d-flex flex-column">
+                                                                            <span className="mb-1">
+                                                                                {
+                                                                                    booking.bookingPhone
+                                                                                }
+                                                                            </span>
+                                                                            <span>
+                                                                                {
+                                                                                    booking.bookingEmail
+                                                                                }
+                                                                            </span>
                                                                         </div>
                                                                     </td>
                                                                     <td data-label="Price">
@@ -338,16 +354,13 @@ function BookedList() {
                                                                             booking.price
                                                                         )}
                                                                     </td>
-                                                                    <td data-label="Room Type">
+                                                                    <td
+                                                                        className="text-primary"
+                                                                        data-label="Payment"
+                                                                    >
                                                                         {
-                                                                            booking.roomType
-                                                                        }
-                                                                    </td>
-                                                                    <td data-label="Person">
-                                                                        {
-                                                                            booking.person
+                                                                            booking.paymentType
                                                                         }{" "}
-                                                                        người
                                                                     </td>
                                                                     <td data-label="Status">
                                                                         <span class="confirmed">

@@ -95,11 +95,16 @@ export const signupUser = async (data) => {
     }
 };
 
-export const changePasswordUser = async (userId, request) => {
+export const changePasswordUser = async (request, accessToken) => {
     try {
         const response = await axiosJWT.post(
-            `/users/${userId}/change-password`,
-            request
+            `/users/me/change-password`,
+            request,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
         );
         return response.data;
     } catch (error) {
@@ -139,11 +144,17 @@ export const logoutUser = async () => {
     }
 };
 
-export const updateUser = async (id, data) => {
+export const updateUser = async (data, accessToken) => {
     try {
-        const response = await axiosJWT.put(`/users/${id}`, data, {
+        // Log từng phần tử của FormData
+        console.log("FormData Content:");
+        for (let pair of data.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
+        const response = await axiosJWT.put(`/users/me`, data, {
             headers: {
                 "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${accessToken}`,
             },
         });
         return response.data;
