@@ -48,7 +48,7 @@ import AllHotelList from "./pages/Admin/AdminHotel/AllHotel/AllHotel"
 
 import AddNewAmenities from "./pages/Admin/AdminAmenities/AddAmenities/AddAmenities"
 import AmenitiesList from "./pages/Admin/AdminAmenities/AmenitiesList/AmenitiesList"
-
+import HotelOwnerRegistrationForm from "./pages/HotelOwner/HotelOwnerSignUp/HotelOwnerRegistrationForm/HotelOwnerRegistrationForm"
 
 const router = createBrowserRouter([
     {
@@ -57,8 +57,13 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <Home /> },
             { path: "home", element: <Home /> },
-            { path: "sign-up/hotel-owner", element: <HotelOwnerSignUp /> },
+            // { path: "sign-up/hotel-owner", element: <HotelOwnerSignUp /> },
+            { path: "sign-up/hotel-owner", element: <HotelOwnerSignUp  /> },
             { path: "hotels/search", element: <HotelSearchList /> },
+
+            // { path: "sign-up/hotel-owner", element: <HotelOwnerRegistrationForm  /> },
+            // { path: "hotels/search", element: <HotelSearchList /> },
+
             {
                 path: "hotels/:hotelName/rooms/:roomId",
                 element: <RoomDetails />,

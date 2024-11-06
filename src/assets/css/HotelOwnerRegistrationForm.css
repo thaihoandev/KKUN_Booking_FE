@@ -1,0 +1,32 @@
+/* HotelOwnerRegistrationForm.css */
+.registration-container {
+    display: flex;
+}
+
+.progress-bar-container {
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vertical-progress {
+    height: 100%;
+    width: 8px;
+    margin-bottom: 20px;
+}
+
+.progress-steps ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.progress-steps li {
+    padding: 10px 0;
+    color: #999;
+}
+
+.progress-steps li.completed {
+    color: #4caf50;
+    font-weight: bold;
+}
