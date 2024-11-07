@@ -48,7 +48,7 @@ export const getRoomById = async (roomId) => {
 export const createRoom = async (data, access_token) => {
     try {
         const response = await axios.post(
-            `${process.env.REACT_APP_BASE_API_URL}`,
+            `${process.env.REACT_APP_BASE_API_URL}/rooms`,
             data,
             {
                 headers: {
@@ -90,7 +90,7 @@ export const getRoomReview = async (roomId) => {
         const response = await axios.get(
             `${process.env.REACT_APP_BASE_API_URL}/reviews/rooms/${roomId}`
         );
-
+        console.log(response);
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
@@ -128,6 +128,21 @@ export const getRoomTypes = async () => {
     try {
         const response = await axios.get(
             `${process.env.REACT_APP_BASE_API_URL}/rooms/room-types`
+        );
+
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};
+export const getBedTypes = async () => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/rooms/bed-types`
         );
 
         return response.data;

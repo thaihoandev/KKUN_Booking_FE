@@ -1,21 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 function MultiImageUploader({ onImagesSelect }) {
     const [selectedImages, setSelectedImages] = useState([]);
     const [error, setError] = useState("");
+    const fileInputRef = useRef(null);
 
     const handleImageUpload = (event) => {
         const files = Array.from(event.target.files);
-        const newImages = files.map((file) => ({
-            file,
-            url: URL.createObjectURL(file),
-        }));
-        const updatedImages = [...selectedImages, ...newImages];
+        const newImages = [];
+
+        files.forEach((file) => {
+            if (file.size <= 3 * 1024 * 1024) {
+                // Kiểm tra kích thước <= 3MB
+                newImages.push({
+                    file,
+                    url: URL.createObjectURL(file),
+                });
+            } else {
+                setError("Ảnh vượt quá kích thước 3MB.");
+            }
+        });
+
+        const updatedImages = [...selectedImages, ...newImages].slice(0, 10); // Giới hạn tối đa 10 ảnh
         setSelectedImages(updatedImages);
-        onImagesSelect(updatedImages.map((img) => img.file)); // Truyền file ảnh lên `RoomCreate`
+        onImagesSelect(updatedImages.map((img) => img.file));
     };
 
-    // Kiểm tra số lượng ảnh mỗi khi `selectedImages` thay đổi
     useEffect(() => {
         if (selectedImages.length < 3) {
             setError("Vui lòng tải lên tối thiểu 3 ảnh.");
@@ -23,6 +33,12 @@ function MultiImageUploader({ onImagesSelect }) {
             setError("");
         }
     }, [selectedImages]);
+
+    const handleRemoveImage = (index) => {
+        const updatedImages = selectedImages.filter((_, i) => i !== index);
+        setSelectedImages(updatedImages);
+        onImagesSelect(updatedImages.map((img) => img.file));
+    };
 
     return (
         <div className="upload-img-area d-flex flex-column align-items-start">
@@ -32,15 +48,13 @@ function MultiImageUploader({ onImagesSelect }) {
                         <button
                             type="button"
                             className="upload-btn"
-                            onClick={() =>
-                                document.getElementById("file-input").click()
-                            }
+                            onClick={() => fileInputRef.current.click()}
                         >
                             <i className="bi bi-plus-lg"></i>
                         </button>
                         <input
                             type="file"
-                            id="file-input"
+                            ref={fileInputRef}
                             multiple
                             hidden
                             onChange={handleImageUpload}
@@ -50,10 +64,10 @@ function MultiImageUploader({ onImagesSelect }) {
                 </div>
 
                 <div className="upload-img-area-content px-2">
-                    <h6>Tải ảnh phòng</h6>
+                    <h6>Tải ảnh lên</h6>
                     <p>
-                        Yêu cầu ảnh tối đa 3mb, định dạng JPEG, PNG.
-                        <br /> Tối thiểu 3 ảnh!
+                        Yêu cầu ảnh tối đa 3MB, định dạng JPEG, PNG.
+                        <br /> Tối thiểu 3 ảnh, tối đa 10 ảnh.
                     </p>
                 </div>
             </div>
@@ -61,7 +75,10 @@ function MultiImageUploader({ onImagesSelect }) {
             <div className="row">
                 <div className="preview-area d-flex overflow-auto flex-wrap mt-3">
                     {selectedImages.map((image, index) => (
-                        <div key={index} className="preview-image me-2">
+                        <div
+                            key={index}
+                            className="preview-image me-2 position-relative"
+                        >
                             <img
                                 style={{
                                     height: "200px",
@@ -73,6 +90,17 @@ function MultiImageUploader({ onImagesSelect }) {
                                 alt={`preview ${index}`}
                                 className="image-thumbnail"
                             />
+                            <button
+                                type="button"
+                                className="btn btn-danger position-absolute top-0 end-0"
+                                onClick={() => handleRemoveImage(index)}
+                                style={{
+                                    fontSize: "1rem",
+                                    borderRadius: "50%",
+                                }}
+                            >
+                                ×
+                            </button>
                         </div>
                     ))}
                 </div>

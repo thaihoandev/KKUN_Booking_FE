@@ -52,8 +52,9 @@ function RoomDetails() {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         mutationRoom.mutate(roomId);
-    }, []);
+    }, [roomId]);
 
     if (loading) {
         return <Loading />;

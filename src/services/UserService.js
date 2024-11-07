@@ -174,9 +174,16 @@ export const deleteUser = async (id) => {
 
 // Helper function to handle errors
 const handleError = (error) => {
+    // Kiểm tra xem lỗi có phải từ response của server không
     const errorMessage =
-        error.response?.data || "Đã xảy ra lỗi khi kết nối tới máy chủ.";
+        error.response?.data?.message || // Lấy thông báo từ phản hồi của server (nếu có)
+        error.response?.data || // Nếu không có thông báo chi tiết, lấy dữ liệu phản hồi
+        "Đã xảy ra lỗi khi kết nối tới máy chủ."; // Thông báo mặc định
+
+    // Hiển thị thông báo lỗi cho người dùng
     toast.error(errorMessage);
+
+    // Ném lỗi để xử lý tiếp ở nơi gọi hàm, nếu cần
     throw new Error(errorMessage);
 };
 
@@ -200,5 +207,26 @@ export const getBookingHistory = async (accessToken) => {
         } else {
             throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
         }
+    }
+};
+
+export const addRecentSearch = async (searchString, accessToken) => {
+    try {
+        const response = await axiosJWT.post(
+            `/search/add-recent-searches`, // Đường dẫn API
+            {}, // Body rỗng vì searchTerm được truyền qua params
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, // Header với Bearer token
+                },
+                params: {
+                    searchTerm: searchString, // Truyền searchString vào params
+                },
+            }
+        );
+
+        return response.data;
+    } catch (error) {
+        handleError(error);
     }
 };

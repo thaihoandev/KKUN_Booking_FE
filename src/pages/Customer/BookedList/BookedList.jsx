@@ -372,12 +372,14 @@ function BookedList() {
                                                                     </td>
                                                                     <td data-label="Review">
                                                                         {booking.reviewed ===
-                                                                        false ? (
+                                                                            false &&
+                                                                        booking.status ===
+                                                                            "CONFIRMED" ? (
                                                                             <a
                                                                                 style={{
                                                                                     cursor: "pointer",
                                                                                 }}
-                                                                                class="primary-btn2"
+                                                                                className="primary-btn2"
                                                                                 onClick={() => {
                                                                                     handleReviewBooking(
                                                                                         booking
@@ -386,13 +388,19 @@ function BookedList() {
                                                                             >
                                                                                 Đánh
                                                                                 giá
-                                                                                <i class="bi bi-arrow-right"></i>
+                                                                                <i className="bi bi-arrow-right"></i>
                                                                             </a>
-                                                                        ) : (
+                                                                        ) : booking.reviewed ? (
                                                                             <strong className="text-warning">
                                                                                 Đã
                                                                                 đánh
                                                                                 giá
+                                                                            </strong>
+                                                                        ) : (
+                                                                            <strong className="text-danger">
+                                                                                Chưa
+                                                                                hoàn
+                                                                                thành
                                                                             </strong>
                                                                         )}
                                                                     </td>

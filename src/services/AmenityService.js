@@ -2,16 +2,10 @@ import axios from "axios";
 
 export const axiosJWT = axios.create();
 
-export const getAllAmenities = async (accessToken) => {
+export const getAllAmenities = async () => {
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/amenities`,
-
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }
+            `${process.env.REACT_APP_BASE_API_URL}/amenities`
         );
         return response.data;
     } catch (error) {
@@ -22,7 +16,20 @@ export const getAllAmenities = async (accessToken) => {
         }
     }
 };
-
+export const getAllAmenitiesForRoom = async () => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/amenities/for-room`
+        );
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};
 export const getAmenityById = async (amenityId, accessToken) => {
     try {
         const response = await axios.get(

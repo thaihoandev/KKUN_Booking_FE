@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import Loading from "../Loading/Loading";
 import convertToVND from "../../utils/convertToVND";
 
 const RoomList = ({ hotel }) => {
+    const { hotelId, roomId } = useParams();
     const [availableRooms, setAvailableRooms] = useState([]);
     const [loading, setLoading] = useState(true);
     const bookingDate = useSelector((state) => state.bookingDate);
@@ -41,12 +42,14 @@ const RoomList = ({ hotel }) => {
                 checkOutDate: bookingDate.checkOutDate,
             });
         }
-    }, [hotel.id, bookingDate.checkInDate, bookingDate.checkOutDate]);
+    }, [hotel.id, roomId, bookingDate.checkInDate, bookingDate.checkOutDate]);
 
     const handleCheckout = (roomId) => {
         navigate(`/booking/${roomId}/checkout`);
     };
-
+    const handleCheckRoom = (hotelId, roomId) => {
+        navigate(`/hotels/${hotelId}/rooms/${roomId}`);
+    };
     if (loading) {
         return <Loading />;
     }
@@ -103,6 +106,11 @@ const RoomList = ({ hotel }) => {
                                                     src={room.roomImages[0]}
                                                     alt="Room preview"
                                                     className="img-fluid pb-1"
+                                                    style={{
+                                                        height: "180px",
+                                                        width: "100%",
+                                                        objectFit: "cover",
+                                                    }}
                                                 />
                                                 <div className="d-flex justify-content-between align-items-center">
                                                     {room.roomImages[1] && (
@@ -113,6 +121,12 @@ const RoomList = ({ hotel }) => {
                                                             }
                                                             alt="Room preview"
                                                             className="p-0 pe-1 col-xl-6"
+                                                            style={{
+                                                                height: "100px",
+
+                                                                objectFit:
+                                                                    "cover",
+                                                            }}
                                                         />
                                                     )}
                                                     {room.roomImages[2] && (
@@ -123,17 +137,29 @@ const RoomList = ({ hotel }) => {
                                                             }
                                                             alt="Room preview"
                                                             className="p-0 ps-1 col-xl-6"
+                                                            style={{
+                                                                height: "100px",
+
+                                                                objectFit:
+                                                                    "cover",
+                                                            }}
                                                         />
                                                     )}
                                                 </div>
                                             </>
                                         )}
-                                    <a
-                                        href="#"
-                                        className="text-primary text-decoration-none small"
+                                    <Link
+                                        to="#"
+                                        onClick={() => {
+                                            handleCheckRoom(
+                                                room.hotelId,
+                                                room.id
+                                            );
+                                        }}
+                                        className="primary-btn2 col-6 justify-content-center mt-2  ms-auto "
                                     >
-                                        Xem ảnh và chi tiết
-                                    </a>
+                                        <span>Xem phòng</span>
+                                    </Link>
                                 </div>
                             </div>
 
@@ -232,9 +258,13 @@ const RoomList = ({ hotel }) => {
                                         Đặt ngay
                                     </Link>
                                 </div>
-                                {room.available && (
+                                {room.available ? (
                                     <div className="text-end mt-2 text-warning small">
                                         Đang còn phòng trống!
+                                    </div>
+                                ) : (
+                                    <div className="text-end mt-2 text-danger small">
+                                        Hết phòng!
                                     </div>
                                 )}
                             </div>

@@ -3,6 +3,7 @@ import StarRating from "../../ReviewRating/StarRating/StarRating";
 import { formatDateDDMMYYYY } from "../../../utils/utils";
 
 function ReviewList({ reviews }) {
+    console.log("Current state:", reviews);
     return (
         <>
             <div className="review-area ">
@@ -132,7 +133,9 @@ function ReviewList({ reviews }) {
                             ))}
                         </>
                     ) : (
-                        <p>Chưa có đánh giá nào cho phòng này.</p>
+                        <p className="text-center">
+                            Chưa có đánh giá nào cho phòng này.
+                        </p>
                     )}
                 </ul>
             </div>

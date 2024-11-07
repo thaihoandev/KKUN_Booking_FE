@@ -1,17 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function NiceSelect({ options, value, onChange, label }) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
     const handleToggle = () => {
-        setIsOpen((prev) => !prev); // Đảm bảo toggle trạng thái đúng
+        setIsOpen((prev) => !prev);
     };
 
     const handleOptionClick = (option, event) => {
-        event.stopPropagation(); // Ngăn không cho sự kiện click lan đến handleToggle
-        onChange(option);
-        setIsOpen(false); // Đóng dropdown sau khi chọn
+        event.stopPropagation();
+        onChange(option); // Truyền đối tượng { label, value } để lấy `label` khi cần
+        setIsOpen(false);
     };
 
     const handleClickOutside = (event) => {
@@ -19,7 +19,7 @@ function NiceSelect({ options, value, onChange, label }) {
             dropdownRef.current &&
             !dropdownRef.current.contains(event.target)
         ) {
-            setIsOpen(false); // Đóng dropdown khi click bên ngoài
+            setIsOpen(false);
         }
     };
 
@@ -51,7 +51,7 @@ function NiceSelect({ options, value, onChange, label }) {
                                     ? "selected"
                                     : ""
                             }`}
-                            onClick={(e) => handleOptionClick(option, e)} // Truyền event để ngăn propagation
+                            onClick={(e) => handleOptionClick(option, e)}
                             role="option"
                             aria-selected={
                                 value && value.value === option.value

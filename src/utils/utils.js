@@ -29,7 +29,5 @@ export const calculateNumberOfNights = (checkInDateStr, checkOutDateStr) => {
 };
 
 export const formatDateDDMMYYYY = (formatDate) => {
-    formatDate = (dateString) => {
-        return moment(dateString).format("DD/MM/YYYY");
-    };
+    return moment(formatDate).format("DD/MM/YYYY");
 };
