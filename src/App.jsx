@@ -119,10 +119,12 @@ const router = createBrowserRouter([
             // { path: "booking-list", element: <AdminBookingList /> },
             
              // { path: "admin-add-hotel", element: <AddNewHotell/> }, // thêm khách sạn mới
-            { path: "admin-all-hotel", element: <AllHotelList/> }, // xem danh sách khách sạn
 
-            { path: "admin-add-amenities", element: <AddNewAmenities/> }, // thêm tiện ích mới
-            { path: "admin-all-amenities", element: <AmenitiesList/> }, // xem danh sách tiện ích
+            // coment 6.11
+            // { path: "admin-all-hotel", element: <AllHotelList/> }, // xem danh sách khách sạn
+
+            // { path: "admin-add-amenities", element: <AddNewAmenities/> }, // thêm tiện ích mới
+            // { path: "admin-all-amenities", element: <AmenitiesList/> }, // xem danh sách tiện ích
 
 
 
