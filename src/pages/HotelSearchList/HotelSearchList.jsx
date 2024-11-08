@@ -104,7 +104,7 @@ function HotelSearchList() {
                                                     { length: totalPages },
                                                     (_, i) => (
                                                         <li key={i + 1}>
-                                                            <button
+                                                            <a
                                                                 onClick={() =>
                                                                     handlePageChange(
                                                                         i + 1
@@ -126,7 +126,7 @@ function HotelSearchList() {
                                                                 }}
                                                             >
                                                                 {i + 1}
-                                                            </button>
+                                                            </a>
                                                         </li>
                                                     )
                                                 )}

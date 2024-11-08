@@ -43,26 +43,26 @@ function BannerContainer() {
                         >
                             <SwiperSlide>
                                 <Banner
-                                    backgroundImage="assets/img/home1/home1-banner-img1.png"
-                                    country="United States"
-                                    heading="Let's Travel And Explore Destination."
-                                    description="Life is unpredictable, and we understand that plans might change. Enjoy flexible booking options, so you can reschedule or modify your trip with ease."
+                                    backgroundImage="https://media-cdn-v2.laodong.vn/storage/newsportal/2023/9/8/1239023/Vinh-Nha-Trang.jpg"
+                                    country="Thành phố Nha Trang"
+                                    heading="Hãy xách vali lên và khám phá thôi."
+                                    description="Cuộc sống là không thể đoán trước, và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Tận hưởng các tùy chọn đặt chỗ linh hoạt để bạn có thể dễ dàng thay đổi lịch trình hoặc điều chỉnh chuyến đi của mình."
                                 />
                             </SwiperSlide>
                             <SwiperSlide>
                                 <Banner
-                                    backgroundImage="assets/img/home1/home1-banner-img2.png"
-                                    country="France"
-                                    heading="Let’s Explore Your Holiday Trip."
-                                    description="Life is unpredictable, and we understand that plans might change. Enjoy flexible booking options, so you can reschedule or modify your trip with ease."
+                                    backgroundImage="https://wallpapershome.com/images/pages/pic_h/332.jpg"
+                                    country="Vịnh Hạ Long"
+                                    heading="Khám phá những kỳ quan hùng vĩ."
+                                    description="Cuộc sống luôn mang đến những điều bất ngờ, và chúng tôi thấu hiểu rằng kế hoạch có thể thay đổi. Hãy tận hưởng các lựa chọn đặt chỗ linh hoạt để bạn có thể dễ dàng thay đổi hoặc điều chỉnh chuyến đi của mình."
                                 />
                             </SwiperSlide>
                             <SwiperSlide>
                                 <Banner
-                                    backgroundImage="assets/img/home1/home1-banner-img3.png"
-                                    country="Spain"
-                                    heading="Let's journey and discover a place."
-                                    description="Life is unpredictable, and we understand that plans might change. Enjoy flexible booking options, so you can reschedule or modify your trip with ease."
+                                    backgroundImage="https://thongtinduanbds.com/wp-content/uploads/2021/12/Bac-dao-Phu-Quoc-Vinpearl.jpg"
+                                    country="Đảo Phú Quốc"
+                                    heading="Hãy cùng nhau khám phá những vùng đất mới."
+                                    description="Cuộc sống đầy những khám phá mới lạ, và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Với các lựa chọn đặt phòng linh hoạt, bạn hoàn toàn có thể tự do điều chỉnh chuyến đi của mình để tận hưởng mọi trải nghiệm theo cách riêng."
                                 />
                             </SwiperSlide>
                         </Swiper>

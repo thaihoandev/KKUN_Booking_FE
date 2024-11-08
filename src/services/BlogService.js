@@ -2,10 +2,10 @@ import axios from "axios";
 
 export const axiosJWT = axios.create();
 
-export const createBooking = async (data, accessToken) => {
+export const createBlogPost = async (data, accessToken) => {
     try {
         const response = await axios.post(
-            `${process.env.REACT_APP_BASE_API_URL}/bookings/create`,
+            `${process.env.REACT_APP_BASE_API_URL}/blogs/create`,
             data,
             {
                 headers: {
@@ -14,7 +14,7 @@ export const createBooking = async (data, accessToken) => {
                 },
             }
         );
-        return initiatePayment(response, accessToken);
+        return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
             throw new Error(error.response.data);
@@ -24,10 +24,10 @@ export const createBooking = async (data, accessToken) => {
     }
 };
 
-export const getBookingById = async (bookingId) => {
+export const getBlogPostById = async (postId) => {
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/bookings/${bookingId}`
+            `${process.env.REACT_APP_BASE_API_URL}/blogs/${postId}`
         );
         return response.data;
     } catch (error) {
@@ -39,49 +39,46 @@ export const getBookingById = async (bookingId) => {
     }
 };
 
-export const initiatePayment = async (bookingData, accessToken) => {
-    try {
-        const response = await axios.post(
-            `${process.env.REACT_APP_BASE_API_URL}/bookings/${bookingData.data.id}/payment`,
-            bookingData,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-
-        return response.data;
-    } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
-    }
-};
-export const handlePaymentCallback = async (accessToken, queryParams) => {
+export const getAllBlogPosts = async () => {
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/bookings/payment-callback`,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                params: queryParams, // Thêm queryParams vào params
-            }
+            `${process.env.REACT_APP_BASE_API_URL}/blogs/all`
+        );
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};
+
+export const getBLogCategories = async () => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/blogs/blog-categories`
         );
 
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
-            console.error(error.response.data);
-            const errorMessage =
-                error.response.data.message ||
-                JSON.stringify(error.response.data) ||
-                "Đã xảy ra lỗi khi xử lý yêu cầu.";
-            throw new Error(errorMessage);
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};
+export const getBLogNavigation = async (postId) => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/blogs/${postId}/navigation`
+        );
+
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
         } else {
             throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
         }

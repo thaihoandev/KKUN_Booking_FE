@@ -32,29 +32,30 @@ const Banner = ({ backgroundImage, country, heading, description }) => {
                             <h2>{heading}</h2>
                             <p>{description}</p>
                             <div className="banner-content-bottom">
-                                <a
-                                    href="package-grid.html"
-                                    className="primary-btn1"
-                                >
-                                    Book A Trip
+                                <a href="/" className="primary-btn1">
+                                    Đặt phòng
                                 </a>
                                 <div className="rating-area">
                                     <div className="icon">
                                         <img
-                                            src="assets/img/home1/icon/tripadvisor-logo.svg"
-                                            alt="tripadvisor logo"
+                                            src="assets/img/logo_kkun/Trans_logoKKUNFull.png"
+                                            alt="kkunbooking logo"
+                                            style={{
+                                                height: "40px",
+                                                width: "40px",
+                                            }}
                                         />
                                     </div>
                                     <div className="content">
                                         <div className="text-logo">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="110"
-                                                height="19"
-                                                viewBox="0 0 110 19"
-                                            >
-                                                <path d="..." />
-                                            </svg>
+                                            <img
+                                                src="assets/img/logo_kkun/Trans_logo_kkunbooking.png"
+                                                alt="kkunbooking logo"
+                                                style={{
+                                                    height: "20px",
+                                                    width: "100px",
+                                                }}
+                                            />
                                         </div>
                                         <div className="rating">
                                             <ul>

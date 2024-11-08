@@ -14,7 +14,7 @@ const HotelItem = ({ hotel }) => {
     const handleCheckRoom = (hotelId, roomId) => {
         navigate(`/hotels/${hotelId}/rooms/${roomId}`);
     };
-
+    console.log(hotel);
     return (
         <div className="room-suits-card two">
             <div className="row g-0">
@@ -103,8 +103,11 @@ const HotelItem = ({ hotel }) => {
                                 <span>{hotel.rooms?.[0].available}</span>
                                 <div className="deals">
                                     <span>
-                                        <strong>
-                                            Thanh toán {hotel.paymentPolicy}
+                                        <strong className="text-warning">
+                                            {" "}
+                                            {hotel.categoryDisplayName}
+                                        </strong>
+                                        <strong className="">
                                             <br></br>Miễn phí hủy
                                         </strong>
                                         <p>trước 48h</p>
