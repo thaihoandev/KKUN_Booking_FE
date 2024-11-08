@@ -1,7 +1,12 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { resetUser } from "../../store/UserSlide";
+import {
+    closeLoginModal,
+    openLoginModal,
+    openRegisterModal,
+    resetUser,
+} from "../../store/UserSlide";
 import * as UserService from "../../services/UserService";
 import Loading from "../Loading/Loading";
 import Login from "../Login/Login";
@@ -13,12 +18,15 @@ function Header() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
-    const [isLoginOpen, setIsLoginOpen] = useState(false);
-    const [isRegisterOpen, setIsRegisterOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false); // State để kiểm soát dropdown
     const [activeMenu, setActiveMenu] = useState("/");
 
     const user = useSelector((state) => state.user);
+    const { isLoginOpen, isRegisterOpen } = useSelector((state) => ({
+        isLoginOpen: state.user.isLoginOpen,
+        isRegisterOpen: state.user.isRegisterOpen,
+    }));
+
     const toggleMenuDropdown = () => {
         setIsOpen((prev) => !prev); // Đảo ngược trạng thái của dropdown
     };
@@ -29,10 +37,11 @@ function Header() {
     }
 
     const handleOpenLogin = () => {
-        setIsLoginOpen(true);
+        dispatch(openLoginModal());
     };
+
     const handleOpenRegister = () => {
-        setIsRegisterOpen(true);
+        dispatch(openRegisterModal());
     };
     const handleMenuClick = (path) => {
         setActiveMenu(path); // Cập nhật menu đang active
@@ -107,38 +116,10 @@ function Header() {
                             <Link to="/faq">Cẩm nang</Link>
                         </li>
                         <li
-                            className={`menu-item-has-children ${
-                                activeMenu === "/travels" ? "active" : ""
-                            }`}
-                            onClick={() => handleMenuClick("/travels")}
+                            className={activeMenu === "/blogs" ? "active" : ""}
+                            onClick={() => handleMenuClick("/blogs")}
                         >
-                            <Link to={`/travels`}>Hành trình</Link>
-                            <i className="bi bi-plus dropdown-icon"></i>
-                            <ul className="sub-menu">
-                                <li>
-                                    <a href="package-grid.html">Package Grid</a>
-                                </li>
-                                <li>
-                                    <a href="package-sidebar.html">
-                                        Package Sidebar
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="package-top-search.html">
-                                        Package Top Search
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="package-category.html">
-                                        Package Category
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="package-details.html">
-                                        Package Details
-                                    </a>
-                                </li>
-                            </ul>
+                            <Link to="/blogs">Bài viết</Link>
                         </li>
 
                         {/* Continue converting other menu items like Destination, Pages, etc. */}
@@ -288,10 +269,8 @@ function Header() {
             {/* Modal Section  */}
             <Login
                 isLoginOpen={isLoginOpen}
-                setIsLoginOpen={setIsLoginOpen}
-                isRegisterOpen={isRegisterOpen}
-                setIsRegisterOpen={setIsRegisterOpen}
-            ></Login>
+                setIsLoginOpen={() => dispatch(closeLoginModal())}
+            />
         </>
     );
 }

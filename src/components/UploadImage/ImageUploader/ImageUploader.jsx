@@ -35,7 +35,7 @@ function ImageUploader({ onImageSelect }) {
     });
 
     return (
-        <div className="upload-img-area">
+        <div className="upload-img-area mb-0">
             {preview && (
                 <div className="uploaded-image-preview">
                     <img
@@ -44,7 +44,7 @@ function ImageUploader({ onImageSelect }) {
                         style={{
                             width: "240px",
                             height: "240px",
-                            marginTop: "10px",
+
                             objectFit: "cover",
                         }}
                     />

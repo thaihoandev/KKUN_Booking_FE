@@ -52,6 +52,7 @@ import FAQPage from "./pages/FAQ/FAQPage/FAQPage";
 import ChatbotPage from "./pages/ChatbotPage/ChatbotPage";
 import RegisterAccountHotelOwner from "./pages/RegisterAccount/RegisterAccountHotelOwner";
 import BlogPage from "./pages/Blog/BlogPage/BlogPage";
+import BlogCreate from "./pages/Blog/BlogCreate/BlogCreate";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -62,6 +63,7 @@ const router = createBrowserRouter([
             { path: "about", element: <AboutPage /> },
             { path: "blogs", element: <BlogPage /> },
             { path: "blogs/:postId", element: <BlogDetails /> },
+            { path: "blogs/post", element: <BlogCreate /> },
             { path: "faq", element: <FAQPage /> },
             { path: "chatbot", element: <ChatbotPage /> },
 

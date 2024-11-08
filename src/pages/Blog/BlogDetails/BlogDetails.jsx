@@ -52,7 +52,7 @@ function BlogDetails() {
     return (
         <>
             <ToastContainer />
-            <div className="blog-details-section ">
+            <div className="blog-details-section mt-3">
                 <div className="container">
                     <div className="row g-lg-4 gy-5 justify-content-center">
                         <div className="col-lg-8">

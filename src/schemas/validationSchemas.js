@@ -220,3 +220,14 @@ export const locationHotelschema = yup.object().shape({
     district: yup.object().nullable().required("Quận/Huyện là bắt buộc"),
     ward: yup.object().nullable().required("Phường/Xã là bắt buộc"),
 });
+
+// Lược đồ xác thực bằng yup
+export const blogCreateSchema = yup.object().shape({
+    title: yup.string().required("Tiêu đề là bắt buộc"),
+    readTime: yup
+        .number()
+        .typeError("Thời gian đọc phải là số")
+        .positive("Thời gian đọc phải lớn hơn 0")
+        .required("Thời gian đọc là bắt buộc"),
+    blogPostCategory: yup.string().required("Danh mục là bắt buộc"),
+});

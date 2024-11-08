@@ -4,10 +4,16 @@ import * as BlogService from "../../../services/BlogService";
 import { toast, ToastContainer } from "react-toastify";
 import BlogSidebar from "../../../components/Blog/BlogSidebar/BlogSidebar";
 import BlogList from "../../../components/Blog/BlogList/BlogList";
+import { useSelect } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { openLoginModal } from "../../../store/UserSlide";
+import { useNavigate } from "react-router-dom";
 
 function BlogPage() {
     const [blogs, setBlogs] = useState([]);
-
+    const user = useSelector((state) => state.user);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const mutationBlogPostAll = useMutation(
         () => {
             return BlogService.getAllBlogPosts();
@@ -21,7 +27,15 @@ function BlogPage() {
             },
         }
     );
-
+    const handleClickPost = () => {
+        if (user.id) {
+            // Nếu user đã đăng nhập (có ID)
+            navigate("/blogs/post"); // Điều hướng đến trang đăng bài
+        } else {
+            // Nếu chưa đăng nhập
+            dispatch(openLoginModal()); // Mở modal đăng nhập
+        }
+    };
     useEffect(() => {
         mutationBlogPostAll.mutate();
     }, []);
@@ -34,6 +48,14 @@ function BlogPage() {
                 <div className="container">
                     <div className="row g-lg-4 gy-5">
                         <div className="col-lg-4 order-lg-1 order-2">
+                            <button
+                                onClick={() => {
+                                    handleClickPost();
+                                }}
+                                className="primary-btn1 mb-3"
+                            >
+                                Đăng bài
+                            </button>
                             <BlogSidebar blogs={blogs} />
                         </div>
                         <div className="col-lg-8 order-lg-2 order-1">
