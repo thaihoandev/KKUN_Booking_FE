@@ -47,6 +47,12 @@ import AmenityCreate from "./pages/Admin/AmenityPage/AmenityCreate/AmenityCreate
 import AmenityList from "./pages/Admin/AmenityPage/AmenityList/AmenityList";
 import AmenityEdit from "./pages/Admin/AmenityPage/AmenityEdit/AmenityEdit";
 import HotelList from "./pages/Admin/Hotel/HotelList/HotelList";
+import AboutPage from "./pages/AboutPage/AboutPage";
+import BlogList from "./pages/Blog/BlogList/BlogList";
+import BlogDetails from "./pages/Blog/BlogDetails/BlogDetails";
+import FAQPage from "./pages/FAQ/FAQPage/FAQPage";
+import ChatbotPage from "./pages/ChatbotPage/ChatbotPage";
+import RegisterAccountHotelOwner from "./pages/RegisterAccount/RegisterAccountHotelOwner";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -54,8 +60,18 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <Home /> },
             { path: "home", element: <Home /> },
-            // { path: "sign-up/hotel-owner", element: <HotelOwnerSignUp /> },
-            { path: "sign-up/hotel-owner", element: <HotelOwnerSignUp  /> },
+            { path: "about", element: <AboutPage /> },
+            { path: "blogs", element: <BlogList /> },
+            { path: "blogs/:blogId", element: <BlogDetails /> },
+            { path: "faq", element: <FAQPage /> },
+            { path: "chatbot", element: <ChatbotPage /> },
+
+            {
+                path: "sign-up/hotel-owner",
+                element: <RegisterAccountHotelOwner />,
+            },
+            { path: "register-hotel-owner", element: <HotelOwnerSignUp /> },
+
             { path: "hotels/search", element: <HotelSearchList /> },
 
             // { path: "sign-up/hotel-owner", element: <HotelOwnerRegistrationForm  /> },
@@ -151,6 +167,7 @@ const router = createBrowserRouter([
         ),
         children: [
             { index: true, element: <HotelOwnerDashBoard /> },
+
             { path: "dashboard", element: <HotelOwnerDashBoard /> },
             { path: "settings", element: <ProfileSettings /> },
             { path: "my-hotel", element: <HotelInfoes /> },

@@ -58,7 +58,6 @@ const LocationSearchInput = ({ onLocationSelect }) => {
     };
 
     const handleSelectLocation = (location) => {
-        console.log("location", location);
         setSelectedLocation(cleanLocationName(location.name));
         onLocationSelect({
             display_name: location.name,

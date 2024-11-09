@@ -12,10 +12,9 @@ function HotelItemHorizontal({ hotel }) {
     const navigate = useNavigate();
     const handleCheckRoom = () => {
         navigate(
-            "/hotels/" + hotel.hotelDto.id + "/rooms/" + hotel.mostBookedRoom.id
+            "/hotels/" + hotel.hotelDto.id + "/rooms/" + hotel.bestRoom.id
         );
     };
-
     return (
         <>
             <div class="room-suits-card mb-30">
@@ -127,11 +126,11 @@ function HotelItemHorizontal({ hotel }) {
                             <div class="content-bottom">
                                 <div class="room-type">
                                     <h6>
-                                        {hotel.mostBookedRoom
-                                            ?.typeDisplayName || "Không có sẵn"}
+                                        {hotel.bestRoom?.typeDisplayName ||
+                                            "Không có sẵn"}
                                     </h6>
                                     <span>
-                                        {hotel.mostBookedRoom?.available
+                                        {hotel.bestRoom?.available
                                             ? "Còn phòng"
                                             : "Hết phòng"}
                                     </span>
@@ -147,13 +146,13 @@ function HotelItemHorizontal({ hotel }) {
                                     <div class="price-area">
                                         <p>
                                             1 đêm,{" "}
-                                            {hotel.mostBookedRoom?.capacity ||
+                                            {hotel.bestRoom?.capacity ||
                                                 "Không có sẵn"}{" "}
                                             người
                                         </p>
                                         <span>
                                             {convertToVND(
-                                                hotel.mostBookedRoom?.basePrice
+                                                hotel.bestRoom?.basePrice
                                             ) || "NaN"}
                                             <del>$3000</del>
                                         </span>

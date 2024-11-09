@@ -100,6 +100,9 @@ function RoomList() {
                                             <div className="product-name">
                                                 <div className="img">
                                                     <img
+                                                        style={{
+                                                            objectFit: "cover",
+                                                        }}
                                                         src={room.roomImages[0]}
                                                         alt={
                                                             room.typeDisplayName

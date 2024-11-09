@@ -16,6 +16,7 @@ function Header() {
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isRegisterOpen, setIsRegisterOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false); // State để kiểm soát dropdown
+    const [activeMenu, setActiveMenu] = useState("/");
 
     const user = useSelector((state) => state.user);
     const toggleMenuDropdown = () => {
@@ -33,7 +34,10 @@ function Header() {
     const handleOpenRegister = () => {
         setIsRegisterOpen(true);
     };
-
+    const handleMenuClick = (path) => {
+        setActiveMenu(path); // Cập nhật menu đang active
+        navigate(path);
+    };
     return (
         <>
             <header className="header-area style-1">
@@ -76,20 +80,38 @@ function Header() {
                     </div>
 
                     <ul className="menu-list">
-                        <li className=" active">
-                            <Link to={`/`}>Trang chủ</Link>
+                        <li
+                            className={activeMenu === "/" ? "active" : ""}
+                            onClick={() => handleMenuClick("/")}
+                        >
+                            <Link to="/">Trang chủ</Link>
                         </li>
-                        <li>
-                            <Link to={`/vouchers`}>Khuyến mãi</Link>
+                        <li
+                            className={
+                                activeMenu === "/vouchers" ? "active" : ""
+                            }
+                            onClick={() => handleMenuClick("/vouchers")}
+                        >
+                            <Link to="/vouchers">Khuyến mãi</Link>
                         </li>
-                        <li>
-                            <Link to={`/about`}>Về chúng tôi</Link>
+                        <li
+                            className={activeMenu === "/about" ? "active" : ""}
+                            onClick={() => handleMenuClick("/about")}
+                        >
+                            <Link to="/about">Về chúng tôi</Link>
                         </li>
-
-                        <li>
-                            <Link to={`/handbooks`}>Cẩm nang</Link>
+                        <li
+                            className={activeMenu === "/faq" ? "active" : ""}
+                            onClick={() => handleMenuClick("/faq")}
+                        >
+                            <Link to="/faq">Cẩm nang</Link>
                         </li>
-                        <li className="menu-item-has-children">
+                        <li
+                            className={`menu-item-has-children ${
+                                activeMenu === "/travels" ? "active" : ""
+                            }`}
+                            onClick={() => handleMenuClick("/travels")}
+                        >
                             <Link to={`/travels`}>Hành trình</Link>
                             <i className="bi bi-plus dropdown-icon"></i>
                             <ul className="sub-menu">

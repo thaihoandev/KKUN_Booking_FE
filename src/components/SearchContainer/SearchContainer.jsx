@@ -10,6 +10,8 @@ import useToast from "../../utils/toast";
 import LocationSearchInput from "../LocationSearchInput/LocationSearchInput";
 import { useDispatch, useSelector } from "react-redux";
 import { resetBookingDate, updateBookingDate } from "../../store/BookingSlide";
+import { useMutation } from "react-query";
+import * as UserService from "../../services/UserService";
 function SearchContainer({ shouldNavigate = false, onSearch }) {
     // State for dropdowns and selected values
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -27,6 +29,7 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
     const dropdownRef = useRef(null);
     const dropdownSearchRef = useRef(null);
     const inputRef = useRef(null);
+    const user = useSelector((state) => state.user);
     // Khởi tạo điều hướng
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -282,6 +285,11 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
 
     const { showToast, showLoading, dismissToast, TOAST_MESSAGES } = useToast();
 
+    const mutationAddRecentSearch = useMutation(
+        ({ searchString, accessToken }) => {
+            UserService.addRecentSearch(searchString, accessToken);
+        }
+    );
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -343,7 +351,10 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
 
             if (response.status === 200) {
                 showToast("success", TOAST_MESSAGES.SEARCH_SUCCESS);
-
+                mutationAddRecentSearch.mutate({
+                    searchString: selectedDestination,
+                    accessToken: user.accessToken,
+                });
                 if (shouldNavigate) {
                     navigate("/hotels/search", {
                         state: { results: response.data },
@@ -672,7 +683,7 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                                                                     )} // Hiển thị 2 chữ số, ví dụ: "01"
                                                                 readOnly
                                                             />
-                                                            <a
+                                                            {/* <a
                                                                 href="#"
                                                                 className="quantity__plus"
                                                                 onClick={
@@ -689,7 +700,7 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                                                                 } // Gọi hàm giảm số lượng khi nhấn nút
                                                             >
                                                                 <i className="bi bi-chevron-down"></i>
-                                                            </a>
+                                                            </a> */}
                                                         </div>
                                                     </div>
                                                 </div>

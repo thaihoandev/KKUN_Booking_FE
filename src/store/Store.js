@@ -5,7 +5,10 @@ import rootReducer from "./RootReducer";
 function saveToLocalStorage(state) {
     try {
         // Chỉ lưu phần `user` của `state`
-        const serializedState = JSON.stringify({ user: state.user });
+        const serializedState = JSON.stringify({
+            user: state.user,
+            bookingDate: state.bookingDate,
+        });
         localStorage.setItem("state", serializedState);
     } catch (e) {
         console.error("Could not save state", e);
@@ -22,8 +25,8 @@ function loadFromLocalStorage() {
 
         // Kiểm tra nếu `accessToken` không tồn tại hoặc là chuỗi rỗng
         if (
-            !state.user ||
-            !state.user.accessToken ||
+            (!localStorage.getItem("accessToken") &&
+                !localStorage.getItem("refreshToken")) ||
             state.user.accessToken === ""
         ) {
             // Xoá `localStorage` để đảm bảo người dùng phải đăng nhập lại
@@ -31,10 +34,8 @@ function loadFromLocalStorage() {
             return undefined;
         }
 
-        console.log("Khôi phục state từ localStorage:", state);
         return state;
     } catch (e) {
-        console.error("Could not load state", e);
         return undefined;
     }
 }
@@ -51,7 +52,7 @@ const store = createStore(
 // Lắng nghe sự thay đổi trong store và lưu `state` vào localStorage
 store.subscribe(() => {
     const state = store.getState();
-    console.log("Current state:", state);
+
     // Lưu `state` vào `localStorage` chỉ khi `accessToken` tồn tại và không rỗng
     if (state.user && state.user.accessToken && state.user.accessToken !== "") {
         saveToLocalStorage(state);

@@ -102,7 +102,6 @@ function useAuth({ onLoginSuccess } = {}) {
             await UserService.logoutUser();
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
-            dispatch(resetBookingDate());
 
             dispatch(resetUser());
             navigate("/");
@@ -123,7 +122,13 @@ function useAuth({ onLoginSuccess } = {}) {
         };
         mutationRegister.mutate(registerData);
     };
-
+    const handleRegisterHotelOwner = (data) => {
+        const registerData = {
+            ...data,
+            type: "hotelowner",
+        };
+        mutationRegister.mutate(registerData);
+    };
     const loginGoogle = useGoogleLogin({
         onSuccess: (credentialResponse) => {
             const accessToken = credentialResponse.access_token;
@@ -144,6 +149,7 @@ function useAuth({ onLoginSuccess } = {}) {
         handleRegister,
         handleLoginGoogle,
         handleLogout,
+        handleRegisterHotelOwner,
         isLoading:
             mutationLogin.isLoading ||
             mutationRegister.isLoading ||
