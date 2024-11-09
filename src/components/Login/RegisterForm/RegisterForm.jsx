@@ -26,22 +26,22 @@ function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
 
             const result = await onSubmit(data);
 
-            // Nếu server trả về lỗi
-            if (!result.success) {
-                // Xử lý các loại lỗi cụ thể từ server
+            if (result.success) {
+                onClose(); // Đóng modal nếu đăng ký thành công
+            } else {
                 if (result.error === "EMAIL_EXISTS") {
                     setError("email", {
                         type: "manual",
                         message: "Email này đã được đăng ký",
                     });
                 } else {
-                    // Lỗi chung
                     setSubmitError(
                         result.message ||
                             "Đăng ký thất bại. Vui lòng thử lại sau."
                     );
                 }
             }
+            onClose();
         } catch (error) {
             setSubmitError("Có lỗi xảy ra. Vui lòng thử lại sau.");
         } finally {
@@ -79,7 +79,6 @@ function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
                                 <p>Nhập thông tin tài khoản để đăng ký.</p>
                             </div>
 
-                            {/* Hiển thị thông báo lỗi chung */}
                             {submitError && (
                                 <div
                                     className="alert alert-danger mb-3"
@@ -199,7 +198,10 @@ function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
                                         Đã có tài khoản?{" "}
                                         <Link
                                             className="text-danger"
-                                            onClick={onOpenLogin}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                onOpenLogin();
+                                            }}
                                         >
                                             <b>Đăng nhập</b>
                                         </Link>

@@ -60,6 +60,12 @@ const AdminLayout = () => {
             icon: "bi-people",
         },
         {
+            key: "blogPostList",
+            title: "Danh sách bài viết",
+            path: "blog-post-list",
+            icon: "bi-newspaper",
+        },
+        {
             key: "settings",
             title: "Cài đặt",
             path: "settings",

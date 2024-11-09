@@ -1,40 +1,46 @@
-// Login.js
-import React, { useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+    closeLoginModal,
+    closeRegisterModal,
+    openLoginModal,
+    openRegisterModal,
+} from "../../store/UserSlide";
 import LoginForm from "./LoginForm/LoginForm";
 import RegisterForm from "./RegisterForm/RegisterForm";
 import useAuth from "../../hooks/useAuth";
 import Loading from "../Loading/Loading";
-function Login({
-    isLoginOpen,
-    setIsLoginOpen,
-    isRegisterOpen,
-    setIsRegisterOpen,
-}) {
+
+function Login() {
+    const dispatch = useDispatch();
+    const { isLoginOpen, isRegisterOpen } = useSelector((state) => ({
+        isLoginOpen: state.user.isLoginOpen,
+        isRegisterOpen: state.user.isRegisterOpen,
+    }));
+
     const { handleLogin, handleRegister, handleLoginGoogle, isLoading, error } =
         useAuth({
             onLoginSuccess: () => {
                 handleCloseModals();
-            }, // Close modal on success
+            },
         });
 
     const handleCloseModals = () => {
-        setIsLoginOpen(false);
-        setIsRegisterOpen(false);
+        dispatch(closeLoginModal());
+        dispatch(closeRegisterModal());
     };
 
     const handleOpenLogin = () => {
-        setIsLoginOpen(true);
-        setIsRegisterOpen(false);
+        dispatch(openLoginModal());
     };
 
     const handleOpenRegister = () => {
-        setIsRegisterOpen(true);
-        setIsLoginOpen(false);
+        dispatch(openRegisterModal());
     };
 
     return (
         <>
-            {isLoading && <Loading></Loading>}
+            {isLoading && <Loading />}
 
             {isLoginOpen && (
                 <LoginForm

@@ -90,7 +90,7 @@ export const getRoomReview = async (roomId) => {
         const response = await axios.get(
             `${process.env.REACT_APP_BASE_API_URL}/reviews/rooms/${roomId}`
         );
-        console.log(response);
+
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {

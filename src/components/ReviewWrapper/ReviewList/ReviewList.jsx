@@ -3,7 +3,6 @@ import StarRating from "../../ReviewRating/StarRating/StarRating";
 import { formatDateDDMMYYYY } from "../../../utils/utils";
 
 function ReviewList({ reviews }) {
-    console.log("Current state:", reviews);
     return (
         <>
             <div className="review-area ">

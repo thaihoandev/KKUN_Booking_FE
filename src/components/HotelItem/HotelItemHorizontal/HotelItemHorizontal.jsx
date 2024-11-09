@@ -39,7 +39,7 @@ function HotelItemHorizontal({ hotel }) {
                                                 <div className="room-img">
                                                     <img
                                                         style={{
-                                                            height: "100%",
+                                                            height: "300px",
                                                             width: "100%",
                                                             objectFit: "cover",
                                                         }}

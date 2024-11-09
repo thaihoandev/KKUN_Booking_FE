@@ -13,6 +13,8 @@ const initialState = {
     role: "",
     authProvider: "",
     hasPassword: false, // Thêm trường này vào initialState
+    isLoginOpen: false,
+    isRegisterOpen: false,
 };
 
 export const userSlide = createSlice({
@@ -66,10 +68,32 @@ export const userSlide = createSlice({
             state.authProvider = "";
             state.hasPassword = false; // Đặt lại hasPassword về false
         },
+
+        openLoginModal: (state) => {
+            state.isLoginOpen = true;
+            state.isRegisterOpen = false;
+        },
+        closeLoginModal: (state) => {
+            state.isLoginOpen = false;
+        },
+        closeRegisterModal: (state) => {
+            state.isRegisterOpen = false;
+        },
+        openRegisterModal: (state) => {
+            state.isRegisterOpen = true;
+            state.isLoginOpen = false;
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateUser, resetUser } = userSlide.actions;
+export const {
+    updateUser,
+    resetUser,
+    openLoginModal,
+    closeLoginModal,
+    closeRegisterModal,
+    openRegisterModal,
+} = userSlide.actions;
 
 export default userSlide.reducer;

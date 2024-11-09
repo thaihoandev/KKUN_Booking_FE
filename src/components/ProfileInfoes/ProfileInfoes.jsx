@@ -144,7 +144,7 @@ function ProfileInfoes() {
                 </div>
                 <ImageUploader onImageSelect={handleImageSelect} />
 
-                <div className="form-inner">
+                <div className="form-inner mt-30">
                     <button type="submit" className="primary-btn3">
                         Cập nhật thay đổi
                     </button>

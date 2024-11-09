@@ -6,14 +6,14 @@ import { toast, ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
 import { amenityEditFormSchema } from "../../../../schemas/validationSchemas";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 function AmenityEdit() {
     const { amenityId } = useParams();
     const [amenities, setAmenities] = useState([]);
     const user = useSelector((state) => state.user);
-
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -60,6 +60,9 @@ function AmenityEdit() {
         {
             onSuccess: () => {
                 toast.success("Cập nhật tiện ích thành công!");
+                setTimeout(() => {
+                    navigate("/admin/amenities");
+                }, 1000);
             },
             onError: (error) => {
                 toast.error(error.message);

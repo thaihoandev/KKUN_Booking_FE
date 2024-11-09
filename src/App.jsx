@@ -48,11 +48,13 @@ import AmenityList from "./pages/Admin/AmenityPage/AmenityList/AmenityList";
 import AmenityEdit from "./pages/Admin/AmenityPage/AmenityEdit/AmenityEdit";
 import HotelList from "./pages/Admin/Hotel/HotelList/HotelList";
 import AboutPage from "./pages/AboutPage/AboutPage";
-import BlogList from "./pages/Blog/BlogList/BlogList";
 import BlogDetails from "./pages/Blog/BlogDetails/BlogDetails";
 import FAQPage from "./pages/FAQ/FAQPage/FAQPage";
 import ChatbotPage from "./pages/ChatbotPage/ChatbotPage";
 import RegisterAccountHotelOwner from "./pages/RegisterAccount/RegisterAccountHotelOwner";
+import BlogPage from "./pages/Blog/BlogPage/BlogPage";
+import BlogCreate from "./pages/Blog/BlogCreate/BlogCreate";
+import BlogListPage from "./pages/Admin/Blog/BlogListPage/BlogListPage";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -61,8 +63,9 @@ const router = createBrowserRouter([
             { index: true, element: <Home /> },
             { path: "home", element: <Home /> },
             { path: "about", element: <AboutPage /> },
-            { path: "blogs", element: <BlogList /> },
-            { path: "blogs/:blogId", element: <BlogDetails /> },
+            { path: "blogs", element: <BlogPage /> },
+            { path: "blogs/:postId", element: <BlogDetails /> },
+            { path: "blogs/post", element: <BlogCreate /> },
             { path: "faq", element: <FAQPage /> },
             { path: "chatbot", element: <ChatbotPage /> },
 
@@ -147,7 +150,7 @@ const router = createBrowserRouter([
             { index: true, element: <AdminDashboard /> },
             { path: "dashboard", element: <AdminDashboard /> },
             { path: "hotels", element: <HotelList /> },
-
+            { path: "blog-post-list", element: <BlogListPage /> },
             { path: "customer-list", element: <AdminCustomerList /> },
             { path: "settings", element: <ProfileSettings /> },
             { path: "amenities", element: <AmenityList /> },
