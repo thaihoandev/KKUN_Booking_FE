@@ -53,6 +53,7 @@ import ChatbotPage from "./pages/ChatbotPage/ChatbotPage";
 import RegisterAccountHotelOwner from "./pages/RegisterAccount/RegisterAccountHotelOwner";
 import BlogPage from "./pages/Blog/BlogPage/BlogPage";
 import BlogCreate from "./pages/Blog/BlogCreate/BlogCreate";
+import BlogListPage from "./pages/Admin/Blog/BlogListPage/BlogListPage";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -128,7 +129,7 @@ const router = createBrowserRouter([
             { index: true, element: <AdminDashboard /> },
             { path: "dashboard", element: <AdminDashboard /> },
             { path: "hotels", element: <HotelList /> },
-
+            { path: "blog-post-list", element: <BlogListPage /> },
             { path: "customer-list", element: <AdminCustomerList /> },
             { path: "settings", element: <ProfileSettings /> },
             { path: "amenities", element: <AmenityList /> },

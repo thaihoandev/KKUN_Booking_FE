@@ -27,7 +27,10 @@ function BlogList({ blogs }) {
                                     }}
                                     src={
                                         blog.contents.find(
-                                            (c) => c.type === "IMAGE"
+                                            (c) =>
+                                                c.type === "IMAGE" &&
+                                                c.imageUrl &&
+                                                c.imageUrl.trim() !== ""
                                         )?.imageUrl ||
                                         "assets/img/home4/blog-card-img1.jpg"
                                     }

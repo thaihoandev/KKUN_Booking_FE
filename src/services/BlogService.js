@@ -4,6 +4,7 @@ export const axiosJWT = axios.create();
 
 export const createBlogPost = async (data, accessToken) => {
     try {
+        console.log("data", data, accessToken);
         const response = await axios.post(
             `${process.env.REACT_APP_BASE_API_URL}/blogs/create`,
             data,

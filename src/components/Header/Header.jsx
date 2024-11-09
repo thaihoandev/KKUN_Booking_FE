@@ -46,13 +46,14 @@ function Header() {
     const handleMenuClick = (path) => {
         setActiveMenu(path); // Cập nhật menu đang active
         navigate(path);
+        window.scrollTo(0, 0);
     };
     return (
         <>
             <header className="header-area style-1">
                 {/* Mobile and desktop logo */}
                 <div className="header-logo d-lg-none d-flex">
-                    <Link to={`/`}>
+                    <Link onClick={() => handleMenuClick("/")}>
                         <img
                             style={{ height: "32px" }}
                             alt="image"
@@ -62,7 +63,7 @@ function Header() {
                     </Link>
                 </div>
                 <div className="company-logo d-lg-flex d-none">
-                    <Link to={`/`}>
+                    <Link onClick={() => handleMenuClick("/")}>
                         <img
                             style={{ height: "32px" }}
                             alt="image"
@@ -75,7 +76,7 @@ function Header() {
                 <div className="main-menu">
                     <div className="mobile-logo-area d-lg-none d-flex justify-content-between align-items-center">
                         <div className="mobile-logo-wrap">
-                            <Link to={`/`}>
+                            <Link onClick={() => handleMenuClick("/")}>
                                 <img
                                     style={{ height: "32px" }}
                                     alt="image"

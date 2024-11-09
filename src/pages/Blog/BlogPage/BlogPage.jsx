@@ -7,13 +7,14 @@ import BlogList from "../../../components/Blog/BlogList/BlogList";
 import { useSelect } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { openLoginModal } from "../../../store/UserSlide";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function BlogPage() {
     const [blogs, setBlogs] = useState([]);
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
     const mutationBlogPostAll = useMutation(
         () => {
             return BlogService.getAllBlogPosts();
@@ -38,12 +39,19 @@ function BlogPage() {
     };
     useEffect(() => {
         mutationBlogPostAll.mutate();
+        window.scrollTo(0, 0);
     }, []);
+    useEffect(() => {
+        if (location.state && location.state.message) {
+            toast.success(location.state.message);
 
+            // Xóa `state` sau khi hiển thị toast
+            navigate(location.pathname, { replace: true });
+        }
+    }, [location, navigate]);
     return (
         <>
             <ToastContainer />
-
             <div className="blog-sidebar-section pt-120 mb-120">
                 <div className="container">
                     <div className="row g-lg-4 gy-5">

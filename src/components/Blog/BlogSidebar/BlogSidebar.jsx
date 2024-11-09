@@ -1,19 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useMutation } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
+import * as BlogService from "../../../services/BlogService";
+import { toast } from "react-toastify";
 
 function BlogSidebar({ blogs }) {
+    const [blogCategories, setBlogCategories] = useState([]);
     const navigate = useNavigate();
+
     const handleOpenBlogDetail = (postId) => {
         navigate(`/blogs/${postId}`);
         window.scrollTo(0, 0);
     };
+    const mutationBlogPostCategories = useMutation(
+        () => {
+            return BlogService.getBLogCategories();
+        },
+        {
+            onSuccess: (data) => {
+                setBlogCategories(data);
+            },
+            onError: (error) => {
+                toast.error(error.message);
+            },
+        }
+    );
+
+    useEffect(() => {
+        mutationBlogPostCategories.mutate();
+    }, []);
     return (
         <div class="sidebar-area">
             <div class="single-widget mb-30">
-                <h5 class="widget-title">Search Here</h5>
+                <h5 class="widget-title">Tìm ở đây</h5>
                 <form>
                     <div class="search-box">
-                        <input type="text" placeholder="Search Here" />
+                        <input type="text" placeholder="Tìm tên bài viết..." />
                         <button type="submit">
                             <i class="bx bx-search"></i>
                         </button>
@@ -74,8 +96,8 @@ function BlogSidebar({ blogs }) {
                 </ul>
             </div>
             <div className="single-widget mb-30">
-                <h5 className="widget-title">Recent Post</h5>
-                {blogs.map((blog) => (
+                <h5 className="widget-title">Bài viết gần đây</h5>
+                {blogs.slice(0, 5).map((blog) => (
                     <div className="recent-post-widget mb-20" key={blog.id}>
                         <div className="recent-post-img">
                             <Link
@@ -92,7 +114,8 @@ function BlogSidebar({ blogs }) {
                                     }}
                                     src={
                                         blog.contents.find(
-                                            (c) => c.type === "IMAGE"
+                                            (c) =>
+                                                c.type === "IMAGE" && c.imageUrl
                                         )?.imageUrl ||
                                         "assets/img/home4/blog-card-img1.jpg"
                                     }
@@ -111,7 +134,6 @@ function BlogSidebar({ blogs }) {
                                     }
                                 )}
                             </Link>
-
                             <h6>
                                 <Link
                                     onClick={() => {
@@ -126,35 +148,13 @@ function BlogSidebar({ blogs }) {
                 ))}
             </div>
             <div class="single-widget">
-                <h5 class="widget-title">Tags</h5>
+                <h5 class="widget-title">Thể loại</h5>
                 <ul class="tag-list">
-                    <li>
-                        <a href="blog-grid.html ">Adventure</a>
-                    </li>
-                    <li>
-                        <a href="blog-grid.html ">City Tour</a>
-                    </li>
-                    <li>
-                        <a href="blog-grid.html ">Road Trip </a>
-                    </li>
-                    <li>
-                        <a href="blog-grid.html ">Tourism</a>
-                    </li>
-                    <li>
-                        <a href="blog-grid.html ">Wildlife </a>
-                    </li>
-                    <li>
-                        <a href="blog-grid.html ">Nature Excursion</a>
-                    </li>
-                    <li>
-                        <a href="blog-grid.html ">Photography</a>
-                    </li>
-                    <li>
-                        <a href="blog-grid.html ">Cruise</a>
-                    </li>
-                    <li>
-                        <a href="blog-grid.html ">Cultural</a>
-                    </li>
+                    {blogCategories.slice(0, 8).map((blogCategory, index) => (
+                        <li key={index}>
+                            <a href="blog-grid.html ">{blogCategory.label}</a>
+                        </li>
+                    ))}
                 </ul>
             </div>
         </div>

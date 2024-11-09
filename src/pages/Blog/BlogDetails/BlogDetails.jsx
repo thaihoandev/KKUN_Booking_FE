@@ -67,7 +67,10 @@ function BlogDetails() {
                                         (blog.contents &&
                                             blog.contents.find(
                                                 (content) =>
-                                                    content.type === "IMAGE"
+                                                    content.type === "IMAGE" &&
+                                                    content.imageUrl && // Kiểm tra imageUrl khác null
+                                                    content.imageUrl.trim() !==
+                                                        "" // Kiểm tra imageUrl không phải chuỗi rỗng
                                             )?.imageUrl) ||
                                         "assets/img/innerpage/blog-standard-img2.jpg"
                                     }
