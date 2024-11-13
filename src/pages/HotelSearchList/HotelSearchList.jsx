@@ -72,7 +72,29 @@ function HotelSearchList() {
             },
         }
     );
-
+    const mutateSearchHotelsByName = useMutation(
+        (data) => {
+            return SearchService.searchHotelsByName(data);
+        },
+        {
+            onSuccess: (data) => {
+                setFilteredResults(data); // Update displayed results
+                setCurrentPage(1); // Reset to the first page
+                toast.success("Tìm thành công!");
+            },
+            onError: (err) => {
+                toast.error(err.message);
+            },
+        }
+    );
+    const handleSearchByName = (hotelName) => {
+        mutateSearchHotelsByName.mutate({
+            hotelName,
+            checkInDate: booking.checkInDate,
+            checkOutDate: booking.checkOutDate,
+            guests: booking.childQty + booking.adultQty,
+        });
+    };
     // Handle changes from SidebarHotelSearch and update filter criteria
     const handleFilterChange = (newFilters) => {
         setFilterCriteria((prevCriteria) => ({
@@ -136,6 +158,7 @@ function HotelSearchList() {
                         <div className="col-xl-4 order-lg-1 order-2">
                             <SidebarHotelSearch
                                 onFilterChange={handleFilterChange} // Pass the handler to Sidebar
+                                onSearchByName={handleSearchByName}
                             />
                         </div>
                         <div className="col-xl-8 order-lg-2 order-1">

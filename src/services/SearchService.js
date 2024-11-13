@@ -27,13 +27,32 @@ export const searchHotels = async (data) => {
         if (data.prePayment !== undefined)
             params.append("prePayment", data.prePayment);
 
-        // Log the data and query parameters
-        console.log("Data being sent to the API:", data);
-        console.log("Query parameters:", params.toString());
-
         const response = await axios.get(
             `${process.env.REACT_APP_BASE_API_URL}/search/hotels`,
             { params } // Pass the constructed query parameters
+        );
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};
+
+export const searchHotelsByName = async (data) => {
+    try {
+        const params = new URLSearchParams();
+
+        if (data.hotelName) params.append("hotelName", data.hotelName);
+        if (data.checkInDate) params.append("checkInDate", data.checkInDate);
+        if (data.checkOutDate) params.append("checkOutDate", data.checkOutDate);
+        if (data.guests) params.append("guests", data.guests);
+
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/search/hotels/search-by-name`,
+            { params }
         );
         return response.data;
     } catch (error) {

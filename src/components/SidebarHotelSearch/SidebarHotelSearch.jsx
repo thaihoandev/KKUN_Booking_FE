@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RangeSlider from "../RangeSlider/RangeSlider";
 import convertToVND from "../../utils/convertToVND";
+import { useMutation } from "react-query";
+import * as AmenityService from "../../services/AmenityService";
+import * as SearchService from "../../services/SearchService";
 
-function SidebarHotelSearch({ onFilterChange }) {
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+function SidebarHotelSearch({ onFilterChange, onSearchByName }) {
     const [priceValues, setPriceValues] = useState([100000, 5000000]);
     const [popularFilters, setPopularFilters] = useState({
         prePayment: false,
@@ -11,6 +16,22 @@ function SidebarHotelSearch({ onFilterChange }) {
     });
     const [facilityFilters, setFacilityFilters] = useState([]);
     const [ratingFilters, setRatingFilters] = useState([]);
+    const [facilities, setFacilities] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const booking = useSelector((state) => state.booking);
+    const mutateGetFacilities = useMutation(
+        () => {
+            return AmenityService.getAllAmenities();
+        },
+        {
+            onSuccess: (data) => {
+                setFacilities(data);
+            },
+            onError: (err) => {
+                toast.error(err.message);
+            },
+        }
+    );
 
     const handlePopularChange = (filterName) => {
         const updatedFilters = {
@@ -28,7 +49,12 @@ function SidebarHotelSearch({ onFilterChange }) {
         setFacilityFilters(updatedFacilities);
         triggerFilterUpdate({ facilityFilters: updatedFacilities });
     };
-
+    const groupedFacilities = facilities.reduce((acc, facility) => {
+        if (!acc[facility.amenityType]) {
+            acc[facility.amenityType] = facility; // Take only the first facility of each type
+        }
+        return acc;
+    }, {});
     const handleRatingChange = (rating) => {
         const updatedRatings = ratingFilters.includes(rating)
             ? ratingFilters.filter((item) => item !== rating)
@@ -52,13 +78,31 @@ function SidebarHotelSearch({ onFilterChange }) {
         });
     };
 
+    const handleSearchInputChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleSubmitSearchHotels = (event) => {
+        event.preventDefault();
+        if (searchTerm.trim()) {
+            onSearchByName(searchTerm); // Pass search term to HotelSearchList
+        }
+    };
+    useEffect(() => {
+        mutateGetFacilities.mutate();
+    }, []);
     return (
         <div className="sidebar-area">
             <div className="single-widget mb-30">
                 <h5 className="widget-title">Tìm kiếm</h5>
-                <form>
+                <form onSubmit={handleSubmitSearchHotels}>
                     <div className="search-box">
-                        <input type="text" placeholder="Tìm tại đây" />
+                        <input
+                            type="text"
+                            placeholder="Tìm tại đây"
+                            value={searchTerm}
+                            onChange={handleSearchInputChange}
+                        />
                         <button type="submit">
                             <i className="bx bx-search"></i>
                         </button>
@@ -150,32 +194,29 @@ function SidebarHotelSearch({ onFilterChange }) {
                 <h5 className="widget-title">Cơ sở vật chất</h5>
                 <div className="checkbox-container">
                     <ul>
-                        {[
-                            "Airport shuttle",
-                            "Locker",
-                            "Gym",
-                            "Spa",
-                            "Parking",
-                            "Restaurant",
-                            "Swimming pool",
-                            "Pet friendly",
-                        ].map((facility, index) => (
-                            <li key={index}>
-                                <label className="containerss">
-                                    <input
-                                        type="checkbox"
-                                        onChange={() =>
-                                            handleFacilityChange(facility)
-                                        }
-                                        checked={facilityFilters.includes(
-                                            facility
-                                        )}
-                                    />
-                                    <span className="checkmark"></span>
-                                    <span className="text">{facility}</span>
-                                </label>
-                            </li>
-                        ))}
+                        {Object.values(groupedFacilities).map(
+                            (facility, index) => (
+                                <li key={index}>
+                                    <label className="containerss">
+                                        <input
+                                            type="checkbox"
+                                            onChange={() =>
+                                                handleFacilityChange(
+                                                    facility.name
+                                                )
+                                            }
+                                            checked={facilityFilters.includes(
+                                                facility.name
+                                            )}
+                                        />
+                                        <span className="checkmark"></span>
+                                        <span className="text">
+                                            {facility.name}
+                                        </span>
+                                    </label>
+                                </li>
+                            )
+                        )}
                     </ul>
                 </div>
             </div>
