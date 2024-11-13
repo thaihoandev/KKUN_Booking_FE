@@ -4,10 +4,10 @@ import rootReducer from "./RootReducer";
 // Hàm lưu `state` vào localStorage
 function saveToLocalStorage(state) {
     try {
-        // Chỉ lưu phần `user` của `state`
+        // Chỉ lưu phần `user` va `booking` của `state`
         const serializedState = JSON.stringify({
             user: state.user,
-            bookingDate: state.bookingDate,
+            booking: state.booking,
         });
         localStorage.setItem("state", serializedState);
     } catch (e) {
@@ -53,10 +53,8 @@ const store = createStore(
 store.subscribe(() => {
     const state = store.getState();
 
-    // Lưu `state` vào `localStorage` chỉ khi `accessToken` tồn tại và không rỗng
-    if (state.user && state.user.accessToken && state.user.accessToken !== "") {
-        saveToLocalStorage(state);
-    }
+    // Lưu toàn bộ `state` vào `localStorage`
+    saveToLocalStorage(state);
 });
 
 export default store;

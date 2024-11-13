@@ -15,13 +15,16 @@ function HotelItemHorizontal({ hotel }) {
             "/hotels/" + hotel.hotelDto.id + "/rooms/" + hotel.bestRoom.id
         );
     };
+
     return (
         <>
             <div class="room-suits-card mb-30">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <div class="swiper hotel-img-slider">
-                            <span class="batch">Bữa sáng miễn phí</span>
+                            {hotel.hotelDto.breakfastIncluded && (
+                                <span class="batch">Bữa sáng miễn phí</span>
+                            )}
                             <Swiper
                                 style={{ height: "100%" }}
                                 pagination={{
@@ -134,13 +137,14 @@ function HotelItemHorizontal({ hotel }) {
                                             ? "Còn phòng"
                                             : "Hết phòng"}
                                     </span>
-
-                                    <div class="deals">
-                                        <span>
-                                            <strong>Miễn phí hủy</strong> <br />{" "}
-                                            trước 48 giờ
-                                        </span>
-                                    </div>
+                                    {hotel.hotelDto.freeCancellation && (
+                                        <div class="deals">
+                                            <span>
+                                                <strong>Miễn phí hủy</strong>{" "}
+                                                <br /> trước 48 giờ
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
                                 <div class="price-and-book">
                                     <div class="price-area">

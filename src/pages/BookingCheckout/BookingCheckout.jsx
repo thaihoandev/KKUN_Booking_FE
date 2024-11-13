@@ -16,7 +16,7 @@ function BookingCheckout() {
     const [hotel, setHotel] = useState({});
     const [loading, setLoading] = useState(true);
 
-    const bookingDate = useSelector((state) => state.bookingDate);
+    const booking = useSelector((state) => state.booking);
 
     const mutationRoom = useMutation(
         (roomId) => RoomService.getRoomById(roomId),
@@ -62,7 +62,7 @@ function BookingCheckout() {
                     </div>
                     <div className="col-4">
                         <SidebarBookingForm
-                            bookingDate={bookingDate}
+                            booking={booking}
                             hotel={hotel}
                             room={room}
                         />

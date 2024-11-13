@@ -105,7 +105,7 @@ const TabButton = ({ isActive, id, label, onClick }) => (
 function BookingForm({ hotel, room }) {
     const [activeTab, setActiveTab] = useState(TABS.CONTACT);
     const [isBookingValid, setIsBookingValid] = useState(false);
-    const bookingDate = useSelector((state) => state.bookingDate);
+    const booking = useSelector((state) => state.booking);
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({});
@@ -139,13 +139,13 @@ function BookingForm({ hotel, room }) {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            checkinDate: bookingDate.checkInDate,
-            checkoutDate: bookingDate.checkOutDate,
+            checkinDate: booking.checkInDate,
+            checkoutDate: booking.checkOutDate,
             userId: user.id ? user.id : null,
             roomId: room.id,
             baseRatePerNight: room.basePrice,
         }));
-    }, [bookingDate, user, room.id]);
+    }, [booking, user, room.id]);
 
     const mutationBookingSubmit = useMutation(
         ({ data, accessToken }) =>

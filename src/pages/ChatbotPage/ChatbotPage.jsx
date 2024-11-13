@@ -1,50 +1,149 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useMutation } from "react-query";
 import * as ChatService from "../../services/ChatService";
+import { v4 as uuidv4 } from "uuid";
 
 function ChatbotPage() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const messagesEndRef = useRef(null);
     const chatContainerRef = useRef(null);
+    const sessionId = useRef(sessionStorage.getItem("sessionId") || uuidv4());
+
+    useEffect(() => {
+        sessionStorage.setItem("sessionId", sessionId.current);
+    }, []);
 
     const styles = {
+        chatContainer: {
+            maxWidth: "900px",
+            margin: "2rem auto 10rem",
+            boxShadow:
+                "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+            borderRadius: "1rem",
+            backgroundColor: "#fff",
+            overflow: "hidden",
+        },
+        header: {
+            background: "var(--primary-color1)",
+            color: "white",
+            padding: "1rem 1.5rem",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+        },
+        headerTitle: {
+            display: "flex",
+            alignItems: "center",
+            gap: "0.75rem",
+            margin: 0,
+            fontSize: "1.25rem",
+            fontWeight: "600",
+        },
         chatMessages: {
-            height: "500px",
+            height: "600px",
             overflowY: "auto",
-            scrollBehavior: "smooth",
+            padding: "1.5rem",
+            backgroundColor: "#f8f9fa",
         },
         messageContainer: (isUser) => ({
             display: "flex",
             flexDirection: "column",
             alignItems: isUser ? "flex-end" : "flex-start",
-            marginBottom: "0.5rem",
+            marginBottom: "0.25rem",
+        }),
+
+        messageWrapper: {
+            display: "flex",
+            gap: "0.75rem",
+            maxWidth: "75%",
+            alignItems: "flex-start",
+            position: "relative", // Thêm position relative
+        },
+        avatar: (isUser) => ({
+            minWidth: "2.5rem", // Thêm minWidth để tránh co lại
+            width: "2.5rem",
+            height: "2.5rem",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: isUser ? "var(--primary-color1)" : "#e9ecef",
+            color: isUser ? "white" : "var(--primary-color1)",
+            fontSize: "1.2rem", // Tăng kích thước icon
+            position: "sticky", // Thêm position sticky
+            top: "10px", // Giữ avatar ở vị trí top 10px
+            flexShrink: 0, // Ngăn avatar co lại
+            marginTop: "2px", // Thêm margin top nhỏ
+            border: isUser ? "none" : "1px solid #dee2e6", // Thêm viền cho avatar bot
+            boxShadow: "0 2px 4px rgba(0,0,0,0.05)", // Thêm shadow nhẹ
         }),
         messageBox: (isUser) => ({
-            maxWidth: "70%",
-            padding: "0.2rem 0.75rem",
-            borderRadius: "0.375rem",
-            backgroundColor: isUser ? "#0d6efd" : "#f8f9fa",
+            padding: "0.75rem 1rem",
+            borderRadius: "1rem",
+            backgroundColor: isUser ? "var(--primary-color1)" : "white",
             color: isUser ? "white" : "black",
             boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-        }),
-        messageText: {
+            border: isUser ? "none" : "1px solid #dee2e6",
+            maxWidth: "100%",
             wordBreak: "break-word",
+            marginTop: "2px", // Thêm margin top để căn chỉnh với avatar
+        }),
+        botIcon: {
+            transform: "scale(1.2)", // Scale up icon một chút
+            display: "block", // Đảm bảo icon hiển thị block
+        },
+        userIcon: {
+            transform: "scale(1.1)", // Scale up icon người dùng nhẹ hơn
+            display: "block",
         },
         timestamp: {
             fontSize: "0.75rem",
             color: "#6c757d",
+            marginTop: "0.25rem",
+            padding: "0 0.5rem",
+        },
+        inputContainer: {
+            padding: "1rem 1.5rem",
+            backgroundColor: "white",
+            borderTop: "1px solid #dee2e6",
+        },
+        inputWrapper: {
+            display: "flex",
+            gap: "0.75rem",
+        },
+        input: {
+            flex: 1,
+            padding: "0.75rem 1rem",
+            border: "1px solid #dee2e6",
+            borderRadius: "0.5rem",
+            fontSize: "1rem",
+            transition: "border-color 0.15s ease-in-out",
+            outline: "none",
+        },
+        sendButton: {
+            padding: "0.75rem 1.5rem",
+            backgroundColor: "var(--primary-color1)",
+            color: "white",
+            border: "none",
+            borderRadius: "0.5rem",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            transition: "background-color 0.15s ease-in-out",
         },
         typingIndicator: {
             display: "flex",
-            gap: "4px",
-            padding: "0.5rem",
+            gap: "6px",
+            padding: "0.75rem 1rem",
+            backgroundColor: "white",
+            borderRadius: "1rem",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+            width: "fit-content",
         },
         typingDot: {
             width: "8px",
             height: "8px",
-            backgroundColor: "#90949c",
+            backgroundColor: "#6c757d",
             borderRadius: "50%",
             animation: "typing 1s infinite ease-in-out",
         },
@@ -57,16 +156,45 @@ function ChatbotPage() {
                 0%, 100% { transform: translateY(0); }
                 50% { transform: translateY(-5px); }
             }
+
+            .hover-button:hover {
+                background-color: #0b5ed7 !important;
+            }
+
+            .hover-input:focus {
+                border-color: #0d6efd !important;
+                box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25) !important;
+            }
+
+            /* Custom Scrollbar */
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .custom-scrollbar::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 3px;
+            }
+
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
         `;
         document.head.appendChild(style);
         return () => document.head.removeChild(style);
     }, []);
 
     const scrollToBottom = () => {
-        chatContainerRef.current?.scrollTo({
-            top: chatContainerRef.current.scrollHeight,
-            behavior: "smooth",
-        });
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTo({
+                top: chatContainerRef.current.scrollHeight,
+                behavior: "smooth",
+            });
+        }
     };
 
     useEffect(() => {
@@ -74,7 +202,7 @@ function ChatbotPage() {
     }, [messages]);
 
     const sendMessageMutation = useMutation(
-        (message) => ChatService.sendChatMessage(message),
+        (message) => ChatService.sendChatMessage(message, sessionId.current),
         {
             onMutate: async (newMessage) => {
                 const userMessage = {
@@ -87,15 +215,15 @@ function ChatbotPage() {
                 setIsLoading(true);
             },
             onSuccess: (data) => {
-                const botReply = {
+                const botReplies = data.messages.map((msg) => ({
                     user: "bot",
-                    text: data[0].text,
+                    text: msg,
                     timestamp: new Date(),
-                };
-                setMessages((prev) => [...prev, botReply]);
+                }));
+                setMessages((prev) => [...prev, ...botReplies]);
             },
             onError: (error) => {
-                console.error("Error sending message:", error);
+                console.error("Lỗi khi gửi tin nhắn:", error);
             },
             onSettled: () => {
                 setIsLoading(false);
@@ -109,96 +237,156 @@ function ChatbotPage() {
     };
 
     const formatTime = (date) => {
-        return new Date(date).toLocaleTimeString([], {
+        return new Date(date).toLocaleTimeString("vi-VN", {
             hour: "2-digit",
             minute: "2-digit",
         });
     };
 
-    return (
-        <div className="container py-4">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-header bg-primary text-white">
-                            <h5 className="mb-0">
-                                <i className="bi bi-chat-dots-fill me-2"></i>
-                                AI bot hỗ trợ xem đặt phòng
-                            </h5>
-                        </div>
+    const renderMessageText = (text) => {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const parts = text.split(urlRegex);
 
+        return parts.map((part, index) => {
+            if (urlRegex.test(part)) {
+                return (
+                    <a
+                        key={index}
+                        href={part}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                            color: "#0d6efd",
+                            textDecoration: "underline",
+                        }}
+                    >
+                        {part}
+                    </a>
+                );
+            }
+            return part;
+        });
+    };
+
+    const TypingIndicator = () => (
+        <div style={styles.typingIndicator}>
+            {[0, 1, 2].map((i) => (
+                <div
+                    key={i}
+                    style={{
+                        ...styles.typingDot,
+                        animationDelay: `${i * 0.15}s`,
+                    }}
+                />
+            ))}
+        </div>
+    );
+
+    return (
+        <div style={styles.chatContainer}>
+            <div style={styles.header}>
+                <h5 style={styles.headerTitle}>
+                    <i className="bi bi-robot" />
+                    Trợ lý AI Đặt Phòng
+                </h5>
+            </div>
+
+            <div
+                ref={chatContainerRef}
+                style={styles.chatMessages}
+                className="custom-scrollbar"
+            >
+                {messages.map((msg, index) => {
+                    const isUser = msg.user === "user";
+
+                    // Determine if this message should display an avatar
+                    const showAvatar =
+                        index === 0 || messages[index - 1]?.user !== msg.user;
+
+                    // Determine if a timestamp should be displayed
+                    const showTimestamp =
+                        index === messages.length - 1 ||
+                        messages[index + 1]?.user !== msg.user ||
+                        new Date(messages[index + 1]?.timestamp) -
+                            new Date(msg.timestamp) >
+                            60000;
+
+                    return (
                         <div
-                            className="card-body"
-                            ref={chatContainerRef}
-                            style={styles.chatMessages}
+                            key={index}
+                            style={styles.messageContainer(isUser)}
                         >
-                            {messages.map((msg, index) => (
-                                <div
-                                    key={index}
-                                    style={styles.messageContainer(
-                                        msg.user === "user"
-                                    )}
-                                >
-                                    <div
-                                        style={styles.messageBox(
-                                            msg.user === "user"
-                                        )}
-                                    >
-                                        <div style={styles.messageText}>
-                                            {msg.text}
-                                        </div>
+                            <div
+                                style={{
+                                    ...styles.messageWrapper,
+                                    paddingLeft:
+                                        !isUser && !showAvatar ? "3rem" : "0", // Adjust padding for bot messages without avatar
+                                    paddingRight:
+                                        isUser && !showAvatar ? "3rem" : "0", // Adjust padding for user messages without avatar
+                                }}
+                            >
+                                {!isUser && showAvatar && (
+                                    <div style={styles.avatar(false)}>
+                                        <i
+                                            className="bi bi-robot"
+                                            style={styles.botIcon}
+                                        />
                                     </div>
-                                    <div style={styles.timestamp}>
-                                        {formatTime(msg.timestamp)}
-                                    </div>
+                                )}
+                                <div style={styles.messageBox(isUser)}>
+                                    {renderMessageText(msg.text)}
                                 </div>
-                            ))}
-                            {isLoading && (
-                                <div style={styles.messageContainer(false)}>
-                                    <div style={styles.messageBox(false)}>
-                                        <div style={styles.typingIndicator}>
-                                            {[0, 1, 2].map((i) => (
-                                                <span
-                                                    key={i}
-                                                    style={{
-                                                        ...styles.typingDot,
-                                                        animationDelay: `${
-                                                            0.2 + i * 0.1
-                                                        }s`,
-                                                    }}
-                                                />
-                                            ))}
-                                        </div>
+                                {isUser && showAvatar && (
+                                    <div style={styles.avatar(true)}>
+                                        <i
+                                            className="bi bi-person-fill"
+                                            style={styles.userIcon}
+                                        />
                                     </div>
+                                )}
+                            </div>
+                            {showTimestamp && (
+                                <div style={styles.timestamp}>
+                                    {formatTime(msg.timestamp)}
                                 </div>
                             )}
-                            <div ref={messagesEndRef} />
                         </div>
-
-                        <div className="card-footer bg-light">
-                            <div className="input-group">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Type your message..."
-                                    value={input}
-                                    onChange={(e) => {
-                                        setInput(e.target.value);
-                                    }}
-                                    onKeyPress={(e) =>
-                                        e.key === "Enter" && handleSendMessage()
-                                    }
-                                />
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={handleSendMessage}
-                                    disabled={isLoading}
-                                >
-                                    <i className="bi bi-send-fill"></i>
-                                </button>
+                    );
+                })}
+                {isLoading && (
+                    <div style={styles.messageContainer(false)}>
+                        <div style={styles.messageWrapper}>
+                            <div style={styles.avatar(false)}>
+                                <i className="bi bi-robot" />
                             </div>
+                            <TypingIndicator />
                         </div>
                     </div>
+                )}
+            </div>
+
+            <div style={styles.inputContainer}>
+                <div style={styles.inputWrapper}>
+                    <input
+                        type="text"
+                        style={styles.input}
+                        className="hover-input"
+                        placeholder="Nhập tin nhắn của bạn..."
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyPress={(e) =>
+                            e.key === "Enter" && handleSendMessage()
+                        }
+                    />
+                    <button
+                        style={styles.sendButton}
+                        className="hover-button"
+                        onClick={handleSendMessage}
+                        disabled={isLoading}
+                    >
+                        <i className="bi bi-send-fill" />
+                        Gửi
+                    </button>
                 </div>
             </div>
         </div>
