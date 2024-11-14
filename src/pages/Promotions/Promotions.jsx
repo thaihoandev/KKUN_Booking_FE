@@ -51,10 +51,10 @@ function Promotions() {
                                                         <a href="#" className="shop-pagi-btn"><i className="bi bi-chevron-left"></i></a>
                                                     </li>
                                                     <li>
-                                                        <a href="#">1</a>
+                                                        <a href="#" className="active">1</a>
                                                     </li>
                                                     <li>
-                                                        <a href="#" className="active">2</a>
+                                                        <a href="#" >2</a>
                                                     </li>
                                                     <li>
                                                         <a href="#">3</a>

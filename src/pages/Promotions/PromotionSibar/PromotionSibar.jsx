@@ -2,8 +2,36 @@ import React, { useState, useEffect } from "react";
 
 function PromotionSibar() {
 
+    // // Xử lý chọn loại sản phẩm
+    // const handleProductTypeChange = (type) => {
+    //     setSelectedProductType((prevSelected) =>
+    //         prevSelected.includes(type)
+    //             ? prevSelected.filter((item) => item !== type)
+    //             : [...prevSelected, type]
+    //     );
+    // };
+
+    // // Xử lý chọn loại ưu đãi
+    // const handleOfferTypeChange = (offerType) => {
+    //     setSelectedOfferType((prevSelected) =>
+    //         prevSelected.includes(offerType)
+    //             ? prevSelected.filter((item) => item !== offerType)
+    //             : [...prevSelected, offerType]
+    //     );
+    // };
+
+    // // Lọc voucher dựa trên loại sản phẩm và loại ưu đãi
+    // const filteredVouchers = vouchers.filter((voucher) =>
+    //     (selectedProductType.length === 0 || selectedProductType.includes(voucher.type)) &&
+    //     (selectedOfferType.length === 0 || selectedOfferType.includes(voucher.offerType))
+    // );
+
     return (
         <>
+            
+
+
+
             <div className="sidebar-area">
                 {/* === lọc voucher theo loại sản phẩm được áp dụng === */}
                 <div className="single-widget mb-30">

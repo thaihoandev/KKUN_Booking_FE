@@ -55,6 +55,8 @@ import RegisterAccountHotelOwner from "./pages/RegisterAccount/RegisterAccountHo
 import BlogPage from "./pages/Blog/BlogPage/BlogPage";
 import BlogCreate from "./pages/Blog/BlogCreate/BlogCreate";
 import BlogListPage from "./pages/Admin/Blog/BlogListPage/BlogListPage";
+import Promotions from "./pages/Promotions/Promotions";
+import AllPromotions from "./pages/Admin/AdminPromotions/AllPromotions/AllPromotions"
 const router = createBrowserRouter([
     {
         path: "/",
@@ -62,6 +64,7 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <Home /> },
             { path: "home", element: <Home /> },
+            { path: "vouchers", element: <Promotions /> },
             { path: "about", element: <AboutPage /> },
             { path: "blogs", element: <BlogPage /> },
             { path: "blogs/:postId", element: <BlogDetails /> },
@@ -154,6 +157,7 @@ const router = createBrowserRouter([
             { path: "customer-list", element: <AdminCustomerList /> },
             { path: "settings", element: <ProfileSettings /> },
             { path: "amenities", element: <AmenityList /> },
+            { path: "vouchers", element: <AllPromotions /> },
             { path: "add-amenity", element: <AmenityCreate /> },
             { path: "amenities/:amenityId/edit", element: <AmenityEdit /> },
             { path: "*", element: <NotFoundPage /> },

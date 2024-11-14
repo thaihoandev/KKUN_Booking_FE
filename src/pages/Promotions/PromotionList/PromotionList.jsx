@@ -10,7 +10,7 @@ function PromotionList() {
             title: "Giảm tới 800,000₫ tiền khách sạn",
             conditions: ["Chỉ áp dụng cho các khách sạn trên 4 sao", "Không áp dụng vào ngày lễ"],
             expiryDate: "2024-11-31T23:59:59",
-            promoCode: "AGODADEAL5"
+            promoCode: "KKUNDEAL5"
         },
         {
             id: 2,
@@ -18,7 +18,7 @@ function PromotionList() {
             title: "Giảm tới 1,000,000₫",
             conditions: ["Chỉ áp dụng cho các khách sạn trên 4 sao", "Không áp dụng vào ngày lễ"],
             expiryDate: "2024-11-25T23:59:59",
-            promoCode: "AGODADEAL8"
+            promoCode: "KKUNDEAL8"
         },
         {
             id: 3,
@@ -26,7 +26,7 @@ function PromotionList() {
             title: "Giảm giá trong thời gian giới hạn",
             conditions: ["Chỉ áp dụng cho các khách sạn trên 4 sao", "Không áp dụng vào ngày lễ"],
             expiryDate: "2024-11-20T23:59:59",
-            promoCode: "AGODADEAL3"
+            promoCode: "KKUNDEAL3"
         },
 
         {
@@ -35,7 +35,7 @@ function PromotionList() {
             title: "Giảm tới 800,000₫ tiền khách sạn",
             conditions: ["Chỉ áp dụng cho các khách sạn trên 4 sao", "Không áp dụng vào ngày lễ"],
             expiryDate: "2024-11-31T23:59:59",
-            promoCode: "AGODADEAL5"
+            promoCode: "KKUNDEAL5"
         },
         {
             id: 5,
@@ -43,7 +43,7 @@ function PromotionList() {
             title: "Giảm tới 1,000,000₫",
             conditions: ["Chỉ áp dụng cho các khách sạn trên 4 sao", "Không áp dụng vào ngày lễ"],
             expiryDate: "2024-11-25T23:59:59",
-            promoCode: "AGODADEAL8"
+            promoCode: "KKUNDEAL8"
         },
         {
             id: 6,
@@ -51,7 +51,7 @@ function PromotionList() {
             title: "Giảm giá trong thời gian giới hạn",
             conditions: ["Chỉ áp dụng cho các khách sạn trên 4 sao", "Không áp dụng vào ngày lễ"],
             expiryDate: "2024-11-20T23:59:59",
-            promoCode: "AGODADEAL3"
+            promoCode: "KKUNADEAL3"
         },
 
     ]);
@@ -73,12 +73,15 @@ function PromotionList() {
                     <div className="col-md-4" key={voucher.id}>
                         <div className="transport-card">
                             {/* Hình ảnh của voucher */}
-                            <img src={voucher.imageUrl} alt="voucher" className="transport-img" />
-
+                            <img
+                                src={voucher.imageUrl}
+                                alt="voucher"
+                                className="transport-img"
+                            />
                             {/* Nội dung chính của voucher */}
                             <div className="transport-content">
                                 <h4>
-                                    <a href="promotion-details.html">
+                                    <a href="#">
                                         {voucher.title}
                                     </a>
                                 </h4>
@@ -101,10 +104,11 @@ function PromotionList() {
                                 <div className="card-bottom">
                                     <div className="details-btn d-flex justify-content-center">
                                         {/* Nút nhận voucher */}
-                                        <a href="promotion-details.html" className="primary-btn1">Nhận voucher</a>
+                                        <a href="#" className="primary-btn1">Nhận voucher</a>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 ))}

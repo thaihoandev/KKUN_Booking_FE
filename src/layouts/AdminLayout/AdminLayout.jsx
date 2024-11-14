@@ -54,6 +54,24 @@ const AdminLayout = () => {
             ],
         },
         {
+            key: "vouchers",
+            title: "Khuyến mãi",
+            path: "voechers",
+            icon: "bi-newspaper",
+            children: [
+                {
+                    key: "addPromotion",
+                    title: "Thêm voucher",
+                    path: "add-promotion",
+                },
+                {
+                    key: "allPromotions",
+                    title: "Tất cả voucher",
+                    path: "vouchers",
+                },
+            ],
+        },
+        {
             key: "customerList",
             title: "Người dùng",
             path: "customer-list",
