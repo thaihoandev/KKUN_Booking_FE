@@ -1,12 +1,17 @@
 import axios from "axios";
 
-export const axiosJWT = axios.create();
-
-export const sendChatMessage = async (message) => {
+export const sendChatMessage = async (message, sessionId) => {
     try {
+        console.log("sendChatMessage", message, sessionId);
         const response = await axios.post(
             `${process.env.REACT_APP_BASE_API_URL}/chat/message`,
-            { message }
+            { message },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Session-ID": sessionId, // Gửi session ID trong header
+                },
+            }
         );
         return response.data;
     } catch (error) {

@@ -6,7 +6,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import * as UserService from "../services/UserService";
 import { updateUser, resetUser } from "../store/UserSlide";
 import { toast } from "react-toastify";
-import { resetBookingDate } from "../store/BookingSlide";
+import { resetbooking } from "../store/BookingSlide";
 
 function useAuth({ onLoginSuccess } = {}) {
     const dispatch = useDispatch();

@@ -5,7 +5,7 @@ import bookingReducer from "./BookingSlide"; // Sửa thành userReducer thay v�
 const rootReducer = combineReducers({
     // Add other reducers here if you have them
     user: userReducer, // Sử dụng đúng reducer được export
-    bookingDate: bookingReducer, // Thêm bookingDate vào store
+    booking: bookingReducer, // Thêm booking vào store
 });
 
 export default rootReducer;

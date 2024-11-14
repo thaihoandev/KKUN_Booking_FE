@@ -1,40 +1,35 @@
 import axios from "axios";
 
+// Tạo một instance axios có thể tái sử dụng
 export const axiosJWT = axios.create();
 
-export const getAllAmenities = async () => {
+// Caapjt nhật trạng thái của ưu đãi
+export const updatePromotionStatus = async (promotionId, data, accessToken) => {
     try {
-        const response = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/amenities`
+        const response = await axios.put(
+            `${process.env.REACT_APP_BASE_API_URL}/promotions/${promotionId}/status`,
+            data,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
         );
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
-            throw new Error(error.response.data);
+            throw new Error(error.response.data.message || "Đã xảy ra lỗi khi kết nối tới máy chủ.");
         } else {
             throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
         }
     }
 };
-export const getAllAmenitiesForRoom = async () => {
-    try {
-        const response = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/amenities/for-room`
-        );
-        return response.data;
-    } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
-    }
-};
-export const getAmenityById = async (amenityId, accessToken) => {
-    try {
-        const response = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/amenities/${amenityId}`,
 
+// Lấy tất cả các ưu đãi
+export const getAllPromotions = async (accessToken) => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/promotions`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -50,18 +45,18 @@ export const getAmenityById = async (amenityId, accessToken) => {
         }
     }
 };
-export const getAllAmenityType = async (accessToken) => {
+
+// Lấy tất cả các loại ưu đãi
+export const getAllPromotionTypes = async (accessToken) => {
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/amenities/amenity-types`,
-
+            `${process.env.REACT_APP_BASE_API_URL}/promotions/types`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             }
         );
-
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
@@ -71,10 +66,33 @@ export const getAllAmenityType = async (accessToken) => {
         }
     }
 };
-export const createAmenity = async (data, accessToken) => {
+
+// Lấy thông tin ưu đãi theo ID
+export const getPromotionById = async (promotionId, accessToken) => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/promotions/${promotionId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};
+
+// Tạo mới ưu đãi
+export const createPromotion = async (data, accessToken) => {
     try {
         const response = await axios.post(
-            `${process.env.REACT_APP_BASE_API_URL}/amenities`,
+            `${process.env.REACT_APP_BASE_API_URL}/promotions`,
             data,
             {
                 headers: {
@@ -82,7 +100,6 @@ export const createAmenity = async (data, accessToken) => {
                 },
             }
         );
-
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
@@ -92,11 +109,12 @@ export const createAmenity = async (data, accessToken) => {
         }
     }
 };
-export const updateAmenity = async (amenityId, data, accessToken) => {
+
+// Cập nhật ưu đãi theo ID
+export const updatePromotion = async (promotionId, data, accessToken) => {
     try {
-        console.log(data, accessToken);
         const response = await axios.put(
-            `${process.env.REACT_APP_BASE_API_URL}/amenities/${amenityId}`,
+            `${process.env.REACT_APP_BASE_API_URL}/promotions/${promotionId}`,
             data,
             {
                 headers: {
@@ -104,7 +122,6 @@ export const updateAmenity = async (amenityId, data, accessToken) => {
                 },
             }
         );
-
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
@@ -114,22 +131,24 @@ export const updateAmenity = async (amenityId, data, accessToken) => {
         }
     }
 };
-// export const deleteAmenity = async (amenityId, accessToken) => {
-//     try {
-//         const response = await axios.delete(
-//             `${process.env.REACT_APP_BASE_API_URL}/amenities/${amenityId}`,
-//             {
-//                 headers: {
-//                     Authorization: `Bearer ${accessToken}`,
-//                 },
-//             }
-//         );
-//         return response.data;
-//     } catch (error) {
-//         if (error.response && error.response.data) {
-//             throw new Error(error.response.data);
-//         } else {
-//             throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-//         }
-//     }
-// };
+
+// Xóa ưu đãi theo ID
+export const deletePromotion = async (promotionId, accessToken) => {
+    try {
+        const response = await axios.delete(
+            `${process.env.REACT_APP_BASE_API_URL}/promotions/${promotionId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
+    }
+};

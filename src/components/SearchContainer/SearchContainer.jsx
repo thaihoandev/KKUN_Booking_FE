@@ -9,9 +9,9 @@ import { toast } from "react-toastify";
 import useToast from "../../utils/toast";
 import LocationSearchInput from "../LocationSearchInput/LocationSearchInput";
 import { useDispatch, useSelector } from "react-redux";
-import { resetBookingDate, updateBookingDate } from "../../store/BookingSlide";
 import { useMutation } from "react-query";
 import * as UserService from "../../services/UserService";
+import { resetBooking, updateBooking } from "../../store/BookingSlide";
 function SearchContainer({ shouldNavigate = false, onSearch }) {
     // State for dropdowns and selected values
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -24,7 +24,7 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
     // Room quantity state and functions
     const [quantity, setQuantity] = useState(1);
 
-    const bookingDate = useSelector((state) => state.bookingDate);
+    const booking = useSelector((state) => state.booking);
     // Refs for dropdowns
     const dropdownRef = useRef(null);
     const dropdownSearchRef = useRef(null);
@@ -77,14 +77,14 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
         let initialStartDate = moment();
         let initialEndDate = moment().add(1, "days");
 
-        if (bookingDate.checkInDate && bookingDate.checkOutDate) {
-            // Đảm bảo parse đúng định dạng từ bookingDate
+        if (booking.checkInDate && booking.checkOutDate) {
+            // Đảm bảo parse đúng định dạng từ booking
             initialStartDate = moment(
-                bookingDate.checkInDate,
+                booking.checkInDate,
                 "YYYY-MM-DDTHH:mm:ss"
             );
             initialEndDate = moment(
-                bookingDate.checkOutDate,
+                booking.checkOutDate,
                 "YYYY-MM-DDTHH:mm:ss"
             );
         } else {
@@ -106,7 +106,11 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
             };
 
             // Dispatch để lưu giá trị mặc định vào Redux store
-            dispatch(updateBookingDate(bookingUpdate));
+            dispatch(updateBooking(bookingUpdate));
+        }
+
+        if (booking.location) {
+            setSelectedDestination(booking.location);
         }
 
         // Khởi tạo daterangepicker với các options
@@ -219,7 +223,7 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                         ),
                     };
 
-                    dispatch(updateBookingDate(bookingUpdate));
+                    dispatch(updateBooking(bookingUpdate));
 
                     toast.info(
                         <>
@@ -243,7 +247,7 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
         // Xử lý khi hủy chọn
         $(inputRef.current).on("cancel.daterangepicker", function (ev, picker) {
             setDateRange("");
-            dispatch(resetBookingDate());
+            dispatch(resetBooking());
         });
 
         // Cleanup
@@ -256,7 +260,7 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                 console.error("Error during cleanup:", error);
             }
         };
-    }, [dispatch, bookingDate]);
+    }, [dispatch, booking]);
     const handleIncrease = (e) => {
         e.preventDefault();
         setQuantity((prevQuantity) => prevQuantity + 1);
@@ -339,13 +343,24 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                 {
                     params: {
                         location: selectedDestination,
-                        checkInDate: bookingDate.checkInDate,
-                        checkOutDate: bookingDate.checkOutDate,
+                        checkInDate: booking.checkInDate,
+                        checkOutDate: booking.checkOutDate,
                         guests: adultQty + childQty,
                         roomQty: quantity,
                     },
                 }
             );
+
+            dispatch(
+                updateBooking({
+                    location: selectedDestination,
+                    adultQty: adultQty,
+                    childQty: childQty,
+                })
+            );
+
+            console.log("adult", adultQty);
+            console.log("child", childQty);
 
             dismissToast(loadingToastId);
 
@@ -795,7 +810,7 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                                                                             />
                                                                             <a
                                                                                 href="#"
-                                                                                data-type="adult"
+                                                                                data-type="child"
                                                                                 className="guest-quantity__plus"
                                                                                 onClick={(
                                                                                     e

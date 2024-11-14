@@ -6,19 +6,20 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { calculateNumberOfNights } from "../../utils/utils";
+import "bootstrap-icons/font/bootstrap-icons.css"; // Import Bootstrap Icons
 
 function NearbyPlaces({ hotel, room }) {
     const [nearbyPlaces, setNearbyPlaces] = useState([]);
     const [loading, setLoading] = useState(true);
-    const bookingDate = useSelector((state) => state.bookingDate);
+    const booking = useSelector((state) => state.booking);
 
     const numberOfNights = calculateNumberOfNights(
-        bookingDate.checkInDate,
-        bookingDate.checkOutDate
+        booking.checkInDate,
+        booking.checkOutDate
     );
 
     const mutationNearbyPlaces = useMutation(
-        (hotel) => HotelService.getNearbyPlaces(hotel.id, hotel.location), // Truyền cả hotelId và location
+        (hotel) => HotelService.getNearbyPlaces(hotel.id, hotel.location),
         {
             onSuccess: (data) => {
                 setNearbyPlaces(data);
@@ -33,11 +34,59 @@ function NearbyPlaces({ hotel, room }) {
 
     useEffect(() => {
         if (hotel.location) {
-            // Kiểm tra xem location có giá trị không
-            setLoading(true); // Đặt loading là true trước khi gọi API
-            mutationNearbyPlaces.mutate(hotel); // Truyền cả hotelId và location
+            setLoading(true);
+            mutationNearbyPlaces.mutate(hotel);
         }
-    }, [hotel]); // Thêm hotelId và location vào dependencies
+    }, [hotel]);
+
+    const getPlaceIcon = (category) => {
+        switch (category) {
+            case "Restaurant":
+                return "bi bi-shop";
+            case "Cafe":
+                return "bi bi-cup-straw";
+            case "Bar":
+                return "bi bi-cup";
+            case "Parking Lot":
+                return "bi bi-signpost";
+            case "Cinema":
+                return "bi bi-film";
+            case "Fast Food":
+                return "bi bi-shop";
+            case "Museum":
+                return "bi bi-bank";
+            case "Zoo":
+                return "bi bi-bug";
+            case "Aquarium":
+                return "bi bi-droplet";
+            case "Theatre":
+                return "bi bi-theater-masks";
+            case "Attraction":
+                return "bi bi-binoculars";
+            case "Viewpoint":
+                return "bi bi-eye";
+            case "Gallery":
+                return "bi bi-easel";
+            case "Theme Park":
+                return "bi bi-balloon";
+            case "Hospital":
+                return "bi bi-hospital";
+            case "Clinic":
+                return "bi bi-clipboard-pulse";
+            case "Pharmacy":
+                return "bi bi-prescription";
+            case "Park":
+                return "bi bi-tree";
+            case "Garden":
+                return "bi bi-flower3";
+            case "Beach":
+                return "bi bi-beach";
+            case "Sports Centre":
+                return "bi bi-building ";
+            default:
+                return "bi bi-geo-alt"; // Default icon
+        }
+    };
 
     if (loading) {
         return <Loading />;
@@ -75,15 +124,15 @@ function NearbyPlaces({ hotel, room }) {
                                         />
                                         <label
                                             className="form-check-label"
-                                            for="checkIn"
+                                            htmlFor="checkIn"
                                         >
                                             <span className="tour-date">
                                                 <span className="start-date">
                                                     <span>Ngày nhận phòng</span>
                                                     <span>
-                                                        {bookingDate.checkInDate
+                                                        {booking.checkInDate
                                                             ? moment(
-                                                                  bookingDate.checkInDate
+                                                                  booking.checkInDate
                                                               ).format(
                                                                   "DD/MM/YYYY"
                                                               )
@@ -94,9 +143,9 @@ function NearbyPlaces({ hotel, room }) {
                                                 <span className="end-date text-end">
                                                     <span>Ngày trả phòng</span>
                                                     <span>
-                                                        {bookingDate.checkOutDate
+                                                        {booking.checkOutDate
                                                             ? moment(
-                                                                  bookingDate.checkOutDate
+                                                                  booking.checkOutDate
                                                               ).format(
                                                                   "DD/MM/YYYY"
                                                               )
@@ -119,20 +168,23 @@ function NearbyPlaces({ hotel, room }) {
                                                     className="check-container"
                                                     style={{ fontSize: "14px" }}
                                                 >
-                                                    {place.name}{" "}
-                                                    {/* Tên địa điểm */}
-                                                    <span className="distance">
-                                                        {place.distanceInKm}
-                                                        {" km"}
-                                                        {/* Khoảng cách hoặc giá */}
+                                                    <span>
+                                                        <i
+                                                            className={`${getPlaceIcon(
+                                                                place.category
+                                                            )} me-2`}
+                                                        ></i>
+                                                        {place.name}{" "}
                                                     </span>
-                                                    {/* Nếu bạn có CSS cho checkbox tùy chỉnh */}
+                                                    <span className="distance">
+                                                        {place.distanceInKm} km
+                                                    </span>
                                                 </label>
                                             ))
                                         ) : (
                                             <p>
                                                 Không có địa điểm nào gần đây.
-                                            </p> // Thông báo nếu không có địa điểm nào
+                                            </p>
                                         )}
                                     </div>
                                 </div>

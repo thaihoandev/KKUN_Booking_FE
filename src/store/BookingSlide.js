@@ -1,27 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+    location: "",
     checkInDate: null,
     checkOutDate: null,
+    childQty: null,
+    adultQty: null,
 };
 
-export const bookingSlide = createSlice({
-    name: "bookingDate",
+export const bookingSlice = createSlice({
+    name: "booking",
     initialState,
     reducers: {
-        updateBookingDate: (state, action) => {
-            const { checkInDate = null, checkOutDate = null } = action.payload;
-            state.checkInDate = checkInDate ?? state.checkInDate; // Sử dụng toán tử nullish coalescing
-            state.checkOutDate = checkOutDate ?? state.checkOutDate; // Sử dụng toán tử nullish coalescing
+        updateBooking: (state, action) => {
+            const { location, checkInDate, checkOutDate, childQty, adultQty } =
+                action.payload;
+            state.location = location ?? state.location;
+            state.checkInDate = checkInDate ?? state.checkInDate;
+            state.checkOutDate = checkOutDate ?? state.checkOutDate;
+            state.childQty = childQty ?? state.childQty;
+            state.adultQty = adultQty ?? state.adultQty;
         },
-        resetBookingDate: (state) => {
-            state.checkInDate = null; // Đặt về null thay vì chuỗi rỗng
-            state.checkOutDate = null; // Đặt về null thay vì chuỗi rỗng
+        resetBooking: (state) => {
+            state.location = "";
+            state.checkInDate = null;
+            state.checkOutDate = null;
+            state.childQty = null;
+            state.adultQty = null;
         },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateBookingDate, resetBookingDate } = bookingSlide.actions;
+export const { updateBooking, resetBooking } = bookingSlice.actions;
 
-export default bookingSlide.reducer;
+export default bookingSlice.reducer;

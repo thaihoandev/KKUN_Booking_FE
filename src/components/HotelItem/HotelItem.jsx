@@ -14,13 +14,15 @@ const HotelItem = ({ hotel }) => {
     const handleCheckRoom = (hotelId, roomId) => {
         navigate(`/hotels/${hotelId}/rooms/${roomId}`);
     };
-    console.log(hotel);
+
     return (
         <div className="room-suits-card two">
             <div className="row g-0">
                 <div className="col-md-12">
                     <div className="hotel-img-slider">
-                        <span className="batch">Bữa sáng miễn phí</span>
+                        {hotel.breakfastIncluded && (
+                            <span class="batch">Bữa sáng miễn phí</span>
+                        )}
                         <Swiper
                             style={{ height: "100%" }}
                             pagination={{
@@ -107,10 +109,14 @@ const HotelItem = ({ hotel }) => {
                                             {" "}
                                             {hotel.categoryDisplayName}
                                         </strong>
-                                        <strong className="">
-                                            <br></br>Miễn phí hủy
-                                        </strong>
-                                        <p>trước 48h</p>
+                                        {hotel.freeCancellation && (
+                                            <>
+                                                <strong className="">
+                                                    <br></br>Miễn phí hủy
+                                                </strong>
+                                                <p>trước 48h</p>
+                                            </>
+                                        )}
                                     </span>
                                 </div>
                             </div>

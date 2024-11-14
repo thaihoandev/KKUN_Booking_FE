@@ -61,12 +61,12 @@ const AdminLayout = () => {
             children: [
                 {
                     key: "addPromotion",
-                    title: "Thêm voucher",
-                    path: "add-promotion",
+                    title: "Thêm ưu đãi",
+                    path: "add-voucher",
                 },
                 {
                     key: "allPromotions",
-                    title: "Tất cả voucher",
+                    title: "Tất cả ưu đãi",
                     path: "vouchers",
                 },
             ],

@@ -11,7 +11,7 @@ const RoomList = ({ hotel }) => {
     const { hotelId, roomId } = useParams();
     const [availableRooms, setAvailableRooms] = useState([]);
     const [loading, setLoading] = useState(true);
-    const bookingDate = useSelector((state) => state.bookingDate);
+    const booking = useSelector((state) => state.booking);
     const navigate = useNavigate();
 
     const filters = [
@@ -35,14 +35,14 @@ const RoomList = ({ hotel }) => {
     );
 
     useEffect(() => {
-        if (hotel.id && bookingDate.checkInDate && bookingDate.checkOutDate) {
+        if (hotel.id && booking.checkInDate && booking.checkOutDate) {
             mutationAvailableRoom.mutate({
                 hotelId: hotel.id,
-                checkInDate: bookingDate.checkInDate,
-                checkOutDate: bookingDate.checkOutDate,
+                checkInDate: booking.checkInDate,
+                checkOutDate: booking.checkOutDate,
             });
         }
-    }, [hotel.id, roomId, bookingDate.checkInDate, bookingDate.checkOutDate]);
+    }, [hotel.id, roomId, booking.checkInDate, booking.checkOutDate]);
 
     const handleCheckout = (roomId) => {
         navigate(`/booking/${roomId}/checkout`);

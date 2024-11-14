@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import * as BlogService from "../../../../services/BlogService";
+import { Link, useNavigate } from "react-router-dom";
 
 function BlogListPage() {
     const [blogs, setBlogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5; // Số lượng khách sạn trên mỗi trang
-
+    const navigate = useNavigate();
     const mutationBlogs = useMutation(() => BlogService.getAllBlogPosts(), {
         onSuccess: async (data) => {
             setBlogs(data);
@@ -16,6 +17,10 @@ function BlogListPage() {
             toast.error(error.message || "Đã xảy ra lỗi.");
         },
     });
+
+    const handleEditBlog = (postId) => {
+        navigate(`/admin/blogs/${postId}/edit`);
+    };
 
     useEffect(() => {
         mutationBlogs.mutate();
@@ -114,9 +119,11 @@ function BlogListPage() {
                                                     </div>
                                                     <div class="product-content">
                                                         <h6>
-                                                            <a href="hotel-details.html">
+                                                            <Link
+                                                                to={`/blogs/${blog.id}`}
+                                                            >
                                                                 {blog.title}
-                                                            </a>
+                                                            </Link>
                                                         </h6>
                                                     </div>
                                                 </div>
@@ -134,10 +141,27 @@ function BlogListPage() {
                                             </td>
                                             <td data-label="Status">
                                                 <span class="confirmed">
-                                                    {/* {hotel.stat} */}
+                                                    Hoạt động
                                                 </span>
                                             </td>
-                                            <td data-label=""></td>
+                                            <td data-label="">
+                                                <button
+                                                    onClick={() => {
+                                                        handleEditBlog(blog.id);
+                                                    }}
+                                                    className="primary-btn1 p-2 me-2"
+                                                >
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                <button
+                                                    className="primary-btn1 p-2"
+                                                    style={{
+                                                        backgroundColor: "#aaa",
+                                                    }}
+                                                >
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>

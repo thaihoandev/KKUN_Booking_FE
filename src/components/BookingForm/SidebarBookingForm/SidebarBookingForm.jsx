@@ -7,10 +7,10 @@ import {
     getRatingDescription,
 } from "../../../utils/ratingReview";
 
-function SidebarBookingForm({ bookingDate, hotel, room }) {
+function SidebarBookingForm({ booking, hotel, room }) {
     const numberOfNights = calculateNumberOfNights(
-        bookingDate.checkInDate,
-        bookingDate.checkOutDate
+        booking.checkInDate,
+        booking.checkOutDate
     );
     const totalDatesPrice = numberOfNights * room.basePrice;
     const VATPrice = (totalDatesPrice * 10) / 100;
@@ -72,9 +72,9 @@ function SidebarBookingForm({ bookingDate, hotel, room }) {
                                     <span className="start-date">
                                         <span>Ngày nhận phòng</span>
                                         <span>
-                                            {bookingDate.checkInDate
+                                            {booking.checkInDate
                                                 ? moment(
-                                                      bookingDate.checkInDate
+                                                      booking.checkInDate
                                                   ).format("DD/MM/YYYY")
                                                 : "Chưa chọn"}
                                         </span>
@@ -83,9 +83,9 @@ function SidebarBookingForm({ bookingDate, hotel, room }) {
                                     <span className="end-date text-end">
                                         <span>Ngày trả phòng</span>
                                         <span>
-                                            {bookingDate.checkOutDate
+                                            {booking.checkOutDate
                                                 ? moment(
-                                                      bookingDate.checkOutDate
+                                                      booking.checkOutDate
                                                   ).format("DD/MM/YYYY")
                                                 : "Chưa chọn"}
                                         </span>
