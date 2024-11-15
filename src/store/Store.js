@@ -4,10 +4,11 @@ import rootReducer from "./RootReducer";
 // Hàm lưu `state` vào localStorage
 function saveToLocalStorage(state) {
     try {
-        // Chỉ lưu phần `user` va `booking` của `state`
         const serializedState = JSON.stringify({
-            user: state.user,
-            booking: state.booking,
+            booking: state.booking, // Luôn lưu booking
+            ...(state.user.accessToken || state.user.refreshToken
+                ? { user: state.user } // Chỉ lưu user khi có accessToken hoặc refreshToken
+                : {}),
         });
         localStorage.setItem("state", serializedState);
     } catch (e) {
@@ -23,19 +24,18 @@ function loadFromLocalStorage() {
 
         const state = JSON.parse(serializedState);
 
-        // Kiểm tra nếu `accessToken` không tồn tại hoặc là chuỗi rỗng
-        if (
-            (!localStorage.getItem("accessToken") &&
-                !localStorage.getItem("refreshToken")) ||
-            state.user.accessToken === ""
-        ) {
-            // Xoá `localStorage` để đảm bảo người dùng phải đăng nhập lại
-            localStorage.removeItem("state");
-            return undefined;
+        // Chỉ khôi phục user nếu có accessToken hoặc refreshToken
+        const hasValidToken =
+            localStorage.getItem("accessToken") ||
+            localStorage.getItem("refreshToken");
+        if (!hasValidToken || (state.user && !state.user.accessToken)) {
+            // Xóa user khỏi state nếu không hợp lệ
+            delete state.user;
         }
 
         return state;
     } catch (e) {
+        console.error("Could not load state", e);
         return undefined;
     }
 }

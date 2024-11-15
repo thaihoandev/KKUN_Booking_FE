@@ -1,16 +1,16 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-// Import required modules
-import { Pagination, Autoplay } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 import { Link, useNavigate } from "react-router-dom";
 import convertToVND from "../../utils/convertToVND";
 import ReviewRating from "../ReviewRating/ReviewRating";
+import getAmenityIcon from "../../utils/icons";
 
 const HotelItem = ({ hotel }) => {
     const navigate = useNavigate();
+
     const handleCheckRoom = (hotelId, roomId) => {
         navigate(`/hotels/${hotelId}/rooms/${roomId}`);
     };
@@ -21,18 +21,17 @@ const HotelItem = ({ hotel }) => {
                 <div className="col-md-12">
                     <div className="hotel-img-slider">
                         {hotel.breakfastIncluded && (
-                            <span class="batch">Bữa sáng miễn phí</span>
+                            <span className="batch">Bữa sáng miễn phí</span>
                         )}
                         <Swiper
                             style={{ height: "100%" }}
                             pagination={{
-                                el: ".swiper-pagination5", // Thay đổi selector
+                                el: ".swiper-pagination5",
                                 clickable: true,
                             }}
                             modules={[Pagination]}
                             className="mySwiper"
                         >
-                            {/* Nếu có hình ảnh từ API */}
                             {hotel.exteriorImages &&
                                 hotel.exteriorImages.map((image, index) => (
                                     <SwiperSlide key={index}>
@@ -54,8 +53,6 @@ const HotelItem = ({ hotel }) => {
                                         </div>
                                     </SwiperSlide>
                                 ))}
-
-                            {/* Fallback nếu không có hình ảnh */}
                             {(!hotel.exteriorImages ||
                                 hotel.exteriorImages.length === 0) && (
                                 <SwiperSlide>
@@ -67,7 +64,6 @@ const HotelItem = ({ hotel }) => {
                                     </div>
                                 </SwiperSlide>
                             )}
-                            {/* Di chuyển pagination vào trong Swiper */}
                             <div className="swiper-pagination5"></div>
                         </Swiper>
                     </div>
@@ -76,9 +72,9 @@ const HotelItem = ({ hotel }) => {
                     <div className="room-content">
                         <div className="content-top">
                             <ReviewRating
-                                rating={hotel.rating}
-                                numOfReviews={hotel.numOfReviews}
-                            ></ReviewRating>
+                                rating={hotel.rating || 0}
+                                numOfReviews={hotel.numOfReviews || 0}
+                            />
                             <h5>
                                 <a href="hotel-details.html">{hotel.name}</a>
                             </h5>
@@ -91,28 +87,38 @@ const HotelItem = ({ hotel }) => {
                                     <a href="#">Xem vị trí</a>
                                 </li>
                                 <li>
-                                    <span>cách trung tâm {}km</span>
+                                    <span>cách trung tâm ...km</span>
                                 </li>
                             </ul>
                             <ul className="facilisis">
-                                <li>Locker</li>
-                                {/* Add more facilities similarly */}
+                                {hotel.amenities.slice(0, 4).map((amenity) => (
+                                    <li key={amenity.id}>
+                                        {getAmenityIcon(amenity.name)}{" "}
+                                        {amenity.name}
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                         <div className="content-bottom">
                             <div className="room-type">
-                                <h6>{hotel.rooms?.[0].typeDisplayName}</h6>
-                                <span>{hotel.rooms?.[0].available}</span>
+                                <h6>
+                                    {hotel.rooms?.[0]?.typeDisplayName ||
+                                        "Loại phòng không có sẵn"}
+                                </h6>
+                                <span>
+                                    {hotel.rooms?.[0]?.available
+                                        ? "Còn phòng"
+                                        : "Hết phòng"}
+                                </span>
                                 <div className="deals">
                                     <span>
                                         <strong className="text-warning">
-                                            {" "}
                                             {hotel.categoryDisplayName}
                                         </strong>
                                         {hotel.freeCancellation && (
                                             <>
-                                                <strong className="">
-                                                    <br></br>Miễn phí hủy
+                                                <strong className="d-block">
+                                                    Miễn phí hủy
                                                 </strong>
                                                 <p>trước 48h</p>
                                             </>
@@ -123,16 +129,19 @@ const HotelItem = ({ hotel }) => {
                             <div className="price-and-book">
                                 <div className="price-area">
                                     <p>
-                                        1 đêm, {hotel.rooms?.[0].capacity} người
+                                        1 đêm,{" "}
+                                        {hotel.rooms?.[0]?.capacity ||
+                                            "Số người không xác định"}{" "}
+                                        người
                                     </p>
                                     <span>
                                         {convertToVND(
-                                            hotel.rooms?.[0].basePrice
-                                        )}
+                                            hotel.rooms?.[0]?.basePrice
+                                        ) || "NaN"}
                                         <span className="p-1"></span>
                                         <del>
                                             {convertToVND(
-                                                hotel.rooms?.[0].basePrice
+                                                hotel.rooms?.[0]?.basePrice
                                             )}
                                         </del>
                                     </span>
@@ -142,7 +151,7 @@ const HotelItem = ({ hotel }) => {
                                         onClick={() =>
                                             handleCheckRoom(
                                                 hotel.id,
-                                                hotel.rooms?.[0].id
+                                                hotel.rooms?.[0]?.id
                                             )
                                         }
                                         className="primary-btn2"

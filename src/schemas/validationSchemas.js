@@ -213,6 +213,9 @@ export const hotelDetailsSchema = yup.object().shape({
     category: yup.string().required("Danh mục khách sạn là bắt buộc"),
     description: yup.string().required("Mô tả là bắt buộc"),
     paymentPolicy: yup.string().required("Chính sách thanh toán là bắt buộc"),
+    freeCancellation: yup.boolean(),
+    breakfastIncluded: yup.boolean(),
+    prePayment: yup.boolean(),
 });
 export const locationHotelschema = yup.object().shape({
     location: yup.string().required("Địa chỉ khách sạn là bắt buộc"),

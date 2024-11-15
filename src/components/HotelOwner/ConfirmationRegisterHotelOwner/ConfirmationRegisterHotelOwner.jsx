@@ -1,38 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useMutation } from "react-query";
 import * as HotelService from "../../../services/HotelService";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function ConfirmationRegisterHotelOwner({
     hotelDetails,
     location,
     roomDetails,
 }) {
+    const [loading, setLoading] = useState(false);
     const user = useSelector((state) => state.user);
-
+    const navigate = useNavigate();
     const mutationCreateHotelAndRooms = useMutation(
         ({ formData, accessToken }) =>
             HotelService.createHotelAndRooms(formData, accessToken),
         {
+            onMutate: () => {
+                setLoading(true);
+                toast.info("Đang xử lý đăng ký khách sạn...");
+            },
             onSuccess: () => {
+                setLoading(false);
                 toast.success("Tạo khách sạn thành công!");
+                navigate("/hotelowner/my-hotel");
             },
             onError: (error) => {
+                setLoading(false);
                 toast.error(error.message || "Có lỗi xảy ra");
             },
         }
     );
+
     const handleRegisterHotel = () => {
         const formData = new FormData();
 
-        // Chuẩn bị đối tượng `hotelDto` với các thông tin cần thiết
         const hotelDto = {
             name: hotelDetails.name,
             category: hotelDetails.category,
             description: hotelDetails.description,
             location: location,
             paymentPolicy: hotelDetails.paymentPolicy,
+            freeCancellation: hotelDetails.freeCancellation,
+            breakfastIncluded: hotelDetails.breakfastIncluded,
+            prePayment: hotelDetails.prePayment,
             rooms: [
                 {
                     area: roomDetails.roomArea,
@@ -42,29 +54,25 @@ function ConfirmationRegisterHotelOwner({
                     type: roomDetails.roomType,
                     bedType: roomDetails.bedType,
                     roomType: roomDetails.roomType,
-                    amenities: roomDetails.facilities.map((id) => ({ id })), // Đảm bảo đúng cấu trúc DTO
+                    amenities: roomDetails.facilities.map((id) => ({ id })),
                 },
             ],
-            amenities: hotelDetails.facilities.map((id) => ({ id })), // amenities cho hotel
+            amenities: hotelDetails.facilities.map((id) => ({ id })),
         };
 
-        // Thêm hotelDto dưới dạng chuỗi JSON vào formData
         formData.append(
             "hotel",
             new Blob([JSON.stringify(hotelDto)], { type: "application/json" })
         );
 
-        // Thêm ảnh ngoại thất vào formData
-        hotelDetails.images.forEach((image, index) => {
-            formData.append(`exteriorImages`, image);
+        hotelDetails.images.forEach((image) => {
+            formData.append("exteriorImages", image);
         });
 
-        // Thêm ảnh phòng vào formData cho từng phòng
         roomDetails.images.forEach((image) => {
-            formData.append("roomImages", image); // Sử dụng key "roomImages" cho tất cả ảnh phòng
+            formData.append("roomImages", image);
         });
 
-        // Gửi request bằng useMutation
         mutationCreateHotelAndRooms.mutate({
             formData,
             accessToken: user.accessToken,
@@ -75,8 +83,12 @@ function ConfirmationRegisterHotelOwner({
         <div>
             <h3>Xác nhận Đăng ký</h3>
             <p>Vui lòng kiểm tra thông tin trước khi hoàn tất đăng ký.</p>
-            <button onClick={handleRegisterHotel} className="primary-btn3">
-                Đăng ký
+            <button
+                onClick={handleRegisterHotel}
+                className="primary-btn3"
+                disabled={loading}
+            >
+                {loading ? "Đang xử lý..." : "Đăng ký"}
             </button>
         </div>
     );

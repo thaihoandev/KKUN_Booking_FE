@@ -7,13 +7,23 @@ function ChatbotPage() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalImage, setModalImage] = useState("");
     const chatContainerRef = useRef(null);
     const sessionId = useRef(sessionStorage.getItem("sessionId") || uuidv4());
 
     useEffect(() => {
         sessionStorage.setItem("sessionId", sessionId.current);
     }, []);
+    const openModal = (image) => {
+        setModalImage(image);
+        setIsModalOpen(true);
+    };
 
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalImage("");
+    };
     const styles = {
         chatContainer: {
             maxWidth: "900px",
@@ -77,7 +87,7 @@ function ChatbotPage() {
             boxShadow: "0 2px 4px rgba(0,0,0,0.05)", // Thêm shadow nhẹ
         }),
         messageBox: (isUser) => ({
-            padding: "0.75rem 1rem",
+            padding: "0.5rem 1rem",
             borderRadius: "1rem",
             backgroundColor: isUser ? "var(--primary-color1)" : "white",
             color: isUser ? "white" : "black",
@@ -146,6 +156,41 @@ function ChatbotPage() {
             backgroundColor: "#6c757d",
             borderRadius: "50%",
             animation: "typing 1s infinite ease-in-out",
+        },
+        modalOverlay: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+        },
+        modalImage: {
+            maxWidth: "90%",
+            maxHeight: "90%",
+            borderRadius: "0.5rem",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+        },
+        closeButton: {
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            width: "30px",
+            height: "30px", // Add height to ensure it's a perfect circle
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "white",
+            border: "none",
+            borderRadius: "50%",
+            cursor: "pointer",
+            fontSize: "1.5rem", // Adjust font size if needed
+            lineHeight: "1", // Set line height to ensure icon is centered
+            padding: "0", // Remove padding to prevent distortion
         },
     };
 
@@ -245,27 +290,54 @@ function ChatbotPage() {
 
     const renderMessageText = (text) => {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
-        const parts = text.split(urlRegex);
+        const imageUrls = text.match(urlRegex) || [];
 
-        return parts.map((part, index) => {
-            if (urlRegex.test(part)) {
-                return (
-                    <a
-                        key={index}
-                        href={part}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                            color: "#0d6efd",
-                            textDecoration: "underline",
-                        }}
-                    >
-                        {part}
-                    </a>
-                );
-            }
-            return part;
-        });
+        if (imageUrls.length > 0) {
+            return (
+                <div
+                    style={{
+                        display: "inline-grid",
+                        gridTemplateColumns: "repeat(4, 1fr)",
+                        gap: "0.5rem",
+                        marginTop: "0.5rem",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    {imageUrls.map((url, index) => (
+                        <img
+                            key={index}
+                            src={url}
+                            alt="Room Detail"
+                            onClick={() => openModal(url)}
+                            style={{
+                                width: "100%", // Adjust width to fit within the grid column
+                                height: "100px", // Set a fixed height for consistency
+                                objectFit: "cover", // Ensures images fill the box without distortion
+                                borderRadius: "0.5rem",
+                                cursor: "pointer",
+                            }}
+                        />
+                    ))}
+                </div>
+            );
+        }
+
+        return text.split(urlRegex).map((part, index) =>
+            urlRegex.test(part) ? (
+                <a
+                    key={index}
+                    href={part}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: "#0d6efd", textDecoration: "underline" }}
+                >
+                    {part}
+                </a>
+            ) : (
+                part
+            )
+        );
     };
 
     const TypingIndicator = () => (
@@ -389,6 +461,19 @@ function ChatbotPage() {
                     </button>
                 </div>
             </div>
+            {/* Modal for image zoom */}
+            {isModalOpen && (
+                <div style={styles.modalOverlay} onClick={closeModal}>
+                    <button style={styles.closeButton} onClick={closeModal}>
+                        &times;
+                    </button>
+                    <img
+                        src={modalImage}
+                        alt="Zoomed"
+                        style={styles.modalImage}
+                    />
+                </div>
+            )}
         </div>
     );
 }
