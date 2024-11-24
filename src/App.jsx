@@ -60,6 +60,9 @@ import AllPromotions from "./pages/Admin/AdminPromotions/AllPromotions/AllPromot
 import PromotionPage from "./pages/PromotionPage/PromotionPage";
 import PromotionCreate from "./pages/Admin/AdminPromotions/PromotionCreate/PromotionCreate";
 import PromotionEdit from "./pages/Admin/AdminPromotions/PromotionEdit/PromotionEdit";
+import OWRoomDetail from "./pages/HotelOwner/Room/RoomDetails/OWRoomDetail";
+import RoomEdit from "./pages/HotelOwner/Room/RoomEdit/RoomEdit";
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -143,8 +146,8 @@ const router = createBrowserRouter([
             { path: "dashboard", element: <AdminDashboard /> },
             // { path: "customer-list", element: <AdminCustomerList/> },
             // { path: "booking-list", element: <AdminBookingList /> },
-            
-             // { path: "admin-add-hotel", element: <AddNewHotell/> }, // thêm khách sạn mới
+
+            // { path: "admin-add-hotel", element: <AddNewHotell/> }, // thêm khách sạn mới
 
             // coment 6.11
             // { path: "admin-all-hotel", element: <AllHotelList/> }, // xem danh sách khách sạn
@@ -167,11 +170,11 @@ const router = createBrowserRouter([
             { path: "vouchers", element: <AllPromotions /> },
             { path: "add-voucher", element: <PromotionCreate /> },
             { path: "vouchers/:voucherId/edit", element: <PromotionEdit /> },
-            
+
 
             { path: "*", element: <NotFoundPage /> },
 
-            
+
         ],
     },
     {
@@ -191,6 +194,9 @@ const router = createBrowserRouter([
 
             { path: "add-room", element: <RoomCreate /> },
             { path: "my-rooms", element: <RoomList /> },
+               { path: "my-rooms/:roomId/room-edit", element: <RoomEdit /> },
+            { path: "my-rooms/:roomId/room-details", element: <OWRoomDetail /> },
+            // hotels/:hotelName/rooms/:roomId
             { path: "booked", element: <BookedListHotelOwner /> },
             { path: "customer-list", element: <CustomerList /> },
             { path: "*", element: <NotFoundPage /> },

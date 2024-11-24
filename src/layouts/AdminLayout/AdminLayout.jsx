@@ -15,7 +15,8 @@ const AdminLayout = () => {
         {
             key: "hotelList",
             title: "Khách sạn",
-            path: "admin-all-hotel", // hiện thị luôn danh sách khách sạn
+            path: "hotels",
+         //   path: "admin-all-hotel", // hiện thị luôn danh sách khách sạn
             icon: "bi-building",
             // children: [
             //     // {
@@ -56,8 +57,8 @@ const AdminLayout = () => {
         {
             key: "vouchers",
             title: "Khuyến mãi",
-            path: "voechers",
-            icon: "bi-newspaper",
+            path: "#",
+            icon: "bi-gift",
             children: [
                 {
                     key: "addPromotion",

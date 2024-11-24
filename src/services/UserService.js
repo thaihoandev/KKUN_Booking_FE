@@ -135,6 +135,16 @@ export const getAllUser = async () => {
     }
 };
 
+// export const getAllUser = async () => {
+//     try {
+//         const response = await axiosJWT.get("/users");
+//         console.log("User data:", response.data); // Thêm log để kiểm tra
+//         return response.data;
+//     } catch (error) {
+//         handleError(error);
+//     }
+// };
+
 export const logoutUser = async () => {
     try {
         const response = await axiosJWT.post("/auth/logout");
@@ -228,5 +238,15 @@ export const addRecentSearch = async (searchString, accessToken) => {
         return response.data;
     } catch (error) {
         handleError(error);
+    }
+};
+
+//lấy danh sách khách hàng đã đăng ký tại một khách sạn
+export const getCustomerBookingCountByHotelId = async (hotelId) => {
+    try {
+        const response = await axiosJWT.get(`/hotels/${hotelId}/booking-count`);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data || "Lỗi khi lấy số lượng khách hàng đặt lịch");
     }
 };

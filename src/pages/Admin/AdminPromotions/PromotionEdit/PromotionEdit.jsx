@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import * as PromotionService from "../../../../services/PromotionService";
 import ImageUploader from "../../../../components/UploadImage/ImageUploader/ImageUploader"; // Import component ImageUploader
 import NiceSelect from "../../../../components/NiceSelect/NiceSelect";
+import Loading from "../../../../components/Loading/Loading";
 import { useSelector } from "react-redux";
 
 function PromotionEdit() {
@@ -31,7 +32,7 @@ function PromotionEdit() {
     };
 
     // Lấy thông tin chi tiết của ưu đãi dựa trên id
-    const { data: promotion, isLoading } = useQuery(
+    const { data: promotion, Loading } = useQuery(
         ["promotionDetails", id],
         () => PromotionService.getPromotionById(id, user.accessToken),
         {
@@ -95,7 +96,7 @@ function PromotionEdit() {
         });
     };
 
-    if (isLoading) {
+    if (Loading) {
         return <div>Đang tải...</div>;
     }
 

@@ -77,6 +77,7 @@ function HotelList() {
                                 </form>
                             </div>
                         </div>
+
                         <div class="recent-listing-table">
                             <table class="eg-table2">
                                 <thead>
@@ -100,16 +101,14 @@ function HotelList() {
                                                                 objectFit:
                                                                     "cover",
                                                             }}
-                                                            src={
-                                                                hotel
-                                                                    .exteriorImages[0]
-                                                            }
+                                                            src={hotel.exteriorImages[0]}
                                                             alt=""
                                                         />
                                                     </div>
                                                     <div class="product-content">
                                                         <h6>
-                                                            <a href="hotel-details.html">
+                                                            <a href="#">
+                                                                {/* <a href="hotel-details.html"> // Dẫn đên trang chi tiết giới thiệu của khách sạn đó*/}
                                                                 {hotel.name}
                                                             </a>
                                                         </h6>
@@ -148,6 +147,9 @@ function HotelList() {
                                             <td data-label="Status">
                                                 <span class="confirmed">
                                                     {/* {hotel.stat} */}
+                                                    {/* Check Status của tài khoản đăng ký của khách sạn nếu bình thường thì Hiện Hoạt động (Màu xanh lá),
+                                                     nếu tài khoản ngừng họa động/ bị khóa thì hiện tạm dừng (Màu đỏ)*/}
+                                                     
                                                 </span>
                                             </td>
                                             <td data-label=""></td>
@@ -155,16 +157,16 @@ function HotelList() {
                                     ))}
                                 </tbody>
                             </table>
+
                             <div className="pagination-area">
                                 <ul className="paginations">
                                     {[...Array(totalPages)].map((_, i) => (
                                         <li
                                             key={i + 1}
-                                            className={`page-item ${
-                                                currentPage === i + 1
-                                                    ? "active"
-                                                    : ""
-                                            }`}
+                                            className={`page-item ${currentPage === i + 1
+                                                ? "active"
+                                                : ""
+                                                }`}
                                             onClick={() =>
                                                 handlePageChange(i + 1)
                                             }

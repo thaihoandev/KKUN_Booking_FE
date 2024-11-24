@@ -65,10 +65,13 @@ export const createRoom = async (data, access_token) => {
         }
     }
 };
-export const updateroom = async (roomId, data, access_token) => {
+
+// Hàm cập nhật phòng
+export const updateRoom = async (roomId, data, access_token) => {
     try {
+        console.log("data", roomId, access_token);
         const response = await axios.put(
-            `${process.env.REACT_APP_BASE_API_URL}/${roomId}`,
+            `${process.env.REACT_APP_BASE_API_URL}/rooms/${roomId}`,
             data,
             {
                 headers: {
@@ -85,6 +88,29 @@ export const updateroom = async (roomId, data, access_token) => {
         }
     }
 };
+
+// Hàm xóa phòng
+export const deleteRoom = async (roomId, access_token) => {
+    try {
+        console.log("DELETE URL:", `${process.env.REACT_APP_BASE_API_URL}/rooms/${roomId}`);
+        console.log("Access Token:", access_token);
+
+        const response = await axios.delete(
+            `${process.env.REACT_APP_BASE_API_URL}/rooms/${roomId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error:", error.response?.data || error.message);
+        throw new Error(error.response?.data || "Đã xảy ra lỗi khi kết nối tới máy chủ.");
+    }
+};
+
+
 export const getRoomReview = async (roomId) => {
     try {
         const response = await axios.get(

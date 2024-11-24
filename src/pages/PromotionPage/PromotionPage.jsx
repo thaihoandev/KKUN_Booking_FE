@@ -28,7 +28,7 @@ function PromotionPage() {
                                                     <li>
                                                         <a
                                                             href="#"
-                                                            className="shop-pagi-btn"
+                                                            className="shop-page-btn"
                                                         >
                                                             <i className="bi bi-chevron-left"></i>
                                                         </a>
@@ -58,7 +58,7 @@ function PromotionPage() {
                                                     <li>
                                                         <a
                                                             href="#"
-                                                            className="shop-pagi-btn"
+                                                            className="shop-page-btn"
                                                         >
                                                             <i className="bi bi-chevron-right"></i>
                                                         </a>

@@ -90,6 +90,7 @@ function RoomList() {
                                 <th>Số người</th>
                                 <th>Trạng thái</th>
                                 <th>Lượt đánh giá</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -111,7 +112,7 @@ function RoomList() {
                                                 </div>
                                                 <div className="product-content">
                                                     <h6>
-                                                        <a href="hotel-details.html">
+                                                        <a href={`/hotelowner/my-rooms/${room.id}/room-details`}>
                                                             {room.typeDisplayName ||
                                                                 "NaN"}
                                                         </a>
@@ -149,6 +150,14 @@ function RoomList() {
                                         <td data-label="NumOfReviews">
                                             {room.numOfReviews || "NaN"}
                                         </td>
+                                        <td data-label="Action">
+                                            <a
+                                                href={`/hotelowner/my-rooms/${room.id}/room-edit`}
+                                                className="view-btn"
+                                            >
+                                                Xem chi tiết
+                                            </a>
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
@@ -168,11 +177,10 @@ function RoomList() {
                             {[...Array(totalPages)].map((_, index) => (
                                 <li
                                     key={index}
-                                    className={`page-item ${
-                                        currentPage === index + 1
+                                    className={`page-item ${currentPage === index + 1
                                             ? "active"
                                             : ""
-                                    }`}
+                                        }`}
                                     onClick={() => setCurrentPage(index + 1)}
                                 >
                                     <a href="#">{index + 1}</a>

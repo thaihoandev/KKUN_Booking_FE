@@ -231,3 +231,29 @@ export const blogCreateSchema = yup.object().shape({
         .required("Thời gian đọc là bắt buộc"),
     blogPostCategory: yup.string().required("Danh mục là bắt buộc"),
 });
+
+
+// Update hotel schema
+export const editRoomSchema = yup.object().shape({
+    roomType: yup.string().required("Loại phòng là bắt buộc"),
+    bedType: yup.string().required("Loại giường là bắt buộc"),
+    originalPrice: yup
+        .number()
+        .typeError("Giá gốc phải là số")
+        .positive("Giá gốc phải là số dương")
+        .required("Giá gốc là bắt buộc"),
+    discountedPrice: yup
+        .number()
+        .typeError("Giá giảm phải là số")
+        .positive("Giá giảm phải là số dương"),
+    maxOccupancy: yup
+        .number()
+        .typeError("Số người tối đa phải là số")
+        .positive("Số người tối đa phải là số dương")
+        .required("Số người tối đa là bắt buộc"),
+    roomArea: yup
+        .number()
+        .typeError("Diện tích phải là số")
+        .positive("Diện tích phải là số dương")
+        .required("Diện tích là bắt buộc"),
+});
