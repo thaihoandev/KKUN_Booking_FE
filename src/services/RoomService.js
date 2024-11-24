@@ -92,9 +92,6 @@ export const updateRoom = async (roomId, data, access_token) => {
 // Hàm xóa phòng
 export const deleteRoom = async (roomId, access_token) => {
     try {
-        console.log("DELETE URL:", `${process.env.REACT_APP_BASE_API_URL}/rooms/${roomId}`);
-        console.log("Access Token:", access_token);
-
         const response = await axios.delete(
             `${process.env.REACT_APP_BASE_API_URL}/rooms/${roomId}`,
             {
@@ -105,10 +102,14 @@ export const deleteRoom = async (roomId, access_token) => {
         );
         return response.data;
     } catch (error) {
-        console.error("Error:", error.response?.data || error.message);
-        throw new Error(error.response?.data || "Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data);
+        } else {
+            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        }
     }
 };
+
 
 
 export const getRoomReview = async (roomId) => {

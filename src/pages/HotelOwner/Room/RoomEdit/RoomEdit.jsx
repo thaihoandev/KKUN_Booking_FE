@@ -55,24 +55,13 @@ function RoomEdit() {
             toast.success("Xóa phòng thành công!");
             navigate("/hotelowner/my-rooms");
         },
-        onError: (error) => toast.error(error.message || "Lỗi khi xóa phòng."),
+        onError: (error) => {
+            console.error("Delete Room Error:", error.response?.data || error.message);
+            toast.error(error.response?.data || "Lỗi khi xóa phòng.");
+        },        
     });
 
-    const handleDelete = () => {
-        
-        if (window.confirm("Bạn có chắc chắn muốn xóa phòng này?")) {
-            mutationDeleteRoom.mutate({
-                roomId,
-                accessToken: user.accessToken
-            });
-        }
-    };
-
-    const accessToken = user.accessToken;
-    if (!accessToken) {
-        toast.error("Không tìm thấy access token. Vui lòng đăng nhập lại.");
-        return;
-    }
+    
 
 
     const handleCheckboxChange = (facility) => {
@@ -83,13 +72,65 @@ function RoomEdit() {
         );
     };
 
-    useEffect(() => {
-        mutationRoomDetail.mutate();
-        AmenityService.getAllAmenitiesForRoom().then(setFacilities);
-        RoomService.getRoomTypes().then(setRoomTypes);
-        RoomService.getBedTypes().then(setBedTypes);
-    }, [roomId]);
+    // useEffect(() => {
+    //     mutationRoomDetail.mutate();
+    //     AmenityService.getAllAmenitiesForRoom().then(setFacilities);
+    //     RoomService.getRoomTypes().then(setRoomTypes);
+    //     RoomService.getBedTypes().then(setBedTypes);
+    // }, [roomId]);
 
+    // const handleDelete = () => {
+    //     console.log("Room ID:", roomId);
+    //     console.log("Access Token:", user.accessToken);
+    
+    //     if (window.confirm("Bạn có chắc chắn muốn xóa phòng này?")) {
+    //         mutationDeleteRoom.mutate();
+    //     }
+    // };
+    
+
+    // const accessToken = user.accessToken;
+    // if (!accessToken) {
+    //     toast.error("Không tìm thấy access token. Vui lòng đăng nhập lại.");
+    //     return;
+    // }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await mutationRoomDetail.mutateAsync();
+                const amenities = await AmenityService.getAllAmenitiesForRoom();
+                const roomTypes = await RoomService.getRoomTypes();
+                const bedTypes = await RoomService.getBedTypes();
+    
+                setFacilities(amenities);
+                setRoomTypes(roomTypes);
+                setBedTypes(bedTypes);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                toast.error("Lỗi khi tải dữ liệu!");
+            }
+        };
+    
+        fetchData();
+    }, [roomId]);
+    
+    const handleDelete = () => {
+        console.log("Room ID:", roomId);
+        console.log("Access Token:", user.accessToken);
+    
+        if (window.confirm("Bạn có chắc chắn muốn xóa phòng này?")) {
+            mutationDeleteRoom.mutate();
+        }
+    };
+    
+    const accessToken = user.accessToken;
+    if (!accessToken) {
+        toast.error("Không tìm thấy access token. Vui lòng đăng nhập lại.");
+        navigate("/login");
+        return null; // Ngừng render component
+    }
+    
     const onSubmit = (data) => {
         const formData = new FormData();
         formData.append("type", data.roomType);
@@ -227,12 +268,8 @@ function RoomEdit() {
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div className="row">
-
                                             <MultiImageUploader onImagesSelect={setSelectedImages} initialImages={selectedImages} />
-
-
                                         </div>
                                         <div className="form-buttons">
                                             <div className="row">
@@ -255,10 +292,7 @@ function RoomEdit() {
                         </div>
                     </div>
                 </div>
-
             </div>
-
-
         </>
     );
 }
