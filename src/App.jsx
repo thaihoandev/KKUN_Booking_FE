@@ -55,6 +55,9 @@ import BlogPage from "./pages/Blog/BlogPage/BlogPage";
 import BlogCreate from "./pages/Blog/BlogCreate/BlogCreate";
 import BlogListPage from "./pages/Admin/Blog/BlogListPage/BlogListPage";
 import PromotionPage from "./pages/PromotionPage/PromotionPage";
+import PromotionListPage from "./pages/Admin/Promotion/PromotionListPage/PromotionListPage";
+import PromotionCreatePage from "./pages/Admin/Promotion/PromotionCreatePage/PromotionCreatePage";
+import PromotionEditPage from "./pages/Admin/Promotion/PromotionEditPage/PromotionEditPage";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -138,6 +141,12 @@ const router = createBrowserRouter([
             { path: "add-amenity", element: <AmenityCreate /> },
             { path: "amenities/:amenityId/edit", element: <AmenityEdit /> },
             { path: "*", element: <NotFoundPage /> },
+            { path: "vouchers", element: <PromotionListPage /> },
+            { path: "add-voucher", element: <PromotionCreatePage /> },
+            {
+                path: "vouchers/:voucherId/edit",
+                element: <PromotionEditPage />,
+            },
         ],
     },
     {

@@ -7,13 +7,15 @@ import {
     getRatingDescription,
 } from "../../../utils/ratingReview";
 
-function SidebarBookingForm({ booking, hotel, room }) {
+function SidebarBookingForm({ booking, hotel, room, discount }) {
     const numberOfNights = calculateNumberOfNights(
         booking.checkInDate,
         booking.checkOutDate
     );
     const totalDatesPrice = numberOfNights * room.basePrice;
-    const VATPrice = (totalDatesPrice * 10) / 100;
+    const discountedPrice = totalDatesPrice - discount; // Áp dụng giảm giá
+    const VATPrice = (discountedPrice * 10) / 100;
+    const totalPrice = discountedPrice + VATPrice;
     return (
         <div className="card p-4 mb-4 booking-form-wrap mb-30">
             {/* Header Section */}
@@ -172,13 +174,22 @@ function SidebarBookingForm({ booking, hotel, room }) {
                     <div class="total">{convertToVND(totalDatesPrice)}</div>
                 </div>
             </div>
-            <div class="total-price mb-1 d-flex justify-content-between">
-                <span>Giá cuối cùng:</span>{" "}
-                {convertToVND(totalDatesPrice + VATPrice)}
-            </div>
-            <span className="small">
-                Giá đã bao gồm: VAT <span>{convertToVND(VATPrice)}</span>
+            <span className="small d-flex flex-column">
+                {discount > 0 && (
+                    <div className="d-flex justify-content-between">
+                        <span>Giá được giảm:</span>
+                        <span>- {convertToVND(discount)}</span>
+                    </div>
+                )}
+                <div className="d-flex justify-content-between">
+                    <span>Giá đã bao gồm: </span>
+                    <span>VAT {convertToVND(VATPrice)}</span>
+                </div>
             </span>
+
+            <div class="total-price mb-1 d-flex justify-content-between">
+                <span>Giá cuối cùng:</span> {convertToVND(totalPrice)}
+            </div>
         </div>
     );
 }

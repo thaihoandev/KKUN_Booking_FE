@@ -234,3 +234,50 @@ export const blogCreateSchema = yup.object().shape({
         .required("Thời gian đọc là bắt buộc"),
     blogPostCategory: yup.string().required("Danh mục là bắt buộc"),
 });
+
+export const promotionCreatechema = yup.object().shape({
+    name: yup.string().required("Tên ưu đãi là bắt buộc"),
+    code: yup.string().required("Mã ưu đãi là bắt buộc"),
+    startDate: yup.string().nullable(),
+    endDate: yup.string().nullable(),
+    quantity: yup
+        .number()
+        .nullable()
+        .min(1, "Số lượng phải lớn hơn hoặc bằng 1")
+        .typeError("Số lượng phải là một số"),
+    value: yup
+        .number()
+        .required("Giá trị giảm giá là bắt buộc")
+        .min(1, "Giá trị phải lớn hơn 0"),
+    maxDiscountValue: yup
+        .number()
+        .required("Giá trị giảm giá là bắt buộc")
+        .min(1, "Giá trị phải lớn hơn 0"),
+    discountType: yup.string().required("Vui lòng chọn đơn vị tính ưu đãi"),
+    applyTo: yup.string().required("Vui lòng chọn áp dụng"),
+    description: yup.string().required("Mô tả là bắt buộc"),
+});
+
+// Validation schema với yup
+export const promotionUpdateSchema = yup.object().shape({
+    name: yup.string().required("Tên ưu đãi là bắt buộc"),
+    code: yup.string().required("Mã ưu đãi là bắt buộc"),
+    startDate: yup.string().nullable(),
+    endDate: yup.string().nullable(),
+    quantity: yup
+        .number()
+        .nullable()
+        .min(1, "Số lượng phải lớn hơn hoặc bằng 1")
+        .typeError("Số lượng phải là một số"),
+    value: yup
+        .number()
+        .required("Giá trị giảm giá là bắt buộc")
+        .min(1, "Giá trị phải lớn hơn 0"),
+    maxDiscountValue: yup
+        .number()
+        .required("Giá trị giảm giá là bắt buộc")
+        .min(1, "Giá trị phải lớn hơn 0"),
+    discountType: yup.string().required("Vui lòng chọn loại ưu đãi"),
+    applyTo: yup.string().required("Vui lòng chọn áp dụng"),
+    description: yup.string().required("Mô tả là bắt buộc"),
+});

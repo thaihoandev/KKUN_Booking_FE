@@ -15,7 +15,7 @@ function BookingCheckout() {
     const [room, setRoom] = useState({});
     const [hotel, setHotel] = useState({});
     const [loading, setLoading] = useState(true);
-
+    const [discount, setDiscount] = useState(0);
     const booking = useSelector((state) => state.booking);
 
     const mutationRoom = useMutation(
@@ -58,13 +58,19 @@ function BookingCheckout() {
                 <CountDownNotification />
                 <div className="row ">
                     <div className="col-8">
-                        <BookingForm hotel={hotel} room={room} />
+                        <BookingForm
+                            hotel={hotel}
+                            room={room}
+                            setDiscount={setDiscount}
+                            discount={discount}
+                        />
                     </div>
                     <div className="col-4">
                         <SidebarBookingForm
                             booking={booking}
                             hotel={hotel}
                             room={room}
+                            discount={discount}
                         />
                     </div>
                 </div>

@@ -29,7 +29,7 @@ function Home() {
         () => HotelService.getPersonalizedHotel(user.id),
         {
             onSuccess: (data) => {
-                setPersonalizedHotels(data);
+                setPersonalizedHotels(data.slice(0, 6));
                 setLoading(false);
             },
             onError: (error) => {
@@ -40,7 +40,7 @@ function Home() {
     );
     const mutationHotelDefault = useMutation(() => HotelService.getAllHotel(), {
         onSuccess: (data) => {
-            setDefaultHotels(data);
+            setDefaultHotels(data.slice(0, 9));
             setLoading(false);
         },
         onError: (error) => {
@@ -68,7 +68,7 @@ function Home() {
         () => HotelService.getTrendingHotel(),
         {
             onSuccess: (data) => {
-                setPopularHotels(data);
+                setPopularHotels(data.slice(0, 6));
                 setLoading(false);
             },
             onError: (error) => {
@@ -604,8 +604,9 @@ function Home() {
                                             speed={900}
                                             pagination={{ clickable: true }}
                                         >
-                                            {filteredHotels.map(
-                                                (hotel, index) => (
+                                            {filteredHotels
+                                                .slice(0, 6)
+                                                .map((hotel, index) => (
                                                     <SwiperSlide key={index}>
                                                         <div className="col-xxl-12 col-md-12">
                                                             <HotelItem
@@ -613,8 +614,7 @@ function Home() {
                                                             />
                                                         </div>
                                                     </SwiperSlide>
-                                                )
-                                            )}
+                                                ))}
                                         </Swiper>
 
                                         <div className="row mt-50">

@@ -1,7 +1,9 @@
 import axios from "axios";
 
+// Tạo instance axios với cấu hình mặc định
 export const axiosJWT = axios.create();
 
+// Hàm tạo booking
 export const createBooking = async (data, accessToken) => {
     try {
         const response = await axios.post(
@@ -9,21 +11,21 @@ export const createBooking = async (data, accessToken) => {
             data,
             {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
+                    Authorization:
+                        accessToken !== "anonymous"
+                            ? `Bearer ${accessToken}`
+                            : undefined,
                     "Content-Type": "application/json",
                 },
             }
         );
-        return initiatePayment(response, accessToken);
+        return initiatePayment(response.data, accessToken);
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
+        handleAxiosError(error);
     }
 };
 
+// Lấy thông tin booking theo ID
 export const getBookingById = async (bookingId) => {
     try {
         const response = await axios.get(
@@ -31,59 +33,77 @@ export const getBookingById = async (bookingId) => {
         );
         return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
+        handleAxiosError(error);
     }
 };
 
+// Bắt đầu thanh toán booking
 export const initiatePayment = async (bookingData, accessToken) => {
     try {
+        const headers = {
+            Authorization:
+                accessToken !== "anonymous"
+                    ? `Bearer ${accessToken}`
+                    : undefined,
+            "Content-Type": "application/json",
+        };
+
         const response = await axios.post(
-            `${process.env.REACT_APP_BASE_API_URL}/bookings/${bookingData.data.id}/payment`,
+            `${process.env.REACT_APP_BASE_API_URL}/bookings/${bookingData.id}/payment`,
             bookingData,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    "Content-Type": "application/json",
-                },
-            }
+            { headers }
         );
 
         return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
+        handleAxiosError(error);
     }
 };
+
+// Xử lý callback thanh toán
 export const handlePaymentCallback = async (accessToken, queryParams) => {
     try {
+        const headers = {
+            Authorization:
+                accessToken !== "anonymous"
+                    ? `Bearer ${accessToken}`
+                    : undefined,
+        };
+
         const response = await axios.get(
             `${process.env.REACT_APP_BASE_API_URL}/bookings/payment-callback`,
             {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                params: queryParams, // Thêm queryParams vào params
+                headers,
+                params: queryParams,
             }
         );
 
         return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            console.error(error.response.data);
-            const errorMessage =
-                error.response.data.message ||
-                JSON.stringify(error.response.data) ||
-                "Đã xảy ra lỗi khi xử lý yêu cầu.";
-            throw new Error(errorMessage);
-        } else {
-            throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
-        }
+        handleAxiosError(error);
+    }
+};
+
+// Hàm xác minh voucher
+export const verifyVoucher = async (voucherCode) => {
+    try {
+        console.log(voucherCode);
+
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/promotions/code/${voucherCode}`
+        );
+
+        return response.data;
+    } catch (error) {
+        handleAxiosError(error);
+    }
+};
+
+// Hàm xử lý lỗi chung cho axios
+const handleAxiosError = (error) => {
+    if (error.response && error.response.data) {
+        throw new Error(error.response.data);
+    } else {
+        throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
     }
 };
