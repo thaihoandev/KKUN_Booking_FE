@@ -5,6 +5,12 @@ import PromotionList from "../../components/Promotion/PromotionList/PromotionLis
 function PromotionPage() {
     return (
         <>
+            <div className="image"        >
+                <image src={`${process.env.PUBLIC_URL}/assets/img/dealsbanner.png`}
+                wight="100%"
+                    alt=""
+                />
+            </div>
             <div className="container">
                 <div className="row justify-content-center align-items-center">
                     <div className="transport-page pt-100 mb-100">

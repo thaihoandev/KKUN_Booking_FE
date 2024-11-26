@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useMutation } from "react-query";
 import * as UserService from "../../services/UserService";
 import { useSelector } from "react-redux";
+import DashboardFooter from "../../components/DashboardFooter/DashboardFooter";
 
 const HotelOwnerLayout = () => {
     const menuItems = [
@@ -105,6 +106,9 @@ const HotelOwnerLayout = () => {
                 <SidebarMenu menuItems={menuItems} />
                 <div className="main-content">
                     <Outlet />
+                </div>
+                <div class="dashboard-footer">
+                    <DashboardFooter />
                 </div>
             </div>
         </div>

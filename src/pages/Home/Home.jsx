@@ -113,7 +113,7 @@ function Home() {
 
             <div class="home1-destination-section mb-120">
                 <img
-                    src="https://demo-egenslab.b-cdn.net/html/triprex/preview/assets/img/home1/destination-card-img2.jpg"
+                    src="https://demo-egenslab.b-cdn.net/html/triprex/preview/assets/img/home1/section-vector2.png"
                     alt
                     class="section-vector2"
                 />
@@ -134,7 +134,7 @@ function Home() {
                                             d="M1.92556 7.69046C2.35744 7.63298 2.78906 7.57563 3.21925 7.51077C4.14925 7.37065 5.08588 7.29138 6.01763 7.21249L6.01888 7.21243C6.15888 7.20055 6.29875 7.18874 6.43844 7.17668C7.50663 6.968 8.58732 6.89083 9.66644 6.94628C10.7733 7.06837 11.8592 7.41421 12.8857 7.97163L12.8857 8.23655C11.8592 8.79397 10.7733 9.13981 9.66644 9.26191C8.58732 9.31735 7.50663 9.24018 6.43844 9.03151C5.36831 8.93932 4.29813 8.82412 3.21925 8.69742C2.14031 8.57065 1.07012 8.42092 -6.78702e-07 8.23655L-7.01862e-07 7.97163C0.639938 7.86135 1.28306 7.77588 1.92556 7.69046ZM10.7633 15.8502C10.9332 15.4596 11.12 15.0855 11.3061 14.7127C11.389 14.5468 11.4717 14.3811 11.5527 14.2144C11.8159 13.6729 12.1141 13.1545 12.4299 12.6477C12.5448 12.4632 12.64 12.2604 12.7336 12.061C12.8972 11.7124 13.056 11.3741 13.3071 11.1616C13.7816 10.7768 14.3283 10.5734 14.886 10.574L15 10.7353C14.9945 11.4677 14.8235 12.1813 14.5088 12.7859C14.3311 13.1802 14.0336 13.4059 13.7358 13.6317C13.6073 13.7292 13.4787 13.8268 13.3597 13.9379C12.965 14.3066 12.5615 14.6637 12.1492 15.0093C11.7369 15.3549 11.3159 15.689 10.8685 16L10.7633 15.8502ZM11.7543 0.665536C11.4882 0.436859 11.2226 0.208798 10.9388 -1.5523e-06L10.816 0.149784C11.0528 0.725784 11.3072 1.27877 11.5703 1.82018C11.8335 2.3616 12.1142 2.89157 12.3949 3.40997C12.4795 3.56628 12.5538 3.73514 12.628 3.90394C12.8 4.29501 12.9718 4.68572 13.2721 4.91908C13.7312 5.33563 14.2754 5.56049 14.8334 5.56418L14.9562 5.4144C14.9651 4.68055 14.8095 3.95951 14.5089 3.3408C14.3471 3.01108 14.0894 2.80252 13.824 2.58763C13.6722 2.46474 13.5178 2.33975 13.3773 2.1888C12.9914 1.77409 12.6142 1.3824 12.1931 1.0368C12.0446 0.91489 11.8994 0.790152 11.7543 0.665536Z"
                                         />
                                     </svg>
-                                    Journey to the
+                                    Hành trình đến
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="15"
@@ -148,7 +148,7 @@ function Home() {
                                         />
                                     </svg>
                                 </span>
-                                <h2>Desired Vacation Spots</h2>
+                                <h2>Điểm nghỉ dưỡng mong muốn</h2>
                             </div>
                         </div>
                     </div>
@@ -269,12 +269,12 @@ function Home() {
                                     <div class="batch">
                                         <span>Get 10% Off</span>
                                     </div>
-                                    <h2>Of Our All Destination</h2>
+                                    <h2>Tất cả điểm đến của chúng ta</h2>
                                     <a
                                         href="destination1.html"
                                         class="primary-btn1"
                                     >
-                                        View All Destination
+                                        Xem tất cả điểm đến
                                     </a>
                                 </div>
                             </div>
@@ -380,12 +380,12 @@ function Home() {
 
             <div class="package-card-section pt-120 mb-120">
                 <img
-                    src="assets/img/home1/section-vector1.png"
+                    src="https://demo-egenslab.b-cdn.net/html/triprex/preview/assets/img/home1/section-vector1.png"
                     alt
                     class="section-vector1"
                 />
                 <img
-                    src="assets/img/home1/section-vector3.png"
+                    src="https://demo-egenslab.b-cdn.net/html/triprex/preview/assets/img/home1/section-vector3.png"
                     alt
                     class="section-vector3"
                 />
@@ -448,7 +448,7 @@ function Home() {
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12 d-flex justify-content-center">
+                        <div class="col-lg-12 d-flex justify-content-center mt-30">
                             <a href="package-grid.html" class="secondary-btn1">
                                 Xem tất cả
                             </a>
@@ -459,12 +459,12 @@ function Home() {
 
             <div class="package-card-tab-section">
                 <img
-                    src="assets/img/home1/section-vector5.png"
+                    src="https://demo-egenslab.b-cdn.net/html/triprex/preview/assets/img/home1/section-vector5.png"
                     alt
                     class="section-vector5"
                 />
                 <img
-                    src="assets/img/home1/section-vector6.png"
+                    src="https://demo-egenslab.b-cdn.net/html/triprex/preview/assets/img/home1/section-vector6.png"
                     alt
                     class="section-vector6"
                 />
@@ -511,11 +511,10 @@ function Home() {
                         >
                             <li className="nav-item" role="presentation">
                                 <button
-                                    className={`nav-link ${
-                                        selectedCity === "Hà Nội"
+                                    className={`nav-link ${selectedCity === "Hà Nội"
                                             ? "active"
                                             : ""
-                                    }`}
+                                        }`}
                                     onClick={() => setSelectedCity("Hà Nội")}
                                     type="button"
                                     role="tab"
@@ -525,11 +524,10 @@ function Home() {
                             </li>
                             <li className="nav-item" role="presentation">
                                 <button
-                                    className={`nav-link ${
-                                        selectedCity === "Đà Nẵng"
+                                    className={`nav-link ${selectedCity === "Đà Nẵng"
                                             ? "active"
                                             : ""
-                                    }`}
+                                        }`}
                                     onClick={() => setSelectedCity("Đà Nẵng")}
                                     type="button"
                                     role="tab"
@@ -539,11 +537,10 @@ function Home() {
                             </li>
                             <li className="nav-item" role="presentation">
                                 <button
-                                    className={`nav-link ${
-                                        selectedCity === "Hồ Chí Minh"
+                                    className={`nav-link ${selectedCity === "Hồ Chí Minh"
                                             ? "active"
                                             : ""
-                                    }`}
+                                        }`}
                                     onClick={() =>
                                         setSelectedCity("Hồ Chí Minh")
                                     }
@@ -555,11 +552,10 @@ function Home() {
                             </li>
                             <li className="nav-item" role="presentation">
                                 <button
-                                    className={`nav-link ${
-                                        selectedCity === "Vũng Tàu"
+                                    className={`nav-link ${selectedCity === "Vũng Tàu"
                                             ? "active"
                                             : ""
-                                    }`}
+                                        }`}
                                     onClick={() => setSelectedCity("Vũng Tàu")}
                                     type="button"
                                     role="tab"
@@ -569,11 +565,10 @@ function Home() {
                             </li>
                             <li className="nav-item" role="presentation">
                                 <button
-                                    className={`nav-link ${
-                                        selectedCity === "Đà Lạt"
+                                    className={`nav-link ${selectedCity === "Đà Lạt"
                                             ? "active"
                                             : ""
-                                    }`}
+                                        }`}
                                     onClick={() => setSelectedCity("Đà Lạt")}
                                     type="button"
                                     role="tab"

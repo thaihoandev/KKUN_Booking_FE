@@ -59,7 +59,7 @@ function BannerContainer() {
                             </SwiperSlide>
                             <SwiperSlide>
                                 <Banner
-                                    backgroundImage="https://thongtinduanbds.com/wp-content/uploads/2021/12/Bac-dao-Phu-Quoc-Vinpearl.jpg"
+                                    backgroundImage="https://rootytrip.com/wp-content/uploads/2024/07/phu-quoc-1536x864.jpg"
                                     country="Đảo Phú Quốc"
                                     heading="Hãy cùng nhau khám phá những vùng đất mới."
                                     description="Cuộc sống đầy những khám phá mới lạ, và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Với các lựa chọn đặt phòng linh hoạt, bạn hoàn toàn có thể tự do điều chỉnh chuyến đi của mình để tận hưởng mọi trải nghiệm theo cách riêng."

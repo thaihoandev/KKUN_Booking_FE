@@ -165,7 +165,7 @@ function Header() {
                         <div class="content">
                             <span>Tổng đài</span>
                             <h6>
-                                <a href="tel:+990737621432">+990-737 621 432</a>
+                                <a href="tel:+84 666888999">+84-666 888 999</a>
                             </h6>
                         </div>
                     </div>
@@ -180,10 +180,10 @@ function Header() {
                                             user.role === "CUSTOMER"
                                                 ? "/customer/profile"
                                                 : user.role === "HOTELOWNER"
-                                                ? "/hotelowner/settings"
-                                                : user.role === "ADMIN"
-                                                ? "/admin/settings"
-                                                : "/customer/profile" // default fallback nếu không match role nào
+                                                    ? "/hotelowner/settings"
+                                                    : user.role === "ADMIN"
+                                                        ? "/admin/settings"
+                                                        : "/customer/profile" // default fallback nếu không match role nào
                                         }
                                     >
                                         <img
@@ -251,7 +251,7 @@ function Header() {
                         <div class="content">
                             <span>Tổng đài</span>
                             <h6>
-                                <a href="tel:+990737621432">+84-916 491 863</a>
+                                <a href="tel:+84 666888999">+84-666 888 999</a>
                             </h6>
                         </div>
                     </div>

@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu";
 import { ToastContainer } from "react-toastify";
+import DashboardFooter from "../../components/DashboardFooter/DashboardFooter";
 
 const AdminLayout = () => {
     const menuItems = [
@@ -16,7 +17,7 @@ const AdminLayout = () => {
             key: "hotelList",
             title: "Khách sạn",
             path: "hotels",
-         //   path: "admin-all-hotel", // hiện thị luôn danh sách khách sạn
+            //   path: "admin-all-hotel", // hiện thị luôn danh sách khách sạn
             icon: "bi-building",
             // children: [
             //     // {
@@ -106,6 +107,9 @@ const AdminLayout = () => {
                     <SidebarMenu menuItems={menuItems} />
                     <div className="main-content">
                         <Outlet />
+                    </div>
+                    <div class="dashboard-footer">
+                        <DashboardFooter />
                     </div>
                 </div>
             </div>

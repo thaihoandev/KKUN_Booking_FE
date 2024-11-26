@@ -45,14 +45,58 @@ function AmenityList() {
             setCurrentPage(newPage);
         }
     };
+    
     const handleEditAmenity = (amenityId) => {
         navigate(`/admin/amenities/${amenityId}/edit`);
     };
+
+    const handleDeleteAmenity = (amenityId) => {
+        navigate(`/admin/amenities/${amenityId}/delete`);
+    };
+
     return (
         <>
             <ToastContainer />
+            <div className="row">
+                <div className="col-xl-12">
+                    <div className="main-content-title-profile">
+                        <div className="main-content-title mb-30">
+                            <h3>Danh sách tiện nghi</h3>
+                        </div>
+                        <div class="profile">
+                            <a href="#">
+                                Xem thêm
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="8"
+                                    height="8"
+                                    viewBox="0 0 8 8"
+                                >
+                                    <path d="M6.669 2.27202L0.94102 8L0 7.05898L5.72731 1.331H0.679478V0H8V7.32052H6.669V2.27202Z"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="recent-listing-area">
-                <h6>Danh sách tiện nghi</h6>
+                <div class="title-and-tab">
+                    <h6>Thông tin tiện nghi</h6>
+                    <div class="search-area">
+                        <form>
+                            <div class="search-box">
+                                <input
+                                    type="text"
+                                    placeholder="Tìm kiếm ở đây"
+                                />
+                                <button type="submit">
+                                    <i class="bx bx-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div className="recent-listing-table">
                     <table className="eg-table2">
                         <thead>
@@ -60,7 +104,7 @@ function AmenityList() {
                                 <th>Tên tiện nghi</th>
                                 <th>Loại</th>
                                 <th>Mô tả</th>
-                                <th>#</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -84,12 +128,18 @@ function AmenityList() {
                                                 handleEditAmenity(amenity.id);
                                             }}
                                             className="primary-btn1 p-2 me-2"
+                                            alt="Chỉnh sửa"
                                         >
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
+
                                         <button
+                                            onClick={() => {
+                                                handleDeleteAmenity(amenity.id);
+                                            }}
                                             className="primary-btn1 p-2"
-                                            style={{ backgroundColor: "#aaa" }}
+                                            style={{ backgroundColor: "red" }}
+                                            aLt="Xóa"
                                         >
                                             <i class="bi bi-trash"></i>
                                         </button>
@@ -103,9 +153,8 @@ function AmenityList() {
                             {[...Array(totalPages)].map((_, i) => (
                                 <li
                                     key={i + 1}
-                                    className={`page-item ${
-                                        currentPage === i + 1 ? "active" : ""
-                                    }`}
+                                    className={`page-item ${currentPage === i + 1 ? "active" : ""
+                                        }`}
                                     onClick={() => handlePageChange(i + 1)}
                                 >
                                     <a href="#">{i + 1}</a>
