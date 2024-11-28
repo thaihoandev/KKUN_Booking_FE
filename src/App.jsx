@@ -13,6 +13,7 @@ import {
 } from "@react-oauth/google";
 
 import store from "./store/Store";
+import "./i18n";
 
 import Home from "./pages/Home/Home";
 import AdminLayout from "./layouts/AdminLayout/AdminLayout";
@@ -58,6 +59,8 @@ import PromotionPage from "./pages/PromotionPage/PromotionPage";
 import PromotionListPage from "./pages/Admin/Promotion/PromotionListPage/PromotionListPage";
 import PromotionCreatePage from "./pages/Admin/Promotion/PromotionCreatePage/PromotionCreatePage";
 import PromotionEditPage from "./pages/Admin/Promotion/PromotionEditPage/PromotionEditPage";
+import { LanguageProvider } from "./context/LanguageContext"; // Đảm bảo đúng đường dẫn tới context của bạn
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -176,11 +179,14 @@ const router = createBrowserRouter([
 function App() {
     return (
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-            <Provider store={store}>
-                <div className="App">
-                    <RouterProvider router={router} />
-                </div>
-            </Provider>
+            {/* Đặt LanguageProvider ở ngoài để toàn bộ ứng dụng có thể sử dụng context ngôn ngữ */}
+            <LanguageProvider>
+                <Provider store={store}>
+                    <div className="App">
+                        <RouterProvider router={router} />
+                    </div>
+                </Provider>
+            </LanguageProvider>
         </GoogleOAuthProvider>
     );
 }

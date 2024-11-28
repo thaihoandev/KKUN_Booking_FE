@@ -4,8 +4,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../../schemas/validationSchemas";
 import PasswordInput from "../PasswordInput/PasswordInput";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function LoginForm({ onClose, onSubmit, onOpenRegister, onGoogleLogin }) {
+    const { t } = useTranslation();
     const [submitError, setSubmitError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -30,21 +32,20 @@ function LoginForm({ onClose, onSubmit, onOpenRegister, onGoogleLogin }) {
                 if (result.error === "INVALID_CREDENTIALS") {
                     setError("email", {
                         type: "manual",
-                        message: "Email hoặc mật khẩu không chính xác",
+                        message: t("loginForm.invalidCredentials"),
                     });
                     setError("password", {
                         type: "manual",
-                        message: "Email hoặc mật khẩu không chính xác",
+                        message: t("loginForm.invalidCredentials"),
                     });
                 } else {
                     setSubmitError(
-                        result.message ||
-                            "Đăng nhập thất bại. Vui lòng thử lại sau."
+                        result.message || t("loginForm.submitError")
                     );
                 }
             }
         } catch (error) {
-            setSubmitError("Có lỗi xảy ra. Vui lòng thử lại sau.");
+            setSubmitError(t("loginForm.submitError"));
         } finally {
             setIsSubmitting(false);
         }
@@ -76,8 +77,8 @@ function LoginForm({ onClose, onSubmit, onOpenRegister, onGoogleLogin }) {
                     <div className="modal-body">
                         <div className="login-registration-form">
                             <div className="form-title">
-                                <h2>Đăng nhập để tiếp tục</h2>
-                                <p>Nhập thông tin tài khoản để đăng nhập.</p>
+                                <h2>{t("loginForm.title")}</h2>
+                                <p>{t("loginForm.description")}</p>
                             </div>
 
                             {submitError && (
@@ -98,7 +99,7 @@ function LoginForm({ onClose, onSubmit, onOpenRegister, onGoogleLogin }) {
                                     <div className="form-group">
                                         <input
                                             type="text"
-                                            placeholder="Địa chỉ email*"
+                                            placeholder={t("loginForm.email")}
                                             className={`form-control ${
                                                 errors.email ? "is-invalid" : ""
                                             }`}
@@ -115,7 +116,7 @@ function LoginForm({ onClose, onSubmit, onOpenRegister, onGoogleLogin }) {
                                         registration={{
                                             ...register("password"),
                                         }}
-                                        placeholder="Mật khẩu*"
+                                        placeholder={t("loginForm.password")}
                                         error={errors.password}
                                     />
                                 </div>
@@ -128,26 +129,26 @@ function LoginForm({ onClose, onSubmit, onOpenRegister, onGoogleLogin }) {
                                     {isSubmitting ? (
                                         <span>
                                             <i className="bi bi-spinner bi-spin me-2"></i>
-                                            Đang đăng nhập...
+                                            {t("loginForm.login")}...
                                         </span>
                                     ) : (
-                                        "Đăng nhập"
+                                        t("loginForm.login")
                                     )}
                                 </button>
 
                                 <div>
                                     <span>
-                                        Chưa có tài khoản?{" "}
+                                        {t("loginForm.registerPrompt")}{" "}
                                         <Link
                                             className="text-danger"
                                             onClick={onOpenRegister}
                                         >
-                                            <b>Đăng ký</b>
+                                            <b>{t("loginForm.register")}</b>
                                         </Link>
                                     </span>
                                 </div>
                                 <div className="divider">
-                                    <span>hoặc</span>
+                                    <span>{t("loginForm.or")}</span>
                                 </div>
                                 <Link
                                     className="google-login-btn"
@@ -163,7 +164,7 @@ function LoginForm({ onClose, onSubmit, onOpenRegister, onGoogleLogin }) {
                                             alt="Google Icon"
                                         />
                                     </div>
-                                    Đăng nhập bằng Google
+                                    {t("loginForm.googleLogin")}
                                 </Link>
                             </form>
                         </div>

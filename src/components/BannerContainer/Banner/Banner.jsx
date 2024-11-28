@@ -1,15 +1,17 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const Banner = ({ backgroundImage, country, heading, description }) => {
+    const { t } = useTranslation();
     return (
         <div
             className="home1-banner-wrapper"
             style={{
                 backgroundImage: `linear-gradient(
-          180deg,
-          rgba(16, 12, 8, 0.4) 0%,
-          rgba(16, 12, 8, 0.4) 100%
-        ), url(${backgroundImage})`,
+                    180deg,
+                    rgba(16, 12, 8, 0.4) 0%,
+                    rgba(16, 12, 8, 0.4) 100%
+                ), url(${backgroundImage})`,
             }}
         >
             <div className="container">
@@ -26,14 +28,15 @@ const Banner = ({ backgroundImage, country, heading, description }) => {
                                     >
                                         <path d="..." />
                                     </svg>
-                                    {country}
+                                    {t(country)} {/* Dịch tên quốc gia */}
                                 </span>
                             </div>
-                            <h2>{heading}</h2>
-                            <p>{description}</p>
+                            <h2>{t(heading)}</h2> {/* Dịch tiêu đề */}
+                            <p>{t(description)}</p> {/* Dịch mô tả */}
                             <div className="banner-content-bottom">
                                 <a href="/" className="primary-btn1">
-                                    Đặt phòng
+                                    {t("booking.booking")}{" "}
+                                    {/* Dịch nút đặt phòng */}
                                 </a>
                                 <div className="rating-area">
                                     <div className="icon">

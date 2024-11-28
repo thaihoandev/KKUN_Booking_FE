@@ -13,6 +13,7 @@ import Login from "../Login/Login";
 import MenuDropdown from "./MenuDropdown/MenuDropdown";
 import { useMutation } from "react-query";
 import useAuth from "../../hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 function Header() {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ function Header() {
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false); // State để kiểm soát dropdown
     const [activeMenu, setActiveMenu] = useState("/");
+    const { t } = useTranslation();
 
     const user = useSelector((state) => state.user);
     const { isLoginOpen, isRegisterOpen } = useSelector((state) => ({
@@ -94,7 +96,7 @@ function Header() {
                             className={activeMenu === "/" ? "active" : ""}
                             onClick={() => handleMenuClick("/")}
                         >
-                            <Link to="/">Trang chủ</Link>
+                            <Link to="/">{t("header.home")}</Link>
                         </li>
                         <li
                             className={
@@ -102,25 +104,25 @@ function Header() {
                             }
                             onClick={() => handleMenuClick("/vouchers")}
                         >
-                            <Link to="/vouchers">Khuyến mãi</Link>
+                            <Link to="/vouchers">{t("header.promotion")}</Link>
                         </li>
                         <li
                             className={activeMenu === "/about" ? "active" : ""}
                             onClick={() => handleMenuClick("/about")}
                         >
-                            <Link to="/about">Về chúng tôi</Link>
+                            <Link to="/about">{t("header.aboutUs")}</Link>
                         </li>
                         <li
                             className={activeMenu === "/faq" ? "active" : ""}
                             onClick={() => handleMenuClick("/faq")}
                         >
-                            <Link to="/faq">Cẩm nang</Link>
+                            <Link to="/faq">{t("header.faq")}</Link>
                         </li>
                         <li
                             className={activeMenu === "/blogs" ? "active" : ""}
                             onClick={() => handleMenuClick("/blogs")}
                         >
-                            <Link to="/blogs">Bài viết</Link>
+                            <Link to="/blogs">{t("header.blog")}</Link>
                         </li>
 
                         {/* Continue converting other menu items like Destination, Pages, etc. */}
@@ -146,7 +148,7 @@ function Header() {
                                     d="M14.4311 12.759C15.417 11.4291 16 9.78265 16 8C16 3.58169 12.4182 0 8 0C3.58169 0 0 3.58169 0 8C0 12.4182 3.58169 16 8 16C10.3181 16 12.4058 15.0141 13.867 13.4387C14.0673 13.2226 14.2556 12.9957 14.4311 12.759ZM13.9875 12C14.7533 10.8559 15.1999 9.48009 15.1999 8C15.1999 4.02355 11.9764 0.799983 7.99991 0.799983C4.02355 0.799983 0.799983 4.02355 0.799983 8C0.799983 9.48017 1.24658 10.8559 2.01245 12C2.97866 10.5566 4.45301 9.48194 6.17961 9.03214C5.34594 8.45444 4.79998 7.49102 4.79998 6.39995C4.79998 4.63266 6.23271 3.19993 8 3.19993C9.76729 3.19993 11.2 4.63266 11.2 6.39995C11.2 7.49093 10.654 8.45444 9.82039 9.03206C11.5469 9.48194 13.0213 10.5565 13.9875 12ZM13.4722 12.6793C12.3495 10.8331 10.3188 9.59997 8.00008 9.59997C5.68126 9.59997 3.65049 10.8331 2.52776 12.6794C3.84829 14.2222 5.80992 15.2 8 15.2C10.1901 15.2 12.1517 14.2222 13.4722 12.6793ZM8 8.79998C9.32551 8.79998 10.4 7.72554 10.4 6.39995C10.4 5.07444 9.32559 3.99992 8 3.99992C6.6744 3.99992 5.59997 5.07452 5.59997 6.40003C5.59997 7.72554 6.67449 8.79998 8 8.79998Z"
                                 ></path>
                             </svg>
-                            ĐĂNG KÝ/ ĐĂNG NHẬP
+                            {t("header.register")}/ {t("header.login")}
                         </button>
                     </div>
                     <div class="hotline-area d-lg-none d-flex">
@@ -163,7 +165,7 @@ function Header() {
                             </svg>
                         </div>
                         <div class="content">
-                            <span>Tổng đài</span>
+                            <span>{t("switchBoard")}</span>
                             <h6>
                                 <a href="tel:+990737621432">+990-737 621 432</a>
                             </h6>
@@ -249,7 +251,7 @@ function Header() {
                             </svg>
                         </div>
                         <div class="content">
-                            <span>Tổng đài</span>
+                            <span>{t("switchBoard")}</span>
                             <h6>
                                 <a href="tel:+990737621432">+84-916 491 863</a>
                             </h6>

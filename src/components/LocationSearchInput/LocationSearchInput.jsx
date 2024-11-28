@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const LocationSearchInput = ({ onLocationSelect }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -8,6 +9,7 @@ const LocationSearchInput = ({ onLocationSelect }) => {
     const [filteredLocations, setFilteredLocations] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const { t } = useTranslation();
 
     // Hàm xử lý bỏ các từ không mong muốn
     const cleanLocationName = (name) => {
@@ -180,14 +182,14 @@ const LocationSearchInput = ({ onLocationSelect }) => {
 
     return (
         <div className="searchbox-input">
-            <label>Vị trí</label>
+            <label>{t("location")}</label>
             <div className="custom-select-dropdown">
                 <div className="select-input" onClick={toggleDropdown}>
                     <input
                         type="text"
                         readOnly
                         value={selectedLocation}
-                        placeholder="Địa điểm tìm kiếm"
+                        placeholder={t("search.locationSearch")}
                     />
                     <i className="bi bi-chevron-down"></i>
                 </div>
@@ -198,7 +200,7 @@ const LocationSearchInput = ({ onLocationSelect }) => {
                             <i className="bx bx-search"></i>
                             <input
                                 type="text"
-                                placeholder="Nhập vị trí"
+                                placeholder={t("search.enterLocation")}
                                 value={searchQuery}
                                 onChange={handleSearchChange}
                                 autoFocus
@@ -208,7 +210,7 @@ const LocationSearchInput = ({ onLocationSelect }) => {
                             {isLoading ? (
                                 <li className="loading">
                                     <div className="destination">
-                                        <h6>Đang tìm kiếm...</h6>
+                                        <h6>{t("searching")}...</h6>
                                     </div>
                                 </li>
                             ) : error ? (
@@ -222,7 +224,11 @@ const LocationSearchInput = ({ onLocationSelect }) => {
                                     {!searchQuery && (
                                         <li className="suggestion-header">
                                             <div className="destination">
-                                                <h6>Địa điểm phổ biến</h6>
+                                                <h6>
+                                                    {t(
+                                                        "search.popularLocations"
+                                                    )}
+                                                </h6>
                                             </div>
                                         </li>
                                     )}

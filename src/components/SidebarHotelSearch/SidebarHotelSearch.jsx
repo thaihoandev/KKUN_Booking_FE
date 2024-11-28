@@ -7,6 +7,8 @@ import * as SearchService from "../../services/SearchService";
 
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { removeDiacritics } from "../../utils/utils";
 function SidebarHotelSearch({ onFilterChange, onSearchByName }) {
     const [priceValues, setPriceValues] = useState([100000, 5000000]);
     const [popularFilters, setPopularFilters] = useState({
@@ -19,6 +21,8 @@ function SidebarHotelSearch({ onFilterChange, onSearchByName }) {
     const [facilities, setFacilities] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const booking = useSelector((state) => state.booking);
+    const { t } = useTranslation();
+
     const mutateGetFacilities = useMutation(
         () => {
             return AmenityService.getAllAmenities();
@@ -94,12 +98,12 @@ function SidebarHotelSearch({ onFilterChange, onSearchByName }) {
     return (
         <div className="sidebar-area">
             <div className="single-widget mb-30">
-                <h5 className="widget-title">Tìm kiếm</h5>
-                <form onSubmit={handleSubmitSearchHotels}>
+                <h5 className="widget-title">{t("search.searchButton")}</h5>
+                <form>
                     <div className="search-box">
                         <input
                             type="text"
-                            placeholder="Tìm tại đây"
+                            placeholder={t("search.searchPlaceholder")}
                             value={searchTerm}
                             onChange={handleSearchInputChange}
                         />
@@ -111,17 +115,20 @@ function SidebarHotelSearch({ onFilterChange, onSearchByName }) {
             </div>
 
             <div className="single-widget mb-30">
-                <h5 className="widget-title">Lọc theo độ phổ biến</h5>
+                <h5 className="widget-title">{t("search.filterPopular")}</h5>
                 <div className="checkbox-container">
                     <ul>
                         {[
                             {
-                                label: "Đặt không cần thanh toán trước",
+                                label: t("search.prePayment"),
                                 name: "prePayment",
                             },
-                            { label: "Miễn phí hủy", name: "freeCancellation" },
                             {
-                                label: "Bao gồm bữa sáng",
+                                label: t("search.freeCancellation"),
+                                name: "freeCancellation",
+                            },
+                            {
+                                label: t("search.breakfastIncluded"),
                                 name: "breakfastIncluded",
                             },
                         ].map((filter, index) => (
@@ -144,7 +151,7 @@ function SidebarHotelSearch({ onFilterChange, onSearchByName }) {
             </div>
 
             <div className="single-widget mb-30">
-                <h5 className="shop-widget-title">Lọc theo giá</h5>
+                <h5 className="shop-widget-title">{t("search.filterPrice")}</h5>
                 <div className="range-wrap">
                     <div className="row">
                         <div className="col-sm-12">
@@ -179,7 +186,7 @@ function SidebarHotelSearch({ onFilterChange, onSearchByName }) {
                             </span>
                         </div>
                         <a href="#" onClick={handleApplyFilters}>
-                            Lọc
+                            {t("search.applyFilter")}
                         </a>
                         <div className="caption">
                             <span id="slider-range-value2">
@@ -191,7 +198,7 @@ function SidebarHotelSearch({ onFilterChange, onSearchByName }) {
             </div>
 
             <div className="single-widget mb-30">
-                <h5 className="widget-title">Cơ sở vật chất</h5>
+                <h5 className="widget-title">{t("search.facilities")}</h5>
                 <div className="checkbox-container">
                     <ul>
                         {Object.values(groupedFacilities).map(
@@ -211,7 +218,14 @@ function SidebarHotelSearch({ onFilterChange, onSearchByName }) {
                                         />
                                         <span className="checkmark"></span>
                                         <span className="text">
-                                            {facility.name}
+                                            {t(
+                                                `amenities.${removeDiacritics(
+                                                    facility.name
+                                                )
+                                                    .toLowerCase()
+                                                    .replace(/\s+/g, "_")
+                                                    .replace("/", "_")}`
+                                            )}
                                         </span>
                                     </label>
                                 </li>
@@ -222,7 +236,7 @@ function SidebarHotelSearch({ onFilterChange, onSearchByName }) {
             </div>
 
             <div className="single-widget mb-30">
-                <h5 className="widget-title">Đánh giá</h5>
+                <h5 className="widget-title">{t("search.ratings")}</h5>
                 <div className="checkbox-container">
                     <ul>
                         {[5, 4.5, 4, 3.5, 3, 2.5, 2, 1].map((rating, index) => (

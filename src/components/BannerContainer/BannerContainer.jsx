@@ -15,8 +15,11 @@ import "react-toastify/dist/ReactToastify.css";
 import Banner from "../../components/BannerContainer/Banner/Banner";
 
 import SearchContainer from "../SearchContainer/SearchContainer";
+import { useTranslation } from "react-i18next";
 
 function BannerContainer() {
+    const { t } = useTranslation();
+
     return (
         <>
             <ToastContainer />
@@ -25,44 +28,48 @@ function BannerContainer() {
                     <div className="container-fluid">
                         {/* Swiper component */}
                         <Swiper
-                            modules={[Navigation, EffectFade, Autoplay]} // Kích hoạt module Navigation
+                            modules={[Navigation, EffectFade, Autoplay]}
                             fadeEffect={{
-                                crossFade: true, // Hiệu ứng chuyển tiếp mượt
+                                crossFade: true,
                             }}
                             effect="fade"
                             autoplay={{
-                                delay: 5000, // Tự động chuyển slide sau 2 giây
-                                disableOnInteraction: false, // Không dừng autoplay khi người dùng tương tác
+                                delay: 5000,
+                                disableOnInteraction: false,
                             }}
                             speed={800}
                             navigation={{
-                                nextEl: ".home1-banner-next", // Liên kết với nút next
-                                prevEl: ".home1-banner-prev", // Liên kết với nút prev
+                                nextEl: ".home1-banner-next",
+                                prevEl: ".home1-banner-prev",
                             }}
                             className="swiper home1-banner-slider"
                         >
                             <SwiperSlide>
                                 <Banner
                                     backgroundImage="https://media-cdn-v2.laodong.vn/storage/newsportal/2023/9/8/1239023/Vinh-Nha-Trang.jpg"
-                                    country="Thành phố Nha Trang"
-                                    heading="Hãy xách vali lên và khám phá thôi."
-                                    description="Cuộc sống là không thể đoán trước, và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Tận hưởng các tùy chọn đặt chỗ linh hoạt để bạn có thể dễ dàng thay đổi lịch trình hoặc điều chỉnh chuyến đi của mình."
+                                    country={t("banner.nhaTrang.heading")}
+                                    heading={t("banner.nhaTrang.heading")}
+                                    description={t(
+                                        "banner.nhaTrang.description"
+                                    )}
                                 />
                             </SwiperSlide>
                             <SwiperSlide>
                                 <Banner
                                     backgroundImage="https://wallpapershome.com/images/pages/pic_h/332.jpg"
-                                    country="Vịnh Hạ Long"
-                                    heading="Khám phá những kỳ quan hùng vĩ."
-                                    description="Cuộc sống luôn mang đến những điều bất ngờ, và chúng tôi thấu hiểu rằng kế hoạch có thể thay đổi. Hãy tận hưởng các lựa chọn đặt chỗ linh hoạt để bạn có thể dễ dàng thay đổi hoặc điều chỉnh chuyến đi của mình."
+                                    country={t("banner.haLong.heading")}
+                                    heading={t("banner.haLong.heading")}
+                                    description={t("banner.haLong.description")}
                                 />
                             </SwiperSlide>
                             <SwiperSlide>
                                 <Banner
                                     backgroundImage="https://thongtinduanbds.com/wp-content/uploads/2021/12/Bac-dao-Phu-Quoc-Vinpearl.jpg"
-                                    country="Đảo Phú Quốc"
-                                    heading="Hãy cùng nhau khám phá những vùng đất mới."
-                                    description="Cuộc sống đầy những khám phá mới lạ, và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Với các lựa chọn đặt phòng linh hoạt, bạn hoàn toàn có thể tự do điều chỉnh chuyến đi của mình để tận hưởng mọi trải nghiệm theo cách riêng."
+                                    country={t("banner.phuQuoc.heading")}
+                                    heading={t("banner.phuQuoc.heading")}
+                                    description={t(
+                                        "banner.phuQuoc.description"
+                                    )}
                                 />
                             </SwiperSlide>
                         </Swiper>
