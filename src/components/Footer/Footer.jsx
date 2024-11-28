@@ -78,26 +78,25 @@ function Footer() {
                                     <div className="footer-logo">
                                         <a href="index.html">
                                             <img
-                                                src={`${process.env.PUBLIC_URL}/assets/img/logo_kkun/Trans_logo_kkunbooking.png`}
-                                                width="200"
+                                                src="assets/img/logo_kkun/Trans_logo_kkunbooking.png"
                                                 alt
                                             />
                                         </a>
                                     </div>
                                     <h3>
-                                        Bạn Muốn
+                                        Muốn
                                         <span className="ms-2">
-                                            Tham Gia
+                                            đi du lịch
                                             <br />
                                         </span>
-                                        các gói du lịch
+                                        Trọn Gói
                                         <span>?</span>
                                     </h3>
                                     <a
                                         href="package-grid.html"
                                         class="primary-btn1"
                                     >
-                                        Đặt ngay
+                                        Đặt khách sạn
                                     </a>
                                 </div>
                             </div>
@@ -159,10 +158,10 @@ function Footer() {
                                                     <path d="M6.56266 13.2091V16.6876C6.56324 16.8058 6.60099 16.9208 6.67058 17.0164C6.74017 17.112 6.83807 17.1832 6.9504 17.22C7.06274 17.2569 7.18382 17.2574 7.29648 17.2216C7.40915 17.1858 7.5077 17.1155 7.57817 17.0206L9.61292 14.2516L6.56266 13.2091ZM17.7639 0.104306C17.6794 0.044121 17.5799 0.00848417 17.4764 0.00133654C17.3729 -0.00581108 17.2694 0.015809 17.1774 0.0638058L0.302415 8.87631C0.205322 8.92762 0.125322 9.00617 0.0722333 9.1023C0.0191447 9.19844 -0.00472288 9.30798 0.00355981 9.41749C0.0118425 9.52699 0.0519151 9.6317 0.11886 9.71875C0.185804 9.80581 0.276708 9.87143 0.380415 9.90756L5.07166 11.5111L15.0624 2.96856L7.33141 12.2828L15.1937 14.9701C15.2717 14.9963 15.3545 15.0051 15.4363 14.996C15.5181 14.9868 15.5969 14.9599 15.6672 14.9171C15.7375 14.8743 15.7976 14.8167 15.8433 14.7482C15.8889 14.6798 15.9191 14.6021 15.9317 14.5208L17.9942 0.645806C18.0094 0.543093 17.996 0.438159 17.9554 0.342598C17.9147 0.247038 17.8485 0.164569 17.7639 0.104306Z" />
                                                 </g>
                                             </svg>
-                                            <h5>Email</h5>
+                                            <h5>Gửi Mail</h5>
                                         </div>
-                                        <a href="mailto:[email&#160;protected]">
-                                            kkunbooking@gmail.com.vn
+                                        <a href="mailto:hoanthai1103@gmail.com">
+                                            [hoanthai1103@gmail.com]
                                         </a>
                                     </div>
                                     <div className="single-contact">
@@ -180,9 +179,9 @@ function Footer() {
                                             <h5>Địa chỉ</h5>
                                         </div>
                                         <a href="https://www.google.com/maps">
-                                            10/80c Song Hành Xa Lộ Hà Nội, {" "}
+                                            29/8 Nguyễn Bỉnh Khiêm, Tân Hòa,
                                             <br />
-                                            P.Tân Phú, Thủ Đức, Hồ Chí Minh
+                                            TP.Dĩ An, Bình Dương, Việt Nam
                                         </a>
                                     </div>
                                 </div>
@@ -191,49 +190,45 @@ function Footer() {
                             <div className="col-lg-3 col-md-6 col-sm-6 d-flex justify-content-lg-end justify-content-sm-end">
                                 <div className="footer-widget">
                                     <div className="widget-title">
-                                        <h5>Chúng Tôi Ở Đây</h5>
+                                        <h5>Chúng tôi ở đây</h5>
                                     </div>
                                     <p>
-                                        Đừng bỏ lỡ cơ hội trải nghiệm những ưu đãi tuyệt vời nhất.
-                                        Hãy ghé thăm chúng tôi ngay hôm nay
-                                        và cùng khám phá những hành trình đáng nhớ!
+                                        Chúng tôi luôn nỗ lực mang đến những
+                                        dịch vụ tốt nhất. Cảm ơn bạn đã ghé thăm
+                                        trang web của chúng tôi!
                                     </p>
                                     <div className="payment-partner">
                                         <div className="widget-title">
-                                            <h5>Đối Tác Thanh Toán</h5>
+                                            <h5>Hỗ trợ thanh toán</h5>
                                         </div>
                                         <div className="icons">
                                             <ul style={{ display: 'flex', listStyle: 'none', padding: 0, gap: '15px' }}>
                                                 <li>
                                                     <img
-                                                        src={`${process.env.PUBLIC_URL}/assets/img/payment_partner/visa_1.ico`}
-                                                        style={{ height: '35px' }}
+                                                        style={{
+                                                            height: "30px",
+                                                        }}
+                                                        src="assets/img/payment/visa.png"
                                                         alt="Visa"
                                                         title="Thanh toán bằng Visa"
                                                     />
                                                 </li>
                                                 <li>
                                                     <img
-                                                        src={`${process.env.PUBLIC_URL}/assets/img/payment_partner/mastercard.ico`}
-                                                        style={{ height: '35px' }}
-                                                        alt="Mastercard"
-                                                        title="Thanh toán bằng Mastercard"
-                                                    />
-                                                </li>
-                                                <li>
-                                                    <img
-                                                        src={`${process.env.PUBLIC_URL}/assets/img/payment_partner/vnpay.ico`}
-                                                        style={{ height: '35px' }}
-                                                        alt="VNPay"
-                                                        title="Thanh toán bằng VNPay"
-                                                    />
-                                                </li>
-                                                <li>
-                                                    <img
-                                                        src={`${process.env.PUBLIC_URL}/assets/img/payment_partner/momo.ico`}
-                                                        style={{ height: '35px' }}
+                                                        style={{
+                                                            height: "30px",
+                                                        }}
+                                                        src="assets/img/payment/momo.png"
                                                         alt="Momo"
-                                                        title="Thanh toán bằng Momo"
+                                                    />
+                                                </li>
+                                                <li>
+                                                    <img
+                                                        style={{
+                                                            height: "30px",
+                                                        }}
+                                                        src="assets/img/payment/paypal.png"
+                                                        alt="PayPal"
                                                     />
                                                 </li>
                                             </ul>
@@ -279,7 +274,7 @@ function Footer() {
                                     </li>
                                 </ul>
                                 <p>
-                                    ©Copyright 2024 KKUN Booking | Design By{" "}
+                                    ©Copyright 2024 KKun Booking | Design By{" "}
                                     <a href="https://www.egenslab.com/">
                                         Nhom 18
                                     </a>
@@ -287,10 +282,14 @@ function Footer() {
                                 <div className="footer-right">
                                     <ul>
                                         <li>
-                                            <a href="#">Chính Sách Bảo Mật</a>
+                                            <a href="#">
+                                                Chính sách & Quyền riêng tư
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="#">Điều Khoản Sử Dụng</a>
+                                            <a href="#">
+                                                Điều khoản & Điều kiện
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>

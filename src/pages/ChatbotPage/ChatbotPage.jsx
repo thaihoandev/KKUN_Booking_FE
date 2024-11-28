@@ -7,13 +7,23 @@ function ChatbotPage() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalImage, setModalImage] = useState("");
     const chatContainerRef = useRef(null);
     const sessionId = useRef(sessionStorage.getItem("sessionId") || uuidv4());
 
     useEffect(() => {
         sessionStorage.setItem("sessionId", sessionId.current);
     }, []);
+    const openModal = (image) => {
+        setModalImage(image);
+        setIsModalOpen(true);
+    };
 
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalImage("");
+    };
     const styles = {
         chatContainer: {
             maxWidth: "900px",
@@ -77,7 +87,7 @@ function ChatbotPage() {
             boxShadow: "0 2px 4px rgba(0,0,0,0.05)", // Thêm shadow nhẹ
         }),
         messageBox: (isUser) => ({
-            padding: "0.75rem 1rem",
+            padding: "0.5rem 1rem",
             borderRadius: "1rem",
             backgroundColor: isUser ? "var(--primary-color1)" : "white",
             color: isUser ? "white" : "black",
@@ -147,10 +157,46 @@ function ChatbotPage() {
             borderRadius: "50%",
             animation: "typing 1s infinite ease-in-out",
         },
+        modalOverlay: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+        },
+        modalImage: {
+            maxWidth: "90%",
+            maxHeight: "90%",
+            borderRadius: "0.5rem",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+        },
+        closeButton: {
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            width: "30px",
+            height: "30px", // Add height to ensure it's a perfect circle
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "white",
+            border: "none",
+            borderRadius: "50%",
+            cursor: "pointer",
+            fontSize: "1.5rem", // Adjust font size if needed
+            lineHeight: "1", // Set line height to ensure icon is centered
+            padding: "0", // Remove padding to prevent distortion
+        },
     };
 
     useEffect(() => {
         const style = document.createElement("style");
+        window.scrollTo(0, 0);
         style.textContent = `
             @keyframes typing {
                 0%, 100% { transform: translateY(0); }
@@ -207,7 +253,7 @@ function ChatbotPage() {
             onMutate: async (newMessage) => {
                 const userMessage = {
                     user: "user",
-                    text: newMessage,
+                    text: newMessage, // Store the message directly as text
                     timestamp: new Date(),
                 };
                 setMessages((prev) => [...prev, userMessage]);
@@ -230,7 +276,18 @@ function ChatbotPage() {
             },
         }
     );
-
+    const handleButtonClick = (payload) => {
+        if (payload === "/confirm_booking") {
+            // Gửi tin nhắn "Xác nhận"
+            sendMessageMutation.mutate("Tôi đồng ý đặt phòng");
+        } else if (payload === "/deny") {
+            // Gửi tin nhắn "Hủy"
+            sendMessageMutation.mutate("Không đặt nữa");
+        } else if (payload.startsWith("http")) {
+            // Nếu payload là một URL, mở trong tab mới
+            window.open(payload, "_blank");
+        }
+    };
     const handleSendMessage = () => {
         if (!input.trim()) return;
         sendMessageMutation.mutate(input);
@@ -243,29 +300,135 @@ function ChatbotPage() {
         });
     };
 
-    const renderMessageText = (text) => {
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        const parts = text.split(urlRegex);
+    const renderMessageContent = (message) => {
+        // Handle plain string messages
+        if (typeof message === "string") {
+            const formattedMessage = message.replace(/\n/g, "<br>");
+            return (
+                <p
+                    style={{ margin: 0, whiteSpace: "pre-wrap" }}
+                    dangerouslySetInnerHTML={{ __html: formattedMessage }}
+                />
+            );
+        }
 
-        return parts.map((part, index) => {
-            if (urlRegex.test(part)) {
+        // Validate message.content for valid types
+        if (!message || !message.type) {
+            console.error("Invalid message format:", message);
+            return null;
+        }
+
+        switch (message.type) {
+            case "text":
+                const formattedContent = message.content.replace(/\n/g, "<br>");
                 return (
-                    <a
-                        key={index}
-                        href={part}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                            color: "#0d6efd",
-                            textDecoration: "underline",
-                        }}
-                    >
-                        {part}
-                    </a>
+                    <p
+                        style={{ margin: 0, whiteSpace: "pre-wrap" }}
+                        dangerouslySetInnerHTML={{ __html: formattedContent }}
+                    />
                 );
-            }
-            return part;
-        });
+
+            case "image":
+                if (typeof message.content !== "string") {
+                    console.error(
+                        "Invalid image content format:",
+                        message.content
+                    );
+                    return null;
+                }
+                return (
+                    <img
+                        src={message.content}
+                        alt="Bot response"
+                        style={{
+                            width: "200px",
+                            borderRadius: "0.5rem",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => openModal(message.content)} // Open modal on image click
+                    />
+                );
+
+            case "image_group":
+                if (!Array.isArray(message.content)) {
+                    console.error(
+                        "Invalid image group format. Expected an array of URLs:",
+                        message.content
+                    );
+                    return null;
+                }
+                // Group images into rows of up to 4
+                const rows = [];
+                for (let i = 0; i < message.content.length; i += 4) {
+                    rows.push(message.content.slice(i, i + 4));
+                }
+                return (
+                    <div>
+                        {rows.map((row, rowIndex) => (
+                            <div
+                                key={rowIndex}
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center", // Align images to the left
+                                    gap: "0.5rem",
+                                    flexWrap: "nowrap", // Keep images on the same row
+                                }}
+                            >
+                                {row.map((image, index) => (
+                                    <img
+                                        key={`${rowIndex}-${index}`}
+                                        src={image}
+                                        alt={`Room image ${index + 1}`}
+                                        style={{
+                                            flex: "1", // Take up equal space within the parent
+                                            maxWidth: "calc(25% - 0.5rem)", // Ensure it doesn't exceed 25% of parent width
+                                            height: "auto", // Maintain aspect ratio
+                                            borderRadius: "0.5rem",
+                                            cursor: "pointer",
+                                        }}
+                                        onClick={() => openModal(image)}
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                );
+
+            case "buttons":
+                if (!Array.isArray(message.content)) {
+                    console.error(
+                        "Invalid buttons content format:",
+                        message.content
+                    );
+                    return null;
+                }
+                return (
+                    <div style={{ display: "flex", gap: "0.5rem" }}>
+                        {message.content.map((button, index) => (
+                            <button
+                                key={index}
+                                onClick={() =>
+                                    handleButtonClick(button.payload)
+                                }
+                                style={{
+                                    padding: "0.5rem 1rem",
+                                    backgroundColor: "var(--primary-color1)",
+                                    color: "white",
+                                    border: "none",
+                                    borderRadius: "0.5rem",
+                                    cursor: "pointer",
+                                }}
+                            >
+                                {button.title}
+                            </button>
+                        ))}
+                    </div>
+                );
+
+            default:
+                console.error("Unsupported message type:", message.type);
+                return null;
+        }
     };
 
     const TypingIndicator = () => (
@@ -334,7 +497,7 @@ function ChatbotPage() {
                                     </div>
                                 )}
                                 <div style={styles.messageBox(isUser)}>
-                                    {renderMessageText(msg.text)}
+                                    {renderMessageContent(msg.text)}
                                 </div>
                                 {isUser && showAvatar && (
                                     <div style={styles.avatar(true)}>
@@ -389,6 +552,19 @@ function ChatbotPage() {
                     </button>
                 </div>
             </div>
+            {/* Modal for image zoom */}
+            {isModalOpen && (
+                <div style={styles.modalOverlay} onClick={closeModal}>
+                    <button style={styles.closeButton} onClick={closeModal}>
+                        &times;
+                    </button>
+                    <img
+                        src={modalImage}
+                        alt="Zoomed"
+                        style={styles.modalImage}
+                    />
+                </div>
+            )}
         </div>
     );
 }

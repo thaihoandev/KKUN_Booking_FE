@@ -106,7 +106,12 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
             };
 
             // Dispatch để lưu giá trị mặc định vào Redux store
-            dispatch(updateBooking(bookingUpdate));
+            dispatch(
+                updateBooking({
+                    checkInDate: bookingUpdate.checkInDate,
+                    checkOutDate: bookingUpdate.checkOutDate,
+                })
+            );
         }
 
         if (booking.location) {
@@ -223,7 +228,12 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                         ),
                     };
 
-                    dispatch(updateBooking(bookingUpdate));
+                    dispatch(
+                        updateBooking({
+                            checkInDate: bookingUpdate.checkInDate,
+                            checkOutDate: bookingUpdate.checkOutDate,
+                        })
+                    );
 
                     toast.info(
                         <>

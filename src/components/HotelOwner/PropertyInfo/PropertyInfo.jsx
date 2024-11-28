@@ -7,7 +7,6 @@ import * as AmenityService from "../../../services/AmenityService";
 import * as HotelService from "../../../services/HotelService";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { hotelDetailsSchema } from "../../../schemas/validationSchemas";
 
 function PropertyInfo({ hotelDetails, setHotelDetails, onNext }) {
@@ -30,10 +29,13 @@ function PropertyInfo({ hotelDetails, setHotelDetails, onNext }) {
             category: "",
             description: "",
             paymentPolicy: "",
+            freeCancellation: false,
+            breakfastIncluded: false,
+            prePayment: false,
         },
     });
 
-    // Lấy dữ liệu amenities và categories
+    // Fetch amenities, categories, and policies
     const mutationFacilities = useMutation(
         () => AmenityService.getAllAmenities(),
         {
@@ -55,13 +57,14 @@ function PropertyInfo({ hotelDetails, setHotelDetails, onNext }) {
             onError: (error) => toast.error(error.message),
         }
     );
+
     useEffect(() => {
         mutationHotelPolicies.mutate();
         mutationHotelCategories.mutate();
         mutationFacilities.mutate();
     }, []);
 
-    // Cập nhật `hotelDetails` mỗi khi form thay đổi
+    // Update hotelDetails when form or selections change
     useEffect(() => {
         const formData = watch();
         setHotelDetails({
@@ -96,14 +99,12 @@ function PropertyInfo({ hotelDetails, setHotelDetails, onNext }) {
 
     const groupedFacilities = groupFacilitiesByType(hotelFacilities);
 
-    // Hàm xử lý submit form và lưu thông tin vào `hotelDetails`
     const onSubmit = (data) => {
         setHotelDetails({
             ...data,
             facilities: selectedFacilities,
             images: selectedHotelImages,
         });
-
         onNext();
     };
 
@@ -138,7 +139,6 @@ function PropertyInfo({ hotelDetails, setHotelDetails, onNext }) {
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
                                     <label>Loại khách sạn*</label>
-
                                     <Controller
                                         name="category"
                                         control={control}
@@ -161,7 +161,6 @@ function PropertyInfo({ hotelDetails, setHotelDetails, onNext }) {
                                     <p>{errors.category?.message}</p>
                                 </div>
                             </div>
-
                             <div className="additional-information">
                                 <h6>Mô tả</h6>
                                 <div className="form-inner mb-30">
@@ -177,11 +176,7 @@ function PropertyInfo({ hotelDetails, setHotelDetails, onNext }) {
                                             ></textarea>
                                         )}
                                     />
-                                    {errors.description && (
-                                        <p className="error-message">
-                                            {errors.description.message}
-                                        </p>
-                                    )}
+                                    <p>{errors.description?.message}</p>
                                 </div>
                             </div>
 
@@ -248,10 +243,81 @@ function PropertyInfo({ hotelDetails, setHotelDetails, onNext }) {
                             </div>
 
                             <div className="additional-information mt-3">
+                                <strong>Dịch vụ ưu đãi</strong>
+                                <div className="row border rounded p-3 bg-white">
+                                    <div className="col-md-4">
+                                        <Controller
+                                            name="freeCancellation"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <div className="form-check">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-check-input"
+                                                        id="freeCancellation"
+                                                        {...field}
+                                                    />
+                                                    <label
+                                                        className="form-check-label"
+                                                        htmlFor="freeCancellation"
+                                                    >
+                                                        Miễn phí hủy
+                                                    </label>
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+                                    <div className="col-md-4">
+                                        <Controller
+                                            name="breakfastIncluded"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <div className="form-check">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-check-input"
+                                                        id="breakfastIncluded"
+                                                        {...field}
+                                                    />
+                                                    <label
+                                                        className="form-check-label"
+                                                        htmlFor="breakfastIncluded"
+                                                    >
+                                                        Bữa sáng miễn phí
+                                                    </label>
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+                                    <div className="col-md-4">
+                                        <Controller
+                                            name="prePayment"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <div className="form-check">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-check-input"
+                                                        id="prePayment"
+                                                        {...field}
+                                                    />
+                                                    <label
+                                                        className="form-check-label"
+                                                        htmlFor="prePayment"
+                                                    >
+                                                        Thanh toán trước
+                                                    </label>
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="additional-information mt-3">
                                 <h6>Chính sách</h6>
                                 <div className="form-inner mb-30">
                                     <label>Phương thức thanh toán*</label>
-
                                     <Controller
                                         name="paymentPolicy"
                                         control={control}

@@ -15,7 +15,7 @@ function PaymentCallback() {
         {
             onSuccess: (data) => {
                 // Điều hướng dựa trên trạng thái thanh toán trả về từ backend
-                if (data.status === "COMPLETED") {
+                if (data.status === "COMPLETED" || data.code === 200) {
                     navigate("/bookings/booking-success");
                 } else {
                     navigate("/bookings/booking-failure");
@@ -33,6 +33,7 @@ function PaymentCallback() {
         const queryParams = Object.fromEntries(
             new URLSearchParams(location.search).entries()
         );
+        console.log("queryParams", queryParams);
 
         // Gọi mutation với queryParams
         mutationPaymentCallback.mutate(queryParams);

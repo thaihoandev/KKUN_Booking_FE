@@ -27,8 +27,6 @@ function HotelOwnerSignUp() {
     };
 
     console.log("Hotel:", hotelDetails);
-    console.log("location:", location);
-    console.log("roomDetails:", roomDetails);
 
     return (
         <>

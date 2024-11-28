@@ -18,7 +18,10 @@ export const updatePromotionStatus = async (promotionId, data, accessToken) => {
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
-            throw new Error(error.response.data.message || "Đã xảy ra lỗi khi kết nối tới máy chủ.");
+            throw new Error(
+                error.response.data.message ||
+                    "Đã xảy ra lỗi khi kết nối tới máy chủ."
+            );
         } else {
             throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
         }
@@ -26,15 +29,10 @@ export const updatePromotionStatus = async (promotionId, data, accessToken) => {
 };
 
 // Lấy tất cả các ưu đãi
-export const getAllPromotions = async (accessToken) => {
+export const getAllPromotions = async () => {
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/promotions`,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }
+            `${process.env.REACT_APP_BASE_API_URL}/promotions`
         );
         return response.data;
     } catch (error) {
@@ -47,15 +45,10 @@ export const getAllPromotions = async (accessToken) => {
 };
 
 // Lấy tất cả các loại ưu đãi
-export const getAllPromotionTypes = async (accessToken) => {
+export const getAllPromotionTypes = async () => {
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/promotions/types`,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }
+            `${process.env.REACT_APP_BASE_API_URL}/promotions/discount-types`
         );
         return response.data;
     } catch (error) {
@@ -68,15 +61,12 @@ export const getAllPromotionTypes = async (accessToken) => {
 };
 
 // Lấy thông tin ưu đãi theo ID
-export const getPromotionById = async (promotionId, accessToken) => {
+export const getPromotionById = async (promotionId) => {
     try {
+        console.log(promotionId);
+
         const response = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/promotions/${promotionId}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }
+            `${process.env.REACT_APP_BASE_API_URL}/promotions/${promotionId}`
         );
         return response.data;
     } catch (error) {
@@ -113,6 +103,7 @@ export const createPromotion = async (data, accessToken) => {
 // Cập nhật ưu đãi theo ID
 export const updatePromotion = async (promotionId, data, accessToken) => {
     try {
+        console.log("data", promotionId, data);
         const response = await axios.put(
             `${process.env.REACT_APP_BASE_API_URL}/promotions/${promotionId}`,
             data,

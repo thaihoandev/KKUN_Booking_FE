@@ -213,6 +213,9 @@ export const hotelDetailsSchema = yup.object().shape({
     category: yup.string().required("Danh mục khách sạn là bắt buộc"),
     description: yup.string().required("Mô tả là bắt buộc"),
     paymentPolicy: yup.string().required("Chính sách thanh toán là bắt buộc"),
+    freeCancellation: yup.boolean(),
+    breakfastIncluded: yup.boolean(),
+    prePayment: yup.boolean(),
 });
 export const locationHotelschema = yup.object().shape({
     location: yup.string().required("Địa chỉ khách sạn là bắt buộc"),
@@ -232,28 +235,49 @@ export const blogCreateSchema = yup.object().shape({
     blogPostCategory: yup.string().required("Danh mục là bắt buộc"),
 });
 
+export const promotionCreatechema = yup.object().shape({
+    name: yup.string().required("Tên ưu đãi là bắt buộc"),
+    code: yup.string().required("Mã ưu đãi là bắt buộc"),
+    startDate: yup.string().nullable(),
+    endDate: yup.string().nullable(),
+    quantity: yup
+        .number()
+        .nullable()
+        .min(1, "Số lượng phải lớn hơn hoặc bằng 1")
+        .typeError("Số lượng phải là một số"),
+    value: yup
+        .number()
+        .required("Giá trị giảm giá là bắt buộc")
+        .min(1, "Giá trị phải lớn hơn 0"),
+    maxDiscountValue: yup
+        .number()
+        .required("Giá trị giảm giá là bắt buộc")
+        .min(1, "Giá trị phải lớn hơn 0"),
+    discountType: yup.string().required("Vui lòng chọn đơn vị tính ưu đãi"),
+    applyTo: yup.string().required("Vui lòng chọn áp dụng"),
+    description: yup.string().required("Mô tả là bắt buộc"),
+});
 
-// Update hotel schema
-export const editRoomSchema = yup.object().shape({
-    roomType: yup.string().required("Loại phòng là bắt buộc"),
-    bedType: yup.string().required("Loại giường là bắt buộc"),
-    originalPrice: yup
+// Validation schema với yup
+export const promotionUpdateSchema = yup.object().shape({
+    name: yup.string().required("Tên ưu đãi là bắt buộc"),
+    code: yup.string().required("Mã ưu đãi là bắt buộc"),
+    startDate: yup.string().nullable(),
+    endDate: yup.string().nullable(),
+    quantity: yup
         .number()
-        .typeError("Giá gốc phải là số")
-        .positive("Giá gốc phải là số dương")
-        .required("Giá gốc là bắt buộc"),
-    discountedPrice: yup
+        .nullable()
+        .min(1, "Số lượng phải lớn hơn hoặc bằng 1")
+        .typeError("Số lượng phải là một số"),
+    value: yup
         .number()
-        .typeError("Giá giảm phải là số")
-        .positive("Giá giảm phải là số dương"),
-    maxOccupancy: yup
+        .required("Giá trị giảm giá là bắt buộc")
+        .min(1, "Giá trị phải lớn hơn 0"),
+    maxDiscountValue: yup
         .number()
-        .typeError("Số người tối đa phải là số")
-        .positive("Số người tối đa phải là số dương")
-        .required("Số người tối đa là bắt buộc"),
-    roomArea: yup
-        .number()
-        .typeError("Diện tích phải là số")
-        .positive("Diện tích phải là số dương")
-        .required("Diện tích là bắt buộc"),
+        .required("Giá trị giảm giá là bắt buộc")
+        .min(1, "Giá trị phải lớn hơn 0"),
+    discountType: yup.string().required("Vui lòng chọn loại ưu đãi"),
+    applyTo: yup.string().required("Vui lòng chọn áp dụng"),
+    description: yup.string().required("Mô tả là bắt buộc"),
 });

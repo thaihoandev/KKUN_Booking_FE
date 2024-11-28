@@ -102,14 +102,17 @@ const TabButton = ({ isActive, id, label, onClick }) => (
     </button>
 );
 
-function BookingForm({ hotel, room }) {
+function BookingForm({ hotel, room, discount, setDiscount }) {
     const [activeTab, setActiveTab] = useState(TABS.CONTACT);
     const [isBookingValid, setIsBookingValid] = useState(false);
     const booking = useSelector((state) => state.booking);
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({});
+    const [voucherCode, setVoucherCode] = useState("");
 
+    const [voucherError, setVoucherError] = useState(""); // Thông báo lỗi mã voucher
+    const [promotionId, setPromotionId] = useState(null);
     const {
         register: registerBooking,
         handleSubmit: handleSubmitBooking,
@@ -149,7 +152,7 @@ function BookingForm({ hotel, room }) {
 
     const mutationBookingSubmit = useMutation(
         ({ data, accessToken }) =>
-            BookingService.createBooking(data, accessToken),
+            BookingService.createBooking(data, accessToken || "anonymous"),
         {
             onSuccess: (data) => {
                 toast.info("Đang tiến hành xử lý...!");
@@ -165,11 +168,57 @@ function BookingForm({ hotel, room }) {
             },
         }
     );
+    const verifyVoucherMutation = useMutation(
+        (voucherCode) => BookingService.verifyVoucher(voucherCode),
+        {
+            onSuccess: (data) => {
+                if (data && data.isActive) {
+                    // Tính giá trị giảm giá dựa trên loại giảm giá
+                    let calculatedDiscount =
+                        data.discountType === "PERCENT"
+                            ? Math.floor((data.value * room.basePrice) / 100)
+                            : data.value;
+
+                    // Kiểm tra nếu có maxDiscountValue
+                    if (
+                        data.maxDiscountValue &&
+                        calculatedDiscount > data.maxDiscountValue
+                    ) {
+                        // Giới hạn giảm giá ở maxDiscountValue
+                        calculatedDiscount = data.maxDiscountValue;
+                    }
+
+                    // Cập nhật giá trị giảm giá qua setDiscount
+                    setDiscount(calculatedDiscount);
+
+                    // Lưu thông tin promotion và xóa lỗi
+                    setPromotionId(data.id);
+                    setVoucherError("");
+
+                    // Thông báo thành công
+                    toast.success(
+                        `Mã voucher đã được áp dụng! Giảm giá: ${calculatedDiscount.toLocaleString(
+                            "vi-VN"
+                        )} VNĐ`
+                    );
+                } else {
+                    // Voucher không hợp lệ hoặc hết hạn
+                    setPromotionId(null);
+                    setVoucherError("Mã voucher không hợp lệ hoặc đã hết hạn.");
+                }
+            },
+            onError: (error) => {
+                // Lỗi khi gọi API kiểm tra voucher
+                setPromotionId(null);
+                setVoucherError("Đã xảy ra lỗi khi kiểm tra mã voucher.");
+            },
+        }
+    );
 
     const handleFormSubmit = {
         booking: (data) => {
-            setFormData((prevData) => ({
-                ...prevData,
+            const updatedFormData = {
+                ...formData,
                 bookingName: data.fullName,
                 bookingPhone: data.phone,
                 bookingEmail: data.email,
@@ -178,7 +227,12 @@ function BookingForm({ hotel, room }) {
                     hotel.paymentPolicy === "CHECKOUT"
                         ? MAIN_PAYMENT_METHODS.ON_CHECKOUT
                         : null,
-            }));
+                promotionId: promotionId || null,
+            };
+
+            // Cập nhật formData trước khi submit
+            setFormData(updatedFormData);
+
             setIsBookingValid(true);
 
             if (
@@ -187,8 +241,9 @@ function BookingForm({ hotel, room }) {
             ) {
                 setActiveTab(TABS.PAYMENT);
             } else {
+                console.log("data", updatedFormData); // Log chính xác dữ liệu đã cập nhật
                 mutationBookingSubmit.mutate({
-                    data: formData,
+                    data: updatedFormData,
                     accessToken: user.accessToken,
                 });
             }
@@ -204,6 +259,7 @@ function BookingForm({ hotel, room }) {
             }
             const tempFormData = {
                 ...formData,
+                promotionId: promotionId || null,
                 paymentType:
                     data.electronicPaymentOption ||
                     MAIN_PAYMENT_METHODS.ON_CHECKOUT,
@@ -221,6 +277,14 @@ function BookingForm({ hotel, room }) {
             return;
         }
         setActiveTab(tabId);
+    };
+    const applyVoucher = () => {
+        if (!voucherCode) {
+            setVoucherError("Vui lòng nhập mã voucher.");
+            return;
+        }
+
+        verifyVoucherMutation.mutate(voucherCode); // Gọi mutation
     };
 
     const renderContactForm = () => (
@@ -250,6 +314,36 @@ function BookingForm({ hotel, room }) {
                 register={registerBooking("notes")}
                 placeholder="Thêm ghi chú"
             />
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                }}
+            >
+                <FormField
+                    label="Mã voucher"
+                    placeholder="Nhập mã voucher"
+                    value={voucherCode}
+                    onChange={(e) => setVoucherCode(e.target.value)}
+                />
+                <button
+                    type="button"
+                    className="primary-btn2"
+                    onClick={() => applyVoucher()}
+                >
+                    Áp dụng
+                </button>
+                {discount > 0 && (
+                    <p className="text-success m-0 pb-0">
+                        Áp dụng thành công! Giảm giá: {discount} VNĐ
+                    </p>
+                )}
+                {voucherError && (
+                    <span className="text-danger m-0">{voucherError}</span>
+                )}
+            </div>
+
             <button type="submit" className="primary-btn1 two">
                 {hotel.paymentPolicy === "ONLINE" ||
                 hotel.paymentPolicy === "ONLINE_CHECKOUT"

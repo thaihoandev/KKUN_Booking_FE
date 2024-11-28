@@ -58,11 +58,11 @@ import BlogListPage from "./pages/Admin/Blog/BlogListPage/BlogListPage";
 // import Promotions from "./pages/Promotions/Promotions";
 import AllPromotions from "./pages/Admin/AdminPromotions/AllPromotions/AllPromotions"
 import PromotionPage from "./pages/PromotionPage/PromotionPage";
-import PromotionCreate from "./pages/Admin/AdminPromotions/PromotionCreate/PromotionCreate";
-import PromotionEdit from "./pages/Admin/AdminPromotions/PromotionEdit/PromotionEdit";
-import OWRoomDetail from "./pages/HotelOwner/Room/RoomDetails/OWRoomDetail";
+import PromotionListPage from "./pages/Admin/Promotion/PromotionListPage/PromotionListPage";
+import PromotionCreatePage from "./pages/Admin/Promotion/PromotionCreatePage/PromotionCreatePage";
+import PromotionEditPage from "./pages/Admin/Promotion/PromotionEditPage/PromotionEditPage";
 import RoomEdit from "./pages/HotelOwner/Room/RoomEdit/RoomEdit";
-
+import OWRoomDetail from "./pages/HotelOwner/Room/RoomDetails/OWRoomDetail";
 const router = createBrowserRouter([
     {
         path: "/",
@@ -167,14 +167,12 @@ const router = createBrowserRouter([
             { path: "add-amenity", element: <AmenityCreate /> },
             { path: "amenities/:amenityId/edit", element: <AmenityEdit /> },
 
-            { path: "vouchers", element: <AllPromotions /> },
-            { path: "add-voucher", element: <PromotionCreate /> },
-            { path: "vouchers/:voucherId/edit", element: <PromotionEdit /> },
+            { path: "vouchers", element: <PromotionListPage /> },
+            { path: "add-voucher", element: <PromotionCreatePage /> },
+            { path: "vouchers/:voucherId/edit", element: <PromotionEditPage /> },
 
 
             { path: "*", element: <NotFoundPage /> },
-
-
         ],
     },
     {
