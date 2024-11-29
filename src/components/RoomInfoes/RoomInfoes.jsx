@@ -6,15 +6,18 @@ import {
     convertRating5To10Scale,
     getRatingDescription,
 } from "../../utils/ratingReview";
+import { useTranslation } from "react-i18next";
 
 function RoomInfoes({ hotel, room }) {
+    const { t } = useTranslation();
+
     return (
         <>
             <div className="location-and-review">
                 <div className="location">
                     <p>
                         <i className="bi bi-geo-alt"></i> {hotel.location} -{" "}
-                        <a href="#">Xem bản đồ</a>
+                        <a href="#">{t("hotel.viewLocation")}</a>
                     </p>
                 </div>
                 <div className="review-area">
@@ -49,37 +52,33 @@ function RoomInfoes({ hotel, room }) {
                                     {getRatingDescription(hotel.rating)}
                                 </>
                             ) : (
-                                "Chưa có đánh giá"
+                                `${t("noReviewsYet")}`
                             )}
-                        </strong>{" "}
+                        </strong>
+                        {" | "}
                         {hotel.numOfReviews > 0 &&
-                            `${hotel.numOfReviews} đánh giá`}
+                            `${hotel.numOfReviews} ${t("reviewTitle")}`}
                     </span>
                 </div>
             </div>
             <h2>{hotel.name}</h2>
             <div className="price-area">
                 <h6>
-                    {convertToVND(room.basePrice)}/<span>1 đêm</span>
+                    {convertToVND(room.basePrice)}/<span>1 {t("night")}</span>
                 </h6>
             </div>
             <p>{hotel.description}</p>
             {room.amenities.length > 0 && (
                 <>
-                    <h4>Tiện ích nổi bật trong phòng</h4>
+                    <h4>{t("roomDetails.amenitySpecial")}</h4>
                     <RoomAmenities amenities={room.amenities} />
                 </>
             )}
-            <h4>Thú cưng.</h4>
-            <p>Pets not allowed</p>
-            <h4>Trẻ em và giường phụ.</h4>
-            <p>
-                Children are welcome Kids stay free! Children stay free when
-                using existing bedding; children may not be eligible for
-                complimentary breakfast Rollaway/extra beds are available for $
-                10 per day.
-            </p>
-            <h4>Tiện nghi</h4>
+            <h4>{t("roomDetailsPage.pet")}.</h4>
+            <p>{t("roomDetailsPage.petnotAllowed")}</p>
+            <h4>{t("roomDetailsPage.childAndBed")}.</h4>
+            <p>{t("roomDetailsPage.childAndBedDesc")}</p>
+            <h4>{t("roomDetailsPage.amenityTitle")}</h4>
             <HotelAmenities amenities={hotel.amenities}></HotelAmenities>{" "}
         </>
     );

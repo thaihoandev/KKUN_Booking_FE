@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import * as RoomService from "../../services/RoomService";
 import Loading from "../Loading/Loading";
 import convertToVND from "../../utils/convertToVND";
+import { useTranslation } from "react-i18next";
+import { removeDiacritics } from "../../utils/utils";
 
 const RoomList = ({ hotel }) => {
     const { hotelId, roomId } = useParams();
@@ -13,10 +15,11 @@ const RoomList = ({ hotel }) => {
     const [loading, setLoading] = useState(true);
     const booking = useSelector((state) => state.booking);
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const filters = [
-        { id: 1, icon: "🏠", text: "Đặt không cần thẻ tín dụng", count: 2 },
-        { id: 2, icon: "💳", text: "Thanh toán tại nơi ở", count: 2 },
+        { id: 1, icon: "🏠", text: `${t("bookWithoutCard")}`, count: 2 },
+        { id: 2, icon: "💳", text: `${t("payAtLocation")}`, count: 2 },
     ];
 
     const mutationAvailableRoom = useMutation(
@@ -59,9 +62,9 @@ const RoomList = ({ hotel }) => {
             {/* Header */}
             <div className="row mb-4">
                 <div className="col d-flex justify-content-between align-items-center">
-                    <h1 className="h4 mb-0">Chọn phòng</h1>
+                    <h1 className="h4 mb-0">{t("roomInfo.selectRoom")}</h1>
                     <a href="#" className="btn btn-link text-decoration-none">
-                        Chúng tôi khớp giá!
+                        {t("roomInfo.bestPrice")}
                     </a>
                 </div>
             </div>
@@ -69,9 +72,9 @@ const RoomList = ({ hotel }) => {
             {/* Filters */}
             <div className="mb-4 border rounded p-3">
                 <div className="d-flex align-items-center mb-2">
-                    <span className="me-2">Chọn lọc:</span>
+                    <span className="me-2"> {t("roomInfo.filters")}:</span>
                     <button className="btn btn-link text-decoration-none p-0">
-                        Xóa hết
+                        {t("roomInfo.clearAll")}
                     </button>
                 </div>
                 <div className="d-flex flex-wrap gap-2">
@@ -88,7 +91,7 @@ const RoomList = ({ hotel }) => {
 
             {/* Room Count Info */}
             <div className="text-danger small mb-4">
-                {availableRooms.length} loại phòng có sẵn
+                {availableRooms.length} {t("roomInfo.roomCount")}
             </div>
 
             {/* Room Cards */}
@@ -158,7 +161,7 @@ const RoomList = ({ hotel }) => {
                                         }}
                                         className="primary-btn2 col-6 justify-content-center mt-2  ms-auto "
                                     >
-                                        <span>Xem phòng</span>
+                                        <span>{t("roomDetails.seeRoom")}</span>
                                     </Link>
                                 </div>
                             </div>
@@ -166,15 +169,20 @@ const RoomList = ({ hotel }) => {
                             {/* Middle Column - Details */}
                             <div className="col-12 col-md-6 border-end">
                                 <h3 className="h5 mb-2">
-                                    {room.typeDisplayName}
+                                    {t(`roomTypes.${room.type}`) ||
+                                        t("hotel.roomTypeUnavailable")}
                                 </h3>
                                 <div className="d-flex">
                                     <div className="small col-xl-6 border-end">
-                                        <h6 className="px-2">Thông tin</h6>
+                                        <h6 className="px-2">
+                                            {" "}
+                                            {t("information")}
+                                        </h6>
                                         <div className="d-flex align-items-center gap-2 mb-2">
                                             <span>🏠</span>
                                             <span>
-                                                Diện tích phòng: {room.area} m²
+                                                {t("roomInfo.roomSize")}:{" "}
+                                                {room.area} m²
                                             </span>
                                         </div>
                                         {room.direction && (
@@ -186,23 +194,20 @@ const RoomList = ({ hotel }) => {
                                         <div className="d-flex align-items-center gap-2 mb-2">
                                             <span>🚪</span>
                                             <span>
-                                                Tối đa: {room.capacity} nguời
+                                                {t("max")}: {room.capacity}{" "}
+                                                {t("guests")}
                                             </span>
                                         </div>
                                         <div className="d-flex align-items-center gap-2 mb-2">
                                             <span>🚪</span>
                                             <span>
-                                                Giường:{" "}
-                                                {room.bedTypeDisplayName}
+                                                {t("bed")}:{" "}
+                                                {t(`bedTypes.${room.bedType}`)}
                                             </span>
-                                        </div>
-                                        <div className="d-flex align-items-center gap-2">
-                                            <span>🛁</span>
-                                            <span>Vòi sen</span>
                                         </div>
                                     </div>
                                     <div className="d-flex flex-column gap-1 col-xl-6 px-3">
-                                        <h6 className="px-2">Ưu đãi</h6>
+                                        <h6 className="px-2"> {t("offer")}</h6>
                                         {room.amenities &&
                                             room.amenities.map(
                                                 (amenity, index) => (
@@ -214,7 +219,20 @@ const RoomList = ({ hotel }) => {
                                                             ✓
                                                         </span>
                                                         <span className="small">
-                                                            {amenity.name}
+                                                            {t(
+                                                                `amenities.${removeDiacritics(
+                                                                    amenity.name
+                                                                )
+                                                                    .toLowerCase()
+                                                                    .replace(
+                                                                        /\s+/g,
+                                                                        "_"
+                                                                    )
+                                                                    .replace(
+                                                                        "/",
+                                                                        "_"
+                                                                    )}`
+                                                            )}
                                                         </span>
                                                         {index === 0 && (
                                                             <span className="text-muted">
@@ -242,7 +260,7 @@ const RoomList = ({ hotel }) => {
                                         {convertToVND(room.basePrice)}
                                     </div>
                                     <div className="text-muted small">
-                                        Giá chưa bao gồm thuế và phí
+                                        {t("roomInfo.priceNotTaxAndFees")}
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-end align-items-center gap-3">
@@ -255,16 +273,16 @@ const RoomList = ({ hotel }) => {
                                             alignItems: "center",
                                         }}
                                     >
-                                        Đặt ngay
+                                        {t("bookNow")}
                                     </Link>
                                 </div>
                                 {room.available ? (
                                     <div className="text-end mt-2 text-warning small">
-                                        Đang còn phòng trống!
+                                        {t("roomInfo.roomAvailable")}!
                                     </div>
                                 ) : (
                                     <div className="text-end mt-2 text-danger small">
-                                        Hết phòng!
+                                        {t("soldOut")}!
                                     </div>
                                 )}
                             </div>

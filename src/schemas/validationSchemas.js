@@ -1,108 +1,202 @@
 // schemas/validationSchemas.js
 import * as yup from "yup";
+import i18n from "../i18n";
 
 export const loginSchema = yup.object().shape({
     email: yup
         .string()
-        .required("Email không được để trống")
-        .email("Email không hợp lệ"),
+        .required(i18n.t("validation.required", { field: i18n.t("email") }))
+        .email(i18n.t("validation.email")),
+
     password: yup
         .string()
-        .required("Vui lòng nhập mật khẩu")
-        .min(8, "Mật khẩu phải có ít nhất 8 ký tự")
-        .max(50, "Mật khẩu không được vượt quá 50 ký tự")
+        .required(i18n.t("validation.required", { field: i18n.t("password") }))
+        .min(
+            8,
+            i18n.t("validation.minLength", {
+                field: i18n.t("password"),
+                min: 8,
+            })
+        )
+        .max(
+            50,
+            i18n.t("validation.maxLength", {
+                field: i18n.t("password"),
+                max: 50,
+            })
+        )
         .matches(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-            "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt"
+            i18n.t("validation.password")
         ),
 });
 
+// Register schema
 export const registerSchema = yup.object().shape({
     firstName: yup
         .string()
-        .required("Vui lòng nhập tên")
-        .min(2, "Tên phải có ít nhất 2 ký tự")
-        .max(50, "Tên không được vượt quá 50 ký tự")
-        .matches(/^[a-zA-ZÀ-ỹ\s]*$/, "Tên chỉ được chứa chữ cái"),
+        .required(i18n.t("validation.required", { field: i18n.t("firstName") }))
+        .min(
+            2,
+            i18n.t("validation.minLength", {
+                field: i18n.t("firstName"),
+                min: 2,
+            })
+        )
+        .max(
+            50,
+            i18n.t("validation.maxLength", {
+                field: i18n.t("firstName"),
+                max: 50,
+            })
+        )
+        .matches(
+            /^[a-zA-ZÀ-ỹ\s]*$/,
+            i18n.t("validation.required", { field: i18n.t("firstName") })
+        ),
 
     lastName: yup
         .string()
-        .required("Vui lòng nhập họ")
-        .min(2, "Họ phải có ít nhất 2 ký tự")
-        .max(50, "Họ không được vượt quá 50 ký tự")
-        .matches(/^[a-zA-ZÀ-ỹ\s]*$/, "Họ chỉ được chứa chữ cái"),
+        .required(i18n.t("validation.required", { field: i18n.t("lastName") }))
+        .min(
+            2,
+            i18n.t("validation.minLength", {
+                field: i18n.t("lastName"),
+                min: 2,
+            })
+        )
+        .max(
+            50,
+            i18n.t("validation.maxLength", {
+                field: i18n.t("lastName"),
+                max: 50,
+            })
+        )
+        .matches(
+            /^[a-zA-ZÀ-ỹ\s]*$/,
+            i18n.t("validation.required", { field: i18n.t("lastName") })
+        ),
 
     email: yup
         .string()
-        .required("Vui lòng nhập email")
-        .email("Email không hợp lệ")
-        .max(255, "Email không được vượt quá 255 ký tự"),
+        .required(i18n.t("validation.required", { field: i18n.t("email") }))
+        .email(i18n.t("validation.email"))
+        .max(
+            255,
+            i18n.t("validation.maxLength", { field: i18n.t("email"), max: 255 })
+        ),
 
     password: yup
         .string()
-        .required("Vui lòng nhập mật khẩu")
-        .min(8, "Mật khẩu phải có ít nhất 8 ký tự")
-        .max(50, "Mật khẩu không được vượt quá 50 ký tự")
+        .required(i18n.t("validation.required", { field: i18n.t("password") }))
+        .min(
+            8,
+            i18n.t("validation.minLength", {
+                field: i18n.t("password"),
+                min: 8,
+            })
+        )
+        .max(
+            50,
+            i18n.t("validation.maxLength", {
+                field: i18n.t("password"),
+                max: 50,
+            })
+        )
         .matches(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-            "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt"
+            i18n.t("validation.password")
         ),
 
     rePassword: yup
         .string()
-        .required("Vui lòng xác nhận mật khẩu")
-        .oneOf([yup.ref("password")], "Mật khẩu xác nhận không khớp"),
+        .required(
+            i18n.t("validation.required", { field: i18n.t("confirmPassword") })
+        )
+        .oneOf([yup.ref("password")], i18n.t("validation.match")),
 });
+
+// Hotel Owner registration schema
 export const registerHotelOwnerSchema = yup.object().shape({
     firstName: yup
         .string()
-        .required("Vui lòng nhập tên")
-        .min(2, "Tên phải có ít nhất 2 ký tự")
-        .max(50, "Tên không được vượt quá 50 ký tự")
-        .matches(/^[a-zA-ZÀ-ỹ\s]*$/, "Tên chỉ được chứa chữ cái"),
+        .required(i18n.t("validation.required", { field: i18n.t("firstName") }))
+        .min(
+            2,
+            i18n.t("validation.minLength", {
+                field: i18n.t("firstName"),
+                min: 2,
+            })
+        )
+        .max(
+            50,
+            i18n.t("validation.maxLength", {
+                field: i18n.t("firstName"),
+                max: 50,
+            })
+        )
+        .matches(
+            /^[a-zA-ZÀ-ỹ\s]*$/,
+            i18n.t("validation.required", { field: i18n.t("firstName") })
+        ),
 
     lastName: yup
         .string()
-        .required("Vui lòng nhập họ")
-        .min(2, "Họ phải có ít nhất 2 ký tự")
-        .max(50, "Họ không được vượt quá 50 ký tự")
-        .matches(/^[a-zA-ZÀ-ỹ\s]*$/, "Họ chỉ được chứa chữ cái"),
+        .required(i18n.t("validation.required", { field: i18n.t("lastName") }))
+        .min(
+            2,
+            i18n.t("validation.minLength", {
+                field: i18n.t("lastName"),
+                min: 2,
+            })
+        )
+        .max(
+            50,
+            i18n.t("validation.maxLength", {
+                field: i18n.t("lastName"),
+                max: 50,
+            })
+        )
+        .matches(
+            /^[a-zA-ZÀ-ỹ\s]*$/,
+            i18n.t("validation.required", { field: i18n.t("lastName") })
+        ),
 
     email: yup
         .string()
-        .required("Vui lòng nhập email")
-        .email("Email không hợp lệ")
-        .max(255, "Email không được vượt quá 255 ký tự"),
+        .required(i18n.t("validation.required", { field: i18n.t("email") }))
+        .email(i18n.t("validation.email"))
+        .max(
+            255,
+            i18n.t("validation.maxLength", { field: i18n.t("email"), max: 255 })
+        ),
 
     password: yup
         .string()
-        .required("Vui lòng nhập mật khẩu")
-        .min(8, "Mật khẩu phải có ít nhất 8 ký tự")
-        .max(50, "Mật khẩu không được vượt quá 50 ký tự")
+        .required(i18n.t("validation.required", { field: i18n.t("password") }))
+        .min(
+            8,
+            i18n.t("validation.minLength", {
+                field: i18n.t("password"),
+                min: 8,
+            })
+        )
+        .max(
+            50,
+            i18n.t("validation.maxLength", {
+                field: i18n.t("password"),
+                max: 50,
+            })
+        )
         .matches(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-            "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt"
-        ),
-
-    rePassword: yup
-        .string()
-        .required("Vui lòng xác nhận mật khẩu")
-        .oneOf([yup.ref("password")], "Mật khẩu xác nhận không khớp"),
-
-    phone: yup
-        .string()
-        .required("Vui lòng nhập số điện thoại")
-        .matches(
-            /^[0-9]{10,15}$/,
-            "Số điện thoại không hợp lệ (chỉ chứa số và phải có từ 10 đến 15 chữ số)"
+            i18n.t("validation.password")
         ),
 });
+
 export const changePasswordSchema = yup.object().shape({
     oldPassword: yup.string().when(["$authProvider", "$hasPassword"], {
         is: (authProvider, hasPassword) => {
-            // Yêu cầu oldPassword nếu:
-            // 1. Là tài khoản LOCAL
-            // 2. Hoặc là tài khoản GOOGLE nhưng đã có mật khẩu
             return (
                 authProvider === "LOCAL" ||
                 (authProvider === "GOOGLE" && hasPassword)
@@ -111,21 +205,38 @@ export const changePasswordSchema = yup.object().shape({
         then: () =>
             yup
                 .string()
-                .required("Vui lòng nhập mật khẩu cũ")
-                .min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
+                .required(
+                    i18n.t("validation.required", {
+                        field: i18n.t("oldPassword"),
+                    })
+                )
+                .min(
+                    6,
+                    i18n.t("validation.minLength", {
+                        field: i18n.t("oldPassword"),
+                        min: 6,
+                    })
+                ),
         otherwise: () => yup.string().optional(),
     }),
 
     newPassword: yup
         .string()
-        .required("Vui lòng nhập mật khẩu mới")
-        .min(6, "Mật khẩu mới phải có ít nhất 6 ký tự")
+        .required(
+            i18n.t("validation.required", { field: i18n.t("newPassword") })
+        )
+        .min(
+            6,
+            i18n.t("validation.minLength", {
+                field: i18n.t("newPassword"),
+                min: 6,
+            })
+        )
         .test(
             "not-same-as-old",
-            "Mật khẩu mới phải khác mật khẩu cũ",
+            i18n.t("validation.notSameAsOld"),
             function (value) {
                 const { authProvider, hasPassword } = this.options.context;
-                // Kiểm tra khi có oldPassword (LOCAL hoặc GOOGLE có mật khẩu)
                 if (
                     this.parent.oldPassword &&
                     (authProvider === "LOCAL" || hasPassword)
@@ -138,27 +249,51 @@ export const changePasswordSchema = yup.object().shape({
 
     confirmNewPassword: yup
         .string()
-        .required("Vui lòng xác nhận mật khẩu mới")
-        .oneOf([yup.ref("newPassword")], "Mật khẩu xác nhận không khớp"),
+        .required(
+            i18n.t("validation.required", {
+                field: i18n.t("newPasswordConfirm"),
+            })
+        )
+        .oneOf([yup.ref("newPassword")], i18n.t("validation.match")),
 });
 
 export const bookingFormSchema = yup.object().shape({
     fullName: yup
         .string()
-        .required("Vui lòng nhập tên đầy đủ")
-        .min(2, "Tên phải có ít nhất 2 ký tự"),
+        .required(i18n.t("validation.required", { field: i18n.t("fullName") }))
+        .min(
+            2,
+            i18n.t("validation.minLength", {
+                field: i18n.t("fullName"),
+                min: 2,
+            })
+        ),
 
     email: yup
         .string()
-        .required("Vui lòng nhập địa chỉ email")
-        .email("Email không hợp lệ"),
+        .required(i18n.t("validation.required", { field: i18n.t("email") }))
+        .email(i18n.t("validation.email")),
 
     phone: yup
         .string()
-        .required("Vui lòng nhập số điện thoại")
-        .matches(/^[0-9]+$/, "Số điện thoại chỉ được chứa số")
-        .min(10, "Số điện thoại phải có ít nhất 10 số")
-        .max(11, "Số điện thoại không được quá 11 số"),
+        .required(
+            i18n.t("validation.required", { field: i18n.t("phoneNumber") })
+        )
+        .matches(/^[0-9]+$/, i18n.t("validation.phone"))
+        .min(
+            10,
+            i18n.t("validation.minLength", {
+                field: i18n.t("phoneNumber"),
+                min: 10,
+            })
+        )
+        .max(
+            11,
+            i18n.t("validation.maxLength", {
+                field: i18n.t("phoneNumber"),
+                max: 11,
+            })
+        ),
 
     notes: yup.string().nullable(),
 });
@@ -166,118 +301,257 @@ export const bookingFormSchema = yup.object().shape({
 export const paymentFormSchema = yup.object().shape({
     mainPaymentMethod: yup
         .string()
-        .required("Vui lòng chọn phương thức thanh toán"),
+        .required(
+            i18n.t("validation.required", { field: i18n.t("paymentMethod") })
+        ),
 
     electronicPaymentOption: yup.string().when("mainPaymentMethod", {
         is: "electronic",
         then: (schema) =>
-            schema.required("Vui lòng chọn hình thức thanh toán điện tử"),
+            schema.required(
+                i18n.t("validation.required", {
+                    field: i18n.t("ePaymentMethod"),
+                })
+            ),
         otherwise: (schema) => schema.nullable(),
     }),
 });
 
 export const amenityEditFormSchema = yup.object().shape({
-    name: yup.string().required("Tên tiện ích là bắt buộc"),
-    description: yup.string().required("Mô tả là bắt buộc"),
-    amenityType: yup.string().required("Loại tiện ích là bắt buộc"),
+    name: yup.string().required(i18n.t("validation.name")),
+    description: yup.string().required(i18n.t("validation.description")),
+    amenityType: yup.string().required(i18n.t("validation.amenityType")),
 });
 
 // Schema validation sử dụng yup
+
 export const createRoomSchema = yup.object().shape({
-    roomType: yup.string().required("Loại phòng là bắt buộc"),
-    bedType: yup.string().required("Loại giường là bắt buộc"),
+    roomType: yup
+        .string()
+        .required(
+            i18n.t("validation.required", { field: i18n.t("room.roomType") })
+        ),
+    bedType: yup
+        .string()
+        .required(
+            i18n.t("validation.required", { field: i18n.t("room.bedType") })
+        ),
     originalPrice: yup
         .number()
-        .typeError("Giá gốc phải là số")
-        .positive("Giá gốc phải là số dương")
-        .required("Giá gốc là bắt buộc"),
+        .typeError(
+            i18n.t("validation.typeError", {
+                field: i18n.t("room.originalPrice"),
+            })
+        )
+        .positive(
+            i18n.t("validation.positive", {
+                field: i18n.t("room.originalPrice"),
+            })
+        )
+        .required(
+            i18n.t("validation.required", {
+                field: i18n.t("room.originalPrice"),
+            })
+        ),
     discountedPrice: yup
         .number()
-        .typeError("Giá giảm phải là số")
-        .positive("Giá giảm phải là số dương"),
+        .typeError(
+            i18n.t("validation.typeError", {
+                field: i18n.t("room.discountedPrice"),
+            })
+        )
+        .positive(
+            i18n.t("validation.positive", {
+                field: i18n.t("room.discountedPrice"),
+            })
+        ),
     maxOccupancy: yup
         .number()
-        .typeError("Số người tối đa phải là số")
-        .positive("Số người tối đa phải là số dương")
-        .required("Số người tối đa là bắt buộc"),
+        .typeError(
+            i18n.t("validation.typeError", {
+                field: i18n.t("room.maxOccupancy"),
+            })
+        )
+        .positive(
+            i18n.t("validation.positive", {
+                field: i18n.t("room.maxOccupancy"),
+            })
+        )
+        .required(
+            i18n.t("validation.required", {
+                field: i18n.t("room.maxOccupancy"),
+            })
+        ),
     roomArea: yup
         .number()
-        .typeError("Diện tích phải là số")
-        .positive("Diện tích phải là số dương")
-        .required("Diện tích là bắt buộc"),
+        .typeError(
+            i18n.t("validation.typeError", { field: i18n.t("room.roomArea") })
+        )
+        .positive(
+            i18n.t("validation.positive", { field: i18n.t("room.roomArea") })
+        )
+        .required(
+            i18n.t("validation.required", { field: i18n.t("room.roomArea") })
+        ),
 });
 
 // Schema validation với Yup
 export const hotelDetailsSchema = yup.object().shape({
-    name: yup.string().required("Tên khách sạn là bắt buộc"),
-    category: yup.string().required("Danh mục khách sạn là bắt buộc"),
-    description: yup.string().required("Mô tả là bắt buộc"),
-    paymentPolicy: yup.string().required("Chính sách thanh toán là bắt buộc"),
+    name: yup.string().required(i18n.t("validation.name")),
+    category: yup.string().required(i18n.t("validation.category")),
+    description: yup.string().required(i18n.t("validation.description")),
+    paymentPolicy: yup.string().required(i18n.t("validation.paymentPolicy")),
     freeCancellation: yup.boolean(),
     breakfastIncluded: yup.boolean(),
     prePayment: yup.boolean(),
 });
+
 export const locationHotelschema = yup.object().shape({
-    location: yup.string().required("Địa chỉ khách sạn là bắt buộc"),
-    province: yup.object().nullable().required("Tỉnh/Thành phố là bắt buộc"),
-    district: yup.object().nullable().required("Quận/Huyện là bắt buộc"),
-    ward: yup.object().nullable().required("Phường/Xã là bắt buộc"),
+    location: yup.string().required(i18n.t("validation.location")),
+    province: yup.object().nullable().required(i18n.t("validation.province")),
+    district: yup.object().nullable().required(i18n.t("validation.district")),
+    ward: yup.object().nullable().required(i18n.t("validation.ward")),
 });
 
 // Lược đồ xác thực bằng yup
 export const blogCreateSchema = yup.object().shape({
-    title: yup.string().required("Tiêu đề là bắt buộc"),
+    title: yup.string().required(
+        i18n.t("validation.required", {
+            field: i18n.t("validation.title"),
+        })
+    ),
     readTime: yup
         .number()
-        .typeError("Thời gian đọc phải là số")
-        .positive("Thời gian đọc phải lớn hơn 0")
-        .required("Thời gian đọc là bắt buộc"),
-    blogPostCategory: yup.string().required("Danh mục là bắt buộc"),
+        .typeError(
+            i18n.t("validation.required", {
+                field: i18n.t("validation.readTime"),
+            })
+        )
+        .positive(
+            i18n.t("validation.required", {
+                field: i18n.t("validation.readTime"),
+            })
+        )
+        .required(i18n.t("validation.readTime")),
+    blogPostCategory: yup.string().required(
+        i18n.t("validation.required", {
+            field: i18n.t("validation.category"),
+        })
+    ),
 });
 
-export const promotionCreatechema = yup.object().shape({
-    name: yup.string().required("Tên ưu đãi là bắt buộc"),
-    code: yup.string().required("Mã ưu đãi là bắt buộc"),
+export const promotionCreateSchema = yup.object().shape({
+    name: yup
+        .string()
+        .required(
+            i18n.t("validation.required", { field: i18n.t("promotion.name") })
+        ),
+    code: yup
+        .string()
+        .required(
+            i18n.t("validation.required", { field: i18n.t("promotion.code") })
+        ),
     startDate: yup.string().nullable(),
     endDate: yup.string().nullable(),
     quantity: yup
         .number()
         .nullable()
-        .min(1, "Số lượng phải lớn hơn hoặc bằng 1")
-        .typeError("Số lượng phải là một số"),
+        .min(
+            1,
+            i18n.t("validation.min", {
+                field: i18n.t("promotion.quantity"),
+                min: 1,
+            })
+        )
+        .typeError(
+            i18n.t("validation.typeError", {
+                field: i18n.t("promotion.quantity"),
+            })
+        ),
     value: yup
         .number()
-        .required("Giá trị giảm giá là bắt buộc")
-        .min(1, "Giá trị phải lớn hơn 0"),
+        .required(
+            i18n.t("validation.required", { field: i18n.t("promotion.value") })
+        )
+        .min(
+            1,
+            i18n.t("validation.min", {
+                field: i18n.t("promotion.value"),
+                min: 1,
+            })
+        ),
     maxDiscountValue: yup
         .number()
-        .required("Giá trị giảm giá là bắt buộc")
-        .min(1, "Giá trị phải lớn hơn 0"),
-    discountType: yup.string().required("Vui lòng chọn đơn vị tính ưu đãi"),
-    applyTo: yup.string().required("Vui lòng chọn áp dụng"),
-    description: yup.string().required("Mô tả là bắt buộc"),
+        .required(
+            i18n.t("validation.required", {
+                field: i18n.t("promotion.maxDiscountValue"),
+            })
+        )
+        .min(
+            1,
+            i18n.t("validation.min", {
+                field: i18n.t("promotion.maxDiscountValue"),
+                min: 1,
+            })
+        ),
 });
 
 // Validation schema với yup
 export const promotionUpdateSchema = yup.object().shape({
-    name: yup.string().required("Tên ưu đãi là bắt buộc"),
-    code: yup.string().required("Mã ưu đãi là bắt buộc"),
+    name: yup
+        .string()
+        .required(
+            i18n.t("validation.required", { field: i18n.t("promotion.name") })
+        ),
+    code: yup
+        .string()
+        .required(
+            i18n.t("validation.required", { field: i18n.t("promotion.code") })
+        ),
     startDate: yup.string().nullable(),
     endDate: yup.string().nullable(),
     quantity: yup
         .number()
         .nullable()
-        .min(1, "Số lượng phải lớn hơn hoặc bằng 1")
-        .typeError("Số lượng phải là một số"),
+        .min(
+            1,
+            i18n.t("validation.min", {
+                field: i18n.t("promotion.quantity"),
+                min: 1,
+            })
+        )
+        .typeError(
+            i18n.t("validation.typeError", {
+                field: i18n.t("promotion.quantity"),
+            })
+        ),
     value: yup
         .number()
-        .required("Giá trị giảm giá là bắt buộc")
-        .min(1, "Giá trị phải lớn hơn 0"),
+        .required(
+            i18n.t("validation.required", { field: i18n.t("promotion.value") })
+        )
+        .min(
+            1,
+            i18n.t("validation.min", {
+                field: i18n.t("promotion.value"),
+                min: 1,
+            })
+        ),
     maxDiscountValue: yup
         .number()
-        .required("Giá trị giảm giá là bắt buộc")
-        .min(1, "Giá trị phải lớn hơn 0"),
-    discountType: yup.string().required("Vui lòng chọn loại ưu đãi"),
-    applyTo: yup.string().required("Vui lòng chọn áp dụng"),
-    description: yup.string().required("Mô tả là bắt buộc"),
+        .required(
+            i18n.t("validation.required", {
+                field: i18n.t("promotion.maxDiscountValue"),
+            })
+        )
+        .min(
+            1,
+            i18n.t("validation.min", {
+                field: i18n.t("promotion.maxDiscountValue"),
+                min: 1,
+            })
+        ),
+    discountType: yup.string().required(i18n.t("validation.discountType")),
+    applyTo: yup.string().required(i18n.t("validation.applyTo")),
+    description: yup.string().required(i18n.t("validation.description")),
 });

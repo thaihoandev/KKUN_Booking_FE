@@ -60,6 +60,8 @@ import PromotionListPage from "./pages/Admin/Promotion/PromotionListPage/Promoti
 import PromotionCreatePage from "./pages/Admin/Promotion/PromotionCreatePage/PromotionCreatePage";
 import PromotionEditPage from "./pages/Admin/Promotion/PromotionEditPage/PromotionEditPage";
 import { LanguageProvider } from "./context/LanguageContext"; // Đảm bảo đúng đường dẫn tới context của bạn
+import RoomEdit from "./pages/HotelOwner/Room/RoomEdit/RoomEdit";
+import RoomDetailsHotelOwner from "./pages/HotelOwner/Room/RoomDetails/RoomDetails";
 
 const router = createBrowserRouter([
     {
@@ -166,7 +168,11 @@ const router = createBrowserRouter([
             { path: "settings", element: <ProfileSettings /> },
             { path: "my-hotel", element: <HotelInfoes /> },
             { path: "my-hotel/edit", element: <HotelEditPage /> },
-
+            { path: "my-rooms/:roomId/room-edit", element: <RoomEdit /> },
+            {
+                path: "my-rooms/:roomId/room-details",
+                element: <RoomDetailsHotelOwner />,
+            },
             { path: "add-room", element: <RoomCreate /> },
             { path: "my-rooms", element: <RoomList /> },
             { path: "booked", element: <BookedListHotelOwner /> },

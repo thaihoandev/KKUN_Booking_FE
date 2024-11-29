@@ -8,7 +8,7 @@ import * as PromotionService from "../../../../services/PromotionService";
 import { useMutation } from "react-query";
 import { toast, ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
-import { promotionCreatechema } from "../../../../schemas/validationSchemas";
+import { promotionCreateSchema } from "../../../../schemas/validationSchemas";
 import { useNavigate } from "react-router-dom";
 
 function PromotionCreatePage() {
@@ -20,7 +20,7 @@ function PromotionCreatePage() {
         reset,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(promotionCreatechema),
+        resolver: yupResolver(promotionCreateSchema),
         defaultValues: {
             name: "",
             code: "",

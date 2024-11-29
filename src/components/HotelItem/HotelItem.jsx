@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import convertToVND from "../../utils/convertToVND";
 import ReviewRating from "../ReviewRating/ReviewRating";
-import getAmenityIcon from "../../utils/icons";
+import { getAmenityIcon } from "../../utils/icons";
 import unidecode from "unidecode";
 
 const HotelItem = ({ hotel }) => {

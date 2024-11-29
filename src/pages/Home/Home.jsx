@@ -40,16 +40,19 @@ function Home() {
             },
         }
     );
-    const mutationHotelDefault = useMutation(() => HotelService.getAllHotel(), {
-        onSuccess: (data) => {
-            setDefaultHotels(data.slice(0, 9));
-            setLoading(false);
-        },
-        onError: (error) => {
-            toast.error(error.message);
-            setLoading(false);
-        },
-    });
+    const mutationHotelDefault = useMutation(
+        () => HotelService.getAvailableHotel(),
+        {
+            onSuccess: (data) => {
+                setDefaultHotels(data.slice(0, 9));
+                setLoading(false);
+            },
+            onError: (error) => {
+                toast.error(error.message);
+                setLoading(false);
+            },
+        }
+    );
     // useMutation setup for top-rating hotels
     const mutationHotelTopRating = useMutation(
         () => HotelService.getTopRatingHotel(),

@@ -6,8 +6,10 @@ import {
     convertRating5To10Scale,
     getRatingDescription,
 } from "../../../utils/ratingReview";
+import { useTranslation } from "react-i18next";
 
 function SidebarBookingForm({ booking, hotel, room, discount }) {
+    const { t } = useTranslation();
     const numberOfNights = calculateNumberOfNights(
         booking.checkInDate,
         booking.checkOutDate
@@ -27,7 +29,7 @@ function SidebarBookingForm({ booking, hotel, room, discount }) {
                         className="rounded w-100 h-100 object-fit-cover"
                     />
                     <span className="position-absolute top-0 start-0 badge bg-success">
-                        Wi-Fi miễn phí
+                        {t("amenities.mien_phi_wifi")}
                     </span>
                 </div>
 
@@ -35,7 +37,7 @@ function SidebarBookingForm({ booking, hotel, room, discount }) {
                     <h3 className="fw-semibold fs-6">{hotel.name}</h3>
                     <div className="d-flex align-items-center text-secondary gap-1">
                         <span className="small">
-                            {hotel.categoryDisplayName}
+                            {t(`hotel.categories.${hotel.category}`)}
                         </span>
                     </div>
                     <div className="d-flex align-items-center mt-1">
@@ -48,7 +50,7 @@ function SidebarBookingForm({ booking, hotel, room, discount }) {
                             </span>
                         </div>
                         <span className="text-secondary small ms-1">
-                            {hotel.numOfReviews} đánh giá
+                            {hotel.numOfReviews} {t("reviewTitle")}
                         </span>
                     </div>
                     <div className="text-danger small mt-1">
@@ -72,24 +74,24 @@ function SidebarBookingForm({ booking, hotel, room, discount }) {
                             <label className="form-check-label" for="checkIn">
                                 <span className="tour-date">
                                     <span className="start-date">
-                                        <span>Ngày nhận phòng</span>
+                                        <span>{t("checkInDate")}</span>
                                         <span>
                                             {booking.checkInDate
                                                 ? moment(
                                                       booking.checkInDate
                                                   ).format("DD/MM/YYYY")
-                                                : "Chưa chọn"}
+                                                : `${t("notChooses")}`}
                                         </span>
                                     </span>
                                     <i className="bi bi-arrow-right"></i>
                                     <span className="end-date text-end">
-                                        <span>Ngày trả phòng</span>
+                                        <span>{t("checkOutDate")}</span>
                                         <span>
                                             {booking.checkOutDate
                                                 ? moment(
                                                       booking.checkOutDate
                                                   ).format("DD/MM/YYYY")
-                                                : "Chưa chọn"}
+                                                : `${t("notChooses")}`}
                                         </span>
                                     </span>
                                 </span>
@@ -111,12 +113,16 @@ function SidebarBookingForm({ booking, hotel, room, discount }) {
 
                 <div className="col-8">
                     <h3 className="fw-semibold fs-6">
-                        1 x {room.typeDisplayName}
+                        1 x{" "}
+                        {t(`roomTypes.${room.type}`) ||
+                            t("hotel.roomTypeUnavailable")}
                     </h3>
                     <div className="d-flex gap-2 text-secondary small mt-1">
                         <span>{room.area} m²</span>
                         <span>•</span>
-                        <span>Tối đa: {room.capacity} người lớn</span>
+                        <span>
+                            {t("max")}: {room.capacity} {t("adults")}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -125,29 +131,31 @@ function SidebarBookingForm({ booking, hotel, room, discount }) {
             <div className="mt-2">
                 <div className="d-flex align-items-center gap-2 ">
                     <i className="bi bi-check-lg text-success"></i>
+                    <span className="small">{t("greatPrice")}</span>
+                </div>
+                <div className="d-flex align-items-center gap-2">
+                    <i className="bi bi-check-lg text-success"></i>
                     <span className="small">
-                        Giá cực tốt! (không hoàn tiền)
+                        {t("checkoutBooking.noCreditCardLabel")}
                     </span>
                 </div>
                 <div className="d-flex align-items-center gap-2">
                     <i className="bi bi-check-lg text-success"></i>
-                    <span className="small">Đặt không cần thẻ tín dụng</span>
-                </div>
-                <div className="d-flex align-items-center gap-2">
-                    <i className="bi bi-check-lg text-success"></i>
-                    <span className="small">Thanh toán tại nơi ở</span>
+                    <span className="small">
+                        {t("checkoutBooking.payAtLocationLabel")}
+                    </span>
                 </div>
                 <div className="d-flex align-items-center gap-2 text-danger">
                     <span className="fw-bold">🔥</span>
                     <span className="small">
-                        Nhanh lên! Phòng cuối cùng của chúng tôi ở mức giá này
+                        {t("checkoutBooking.quickToBookRoom")}
                     </span>
                 </div>
             </div>
             <hr />
             <div class="booking-form-item-type">
                 <div class="single-total mb-30">
-                    <span>Giá phòng</span>
+                    <span> {t("roomPrice")}</span>
                     <ul>
                         <li>
                             <strong>{convertToVND(room.basePrice)}</strong>
@@ -156,7 +164,7 @@ function SidebarBookingForm({ booking, hotel, room, discount }) {
                             <i class="bi bi-x-lg"></i>
                         </li>
                         <li>
-                            <strong>{numberOfNights}</strong> Đêm
+                            <strong>{numberOfNights}</strong> {t("nights")}
                         </li>
                     </ul>
                     <svg
@@ -177,18 +185,18 @@ function SidebarBookingForm({ booking, hotel, room, discount }) {
             <span className="small d-flex flex-column">
                 {discount > 0 && (
                     <div className="d-flex justify-content-between">
-                        <span>Giá được giảm:</span>
+                        <span>{t("discountedPrice")}:</span>
                         <span>- {convertToVND(discount)}</span>
                     </div>
                 )}
                 <div className="d-flex justify-content-between">
-                    <span>Giá đã bao gồm: </span>
+                    <span>{t("priceIncluded")}: </span>
                     <span>VAT {convertToVND(VATPrice)}</span>
                 </div>
             </span>
 
             <div class="total-price mb-1 d-flex justify-content-between">
-                <span>Giá cuối cùng:</span> {convertToVND(totalPrice)}
+                <span>{t("lastPrice")}:</span> {convertToVND(totalPrice)}
             </div>
         </div>
     );

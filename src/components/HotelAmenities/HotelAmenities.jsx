@@ -1,26 +1,29 @@
-import { color } from "framer-motion";
 import React from "react";
+import { useTranslation } from "react-i18next";
+import { removeDiacritics } from "../../utils/utils";
 
 // Định nghĩa `AmenityType` với icon của Bootstrap Icons
 const AmenityType = {
-    BASIC: { displayName: "Cơ bản", icon: "bi-tv" },
-    ENTERTAINMENT: { displayName: "Giải trí", icon: "bi-controller" },
-    COMFORT: { displayName: "Tiện nghi", icon: "bi-house" },
-    KITCHEN: { displayName: "Bếp", icon: "bi-egg-fried" },
-    SECURITY: { displayName: "An ninh", icon: "bi-shield-lock" },
-    SPA: { displayName: "Spa", icon: "bi-droplet" },
-    POOL: { displayName: "Hồ bơi", icon: "bi-water" },
-    GYM: { displayName: "Phòng tập", icon: "bi-barbell" },
-    BUSINESS: { displayName: "Doanh nhân", icon: "bi-briefcase" },
-    PARKING: { displayName: "Bãi đỗ xe", icon: "bi-car-front" },
-    PET_FRIENDLY: { displayName: "Thân thiện với vật nuôi", icon: "bi-paw" },
-    TRANSPORT: { displayName: "Dịch vụ vận chuyển", icon: "bi-truck" },
-    DINING: { displayName: "Ăn uống", icon: "bi-cup-straw" },
-    LAUNDRY: { displayName: "Dịch vụ giặt là", icon: "bi-basket" },
-    WIFI: { displayName: "Wi-Fi", icon: "bi-wifi" },
+    BASIC: { icon: "bi-tv" },
+    ENTERTAINMENT: { icon: "bi-controller" },
+    COMFORT: { icon: "bi-house" },
+    KITCHEN: { icon: "bi-egg-fried" },
+    SECURITY: { icon: "bi-shield-lock" },
+    SPA: { icon: "bi-droplet" },
+    POOL: { icon: "bi-water" },
+    GYM: { icon: "bi-barbell" },
+    BUSINESS: { icon: "bi-briefcase" },
+    PARKING: { icon: "bi-car-front" },
+    PET_FRIENDLY: { icon: "bi-paw" },
+    TRANSPORT: { icon: "bi-truck" },
+    DINING: { icon: "bi-cup-straw" },
+    LAUNDRY: { icon: "bi-basket" },
+    WIFI: { icon: "bi-wifi" },
 };
 
 const HotelAmenities = ({ amenities }) => {
+    const { t } = useTranslation();
+
     // Nhóm các tiện ích theo `type`
     const groupedAmenities = amenities.reduce((groups, item) => {
         const group = groups[item.amenityType] || [];
@@ -37,10 +40,11 @@ const HotelAmenities = ({ amenities }) => {
                         className="text-lg font-semibold mb-1 "
                         style={{ color: "#63ab45" }}
                     >
-                        {AmenityType[amenityType].displayName}
+                        {t(`amenityTypes.${amenityType}`)}{" "}
+                        {/* Lấy tên từ i18n */}
                     </h5>
 
-                    <ul className=" ">
+                    <ul>
                         {items.map((amenity) => (
                             <li
                                 key={amenity.id}
@@ -49,7 +53,16 @@ const HotelAmenities = ({ amenities }) => {
                                 <i
                                     className={`bi ${AmenityType[amenityType].icon} text-lg`}
                                 ></i>
-                                <span className="px-2">{amenity.name}</span>
+                                <span className="px-2">
+                                    {t(
+                                        `amenities.${removeDiacritics(
+                                            amenity.name
+                                        )
+                                            .toLowerCase()
+                                            .replace(/\s+/g, "_")
+                                            .replace("/", "_")}`
+                                    )}
+                                </span>
                             </li>
                         ))}
                     </ul>

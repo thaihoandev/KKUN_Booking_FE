@@ -38,7 +38,7 @@ const MenuDropdown = ({
     };
 
     const toggleLanguage = () => {
-        const newLanguage = i18n.language === "vi" ? "en" : "vi";
+        const newLanguage = i18n.language === "en" ? "vi" : "en";
         i18n.changeLanguage(newLanguage);
         localStorage.setItem("language", newLanguage); // Lưu ngôn ngữ vào localStorage
         handleCloseMenu();

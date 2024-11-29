@@ -12,6 +12,8 @@ import {
 } from "../../schemas/validationSchemas";
 import * as BookingService from "../../services/BookingService";
 import FormField from "../Form/FormField/FormField";
+import { useTranslation } from "react-i18next";
+import convertToVND from "../../utils/convertToVND";
 
 const TABS = {
     CONTACT: "v-pills-contact",
@@ -29,26 +31,28 @@ const ELECTRONIC_PAYMENT_OPTIONS = {
     VNPAY: "VNPAY",
 };
 
-const NoCardRequiredMessage = () => (
-    <div className="max-w-2xl p-4 rounded-lg border mb-2">
-        <div className="flex items-start gap-3">
-            <div className="row m-0">
-                <div className="d-flex align-items-center">
-                    <i className="bi bi-credit-card"></i>
-                    <span className="px-2">
-                        <strong>Không yêu cầu thẻ tín dụng</strong>
-                    </span>
+const NoCardRequiredMessage = () => {
+    const { t } = useTranslation(); // Khai báo useTranslation hook
+
+    return (
+        <div className="max-w-2xl p-4 rounded-lg border mb-2">
+            <div className="flex items-start gap-3">
+                <div className="row m-0">
+                    <div className="d-flex align-items-center">
+                        <i className="bi bi-credit-card"></i>
+                        <span className="px-2">
+                            <strong>
+                                {t("checkoutBooking.noCreditCardLabel")}
+                            </strong>
+                        </span>
+                    </div>
+                    {/* Dùng t để dịch chuỗi */}
+                    <p>{t("checkoutBooking.noticeNotToPrePayment")}</p>
                 </div>
-                <p>
-                    Tin vui! Bạn có thể đặt phòng ngay mà không cần cung cấp chi
-                    tiết thanh toán, và có thể thanh toán tại chỗ nghỉ trong
-                    thời gian lưu trú.
-                </p>
             </div>
         </div>
-    </div>
-);
-
+    );
+};
 const RadioOption = ({ label, value, name, register, error }) => (
     <div
         className="checkbox-container"
@@ -103,6 +107,8 @@ const TabButton = ({ isActive, id, label, onClick }) => (
 );
 
 function BookingForm({ hotel, room, discount, setDiscount }) {
+    const { t } = useTranslation();
+
     const [activeTab, setActiveTab] = useState(TABS.CONTACT);
     const [isBookingValid, setIsBookingValid] = useState(false);
     const booking = useSelector((state) => state.booking);
@@ -164,7 +170,9 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
                 }
             },
             onError: (error) => {
-                toast.error(error.message || "Đã xảy ra lỗi.");
+                toast.error(
+                    error.message || t("toast.finishInfoBeforePayment")
+                );
             },
         }
     );
@@ -197,20 +205,20 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
 
                     // Thông báo thành công
                     toast.success(
-                        `Mã voucher đã được áp dụng! Giảm giá: ${calculatedDiscount.toLocaleString(
-                            "vi-VN"
-                        )} VNĐ`
+                        `${t(
+                            "toast.applyVoucherSuccess"
+                        )}: ${calculatedDiscount.toLocaleString("vi-VN")} VNĐ`
                     );
                 } else {
                     // Voucher không hợp lệ hoặc hết hạn
                     setPromotionId(null);
-                    setVoucherError("Mã voucher không hợp lệ hoặc đã hết hạn.");
+                    setVoucherError(`${t("toast.invalidVoucherCode")}`);
                 }
             },
             onError: (error) => {
                 // Lỗi khi gọi API kiểm tra voucher
                 setPromotionId(null);
-                setVoucherError("Đã xảy ra lỗi khi kiểm tra mã voucher.");
+                setVoucherError(`${t("toast.finishInfoBeforePayment")}`);
             },
         }
     );
@@ -251,9 +259,7 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
         payment: async (data) => {
             const bookingData = await triggerBookingForm();
             if (!bookingData) {
-                toast.error(
-                    "Vui lòng hoàn thành thông tin đặt phòng trước khi thanh toán!"
-                );
+                toast.error(`${t("toast.finishInfoBeforePayment")}`);
                 setActiveTab(TABS.CONTACT);
                 return;
             }
@@ -273,14 +279,15 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
 
     const handleTabChange = (tabId) => {
         if (tabId === TABS.PAYMENT && !isBookingValid) {
-            toast.error("Vui lòng hoàn thành thông tin đặt phòng trước!");
+            toast.error(`${t("toast.finishInfoBeforePayment")}`);
+
             return;
         }
         setActiveTab(tabId);
     };
     const applyVoucher = () => {
         if (!voucherCode) {
-            setVoucherError("Vui lòng nhập mã voucher.");
+            setVoucherError(`${t("toast.voucherRequired")}`);
             return;
         }
 
@@ -290,29 +297,29 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
     const renderContactForm = () => (
         <form onSubmit={handleSubmitBooking(handleFormSubmit.booking)}>
             <FormField
-                label="Tên đầy đủ"
+                label={t("fullName")}
                 error={bookingErrors.fullName}
                 register={registerBooking("fullName")}
-                placeholder="Nhập tên đầy đủ"
+                placeholder={t("checkoutBooking.nameLabelPh")}
             />
             <FormField
-                label="Địa chỉ Email"
+                label={t("email")}
                 type="email"
                 error={bookingErrors.email}
                 register={registerBooking("email")}
-                placeholder="Nhập địa chỉ Email"
+                placeholder={t("checkoutBooking.emailLabelPh")}
             />
             <FormField
-                label="Số điện thoại"
+                label={t("phoneNumber")}
                 error={bookingErrors.phone}
                 register={registerBooking("phone")}
-                placeholder="Nhập số điện thoại"
+                placeholder={t("checkoutBooking.phoneLabelPh")}
             />
             <FormField
-                label="Ghi chú"
+                label={t("notes")}
                 type="textarea"
                 register={registerBooking("notes")}
-                placeholder="Thêm ghi chú"
+                placeholder={t("checkoutBooking.noteLabelPh")}
             />
             <div
                 style={{
@@ -322,8 +329,8 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
                 }}
             >
                 <FormField
-                    label="Mã voucher"
-                    placeholder="Nhập mã voucher"
+                    label={t("promotionCode")}
+                    placeholder={t("checkoutBooking.voucherLabelPh")}
                     value={voucherCode}
                     onChange={(e) => setVoucherCode(e.target.value)}
                 />
@@ -332,11 +339,12 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
                     className="primary-btn2"
                     onClick={() => applyVoucher()}
                 >
-                    Áp dụng
+                    {t("applyBtn")}
                 </button>
                 {discount > 0 && (
                     <p className="text-success m-0 pb-0">
-                        Áp dụng thành công! Giảm giá: {discount} VNĐ
+                        {t("applySuccess")}! {t("discount")}:{" "}
+                        {convertToVND(discount)}
                     </p>
                 )}
                 {voucherError && (
@@ -347,8 +355,8 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
             <button type="submit" className="primary-btn1 two">
                 {hotel.paymentPolicy === "ONLINE" ||
                 hotel.paymentPolicy === "ONLINE_CHECKOUT"
-                    ? "Kế tiếp"
-                    : "Hoàn tất ngay"}
+                    ? `${t("checkoutBooking.nextBtn")}`
+                    : `${t("completeBtn")}`}
             </button>
         </form>
     );
@@ -356,7 +364,7 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
     const renderPaymentForm = () => (
         <form onSubmit={handleSubmitPayment(handleFormSubmit.payment)}>
             <RadioOption
-                label="Thanh toán điện tử"
+                label={t("checkoutBooking.ePaymentLabel")}
                 value={MAIN_PAYMENT_METHODS.ELECTRONIC}
                 name="mainPaymentMethod"
                 register={registerPayment}
@@ -386,7 +394,7 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
             )}
 
             <RadioOption
-                label="Thẻ tín dụng/Ghi nợ"
+                label={t("checkoutBooking.creditCardLabel")}
                 value={MAIN_PAYMENT_METHODS.CREDIT}
                 name="mainPaymentMethod"
                 register={registerPayment}
@@ -395,7 +403,7 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
             {(hotel.paymentPolicy === "CHECKOUT" ||
                 hotel.paymentPolicy === "ONLINE_CHECKOUT") && (
                 <RadioOption
-                    label="Thanh toán tại nơi nghỉ"
+                    label={t("checkoutBooking.payAtLocationLabel")}
                     value={MAIN_PAYMENT_METHODS.ON_CHECKOUT}
                     name="mainPaymentMethod"
                     register={registerPayment}
@@ -403,7 +411,7 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
                 />
             )}
             <button type="submit" className="primary-btn1 two mt-5">
-                Hoàn tất ngay
+                {t("completeBtn")}
             </button>
         </form>
     );
@@ -417,7 +425,7 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
                     <TabButton
                         isActive={activeTab === TABS.CONTACT}
                         id={TABS.CONTACT}
-                        label="Biểu mẫu thông tin"
+                        label={t("checkoutBooking.infoFormLabel")}
                         onClick={() => handleTabChange(TABS.CONTACT)}
                     />
 
@@ -426,7 +434,7 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
                         <TabButton
                             isActive={activeTab === TABS.PAYMENT}
                             id={TABS.PAYMENT}
-                            label="Thanh toán"
+                            label={t("checkoutBooking.paymentLabel")}
                             onClick={() => handleTabChange(TABS.PAYMENT)}
                         />
                     )}

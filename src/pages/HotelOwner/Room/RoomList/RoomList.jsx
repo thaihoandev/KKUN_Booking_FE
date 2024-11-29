@@ -90,6 +90,7 @@ function RoomList() {
                                 <th>Số người</th>
                                 <th>Trạng thái</th>
                                 <th>Lượt đánh giá</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -111,7 +112,9 @@ function RoomList() {
                                                 </div>
                                                 <div className="product-content">
                                                     <h6>
-                                                        <a href="hotel-details.html">
+                                                        <a
+                                                            href={`/hotelowner/my-rooms/${room.id}/room-details`}
+                                                        >
                                                             {room.typeDisplayName ||
                                                                 "NaN"}
                                                         </a>
@@ -148,6 +151,14 @@ function RoomList() {
                                         </td>
                                         <td data-label="NumOfReviews">
                                             {room.numOfReviews || "NaN"}
+                                        </td>
+                                        <td data-label="Action">
+                                            <a
+                                                href={`/hotelowner/my-rooms/${room.id}/room-edit`}
+                                                className="view-btn"
+                                            >
+                                                Xem chi tiết
+                                            </a>
                                         </td>
                                     </tr>
                                 ))

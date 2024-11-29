@@ -6,13 +6,14 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import convertToVND from "../../../utils/convertToVND";
 import ReviewRating from "../../ReviewRating/ReviewRating";
-import getAmenityIcon from "../../../utils/icons";
+import { getAmenityIcon } from "../../../utils/icons";
 import { useTranslation } from "react-i18next";
 import unidecode from "unidecode";
 
 function HotelItemHorizontal({ hotel }) {
     const navigate = useNavigate();
     const { t } = useTranslation();
+    console.log("hotel", hotel);
 
     const handleCheckRoom = () => {
         navigate(
@@ -22,6 +23,7 @@ function HotelItemHorizontal({ hotel }) {
     function removeDiacritics(str) {
         return unidecode(str); // Sử dụng unidecode để bỏ dấu
     }
+
     return (
         <>
             <div className="room-suits-card mb-30">

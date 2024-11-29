@@ -12,7 +12,7 @@ function ReviewRating({ rating, numOfReviews }) {
             <span>
                 {rating > 0
                     ? `${convertRating5To10Scale(rating)} - ${numOfReviews} ${t(
-                          "review"
+                          "reviewTitle"
                       )}`
                     : t("noReviewsYet")}
             </span>
