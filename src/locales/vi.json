@@ -1,0 +1,254 @@
+{
+    "welcome": "Chào mừng",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "menuDropdown": {
+        "profile": "Hồ sơ",
+        "booked": "Đơn đặt đã đặt",
+        "logout": "Đăng xuất",
+        "login": "Đăng nhập",
+        "register": "Đăng ký",
+        "registerPropertyHeader": "ĐĂNG KÝ TÀI SẢN CỦA BẠN TRÊN KKUNBOOKING",
+        "registerProperty": "Đăng ký Tài sản cho thuê",
+        "account": "Tài khoản",
+        "settings": "Cài đặt",
+        "paymentMethods": "Phương thức thanh toán",
+        "notifications": "Thông báo"
+    },
+    "header": {
+        "home": "Trang chủ",
+        "promotion": "Khuyến mãi",
+        "aboutUs": "Giới thiệu",
+        "faq": "Câu hỏi",
+        "blog": "Bài viết",
+        "contactUs": "Liên hệ",
+        "rooms": "Phòng",
+        "offers": "Ưu đãi",
+        "explore": "Khám phá",
+        "login": "Đăng nhập",
+        "register": "Đăng ký"
+    },
+    "switchBoard": "Tổng đài",
+    "search": {
+        "location": "Địa điểm",
+        "checkIn": "Nhận phòng",
+        "checkOut": "Trả phòng",
+        "guests": "Khách",
+        "searchButton": "Tìm kiếm",
+        "clearFilters": "Xóa bộ lọc",
+        "locationSearch": "Tìm kiếm địa điểm",
+        "popularLocations": "Địa điểm phổ biến",
+        "enterLocation": "Nhập địa điểm"
+    },
+    "roomDetails": {
+        "roomType": "Loại phòng",
+        "availableRooms": "Phòng có sẵn",
+        "price": "Giá",
+        "amenities": "Tiện nghi",
+        "description": "Mô tả",
+        "bedType": "Loại giường",
+        "capacity": "Sức chứa",
+        "availableFacilities": "Tiện ích sẵn có",
+        "bookNow": "Đặt ngay"
+    },
+    "booking": {
+        "booking": "Đặt phòng",
+        "bookingNow": "Đặt ngay",
+        "confirmBooking": "Xác nhận đặt phòng",
+        "totalPrice": "Tổng giá",
+        "payment": "Thanh toán",
+        "paymentMethods": "Phương thức thanh toán",
+        "creditCard": "Thẻ tín dụng",
+        "payNow": "Thanh toán ngay",
+        "reservationConfirmed": "Đặt phòng thành công",
+        "bookingFailed": "Đặt phòng thất bại, vui lòng thử lại",
+        "bookingDetails": "Chi tiết đặt phòng"
+    },
+    "user": {
+        "name": "Họ và tên",
+        "email": "Email",
+        "phone": "Số điện thoại",
+        "password": "Mật khẩu",
+        "forgotPassword": "Quên mật khẩu?",
+        "updateProfile": "Cập nhật hồ sơ",
+        "changePassword": "Đổi mật khẩu",
+        "editProfile": "Chỉnh sửa hồ sơ",
+        "deleteAccount": "Xóa tài khoản"
+    },
+    "reviews": {
+        "customerReviews": "Đánh giá của khách hàng",
+        "writeReview": "Viết đánh giá",
+        "rating": "Đánh giá",
+        "reviewDetails": "Chi tiết đánh giá",
+        "averageRating": "Đánh giá trung bình"
+    },
+    "notifications": {
+        "newBooking": "Đặt phòng mới",
+        "paymentReceived": "Thanh toán đã nhận",
+        "roomAvailability": "Tình trạng phòng",
+        "reminder": "Lời nhắc",
+        "discountAlert": "Thông báo giảm giá"
+    },
+
+    "errorMessages": {
+        "invalidCredentials": "Thông tin đăng nhập không hợp lệ",
+        "bookingError": "Đã có lỗi xảy ra trong quá trình đặt phòng",
+        "paymentError": "Đã có lỗi xảy ra trong quá trình thanh toán",
+        "networkError": "Lỗi mạng. Vui lòng kiểm tra kết nối của bạn."
+    },
+    "successMessages": {
+        "accountCreated": "Tạo tài khoản thành công",
+        "passwordChanged": "Đổi mật khẩu thành công",
+        "bookingConfirmed": "Đặt phòng của bạn đã được xác nhận",
+        "paymentSuccessful": "Thanh toán thành công"
+    },
+    "banner": {
+        "nhaTrang": {
+            "heading": "Hãy đóng gói và khám phá.",
+            "description": "Cuộc sống đầy bất ngờ và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Tận hưởng các tùy chọn đặt phòng linh hoạt để bạn có thể dễ dàng thay đổi lịch trình hoặc điều chỉnh chuyến đi của mình."
+        },
+        "haLong": {
+            "heading": "Khám phá những kỳ quan hùng vĩ.",
+            "description": "Cuộc sống đầy bất ngờ và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Tận hưởng các tùy chọn đặt phòng linh hoạt để bạn có thể dễ dàng thay đổi lịch trình hoặc điều chỉnh chuyến đi của mình."
+        },
+        "phuQuoc": {
+            "heading": "Hãy khám phá những vùng đất mới cùng nhau.",
+            "description": "Cuộc sống đầy những khám phá mới và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Với các tùy chọn đặt phòng linh hoạt, bạn có thể tự do tùy chỉnh chuyến đi để tận hưởng mọi trải nghiệm theo cách riêng của mình."
+        }
+    },
+    "homepage": {
+        "travelTo": "Du lịch đến",
+        "desiredVacationDestination": "Điểm đến kỳ nghỉ mong muốn",
+        "yourself": "Bản thân bạn",
+        "personalSuitability": "Phù hợp cá nhân",
+        "notable": "Đáng chú ý",
+        "popularTravelExperiences": "Trải nghiệm du lịch phổ biến",
+        "attractions": "Điểm tham quan",
+        "vietnamMostOutstandingHotels": "Các khách sạn nổi bật nhất Việt Nam"
+    },
+    "hotel": {
+        "hotelName": "Khách sạn",
+        "breakfastIncluded": "Ăn sáng miễn phí",
+        "viewLocation": "Xem vị trí",
+        "distanceFromCenter": "{{distance}} km từ trung tâm",
+        "roomAvailable": "Có phòng",
+        "roomUnavailable": "Không có phòng",
+        "freeCancellation": "Hủy phòng miễn phí",
+        "cancellationDeadline": "trước {{hours}} giờ",
+        "nightFor": "1 đêm, {{capacity}} người",
+        "priceNotAvailable": "Không có giá",
+        "checkRoom": "Kiểm tra phòng",
+        "roomTypeUnavailable": "Loại phòng không có sẵn",
+        "unknownCapacity": "Sức chứa không xác định",
+        "categories": {
+            "KHACH_SAN_5_SAO": "Khách sạn 5 sao",
+            "KHACH_SAN_4_SAO": "Khách sạn 4 sao",
+            "KHACH_SAN_3_SAO": "Khách sạn 3 sao",
+            "KHACH_SAN": "Khách sạn",
+            "RESORT": "Khu nghỉ dưỡng",
+            "NHA_NGHI": "Nhà nghỉ"
+        }
+    },
+    "roomTypes": {
+        "PHONG_DOI": "Phòng đôi",
+        "PHONG_DON": "Phòng đơn",
+        "PHONG_VIP": "Phòng VIP",
+        "PHONG_GIA_DINH": "Phòng gia đình",
+        "PHONG_SUITE": "Phòng suite",
+        "PHONG_TAP_THE": "Phòng tập thể",
+        "PHONG_THUONG": "Phòng tiêu chuẩn"
+    },
+    "amenities": {
+        "dich_vu_phong": "Dịch vụ phòng",
+
+        "san_vuon": "Vườn",
+
+        "may_la_ui": "Máy là ủi",
+        "may_lanh": "Điều hòa",
+        "may_say": "Máy sấy tóc",
+
+        "binh_chua_chay": "Bình chữa cháy",
+        "cctv_trong_khu_vuc_chung": "CCTV trong khu vực chung",
+
+        "swimming_pool_2.0": "Hồ bơi 2.0",
+
+        "bai_do_xe_mien_phi": "Đậu xe miễn phí",
+
+        "mien_phi_wifi": "Wi-Fi miễn phí",
+        "wifi": "Wi-Fi"
+    },
+    "footer": {
+        "join_newsletter": "Tham gia bản tin của chúng tôi",
+        "receive_best_deals": "Để nhận được những ưu đãi tốt nhất hàng tháng",
+        "email_placeholder": "Nhập Gmail của bạn...",
+        "hotel_booking": "Đặt phòng khách sạn",
+        "contact_us": "Liên hệ với chúng tôi",
+        "address": "Địa chỉ",
+        "payment_support": "Hỗ trợ thanh toán",
+        "social_links": "Theo dõi chúng tôi trên Mạng xã hội",
+        "privacy_policy": "Chính sách bảo mật",
+        "terms_conditions": "Điều khoản & Điều kiện",
+        "design_by": "Được thiết kế bởi"
+    },
+    "showAll": "Hiển thị tất cả",
+    "destination": "Điểm đến",
+    "review": "Đánh giá",
+
+    "noReviewsYet": "Chưa có đánh giá nào",
+    "tour": "Tour",
+    "visa": "Visa",
+    "activity": "Hoạt động",
+    "transport": "Vận chuyển",
+    "checkIn": "Nhận phòng",
+    "checkOut": "Trả phòng",
+    "rooms": "Phòng",
+    "searching": "Đang tìm kiếm",
+    "availability": "Tình trạng phòng trống",
+    "price": "Giá",
+
+    "bookNow": "Đặt phòng ngay",
+    "cancel": "Hủy",
+    "confirmBooking": "Xác nhận đặt phòng",
+    "thankYou": "Cảm ơn",
+    "reservationCode": "Mã đặt phòng",
+    "hotelName": "Tên khách sạn",
+    "totalPrice": "Tổng giá",
+    "bookingHistory": "Lịch sử đặt phòng",
+    "updateProfile": "Cập nhật hồ sơ",
+    "changePassword": "Đổi mật khẩu",
+    "currentPassword": "Mật khẩu hiện tại",
+    "newPassword": "Mật khẩu mới",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "saveChanges": "Lưu thay đổi",
+    "aboutUs": "Giới thiệu về chúng tôi",
+    "contactUs": "Liên hệ với chúng tôi",
+    "terms": "Điều khoản",
+    "privacyPolicy": "Chính sách bảo mật",
+    "help": "Trợ giúp",
+    "faq": "Câu hỏi thường gặp",
+    "newsletter": "Bản tin",
+    "subscribe": "Đăng ký",
+    "pageNotFound": "Không tìm thấy trang",
+    "accessDenied": "Truy cập bị từ chối",
+    "invalidCredentials": "Thông tin đăng nhập không hợp lệ",
+    "switchLanguage": "Chuyển ngôn ngữ",
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt",
+    "manageRooms": "Quản lý phòng",
+    "addRoom": "Thêm phòng",
+    "roomType": "Loại phòng",
+    "pendingBookings": "Đặt phòng đang chờ xử lý",
+    "approveBooking": "Phê duyệt đặt phòng",
+    "cancelBooking": "Hủy đặt phòng",
+    "year": "Năm",
+    "years": "Năm",
+    "yearsOld": "Năm",
+    "room": "Phòng",
+    "children": "Trẻ em",
+    "adults": "Người lớn",
+    "guests": "Khách",
+    "address": "Địa chỉ",
+    "send": "Gửi",
+    "support": "Hỗ trợ",
+    "payment": "Thanh toán"
+}

@@ -4,8 +4,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../../schemas/validationSchemas";
 import PasswordInput from "../PasswordInput/PasswordInput";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // Import useTranslation hook
 
 function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
+    const { t } = useTranslation(); // Initialize translation function
     const [submitError, setSubmitError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -27,23 +29,21 @@ function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
             const result = await onSubmit(data);
 
             if (result.success) {
-                onClose(); // Đóng modal nếu đăng ký thành công
+                onClose();
             } else {
                 if (result.error === "EMAIL_EXISTS") {
                     setError("email", {
                         type: "manual",
-                        message: "Email này đã được đăng ký",
+                        message: t("registerForm.emailExists"), // Translate the error message
                     });
                 } else {
                     setSubmitError(
-                        result.message ||
-                            "Đăng ký thất bại. Vui lòng thử lại sau."
+                        result.message || t("registerForm.registerFailed")
                     );
                 }
             }
-            onClose();
         } catch (error) {
-            setSubmitError("Có lỗi xảy ra. Vui lòng thử lại sau.");
+            setSubmitError(t("registerForm.registerFailed"));
         } finally {
             setIsSubmitting(false);
         }
@@ -75,8 +75,8 @@ function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
                     <div className="modal-body">
                         <div className="login-registration-form">
                             <div className="form-title">
-                                <h2>Tạo tài khoản mới</h2>
-                                <p>Nhập thông tin tài khoản để đăng ký.</p>
+                                <h2>{t("registerForm.createAccount")}</h2>
+                                <p>{t("registerForm.enterAccountInfo")}</p>
                             </div>
 
                             {submitError && (
@@ -98,7 +98,9 @@ function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
                                         <div className="flex-grow-1 me-2">
                                             <input
                                                 type="text"
-                                                placeholder="Họ*"
+                                                placeholder={t(
+                                                    "registerForm.lastName"
+                                                )}
                                                 className={`form-control ${
                                                     errors.lastName
                                                         ? "is-invalid"
@@ -115,7 +117,9 @@ function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
                                         <div className="flex-grow-1 ms-2">
                                             <input
                                                 type="text"
-                                                placeholder="Tên*"
+                                                placeholder={t(
+                                                    "registerForm.firstName"
+                                                )}
                                                 className={`form-control ${
                                                     errors.firstName
                                                         ? "is-invalid"
@@ -134,7 +138,9 @@ function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
                                     <div className="form-group mt-4">
                                         <input
                                             type="text"
-                                            placeholder="Địa chỉ email*"
+                                            placeholder={t(
+                                                "registerForm.email"
+                                            )}
                                             className={`form-control ${
                                                 errors.email ? "is-invalid" : ""
                                             }`}
@@ -151,7 +157,7 @@ function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
                                         registration={{
                                             ...register("password"),
                                         }}
-                                        placeholder="Mật khẩu*"
+                                        placeholder={t("registerForm.password")}
                                         error={errors.password}
                                     />
 
@@ -159,7 +165,9 @@ function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
                                         registration={{
                                             ...register("rePassword"),
                                         }}
-                                        placeholder="Xác nhận mật khẩu*"
+                                        placeholder={t(
+                                            "registerForm.rePassword"
+                                        )}
                                         error={errors.rePassword}
                                     />
                                 </div>
@@ -172,30 +180,29 @@ function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
                                     {isSubmitting ? (
                                         <span>
                                             <i className="bi bi-spinner bi-spin me-2"></i>
-                                            Đang đăng ký...
+                                            {t("registerForm.registering")}...
                                         </span>
                                     ) : (
-                                        "Đăng ký"
+                                        t("registerForm.register")
                                     )}
                                 </button>
 
                                 <div>
                                     <p>
-                                        Dữ liệu của bạn sẽ được dùng cho việc hỗ
-                                        trợ trải nghiệm khi sử dụng website, để
-                                        quản lý tài khoản của bạn, và cho các
-                                        mục đích khác được mô tả trong{" "}
+                                        {t("registerForm.dataUsageInfo")}{" "}
+                                        {t("registerForm.dataUsageDetails")}
                                         <strong>
                                             <Link to="#">
-                                                chính sách bảo mật
+                                                {t(
+                                                    "registerForm.privacyPolicy"
+                                                )}
                                             </Link>
                                         </strong>{" "}
-                                        của chúng tôi.
                                     </p>
                                 </div>
                                 <div>
                                     <span>
-                                        Đã có tài khoản?{" "}
+                                        {t("registerForm.alreadyHaveAccount")}{" "}
                                         <Link
                                             className="text-danger"
                                             onClick={(e) => {
@@ -203,7 +210,7 @@ function RegisterForm({ onClose, onSubmit, onOpenLogin }) {
                                                 onOpenLogin();
                                             }}
                                         >
-                                            <b>Đăng nhập</b>
+                                            <b>{t("registerForm.login")}</b>
                                         </Link>
                                     </span>
                                 </div>

@@ -7,16 +7,21 @@ import { Pagination, Autoplay } from "swiper/modules";
 import convertToVND from "../../../utils/convertToVND";
 import ReviewRating from "../../ReviewRating/ReviewRating";
 import getAmenityIcon from "../../../utils/icons";
+import { useTranslation } from "react-i18next";
+import unidecode from "unidecode";
 
 function HotelItemHorizontal({ hotel }) {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const handleCheckRoom = () => {
         navigate(
             "/hotels/" + hotel.hotelDto.id + "/rooms/" + hotel.bestRoom.id
         );
     };
-
+    function removeDiacritics(str) {
+        return unidecode(str); // Sử dụng unidecode để bỏ dấu
+    }
     return (
         <>
             <div className="room-suits-card mb-30">
@@ -24,7 +29,9 @@ function HotelItemHorizontal({ hotel }) {
                     <div className="col-md-4">
                         <div className="swiper hotel-img-slider">
                             {hotel.hotelDto.breakfastIncluded && (
-                                <span className="batch">Bữa sáng miễn phí</span>
+                                <span className="batch">
+                                    {t("hotel.breakfastIncluded")}
+                                </span>
                             )}
                             <Swiper
                                 style={{ height: "100%" }}
@@ -95,10 +102,18 @@ function HotelItemHorizontal({ hotel }) {
                                             "Địa điểm không có sẵn"}
                                     </li>
                                     <li>
-                                        <a href="#">Xem trên bản đồ</a>
+                                        <a href="#">
+                                            {" "}
+                                            {t("hotel.viewLocation")}
+                                        </a>
                                     </li>
                                     <li>
-                                        <span>cách trung tâm ...km</span>
+                                        <span>
+                                            {" "}
+                                            {t("hotel.distanceFromCenter", {
+                                                distance: "5",
+                                            })}
+                                        </span>
                                     </li>
                                 </ul>
                                 <ul className="facilisis">
@@ -110,44 +125,74 @@ function HotelItemHorizontal({ hotel }) {
                                                     {getAmenityIcon(
                                                         amenity.name
                                                     )}
-                                                    {amenity.name}
+                                                    {t(
+                                                        `amenities.${removeDiacritics(
+                                                            amenity.name
+                                                        )
+                                                            .toLowerCase()
+                                                            .replace(
+                                                                /\s+/g,
+                                                                "_"
+                                                            )
+                                                            .replace("/", "_")}`
+                                                    )}
                                                 </li>
                                             ))}
                                 </ul>
                             </div>
                             <div className="content-bottom">
-                                <div className="room-type">
+                                <div className="room-type ">
                                     <h6>
-                                        {hotel.bestRoom?.typeDisplayName ||
-                                            "Không có sẵn"}
+                                        {t(
+                                            `roomTypes.${hotel.bestRoom.type}`
+                                        ) || t("hotel.roomTypeUnavailable")}
                                     </h6>
-                                    <span>
+                                    <strong className="text-warning ">
+                                        {t(
+                                            `hotel.categories.${hotel.hotelDto.category}`
+                                        )}
+                                    </strong>
+                                    <span className="ms-2">
                                         {hotel.bestRoom?.available
-                                            ? "Còn phòng"
-                                            : "Hết phòng"}
+                                            ? t("hotel.roomAvailable")
+                                            : t("hotel.roomUnavailable")}
                                     </span>
+                                    <br />
+
                                     {hotel.hotelDto.freeCancellation && (
-                                        <div className="deals">
-                                            <span>
-                                                <strong>Miễn phí hủy</strong>{" "}
-                                                <br /> trước 48 giờ
-                                            </span>
+                                        <div className="mt-2">
+                                            <strong className="d-block">
+                                                {t("hotel.freeCancellation")}
+                                            </strong>
+                                            <p>
+                                                {t(
+                                                    "hotel.cancellationDeadline",
+                                                    { hours: 48 }
+                                                )}
+                                            </p>
                                         </div>
                                     )}
                                 </div>
                                 <div className="price-and-book">
                                     <div className="price-area">
                                         <p>
-                                            1 đêm,{" "}
-                                            {hotel.bestRoom?.capacity ||
-                                                "Không có sẵn"}{" "}
-                                            người
+                                            {t("hotel.nightFor", {
+                                                nightCount: 1,
+                                                capacity:
+                                                    hotel.bestRoom?.capacity ||
+                                                    t("hotel.unknownCapacity"),
+                                            })}
                                         </p>
                                         <span>
                                             {convertToVND(
                                                 hotel.bestRoom?.basePrice
-                                            ) || "NaN"}
-                                            <del>$3000</del>
+                                            ) || t("hotel.priceNotAvailable")}
+                                            <span className="p-1"></span>
+                                            <del>
+                                                {convertToVND(
+                                                    hotel.bestRoom?.basePrice
+                                                )}
+                                            </del>
                                         </span>
                                     </div>
                                     <div className="book-btn">
@@ -156,7 +201,7 @@ function HotelItemHorizontal({ hotel }) {
                                             href="hotel-details.html"
                                             className="primary-btn2"
                                         >
-                                            Xem phòng{" "}
+                                            {t("hotel.checkRoom")}
                                             <i className="bi bi-arrow-right"></i>
                                         </Link>
                                     </div>

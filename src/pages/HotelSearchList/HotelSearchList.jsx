@@ -10,12 +10,13 @@ import "react-toastify/dist/ReactToastify.css";
 import * as SearchService from "../../services/SearchService";
 import { useMutation } from "react-query";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 function HotelSearchList() {
     const location = useLocation();
     const initialResults = location.state?.results || [];
     const booking = useSelector((state) => state.booking); // Get booking state from Redux
-
+    const { t } = useTranslation();
     // Initialize filterCriteria from Redux booking state
     const [filterCriteria, setFilterCriteria] = useState({
         location: booking.location || "",
@@ -171,12 +172,8 @@ function HotelSearchList() {
                                 ))
                             ) : (
                                 <div className="text-center">
-                                    <h3>Không tìm thấy khách sạn phù hợp</h3>
-                                    <p>
-                                        Vui lòng thử lại với các tiêu chí khác
-                                        hoặc kiểm tra lại thông tin tìm kiếm của
-                                        bạn.
-                                    </p>
+                                    <h3>{t("hotelSearch.hotelNotFound")}</h3>
+                                    <p>{t("hotelSearch.tryOtherCriteria")}</p>
                                 </div>
                             )}
 

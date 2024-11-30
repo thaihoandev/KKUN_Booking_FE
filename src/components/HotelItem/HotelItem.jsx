@@ -4,24 +4,31 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import convertToVND from "../../utils/convertToVND";
 import ReviewRating from "../ReviewRating/ReviewRating";
 import getAmenityIcon from "../../utils/icons";
+import unidecode from "unidecode";
 
 const HotelItem = ({ hotel }) => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const handleCheckRoom = (hotelId, roomId) => {
         navigate(`/hotels/${hotelId}/rooms/${roomId}`);
     };
-
+    function removeDiacritics(str) {
+        return unidecode(str); // Sử dụng unidecode để bỏ dấu
+    }
     return (
         <div className="room-suits-card two">
             <div className="row g-0">
                 <div className="col-md-12">
                     <div className="hotel-img-slider">
                         {hotel.breakfastIncluded && (
-                            <span className="batch">Bữa sáng miễn phí</span>
+                            <span className="batch">
+                                {t("hotel.breakfastIncluded")}
+                            </span>
                         )}
                         <Swiper
                             style={{ height: "100%" }}
@@ -84,17 +91,28 @@ const HotelItem = ({ hotel }) => {
                                     {hotel.location}
                                 </li>
                                 <li>
-                                    <a href="#">Xem vị trí</a>
+                                    <a href="#">{t("hotel.viewLocation")}</a>
                                 </li>
                                 <li>
-                                    <span>cách trung tâm ...km</span>
+                                    <span>
+                                        {t("hotel.distanceFromCenter", {
+                                            distance: "5",
+                                        })}
+                                    </span>
                                 </li>
                             </ul>
                             <ul className="facilisis">
                                 {hotel.amenities.slice(0, 4).map((amenity) => (
                                     <li key={amenity.id}>
                                         {getAmenityIcon(amenity.name)}{" "}
-                                        {amenity.name}
+                                        {t(
+                                            `amenities.${removeDiacritics(
+                                                amenity.name
+                                            )
+                                                .toLowerCase()
+                                                .replace(/\s+/g, "_")
+                                                .replace("/", "_")}`
+                                        )}
                                     </li>
                                 ))}
                             </ul>
@@ -102,25 +120,34 @@ const HotelItem = ({ hotel }) => {
                         <div className="content-bottom">
                             <div className="room-type">
                                 <h6>
-                                    {hotel.rooms?.[0]?.typeDisplayName ||
-                                        "Loại phòng không có sẵn"}
+                                    {t(`roomTypes.${hotel.rooms?.[0]?.type}`) ||
+                                        t("hotel.roomTypeUnavailable")}
                                 </h6>
                                 <span>
                                     {hotel.rooms?.[0]?.available
-                                        ? "Còn phòng"
-                                        : "Hết phòng"}
+                                        ? t("hotel.roomAvailable")
+                                        : t("hotel.roomUnavailable")}
                                 </span>
                                 <div className="deals">
                                     <span>
                                         <strong className="text-warning">
-                                            {hotel.categoryDisplayName}
+                                            {t(
+                                                `hotel.categories.${hotel.category}`
+                                            )}
                                         </strong>
                                         {hotel.freeCancellation && (
                                             <>
                                                 <strong className="d-block">
-                                                    Miễn phí hủy
+                                                    {t(
+                                                        "hotel.freeCancellation"
+                                                    )}
                                                 </strong>
-                                                <p>trước 48h</p>
+                                                <p>
+                                                    {t(
+                                                        "hotel.cancellationDeadline",
+                                                        { hours: 48 }
+                                                    )}
+                                                </p>
                                             </>
                                         )}
                                     </span>
@@ -129,15 +156,17 @@ const HotelItem = ({ hotel }) => {
                             <div className="price-and-book">
                                 <div className="price-area">
                                     <p>
-                                        1 đêm,{" "}
-                                        {hotel.rooms?.[0]?.capacity ||
-                                            "Số người không xác định"}{" "}
-                                        người
+                                        {t("hotel.nightFor", {
+                                            nightCount: 1,
+                                            capacity:
+                                                hotel.rooms?.[0]?.capacity ||
+                                                t("hotel.unknownCapacity"),
+                                        })}
                                     </p>
                                     <span>
                                         {convertToVND(
                                             hotel.rooms?.[0]?.basePrice
-                                        ) || "NaN"}
+                                        ) || t("hotel.priceNotAvailable")}
                                         <span className="p-1"></span>
                                         <del>
                                             {convertToVND(
@@ -156,7 +185,7 @@ const HotelItem = ({ hotel }) => {
                                         }
                                         className="primary-btn2"
                                     >
-                                        Kiểm tra phòng
+                                        {t("hotel.checkRoom")}
                                         <i className="bi bi-arrow-right"></i>
                                     </Link>
                                 </div>

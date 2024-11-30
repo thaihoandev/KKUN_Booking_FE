@@ -1,4 +1,6 @@
 import moment from "moment";
+import unidecode from "unidecode";
+
 export const isJsonString = (data) => {
     try {
         JSON.parse(data);
@@ -30,4 +32,8 @@ export const calculateNumberOfNights = (checkInDateStr, checkOutDateStr) => {
 
 export const formatDateDDMMYYYY = (formatDate) => {
     return moment(formatDate).format("DD/MM/YYYY");
+};
+
+export const removeDiacritics = (str) => {
+    return unidecode(str);
 };
