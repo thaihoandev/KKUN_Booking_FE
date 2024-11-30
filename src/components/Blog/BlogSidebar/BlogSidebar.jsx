@@ -3,10 +3,12 @@ import { useMutation } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import * as BlogService from "../../../services/BlogService";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 function BlogSidebar({ blogs }) {
     const [blogCategories, setBlogCategories] = useState([]);
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const handleOpenBlogDetail = (postId) => {
         navigate(`/blogs/${postId}`);
@@ -32,71 +34,22 @@ function BlogSidebar({ blogs }) {
     return (
         <div class="sidebar-area">
             <div class="single-widget mb-30">
-                <h5 class="widget-title">Tìm ở đây</h5>
+                <h5 class="widget-title">{t("searchBlog")}</h5>
                 <form>
                     <div class="search-box">
-                        <input type="text" placeholder="Tìm tên bài viết..." />
+                        <input
+                            type="text"
+                            placeholder={t("searchPlaceholder")}
+                        />
                         <button type="submit">
                             <i class="bx bx-search"></i>
                         </button>
                     </div>
                 </form>
             </div>
-            <div class="single-widget mb-30">
-                <h5 class="widget-title">Categories</h5>
-                <ul class="category-list">
-                    <li>
-                        <a href="blog-sidebar.html">
-                            Cultural Exploration
-                            <span>(20)</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="blog-sidebar.html">
-                            Adventure Safari
-                            <span>(35)</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="blog-sidebar.html">
-                            Nature Excursion
-                            <span>(25)</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="blog-sidebar.html">
-                            Cruise Voyage
-                            <span>(18)</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="blog-sidebar.html">
-                            City Discovery
-                            <span>(06)</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="blog-sidebar.html">
-                            Educational Journey
-                            <span>(08)</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="blog-sidebar.html">
-                            Luxury Retreat
-                            <span>(15)</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="blog-sidebar.html">
-                            Photography Expedition
-                            <span>(25)</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+
             <div className="single-widget mb-30">
-                <h5 className="widget-title">Bài viết gần đây</h5>
+                <h5 className="widget-title">{t("recentPosts")}</h5>
                 {blogs.slice(0, 5).map((blog) => (
                     <div className="recent-post-widget mb-20" key={blog.id}>
                         <div className="recent-post-img">
@@ -148,11 +101,13 @@ function BlogSidebar({ blogs }) {
                 ))}
             </div>
             <div class="single-widget">
-                <h5 class="widget-title">Thể loại</h5>
+                <h5 class="widget-title">{t("categories")}</h5>
                 <ul class="tag-list">
                     {blogCategories.slice(0, 8).map((blogCategory, index) => (
                         <li key={index}>
-                            <a href="blog-grid.html ">{blogCategory.label}</a>
+                            <a href="blog-grid.html ">
+                                {t(`blogCategories.${blogCategory.value}`)}
+                            </a>
                         </li>
                     ))}
                 </ul>

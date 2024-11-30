@@ -151,7 +151,7 @@ function SidebarHotelSearch({ onFilterChange, onSearchByName }) {
             </div>
 
             <div className="single-widget mb-30">
-                <h5 className="shop-widget-title">{t("search.filterPrice")}</h5>
+                <h5 className="shop-widget-title">{t("applyBtn")}</h5>
                 <div className="range-wrap">
                     <div className="row">
                         <div className="col-sm-12">

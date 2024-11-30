@@ -66,7 +66,7 @@ function PromotionPage() {
                                 {isLoading ? (
                                     <p>Đang tải dữ liệu khuyến mãi...</p>
                                 ) : currentItems.length > 0 ? (
-                                    <>
+                                    <div className="">
                                         {/* Hiển thị danh sách khuyến mãi */}
                                         <PromotionList
                                             promotions={currentItems}
@@ -153,7 +153,7 @@ function PromotionPage() {
                                                 </nav>
                                             </div>
                                         </div>
-                                    </>
+                                    </div>
                                 ) : (
                                     <p>Không có dữ liệu khuyến mãi nào!</p>
                                 )}

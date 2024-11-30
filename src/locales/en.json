@@ -377,6 +377,78 @@
         "noReview": "No review",
         "veryPoor": "Very poor"
     },
+    "promotion": {
+        "name": "Promotion",
+        "code": "Code",
+        "time": "Time",
+        "discount": "Discount",
+        "apply": "Apply",
+        "daysLeft": "Expires in {{days}} days",
+        "expired": "Voucher expired",
+        "copy": "Copy",
+        "copied": "Voucher code copied to clipboard!"
+    },
+    "productApplicable": "Applicable Products",
+    "offers": "Offers",
+    "termsOfUse": "Terms of Use",
+    "products": {
+        "hotelAndHome": "Hotels and Homes",
+        "flights": "Flights",
+        "flightAndHotel": "Flights + Hotels"
+    },
+    "offerTypes": {
+        "discountVoucher": "Discount Voucher",
+        "creditCard": "Credit Card",
+        "specialCampaign": "Special Campaign",
+        "timedPromotion": "Timed Promotion"
+    },
+    "productDetails": {
+        "hotelAndHome": "- Hotels and Homes: Vouchers only apply to hotels and accommodations officially registered on the KKUN Booking platform.",
+        "flights": "- Flights: Offers related to flights are exclusively for airline service partners with contracts with KKUN Booking.",
+        "flightAndHotel": "- Flights + Hotels: Offers for combined flight and hotel packages, applicable to hotels affiliated with KKUN Booking and partner airlines."
+    },
+    "offerDetails": {
+        "discountVoucher": "- Discount Voucher: Applicable only once per customer and cannot be refunded, converted to cash, or transferred to others.",
+        "creditCard": "- Credit Card: Only valid when paying through credit cards of KKUN Booking partner banks.",
+        "specialCampaign": "- Special Campaign: Offers applied during a limited time or for special events.",
+        "timedPromotion": "- Timed Promotion: Vouchers will expire at the time specified on the voucher and cannot be used after this time.",
+        "note": "Note: Terms may change based on specific promotional programs and contract conditions of hotel owners registered on the KKUN Booking platform."
+    },
+
+    "discountInstructions": {
+        "title": "How to Apply Discount Coupons",
+        "step1": "Find and collect the discount coupons. If there is a promo code, don't forget to copy it!",
+        "step2": "Look for accommodations with the 'Discount Coupon Applicable' label to use the coupon.",
+        "step3": "Make sure to apply your discount coupon/promo code before completing the payment."
+    },
+    "blogCategories": {
+        "ADVENTURE": "Adventure",
+        "CITY_TOUR": "City Tour",
+        "ROAD_TRIP": "Road Trip",
+        "TOURISM": "Tourism",
+        "WILDLIFE": "Wildlife",
+        "NATURE_EXCURSION": "Nature Excursion",
+        "PHOTOGRAPHY": "Photography",
+        "CRUISE": "Cruise",
+        "CULTURAL": "Cultural",
+        "FOOD": "Food",
+        "HISTORY": "History",
+        "FESTIVAL": "Festival",
+        "SHOPPING": "Shopping",
+        "SEA": "Sea"
+    },
+    "nextPost": "Next post",
+    "prePost": "Previous post",
+    "views": "Views",
+    "post": "Post",
+    "searchBlog": "Search here",
+    "searchPlaceholder": "Search for post title...",
+    "categories": "Categories",
+    "noCategories": "No categories",
+    "recentPosts": "Recent posts",
+    "by": "By",
+    "seeBlog": "See post",
+    "timeRead": "minutes read",
     "roomPrice": "Room price",
     "firstName": "First name",
     "lastName": "Last name",
