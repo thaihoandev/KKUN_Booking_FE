@@ -378,6 +378,78 @@
         "noReview": "Không có đánh giá",
         "veryPoor": "Rất kém"
     },
+    "promotion": {
+        "name": "Khuyến mãi",
+        "code": "Mã",
+        "time": "Thời gian",
+        "discount": "Giảm giá",
+        "apply": "Áp dụng",
+        "daysLeft": "Hết hạn sau {{days}} ngày",
+        "expired": "Phiếu giảm giá đã hết hạn",
+        "copy": "Sao chép",
+        "copied": "Mã phiếu giảm giá đã sao chép vào bảng tạm!"
+    },
+    "productApplicable": "Sản phẩm áp dụng",
+    "offers": "Ưu đãi",
+    "termsOfUse": "Điều khoản sử dụng",
+    "products": {
+        "hotelAndHome": "Khách sạn và Nhà ở",
+        "flights": "Chuyến bay",
+        "flightAndHotel": "Chuyến bay + Khách sạn"
+    },
+    "offerTypes": {
+        "discountVoucher": "Phiếu giảm giá",
+        "creditCard": "Thẻ tín dụng",
+        "specialCampaign": "Chiến dịch đặc biệt",
+        "timedPromotion": "Khuyến mãi theo thời gian"
+    },
+    "productDetails": {
+        "hotelAndHome": "- Khách sạn và Nhà ở: Phiếu giảm giá chỉ áp dụng cho các khách sạn và chỗ nghỉ được đăng ký chính thức trên nền tảng KKUN Booking.",
+        "flights": "- Chuyến bay: Ưu đãi liên quan đến chuyến bay dành riêng cho các đối tác dịch vụ hàng không có hợp đồng với KKUN Booking.",
+        "flightAndHotel": "- Chuyến bay + Khách sạn: Ưu đãi cho các gói kết hợp chuyến bay và khách sạn, áp dụng đến các khách sạn liên kết với KKUN Booking và các hãng hàng không đối tác."
+    },
+    "offerDetails": {
+        "discountVoucher": "- Phiếu giảm giá: Chỉ áp dụng một lần cho mỗi khách hàng và không được hoàn lại, quy đổi thành tiền mặt hoặc chuyển nhượng cho người khác.",
+        "creditCard": "- Thẻ tín dụng: Chỉ có hiệu lực khi thanh toán bằng thẻ tín dụng của các ngân hàng đối tác của KKUN Booking.",
+        "specialCampaign": "- Chiến dịch đặc biệt: Ưu đãi áp dụng trong thời gian có hạn hoặc cho các sự kiện đặc biệt.",
+        "timedPromotion": "- Khuyến mãi có thời hạn: Phiếu giảm giá sẽ hết hạn vào thời điểm được chỉ định trên phiếu giảm giá và không thể sử dụng sau thời gian này.",
+        "note": "Lưu ý: Các điều khoản có thể thay đổi dựa trên các chương trình khuyến mại cụ thể và các điều kiện hợp đồng của chủ khách sạn đã đăng ký trên nền tảng KKUN Booking."
+    },
+
+    "discountInstructions": {
+        "title": "Cách áp dụng phiếu giảm giá",
+        "step1": "Tìm và thu thập phiếu giảm giá. Nếu có mã khuyến mại, đừng quên sao chép!",
+        "step2": "Tìm chỗ nghỉ có nhãn 'Áp dụng phiếu giảm giá' để sử dụng phiếu giảm giá.",
+        "step3": "Hãy đảm bảo áp dụng phiếu giảm giá/mã khuyến mại của bạn trước khi hoàn tất thanh toán."
+    },
+    "blogCategories": {
+        "ADVENTURE": "Phiêu lưu",
+        "CITY_TOUR": "Tour tham quan thành phố",
+        "ROAD_TRIP": "Chuyến đi đường bộ",
+        "TOURISM": "Du lịch",
+        "WILDLIFE": "Động vật hoang dã",
+        "NATURE_EXCURSION": "Chuyến tham quan thiên nhiên",
+        "PHOTOGRAPHY": "Nhiếp ảnh",
+        "CRUISE": "Du ngoạn",
+        "CULTURAL": "Văn hóa",
+        "FOOD": "Đồ ăn",
+        "HISTORY": "Lịch sử",
+        "FESTIVAL": "Lễ hội",
+        "SHOPPING": "Mua sắm",
+        "SEA": "Biển"
+    },
+    "nextPost": "Bài đăng tiếp theo",
+    "prePost": "Bài đăng trước",
+    "views": "Lượt xem",
+    "post": "Bài đăng",
+    "searchBlog": "Tìm kiếm tại đây",
+    "searchPlaceholder": "Tìm kiếm tiêu đề bài đăng...",
+    "categories": "Danh mục",
+    "noCategories": "Không có danh mục nào",
+    "recentPosts": "Bài đăng gần đây",
+    "by": "Bởi",
+    "seeBlog": "Xem bài đăng",
+    "timeRead": "phút đọc",
     "roomPrice": "Giá phòng",
     "firstName": "Tên",
     "lastName": "Họ",
