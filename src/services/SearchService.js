@@ -54,6 +54,7 @@ export const searchHotelsByName = async (data) => {
             `${process.env.REACT_APP_BASE_API_URL}/search/hotels/search-by-name`,
             { params }
         );
+
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {

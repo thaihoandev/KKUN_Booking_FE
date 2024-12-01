@@ -99,7 +99,7 @@ function SidebarHotelSearch({ onFilterChange, onSearchByName }) {
         <div className="sidebar-area">
             <div className="single-widget mb-30">
                 <h5 className="widget-title">{t("search.searchButton")}</h5>
-                <form>
+                <form onSubmit={handleSubmitSearchHotels}>
                     <div className="search-box">
                         <input
                             type="text"

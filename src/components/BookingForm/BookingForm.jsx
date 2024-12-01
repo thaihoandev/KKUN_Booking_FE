@@ -161,12 +161,14 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
             BookingService.createBooking(data, accessToken || "anonymous"),
         {
             onSuccess: (data) => {
-                toast.info("Đang tiến hành xử lý...!");
+                toast.info(`${t("pendingBookings")}...!`);
                 console.log(data);
                 if (data.code === "200" && data.paymentUrl != null) {
                     window.location.href = data.paymentUrl;
                 } else {
-                    navigate("/bookings/booking-success");
+                    setTimeout(() => {
+                        navigate("/bookings/booking-success");
+                    }, 1000); // Độ trễ 2 giây
                 }
             },
             onError: (error) => {
@@ -263,12 +265,15 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
                 setActiveTab(TABS.CONTACT);
                 return;
             }
+            console.log(data);
+
             const tempFormData = {
                 ...formData,
                 promotionId: promotionId || null,
                 paymentType:
-                    data.electronicPaymentOption ||
-                    MAIN_PAYMENT_METHODS.ON_CHECKOUT,
+                    data.mainPaymentMethod === MAIN_PAYMENT_METHODS.ELECTRONIC
+                        ? data.electronicPaymentOption
+                        : data.mainPaymentMethod,
             };
             mutationBookingSubmit.mutate({
                 data: tempFormData,

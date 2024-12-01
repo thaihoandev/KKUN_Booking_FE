@@ -36,7 +36,21 @@ export const getBookingById = async (bookingId) => {
         handleAxiosError(error);
     }
 };
-
+export const getAllBooking = async (accessToken) => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/bookings`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        handleAxiosError(error);
+    }
+};
 // Bắt đầu thanh toán booking
 export const initiatePayment = async (bookingData, accessToken) => {
     try {

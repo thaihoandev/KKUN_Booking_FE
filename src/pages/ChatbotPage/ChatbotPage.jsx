@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { useMutation } from "react-query";
 import * as ChatService from "../../services/ChatService";
 import { v4 as uuidv4 } from "uuid";
+import { useTranslation } from "react-i18next";
 
 function ChatbotPage() {
+    const { t } = useTranslation();
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -279,10 +281,10 @@ function ChatbotPage() {
     const handleButtonClick = (payload) => {
         if (payload === "/confirm_booking") {
             // Gửi tin nhắn "Xác nhận"
-            sendMessageMutation.mutate("Tôi đồng ý đặt phòng");
+            sendMessageMutation.mutate(`${t("agreeBook")}`);
         } else if (payload === "/deny") {
             // Gửi tin nhắn "Hủy"
-            sendMessageMutation.mutate("Không đặt nữa");
+            sendMessageMutation.mutate(`${t("cancelBook")}`);
         } else if (payload.startsWith("http")) {
             // Nếu payload là một URL, mở trong tab mới
             window.open(payload, "_blank");
@@ -450,7 +452,7 @@ function ChatbotPage() {
             <div style={styles.header}>
                 <h5 style={styles.headerTitle}>
                     <i className="bi bi-robot" />
-                    Trợ lý AI Đặt Phòng
+                    {t("assistantAI")}
                 </h5>
             </div>
 
@@ -534,7 +536,7 @@ function ChatbotPage() {
                         type="text"
                         style={styles.input}
                         className="hover-input"
-                        placeholder="Nhập tin nhắn của bạn..."
+                        placeholder={t("enterMessagePh")}
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onKeyPress={(e) =>
@@ -548,7 +550,7 @@ function ChatbotPage() {
                         disabled={isLoading}
                     >
                         <i className="bi bi-send-fill" />
-                        Gửi
+                        {t("send")}
                     </button>
                 </div>
             </div>

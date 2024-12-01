@@ -437,6 +437,17 @@
         "SHOPPING": "Shopping",
         "SEA": "Sea"
     },
+    "errorToBook": "Please check your booking payment again.",
+    "backHomeBtn": "Back to homepage",
+    "thanksToBook": "Thank you for booking with us. We are very happy to serve you.",
+    "paymentProcess": "Processing payment, please wait",
+    "paymentSuccess": "Payment Successful",
+    "paymentFailure": "Payment Failed",
+    "assistantAI": "AI assistant",
+
+    "enterMessagePh": "Enter your message",
+    "agreeBook": "Absolutely",
+    "cancelBook": "cancel",
     "nextPost": "Next post",
     "prePost": "Previous post",
     "views": "Views",
