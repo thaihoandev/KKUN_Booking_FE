@@ -7,32 +7,37 @@ import Loading from "../../../components/Loading/Loading";
 import { useSelector } from "react-redux";
 import { useMutation } from "react-query";
 import * as HotelService from "../../../services/HotelService";
+import * as PaymentService from "../../../services/PaymentService";
 import * as UserService from "../../../services/UserService";
-import * as BookingService from "../../../services/BookingService";
 
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import convertToVND from "../../../utils/convertToVND";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 function HotelOwnerDashBoard() {
+    const { t } = useTranslation();
     const user = useSelector((state) => state.user);
     const [hotels, setHotels] = useState([]);
     const [users, setUsers] = useState([]);
     const [bookings, setBookings] = useState([]);
+    const [payments, setPayments] = useState([]);
+
     const itemsPerPage = 12;
     const [currentPage, setCurrentPage] = useState(1);
     const currentYear = new Date().getFullYear(); // Current year
     const [filteredBookings, setFilteredBookings] = useState([]);
+    const [filteredPayments, setFilteredPayments] = useState([]);
 
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth()); // Default to current month
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Default to current year
     const totalPages = Math.ceil(
-        (filteredBookings?.length || 0) / itemsPerPage
+        (filteredPayments?.length || 0) / itemsPerPage
     );
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems =
-        filteredBookings?.slice(indexOfFirstItem, indexOfLastItem) || [];
+        filteredPayments?.slice(indexOfFirstItem, indexOfLastItem) || [];
     const navigate = useNavigate();
     const years = Array.from({ length: 6 }, (_, i) => currentYear - 5 + i);
     // Generate page numbers
@@ -102,17 +107,81 @@ function HotelOwnerDashBoard() {
                     bookingYear === selectedYear
                 );
             });
+
             setFilteredBookings(filtered);
         }
     };
+    const filterPaymentsByMonth = () => {
+        if (bookings && bookings.length > 0) {
+            const filteredPayment = payments.filter((payment) => {
+                const paymentDate = new Date(payment.paymentDate);
 
+                const paymentMonth = paymentDate.getMonth();
+                const paymentYear = paymentDate.getFullYear();
+
+                return (
+                    paymentMonth === selectedMonth &&
+                    paymentYear === selectedYear
+                );
+            });
+            setFilteredPayments(filteredPayment);
+        }
+    };
+    const handleFetchPayments = (userId, accessToken) => {
+        // Trigger the user details mutation and pass the userId and accessToken
+        mutationUserDetails.mutate({ userId, accessToken });
+    };
     // Call the filter function whenever the selected month or year changes
     useEffect(() => {
         filterBookingsByMonth();
+        console.log(filteredPayments);
     }, [selectedMonth, selectedYear, bookings]);
     useEffect(() => {
+        filterPaymentsByMonth();
+        console.log(filteredPayments);
+    }, [selectedMonth, selectedYear, payments]);
+    useEffect(() => {
         mutationBooking.mutate({ accessToken: user.accessToken });
+        handleFetchPayments(user.id, user.accessToken);
     }, [user.accessToken]);
+
+    const mutationUserDetails = useMutation(
+        ({ userId, accessToken }) =>
+            UserService.getDetailsUser(userId, accessToken),
+        {
+            onSuccess: (data) => {
+                const hotelId = data?.hotelId; // Assuming hotelId is in the user data
+
+                if (hotelId) {
+                    // Once we have the hotelId, call the second mutation to get payment details
+                    mutationPayment.mutate({
+                        hotelId,
+                        accessToken: user.accessToken,
+                    });
+                } else {
+                    toast.error("Không tìm thấy thông tin khách sạn.");
+                }
+            },
+            onError: (error) => {
+                toast.error("Lỗi khi lấy thông tin người dùng");
+            },
+        }
+    );
+
+    // Second mutation to get payments for the hotel
+    const mutationPayment = useMutation(
+        ({ hotelId, accessToken }) => {
+            return PaymentService.getPaymentByHotel(hotelId, accessToken);
+        },
+        {
+            onSuccess: (data) => {
+                setPayments(data); // Assuming setPayments is a function to store payments data
+            },
+            onError: (error) => {
+                toast.error(error.message);
+            },
+        }
+    );
     return (
         <>
             {/* ======================================== */}
@@ -281,20 +350,21 @@ function HotelOwnerDashBoard() {
                                             <thead>
                                                 <tr>
                                                     <th>STT</th>
-                                                    <th>Mã đặt phòng</th>
-                                                    <th>Liên hệ</th>
+                                                    <th>ID Thanh toán</th>
+
                                                     <th>Tổng tiền</th>
-                                                    <th>Thanh toán</th>
+                                                    <th>Phương thức</th>
                                                     <th>Tình trạng</th>
                                                     <th>Thời gian</th>
+
                                                     <th>#</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {filteredBookings &&
-                                                filteredBookings.length > 0 ? (
+                                                {filteredPayments &&
+                                                filteredPayments.length > 0 ? (
                                                     currentItems.map(
-                                                        (booking, index) => {
+                                                        (payment, index) => {
                                                             const globalIndex =
                                                                 (currentPage -
                                                                     1) *
@@ -325,41 +395,39 @@ function HotelOwnerDashBoard() {
                                                                             <div className="product-content">
                                                                                 <p className="mb-1">
                                                                                     <span>
-                                                                                        Mã:{" "}
                                                                                         {
-                                                                                            booking.id
+                                                                                            payment.id
+                                                                                        }
+                                                                                    </span>
+                                                                                </p>
+                                                                                <p className="mb-1">
+                                                                                    <span
+                                                                                        style={{
+                                                                                            lineHeight:
+                                                                                                "14px",
+                                                                                        }}
+                                                                                    >
+                                                                                        <strong className="py-1">
+                                                                                            ID
+                                                                                            Booking:
+                                                                                        </strong>
+                                                                                        {
+                                                                                            payment.bookingId
                                                                                         }
                                                                                     </span>
                                                                                 </p>
                                                                                 <span>
-                                                                                    Khách:{" "}
                                                                                     <strong>
-                                                                                        {
-                                                                                            booking.bookingName
-                                                                                        }
+                                                                                        {}
                                                                                     </strong>
                                                                                 </span>
                                                                             </div>
                                                                         </div>
                                                                     </td>
 
-                                                                    <td data-label="Contact">
-                                                                        <div className="d-flex flex-column">
-                                                                            <span className="mb-1">
-                                                                                {
-                                                                                    booking.bookingPhone
-                                                                                }
-                                                                            </span>
-                                                                            <span>
-                                                                                {
-                                                                                    booking.bookingEmail
-                                                                                }
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
                                                                     <td data-label="Price">
                                                                         {convertToVND(
-                                                                            booking.totalPrice
+                                                                            payment.amount
                                                                         )}
                                                                     </td>
                                                                     <td
@@ -367,45 +435,28 @@ function HotelOwnerDashBoard() {
                                                                         data-label="Payment"
                                                                     >
                                                                         {
-                                                                            booking.paymentType
+                                                                            payment.paymentType
                                                                         }{" "}
                                                                     </td>
                                                                     <td data-label="Status">
                                                                         <span class="confirmed">
                                                                             {" "}
                                                                             {
-                                                                                booking.status
+                                                                                payment.status
                                                                             }
                                                                         </span>
                                                                     </td>
                                                                     <td data-label="Execution Time">
                                                                         {moment(
-                                                                            booking.checkinDate
+                                                                            payment.paymentDate
                                                                         ).format(
-                                                                            "DD/MM/YYYY"
-                                                                        )}{" "}
-                                                                        -{" "}
-                                                                        {moment(
-                                                                            booking.checkoutDate
-                                                                        ).format(
-                                                                            "DD/MM/YYYY"
+                                                                            "DD/MM/YYYY HH:mm:ss"
                                                                         )}
                                                                     </td>
-                                                                    <td data-label="Review">
-                                                                        {booking.reviewed ===
-                                                                        false ? (
-                                                                            <strong className="text-primary">
-                                                                                Chưa
-                                                                                đánh
-                                                                                giá
-                                                                            </strong>
-                                                                        ) : (
-                                                                            <strong className="text-warning">
-                                                                                Đã
-                                                                                đánh
-                                                                                giá
-                                                                            </strong>
-                                                                        )}
+                                                                    <td data-label="#">
+                                                                        <button className="primary-btn2">
+                                                                            Xem
+                                                                        </button>
                                                                     </td>
                                                                 </tr>
                                                             );
@@ -446,8 +497,8 @@ function HotelOwnerDashBoard() {
                                                 )}
                                             </tbody>
                                         </table>
-                                        {filteredBookings &&
-                                            filteredBookings.length > 0 && (
+                                        {filteredPayments &&
+                                            filteredPayments.length > 0 && (
                                                 <div className="pagination-area">
                                                     <ul className="paginations">
                                                         {pageNumbers.map(

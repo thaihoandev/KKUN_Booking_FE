@@ -368,7 +368,8 @@
         "invalidVoucherCode": "Mã phiếu giảm giá không hợp lệ hoặc đã hết hạn.",
         "error": "Đã xảy ra lỗi.",
         "voucherRequired": "Phiếu giảm giá là bắt buộc.",
-        "applyVoucherSuccess": "Mã phiếu giảm giá đã được áp dụng! Giảm giá"
+        "applyVoucherSuccess": "Mã phiếu giảm giá đã được áp dụng! Giảm giá",
+        "cancelSuccess": "Hủy thất bại!"
     },
     "rating": {
         "excellent": "Excellent",

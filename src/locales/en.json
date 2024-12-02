@@ -367,7 +367,8 @@
         "invalidVoucherCode": "The voucher code is invalid or has expired.",
         "error": "An error occurred.",
         "voucherRequired": "The voucher is required.",
-        "applyVoucherSuccess": "Voucher code has been applied! Discount"
+        "applyVoucherSuccess": "Voucher code has been applied! Discount",
+        "cancelSuccess": "Cancel failure!"
     },
     "rating": {
         "excellent": "Excellent",
