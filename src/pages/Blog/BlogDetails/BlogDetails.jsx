@@ -4,8 +4,11 @@ import * as BlogService from "../../../services/BlogService";
 import { useMutation } from "react-query";
 import { toast, ToastContainer } from "react-toastify";
 import BlogSidebar from "../../../components/Blog/BlogSidebar/BlogSidebar";
+import { useTranslation } from "react-i18next";
 
 function BlogDetails() {
+    const { t } = useTranslation();
+
     const { postId } = useParams();
     const [blog, setBlog] = useState({});
     const [blogs, setBlogs] = useState([]);
@@ -90,7 +93,7 @@ function BlogDetails() {
                                     </div>
                                     <div className="author-content">
                                         <h6>
-                                            Viết bởi,{" "}
+                                            {t("by")},{" "}
                                             <a href="#">{blog.author}</a>
                                         </h6>
                                     </div>
@@ -105,9 +108,11 @@ function BlogDetails() {
                                         >
                                             <path d="..." />
                                         </svg>
-                                        {blog.views} Lượt xem
+                                        {blog.views} {t("views")}
                                     </li>
-                                    <li>{blog.readTime} phút đọc</li>
+                                    <li>
+                                        {blog.readTime} {t("timeRead")}
+                                    </li>
                                 </ul>
                             </div>
 
@@ -181,9 +186,9 @@ function BlogDetails() {
                                         <ul class="tag-list">
                                             <li>
                                                 <a href="# ">
-                                                    {
-                                                        blog.blogPostCategoryDisplayName
-                                                    }
+                                                    {t(
+                                                        `blogCategories.${blog.blogPostCategory}`
+                                                    )}
                                                 </a>
                                             </li>
                                         </ul>
@@ -256,7 +261,7 @@ function BlogDetails() {
                                                             );
                                                         }}
                                                     >
-                                                        Bài trước đó
+                                                        {t("prePost")}
                                                     </Link>
                                                     <h6>
                                                         <Link
@@ -289,7 +294,7 @@ function BlogDetails() {
                                                             );
                                                         }}
                                                     >
-                                                        Bài kế tiếp
+                                                        {t("nextPost")}
                                                     </Link>
                                                     <h6>
                                                         <Link

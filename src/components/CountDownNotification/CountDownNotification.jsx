@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Clock } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const CountDownNotification = () => {
     const [timeLeft, setTimeLeft] = useState(20 * 60); // 19:52 in seconds
-
+    const { t } = useTranslation();
     useEffect(() => {
         if (timeLeft <= 0) return;
 
@@ -28,7 +29,7 @@ const CountDownNotification = () => {
             <div className="alert alert-light border-danger border-opacity-25 py-2 m-0 mb-2">
                 <div className="container d-flex align-items-center justify-content-center gap-2">
                     <span className="text-danger">
-                        Chúng tôi đang giữ giá cho quý khách...
+                        {t("countdown.holdingPrice")}...
                     </span>
                     <div className="d-flex align-items-center gap-1 text-danger">
                         <Clock size={16} />

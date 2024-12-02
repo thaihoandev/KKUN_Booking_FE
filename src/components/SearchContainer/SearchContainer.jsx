@@ -371,9 +371,6 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                 })
             );
 
-            console.log("adult", adultQty);
-            console.log("child", childQty);
-
             dismissToast(loadingToastId);
 
             if (response.status === 200) {

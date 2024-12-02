@@ -5,8 +5,11 @@ import * as UserService from "../../../../services/UserService";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import convertToVND from "../../../../utils/convertToVND";
+import { useTranslation } from "react-i18next";
 
 function RoomList() {
+
+    const { t } = useTranslation();
     const [hotelId, setHotelId] = useState();
     const [rooms, setRooms] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -23,7 +26,7 @@ function RoomList() {
                 setRooms(data);
             },
             onError: (error) => {
-                toast.error(error.message || "Đã xảy ra lỗi.");
+                toast.error(error.message || t("common.error"));
             },
         }
     );
@@ -37,7 +40,8 @@ function RoomList() {
                 setHotelId(data.hotelId);
             },
             onError: (error) => {
-                toast.error(error.message || "Đã xảy ra lỗi.");
+                toast.error(error.message || t("common.error"));
+
             },
         }
     );
@@ -66,13 +70,13 @@ function RoomList() {
         <>
             <div className="recent-listing-area">
                 <div className="title-and-tab">
-                    <h6>Danh sách phòng</h6>
+                    <h6>{t("RoomList.title")}</h6>
                     <div className="search-area">
                         <form>
                             <div className="search-box">
                                 <input
                                     type="text"
-                                    placeholder="Tìm kiếm ở đây"
+                                    placeholder={t("RoomList.searchPlaceholder")}
                                 />
                                 <button type="submit">
                                     <i className="bx bx-search"></i>
@@ -85,19 +89,19 @@ function RoomList() {
                     <table className="eg-table2">
                         <thead>
                             <tr>
-                                <th>Loại phòng</th>
-                                <th>Giá/đêm</th>
-                                <th>Số người</th>
-                                <th>Trạng thái</th>
-                                <th>Lượt đánh giá</th>
-                                <th>Hành động</th>
+                                <th>{t("RoomList.tableHeaders.roomType")}</th>
+                                <th>{t("RoomList.tableHeaders.pricePerNight")}</th>
+                                <th>{t("RoomList.tableHeaders.capacity")}</th>
+                                <th>{t("RoomList.tableHeaders.status")}</th>
+                                <th>{t("RoomList.tableHeaders.reviews")}</th>
+                                <th>{t("RoomList.tableHeaders.actions")}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {paginatedRooms && paginatedRooms.length > 0 ? (
                                 paginatedRooms.map((room, index) => (
                                     <tr key={index}>
-                                        <td data-label="Tour Package">
+                                        <td data-label={t("RoomList.tableHeaders.roomType")}>
                                             <div className="product-name">
                                                 <div className="img">
                                                     <img
@@ -112,20 +116,22 @@ function RoomList() {
                                                 </div>
                                                 <div className="product-content">
                                                     <h6>
-                                                        <a href={`/hotelowner/my-rooms/${room.id}/room-details`}>
+                                                        <a
+                                                            href={`/hotelowner/my-rooms/${room.id}/room-details`}
+                                                        >
                                                             {room.typeDisplayName ||
                                                                 "NaN"}
                                                         </a>
                                                     </h6>
                                                     <p className="mb-3">
                                                         <span>
-                                                            Mã:{" "}
+                                                            {t("RoomList.code")}:{" "}
                                                             {room.id || "NaN"}{" "}
                                                         </span>
                                                     </p>
                                                     <p>
                                                         <span>
-                                                            Diện tích:{" "}
+                                                            {t("RoomList.area")}:{" "}
                                                             {room.area || "NaN"}{" "}
                                                             m²
                                                         </span>
@@ -133,29 +139,31 @@ function RoomList() {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td data-label="Price">
+                                        <td data-label={t("RoomList.tableHeaders.pricePerNight")}>
                                             {convertToVND(room.basePrice) ||
                                                 "NaN"}
                                         </td>
-                                        <td data-label="Person">
-                                            {room.capacity || "NaN"} người
+                                        <td data-label={t("RoomList.tableHeaders.capacity")}>
+                                            {room.capacity || "NaN"}
+                                            {t("RoomDetails.roomInfo.capacityUnit")}
                                         </td>
-                                        <td data-label="Status">
+                                        <td data-label={t("RoomList.tableHeaders.status")}>
                                             <span className="confirmed">
                                                 {room.available
-                                                    ? "Còn phòng"
-                                                    : "Hết phòng"}
+                                                    ? t("RoomList.status.available")
+                                                    : t("RoomList.status.unavailable")}
                                             </span>
                                         </td>
-                                        <td data-label="NumOfReviews">
+                                        <td data-label={t("RoomList.tableHeaders.reviews")}>
                                             {room.numOfReviews || "NaN"}
                                         </td>
-                                        <td data-label="Action">
+                                        <td data-label={t("RoomList.tableHeaders.actions")}>
                                             <a
                                                 href={`/hotelowner/my-rooms/${room.id}/room-edit`}
                                                 className="view-btn"
                                             >
-                                                Xem chi tiết
+                                                {t("RoomList.actions.viewDetails")}
+                                                
                                             </a>
                                         </td>
                                     </tr>
@@ -166,7 +174,7 @@ function RoomList() {
                                         colSpan="5"
                                         style={{ textAlign: "center" }}
                                     >
-                                        Chưa có phòng nào!
+                                        {t("RoomList.emptyRooms")}
                                     </td>
                                 </tr>
                             )}
@@ -178,8 +186,8 @@ function RoomList() {
                                 <li
                                     key={index}
                                     className={`page-item ${currentPage === index + 1
-                                            ? "active"
-                                            : ""
+                                        ? "active"
+                                        : ""
                                         }`}
                                     onClick={() => setCurrentPage(index + 1)}
                                 >
@@ -205,7 +213,7 @@ function RoomList() {
                                     >
                                         <path d="M0 7.00008L7 0L2.54545 7.00008L7 14L0 7.00008Z"></path>
                                     </svg>
-                                    Prev
+                                    {t("RoomList.pagination.prev")}
                                 </a>
                             </li>
                             <li>
@@ -217,7 +225,7 @@ function RoomList() {
                                         )
                                     }
                                 >
-                                    Next
+                                    {t("RoomList.pagination.next")}
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="7"

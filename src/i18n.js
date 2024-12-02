@@ -13,8 +13,8 @@ i18n.use(initReactI18next) // Kết nối với React
                 translation: translationVI,
             },
         },
-        lng: "vi", // Ngôn ngữ mặc định
-        fallbackLng: "vi", // Ngôn ngữ mặc định khi không tìm thấy chuỗi
+        lng: localStorage.getItem("language") || "en", // Lấy ngôn ngữ từ localStorage nếu có
+        fallbackLng: "en", // Nếu không có ngôn ngữ, mặc định dùng 'en'
         interpolation: {
             escapeValue: false, // Không escape giá trị
         },

@@ -4,8 +4,11 @@ import * as AmenityService from "../../../../services/AmenityService";
 import { toast, ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function AmenityList() {
+
+    const { t } = useTranslation();
     const [amenities, setAmenities] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 10; // Số lượng tiện nghi trên mỗi trang
@@ -45,7 +48,7 @@ function AmenityList() {
             setCurrentPage(newPage);
         }
     };
-    
+
     const handleEditAmenity = (amenityId) => {
         navigate(`/admin/amenities/${amenityId}/edit`);
     };
@@ -61,11 +64,11 @@ function AmenityList() {
                 <div className="col-xl-12">
                     <div className="main-content-title-profile">
                         <div className="main-content-title mb-30">
-                            <h3>Danh sách tiện nghi</h3>
+                            <h3>{t("amenityList.title")}</h3>
                         </div>
-                        <div class="profile">
+                        {/* <div class="profile">
                             <a href="#">
-                                Xem thêm
+                                {t("amenityList.viewMore")}
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="8"
@@ -75,19 +78,19 @@ function AmenityList() {
                                     <path d="M6.669 2.27202L0.94102 8L0 7.05898L5.72731 1.331H0.679478V0H8V7.32052H6.669V2.27202Z"></path>
                                 </svg>
                             </a>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
             <div className="recent-listing-area">
                 <div class="title-and-tab">
-                    <h6>Thông tin tiện nghi</h6>
+                    <h6>{t("amenityList.info")}</h6>
                     <div class="search-area">
                         <form>
                             <div class="search-box">
                                 <input
                                     type="text"
-                                    placeholder="Tìm kiếm ở đây"
+                                    placeholder={t("amenityList.searchPlaceholder")}
                                 />
                                 <button type="submit">
                                     <i class="bx bx-search"></i>
@@ -101,34 +104,31 @@ function AmenityList() {
                     <table className="eg-table2">
                         <thead>
                             <tr>
-                                <th>Tên tiện nghi</th>
-                                <th>Loại</th>
-                                <th>Mô tả</th>
-                                <th>Hành động</th>
+                                <th>{t("amenityList.name")}</th>
+                                <th>{t("amenityList.type")}</th>
+                                <th>{t("amenityList.description")}</th>
+                                <th>{t("amenityList.actions")}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {currentAmenities.map((amenity) => (
                                 <tr key={amenity.id}>
-                                    <td
-                                        data-label="Tên tiện nghi"
-                                        className="p-1"
-                                    >
+                                    <td data-label={t("amenityList.name")} className="p-1">
                                         {amenity.name}
                                     </td>
-                                    <td data-label="Loại" className="p-1">
+                                    <td data-label={t("amenityList.type")} className="p-1">
                                         {amenity.amenityTypeDisplayName}
                                     </td>
-                                    <td data-label="Mô tả" className="p-1">
+                                    <td data-label={t("amenityList.description")} className="p-1">
                                         {amenity.description}
                                     </td>
-                                    <td data-label="Chức năng" className="p-1">
+                                    <td data-label={t("amenityList.actions")} className="p-1">
                                         <button
                                             onClick={() => {
                                                 handleEditAmenity(amenity.id);
                                             }}
                                             className="primary-btn1 p-2 me-2"
-                                            alt="Chỉnh sửa"
+                                            alt={t("amenityList.edit")}
                                         >
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
@@ -139,7 +139,7 @@ function AmenityList() {
                                             }}
                                             className="primary-btn1 p-2"
                                             style={{ backgroundColor: "red" }}
-                                            aLt="Xóa"
+                                            alt={t("amenityList.delete")}
                                         >
                                             <i class="bi bi-trash"></i>
                                         </button>
@@ -177,7 +177,7 @@ function AmenityList() {
                                     >
                                         <path d="M0 7.00008L7 0L2.54545 7.00008L7 14L0 7.00008Z" />
                                     </svg>
-                                    Prev
+                                    {t("amenityList.prev")}
                                 </a>
                             </li>
                             <li>
@@ -187,7 +187,7 @@ function AmenityList() {
                                         handlePageChange(currentPage + 1)
                                     }
                                 >
-                                    Next
+                                    {t("amenityList.next")}
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="7"

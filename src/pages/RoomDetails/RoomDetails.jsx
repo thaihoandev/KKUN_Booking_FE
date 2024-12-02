@@ -12,6 +12,7 @@ import ReviewWrapper from "../../components/ReviewWrapper/ReviewWrapper";
 import RoomInfoes from "../../components/RoomInfoes/RoomInfoes";
 import NearbyPlaces from "../../components/NearbyPlaces/NearbyPlaces";
 import RoomList from "../../components/RoomList/RoomList";
+import { useTranslation } from "react-i18next";
 
 function RoomDetails() {
     const { roomId } = useParams();
@@ -19,11 +20,14 @@ function RoomDetails() {
     const [hotel, setHotel] = useState({});
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { t } = useTranslation();
+
     const mutationRoom = useMutation(
         (roomId) => RoomService.getRoomById(roomId),
         {
             onSuccess: (data) => {
                 setRoom(data);
+
                 mutationHotel.mutate(data.hotelId);
             },
             onError: (error) => {
@@ -38,6 +42,7 @@ function RoomDetails() {
         {
             onSuccess: (data) => {
                 setHotel(data);
+
                 setLoading(false);
             },
             onError: (error) => {
@@ -86,7 +91,7 @@ function RoomDetails() {
                                                 href={displayImages[0]}
                                             >
                                                 <i className="bi bi-eye"></i>{" "}
-                                                Xem phòng
+                                                {t("roomDetails.seeRoom")}
                                             </a>
                                         </div>
                                     </div>
@@ -103,7 +108,9 @@ function RoomDetails() {
                                                         href={displayImages[1]}
                                                     >
                                                         <i className="bi bi-eye"></i>{" "}
-                                                        Xem phòng
+                                                        {t(
+                                                            "roomDetails.seeRoom"
+                                                        )}
                                                     </a>
                                                 </div>
                                             </div>
@@ -118,7 +125,9 @@ function RoomDetails() {
                                                         href={displayImages[2]}
                                                     >
                                                         <i className="bi bi-eye"></i>{" "}
-                                                        Xem phòng
+                                                        {t(
+                                                            "roomDetails.seeRoom"
+                                                        )}
                                                     </a>
                                                 </div>
                                             </div>
@@ -130,7 +139,9 @@ function RoomDetails() {
                                                     />
                                                     <button className="StartSlideShowFirstImage">
                                                         <i className="bi bi-plus-lg"></i>{" "}
-                                                        Xem ảnh khác
+                                                        {t(
+                                                            "roomDetails.seeOtherPic"
+                                                        )}
                                                     </button>
                                                 </div>
                                             </div>
@@ -145,7 +156,9 @@ function RoomDetails() {
                                                         href="https://www.youtube.com/watch?v=u31qwQUeGuM"
                                                     >
                                                         <i className="bi bi-play-circle"></i>{" "}
-                                                        Xem video
+                                                        {t(
+                                                            "roomDetails.seeVideo"
+                                                        )}
                                                     </a>
                                                 </div>
                                             </div>
@@ -170,7 +183,7 @@ function RoomDetails() {
                         <div className="col-xl-8">
                             <RoomInfoes hotel={hotel} room={room} />
                             <div className="tour-location">
-                                <h4>Vị trí trên bản đồ</h4>
+                                <h4>{t("hotel.viewLocation")}</h4>
                                 <div className="map-area mb-30">
                                     <iframe
                                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193325.0481540361!2d-74.06757856146028!3d40.79052383652264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1660366711448!5m2!1sen!2sbd"
@@ -195,7 +208,7 @@ function RoomDetails() {
                                         alignItems: "center", // Căn giữa theo chiều dọc
                                     }}
                                 >
-                                    Đặt ngay
+                                    {t("booking.bookingNow")}
                                 </Link>
                             </div>
                             <NearbyPlaces hotel={hotel} />

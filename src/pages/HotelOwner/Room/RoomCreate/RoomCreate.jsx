@@ -4,7 +4,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation } from "react-query";
 import { toast, ToastContainer } from "react-toastify";
-
 import * as RoomService from "../../../../services/RoomService";
 import * as AmenityService from "../../../../services/AmenityService";
 import NiceSelect from "../../../../components/NiceSelect/NiceSelect";
@@ -13,7 +12,11 @@ import { createRoomSchema } from "../../../../schemas/validationSchemas";
 import { useSelect } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 function RoomCreate() {
+
+    const { t } = useTranslation();
     const [roomTypes, setRoomTypes] = useState([]);
     const [bedTypes, setBedTypes] = useState([]);
     const [facilities, setFacilities] = useState([]);
@@ -45,26 +48,26 @@ function RoomCreate() {
         () => AmenityService.getAllAmenitiesForRoom(),
         {
             onSuccess: (data) => setFacilities(data),
-            onError: (error) => toast.error(error.message),
+            onError: (error) => toast.error(t("RoomCreate.messages.error")),
         }
     );
     const mutationAmenityType = useMutation(() => RoomService.getRoomTypes(), {
         onSuccess: (data) => setRoomTypes(data),
-        onError: (error) => toast.error(error.message),
+        onError: (error) => toast.error(t("RoomCreate.messages.error")),
     });
     const mutationBedType = useMutation(() => RoomService.getBedTypes(), {
         onSuccess: (data) => setBedTypes(data),
-        onError: (error) => toast.error(error.message),
+        onError: (error) => toast.error(t("RoomCreate.messages.error")),
     });
 
     const mutationCreateRoom = useMutation(
         ({ data, accessToken }) => RoomService.createRoom(data, accessToken),
         {
             onSuccess: (data) => {
-                toast.success("Thêm phòng thành công!");
+                toast.success(t("RoomCreate.messages.success"));
                 navigate("/hotelowner/my-rooms");
             },
-            onError: (error) => toast.error(error.message),
+            onError: (error) => toast.error(t("RoomCreate.messages.error")),
         }
     );
 
@@ -101,14 +104,14 @@ function RoomCreate() {
             <div className="row">
                 <div className="col-xl-12">
                     <div className="main-content-title-profile mb-50">
-                        <h3>Thêm phòng</h3>
+                        <h3>{t("RoomCreate.title")}</h3>
                     </div>
                     <div className="dashboard-profile-wrapper two">
                         <div className="dashboard-profile-tab-content">
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className="row">
                                     <div className="form-inner mb-30 col-6">
-                                        <label>Loại phòng</label>
+                                        <label>{t("RoomCreate.labels.roomType")}</label>
                                         <Controller
                                             name="roomType"
                                             control={control}
@@ -136,10 +139,10 @@ function RoomCreate() {
                                             </p>
                                         )}
                                     </div>
-
+                                    {/* Loại giường */}
                                     <div className="form-inner mb-30 col-6">
-                                        <label>Loại giường</label>
-                                        <Controller
+                                    <label>{t("RoomCreate.labels.bedType")}</label>
+                                    <Controller
                                             name="bedType"
                                             control={control}
                                             render={({ field }) => (
@@ -166,12 +169,12 @@ function RoomCreate() {
                                             </p>
                                         )}
                                     </div>
-
+                                        {/* Giá gốc */}
                                     <div className="form-inner mb-30 col-6">
-                                        <label>Giá gốc</label>
-                                        <input
+                                    <label>{t("RoomCreate.labels.originalPrice")}</label>
+                                    <input
                                             type="text"
-                                            placeholder="Nhập giá..."
+                                            placeholder={t("RoomCreate.placeholders.enterPrice")}
                                             {...register("originalPrice")}
                                         />
                                         {errors.originalPrice && (
@@ -180,12 +183,12 @@ function RoomCreate() {
                                             </p>
                                         )}
                                     </div>
-
+                                    {/* Giá giảm */}
                                     <div className="form-inner mb-30 col-6">
-                                        <label>Giá giảm</label>
-                                        <input
+                                    <label>{t("RoomCreate.labels.discountedPrice")}</label>
+                                    <input
                                             type="text"
-                                            placeholder="Nhập giá giảm..."
+                                            placeholder={t("RoomCreate.placeholders.enterDiscountedPrice")}
                                             {...register("discountedPrice")}
                                         />
                                         {errors.discountedPrice && (
@@ -194,12 +197,12 @@ function RoomCreate() {
                                             </p>
                                         )}
                                     </div>
-
+                                        {/* Số người tối đa */}
                                     <div className="form-inner mb-30 col-6">
-                                        <label>Số người (Tối đa)</label>
+                                    <label>{t("RoomCreate.labels.maxOccupancy")}</label>
                                         <input
                                             type="number"
-                                            placeholder="Nhập số lượng người..."
+                                            placeholder={t("RoomCreate.placeholders.enterMaxOccupancy")}
                                             {...register("maxOccupancy")}
                                         />
                                         {errors.maxOccupancy && (
@@ -208,12 +211,12 @@ function RoomCreate() {
                                             </p>
                                         )}
                                     </div>
-
+                                        {/* Diện tích */}
                                     <div className="form-inner mb-30 col-6">
-                                        <label>Diện tích</label>
+                                    <label>{t("RoomCreate.labels.roomArea")}</label>
                                         <input
                                             type="number"
-                                            placeholder="Nhập diện tích phòng..."
+                                            placeholder={t("RoomCreate.placeholders.enterRoomArea")}
                                             {...register("roomArea")}
                                         />
                                         {errors.roomArea && (
@@ -227,12 +230,12 @@ function RoomCreate() {
                                 {/* Tiện ích */}
                                 <div className="row">
                                     <div className="mb-30">
-                                        <strong>Tiện ích</strong>
-                                        <div className="row border rounded p-2 bg-white ">
+                                        <strong >{t("RoomCreate.labels.facilities")}</strong>
+                                        <div className="row border rounded p-2 m-0 mt-1 bg-white ">
                                             {facilities.map((facility) => (
                                                 <div
                                                     key={facility.id}
-                                                    className="form-check col-2 d-flex justify-content-center align-items-center"
+                                                    className="form-check col-2 d-flex justify-content-start align-items-center"
                                                 >
                                                     <input
                                                         className="form-check-input"
@@ -272,7 +275,7 @@ function RoomCreate() {
                                         type="submit"
                                         className="primary-btn3"
                                     >
-                                        Thêm ngay
+                                        {t("RoomCreate.labels.addButton")}
                                     </button>
                                 </div>
                             </form>

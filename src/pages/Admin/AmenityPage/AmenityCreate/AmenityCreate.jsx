@@ -4,8 +4,12 @@ import * as AmenityService from "../../../../services/AmenityService";
 import { useMutation } from "react-query";
 import { toast, ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+
 
 function AmenityCreate() {
+
+    const { t } = useTranslation();
     const [selectedAmenity, setSelectedAmenity] = useState(null);
     const [amenities, setAmenities] = useState([]);
     const [name, setName] = useState("");
@@ -31,10 +35,10 @@ function AmenityCreate() {
         },
         {
             onSuccess: (data) => {
-                toast.success("Tạo mới tiện ích thành công!");
+                toast.success(t("amenityCreate.success"));
             },
             onError: (error) => {
-                toast.error(error.message);
+                toast.error(error.message || t("hotelList.error"));
             },
         }
     );
@@ -66,7 +70,7 @@ function AmenityCreate() {
                 <div className="col-xl-12">
                     <div className="main-content-title-profile mb-50">
                         <div className="main-content-title">
-                            <h3>Thêm Tiện ích</h3>
+                            <h3>{t("amenityCreate.title")}</h3>
                         </div>
                     </div>
                     <div className="dashboard-profile-wrapper two">
@@ -75,10 +79,10 @@ function AmenityCreate() {
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div className="form-inner mb-30">
-                                            <label>Tên tiện ích</label>
+                                            <label>{t("amenityCreate.nameLabel")}</label>
                                             <input
                                                 type="text"
-                                                placeholder="Tên tiện ích..."
+                                                placeholder={t("amenityCreate.namePlaceholder")}
                                                 value={name}
                                                 onChange={(e) =>
                                                     setName(e.target.value)
@@ -89,15 +93,16 @@ function AmenityCreate() {
                                     </div>
                                     <div className="col-md-6 mb-30">
                                         <div className="form-inner">
-                                            <label>Loại tiện ích</label>
+                                            <label>{t("amenityCreate.typeLabel")}</label>
                                             <NiceSelect
                                                 options={amenities}
                                                 value={selectedAmenity}
                                                 onChange={setSelectedAmenity}
+                                                placeholder={t("amenityCreate.typePlaceholder")}
                                             />
                                             {!selectedAmenity && (
                                                 <small className="text-danger">
-                                                    Vui lòng chọn loại tiện ích
+                                                    {t("amenityCreate.validation.selectAmenityType")}
                                                 </small>
                                             )}
                                         </div>
@@ -105,9 +110,9 @@ function AmenityCreate() {
 
                                     <div className="col-md-12 mb-30">
                                         <div className="form-inner">
-                                            <label>Mô tả</label>
+                                            <label>{t("amenityCreate.descriptionLabel")}</label>
                                             <textarea
-                                                placeholder="Mô tả thêm về tiện nghi"
+                                                placeholder={t("amenityCreate.descriptionPlaceholder")}
                                                 value={description}
                                                 onChange={(e) =>
                                                     setDescription(
@@ -124,7 +129,7 @@ function AmenityCreate() {
                                         type="submit"
                                         className="primary-btn3"
                                     >
-                                        Thêm ngay
+                                        {t("amenityCreate.addButton")}
                                     </button>
                                 </div>
                             </form>

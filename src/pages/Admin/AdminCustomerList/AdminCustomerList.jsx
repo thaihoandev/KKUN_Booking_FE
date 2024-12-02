@@ -8,8 +8,11 @@ import * as UserService from "../../../services/UserService";
 import Loading from "../../../components/Loading/Loading";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 function AdminCustomerList() {
+
+    const { t } = useTranslation();
     const [users, setUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [userStats, setUserStats] = useState({ totalUsers: 0, admins: 0, owners: 0 });
@@ -27,7 +30,7 @@ function AdminCustomerList() {
             setUserStats({ totalUsers, admins, owners });
         },
         onError: (error) => {
-            toast.error(error.message || "Đã xảy ra lỗi.");
+            toast.error(error.message || t("error.generic"));
         },
     });
 
@@ -39,15 +42,12 @@ function AdminCustomerList() {
     if (mutationUsers.isLoading) {
         return <Loading />;
     }
-    // useEffect(() => {
-    //     mutationUsers.mutate();
-    // }, []);
-
+   
     return (
         <>
             <div class="row">
                 <div class="main-content-title">
-                    <h3>Danh sách người dùng</h3>
+                <h3>{t("adminCustomerList.title")}</h3>
                 </div>
                 <div class="col-xl-12">
                     {/* Tổng quan */}
@@ -71,7 +71,7 @@ function AdminCustomerList() {
                                         </div>
                                     </div>
                                     <div class="counter-content">
-                                        <p>Khách hàng</p>
+                                    <p>{t("adminCustomerList.totalUsers")}</p>
                                         <div class="number">
                                             <h3 class="counter">{userStats.totalUsers}</h3>
                                             <span>+</span>
@@ -94,7 +94,7 @@ function AdminCustomerList() {
                                         </svg>
                                     </div>
                                     <div class="counter-content">
-                                        <p>Chủ cho thuê</p>
+                                    <p>{t("adminCustomerList.hotelOwners")}</p>
                                         <div class="number">
                                             <h3 class="counter">{userStats.admins}</h3>
                                             <span>+</span>
@@ -117,7 +117,7 @@ function AdminCustomerList() {
                                         </svg>
                                     </div>
                                     <div class="counter-content">
-                                        <p>Quản trị viên</p>
+                                    <p>{t("adminCustomerList.hotelOwners")}</p>
                                         <div class="number">
                                             <h3 class="counter">{userStats.owners}</h3>
                                             <span>+</span>
@@ -129,14 +129,14 @@ function AdminCustomerList() {
                     </div>
                     <div class="main-content-title-profile mb-50">
                         <div class="main-content-title">
-                            <h3>Thông tin người dùng</h3>
+                        <h3>{t("adminCustomerList.userInfo")}</h3>
                         </div>
                         <div class="search-area">
                             <form>
                                 <div class="search-box">
                                     <input
                                         type="text"
-                                        placeholder="Tìm ở đây"
+                                        placeholder={t("adminCustomerList.searchPlaceholder")}
                                     />
                                     <button type="submit">
                                         <i class="bx bx-search"></i>
@@ -164,7 +164,9 @@ function AdminCustomerList() {
                                                 alt="Profile"
                                             />
                                             <button className="eg-btn green-light--btn">
-                                                {user.status}
+                                            {user.status === "active"
+                                                    ? t("adminCustomerList.statusActive")
+                                                    : t("adminCustomerList.statusInactive")}
                                             </button>
                                         </div>
                                         <div className="profile-bio">
@@ -175,10 +177,10 @@ function AdminCustomerList() {
                                                     ).toUpperCase()} ${(
                                                         user.lastName || ""
                                                     ).toUpperCase()}`.trim()
-                                                    : "Tên không có sẵn"}
+                                                    : t("adminCustomerList.noUsers")}
                                             </h5>
                                             {/* Hiển thị tên người dùng */}
-                                            <h6>Mã ID: {user.id}</h6>{" "}
+                                            <h6>{t("adminCustomerList.id")}: {user.id}</h6>
                                             {/* Hiển thị ID người dùng */}
                                         </div>
                                         <div className="card-action d-flex justify-content-between">
@@ -218,7 +220,7 @@ function AdminCustomerList() {
                                 </div>
                             ))
                         ) : (
-                            <div>Chưa có người dùng nào</div>
+                            <div>{t("adminCustomerList.noUsers")}</div>
                         )}
                     </div>
                 </div>
@@ -226,7 +228,5 @@ function AdminCustomerList() {
         </>
     );
 }
-
-
 
 export default AdminCustomerList;

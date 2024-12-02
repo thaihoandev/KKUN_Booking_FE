@@ -59,7 +59,11 @@
         "bedType": "Bed Type",
         "capacity": "Capacity",
         "availableFacilities": "Available Facilities",
-        "bookNow": "Book Now"
+        "bookNow": "Book Now",
+        "seeRoom": "See Room",
+        "seeOtherPic": "See other pictures",
+        "seeVideo": "See Video",
+        "amenitySpecial": "Outstanding amenities in the room"
     },
     "booking": {
         "booking": "Booking",
@@ -187,6 +191,35 @@
         "mien_phi_wifi": "Free Wifi",
         "wifi": "Wifi"
     },
+    "amenityTypes": {
+        "BASIC": "Basic",
+        "ENTERTAINMENT": "Entertainment",
+        "COMFORT": "Comfort",
+        "KITCHEN": "Kitchen",
+        "SECURITY": "Security",
+        "SPA": "Spa",
+        "POOL": "Swimming Pool",
+        "GYM": "Gym",
+        "BUSINESS": "Business",
+        "PARKING": "Parking",
+        "PET_FRIENDLY": "Pet Friendly",
+        "TRANSPORT": "Transport",
+        "DINING": "Dining",
+        "LAUNDRY": "Laundry",
+        "WIFI": "Wi-Fi"
+    },
+    "bedTypes": {
+        "SINGLE": "Single bed",
+        "DOUBLE": "Double bed",
+        "QUEEN": "Queen size bed",
+        "KING": "King size bed",
+        "TWIN": "Twin bed",
+        "BUNK": "Bunk bed",
+        "SOFA_BED": "Sofa bed",
+        "FUTON": "Futon",
+        "MURPHY": "Murphy bed",
+        "ROLL_AWAY": "Rollaway bed"
+    },
     "footer": {
         "join_newsletter": "Join our newsletter",
         "receive_best_deals": "To receive the best deals every month",
@@ -246,11 +279,234 @@
         "hotelNotFound": "No suitable hotels found",
         "tryOtherCriteria": "Please try with other criteria or check your search information."
     },
+    "roomDetailsPage": {
+        "pet": "Pet",
+        "petnotAllowed": "Pets are not allowed",
+        "childAndBed": "Children and extra beds",
+        "childAndBedDesc": "Children are welcome Kids stay free! Children stay free when using existing bedding; children may not be eligible for complimentary breakfast Rollaway/extra beds are available for $10 per day.",
+        "amenityTitle": "Amenity",
+        "noPlaces": "No locations nearby.",
+        "nearbyPlacesTitle": "Nearby places",
+        "bookInviteDesc": "Book now to enjoy early benefits and amenities to avoid any hassle!",
+        "confirmBookingCheck": "Confirm booking date"
+    },
+    "roomInfo": {
+        "selectRoom": "Select a Room",
+        "bestPrice": "Best Price Guaranteed!",
+        "filters": "Filters",
+        "clearAll": "Clear All",
+        "roomCount": "Rooms Available",
+        "roomDetails": "Room Details",
+        "checkout": "Checkout",
+        "roomSize": "Room size",
+        "priceNotTaxAndFees": "Prices do not include taxes and fees",
+        "roomAvailable": "Rooms available"
+    },
+    "review": {
+        "anonymous": "Anonymous",
+        "cleanliness": "Cleanliness",
+        "comfort": "Comfort",
+        "amenities": "Amenities",
+        "space": "Space",
+        "valueForMoney": "Value for Money",
+        "noReviews": "No reviews for this room yet"
+    },
+    "countdown": {
+        "holdingPrice": "We are holding the price for you"
+    },
+    "checkoutBooking": {
+        "nameLabel": "Full name",
+        "emailLabel": "Email address",
+        "phoneLabel": "Phone number",
+        "noteLabel": "Notes",
+        "voucherLabel": "Voucher code",
+        "nextBtn": "Next",
+        "infoFormLabel": "Information form",
+        "paymentLabel": "Payment",
+        "ePaymentLabel": "Electronic payment",
+        "creditCardLabel": "Credit/Debit card",
+        "payAtLocationLabel": "Pay at location",
+        "nameLabelPh": "Enter your name",
+        "emailLabelPh": "Enter your email address",
+        "phoneLabelPh": "Enter your phone number",
+        "noteLabelPh": "Enter your notes",
+        "voucherLabelPh": "Enter your code",
+        "noticeNotToPrePayment": "Good news! You can book now without providing payment details, and pay at the property during your stay.",
+        "noCreditCardLabel": "No credit card required",
+        "quickToBookRoom": "Hurry! Our last room at this price."
+    },
+    "validation": {
+        "required": "{{field}} is required",
+        "email": "Invalid email address",
+        "password": "Password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character",
+        "minLength": "{{field}} must have at least {{min}} characters",
+        "maxLength": "{{field}} cannot exceed {{max}} characters",
+
+        "positive": "{{field}} must be a positive number",
+        "typeError": "{{field}} must be a valid number",
+        "boolean": "{{field}} must be a boolean",
+        "match": "Passwords do not match",
+
+        "min": "{{field}} must be greater than or equal to {{min}}",
+        "notSameAsOld": "New password must be different from the old one",
+        "phone": "Phone number must be at least 10 digits",
+
+        "number": "{{field}} must be a number",
+        "title": "Title",
+        "readTime": "Time",
+        "category": "Category",
+        "discountType": "Please select a discount type",
+        "applyTo": "Please select an apply-to field",
+        "description": "Description is required",
+
+        "max": "{{field}} must not exceed {{max}}"
+    },
+    "toast": {
+        "finishInfoBeforePayment": "Please complete the booking information before payment!",
+        "voucherError": "An error occurred while checking the voucher code",
+        "invalidVoucherCode": "The voucher code is invalid or has expired.",
+        "error": "An error occurred.",
+        "voucherRequired": "The voucher is required.",
+        "applyVoucherSuccess": "Voucher code has been applied! Discount"
+    },
+    "rating": {
+        "excellent": "Excellent",
+        "good": "Good",
+        "average": "Average",
+        "poor": "Poor",
+        "noReview": "No review",
+        "veryPoor": "Very poor"
+    },
+    "promotion": {
+        "name": "Promotion",
+        "code": "Code",
+        "time": "Time",
+        "discount": "Discount",
+        "apply": "Apply",
+        "daysLeft": "Expires in {{days}} days",
+        "expired": "Voucher expired",
+        "copy": "Copy",
+        "copied": "Voucher code copied to clipboard!"
+    },
+    "productApplicable": "Applicable Products",
+    "offers": "Offers",
+    "termsOfUse": "Terms of Use",
+    "products": {
+        "hotelAndHome": "Hotels and Homes",
+        "flights": "Flights",
+        "flightAndHotel": "Flights + Hotels"
+    },
+    "offerTypes": {
+        "discountVoucher": "Discount Voucher",
+        "creditCard": "Credit Card",
+        "specialCampaign": "Special Campaign",
+        "timedPromotion": "Timed Promotion"
+    },
+    "productDetails": {
+        "hotelAndHome": "- Hotels and Homes: Vouchers only apply to hotels and accommodations officially registered on the KKUN Booking platform.",
+        "flights": "- Flights: Offers related to flights are exclusively for airline service partners with contracts with KKUN Booking.",
+        "flightAndHotel": "- Flights + Hotels: Offers for combined flight and hotel packages, applicable to hotels affiliated with KKUN Booking and partner airlines."
+    },
+    "offerDetails": {
+        "discountVoucher": "- Discount Voucher: Applicable only once per customer and cannot be refunded, converted to cash, or transferred to others.",
+        "creditCard": "- Credit Card: Only valid when paying through credit cards of KKUN Booking partner banks.",
+        "specialCampaign": "- Special Campaign: Offers applied during a limited time or for special events.",
+        "timedPromotion": "- Timed Promotion: Vouchers will expire at the time specified on the voucher and cannot be used after this time.",
+        "note": "Note: Terms may change based on specific promotional programs and contract conditions of hotel owners registered on the KKUN Booking platform."
+    },
+
+    "discountInstructions": {
+        "title": "How to Apply Discount Coupons",
+        "step1": "Find and collect the discount coupons. If there is a promo code, don't forget to copy it!",
+        "step2": "Look for accommodations with the 'Discount Coupon Applicable' label to use the coupon.",
+        "step3": "Make sure to apply your discount coupon/promo code before completing the payment."
+    },
+    "blogCategories": {
+        "ADVENTURE": "Adventure",
+        "CITY_TOUR": "City Tour",
+        "ROAD_TRIP": "Road Trip",
+        "TOURISM": "Tourism",
+        "WILDLIFE": "Wildlife",
+        "NATURE_EXCURSION": "Nature Excursion",
+        "PHOTOGRAPHY": "Photography",
+        "CRUISE": "Cruise",
+        "CULTURAL": "Cultural",
+        "FOOD": "Food",
+        "HISTORY": "History",
+        "FESTIVAL": "Festival",
+        "SHOPPING": "Shopping",
+        "SEA": "Sea"
+    },
+    "nextPost": "Next post",
+    "prePost": "Previous post",
+    "views": "Views",
+    "post": "Post",
+    "searchBlog": "Search here",
+    "searchPlaceholder": "Search for post title...",
+    "categories": "Categories",
+    "noCategories": "No categories",
+    "recentPosts": "Recent posts",
+    "by": "By",
+    "seeBlog": "See post",
+    "timeRead": "minutes read",
+    "roomPrice": "Room price",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "oldPassword": "Old password",
+    "newPassword": "New password",
+    "newPasswordConfirm": "Confirm new password",
+    "notes": "Notes",
+    "password": "Password",
+    "amenityType": "Amenity type",
+    "location": "Address",
+    "province": "Province/City",
+    "district": "County",
+    "ward": "Ward",
+    "title": "Title",
+    "readTime": "Reading time",
+    "category": "Category",
+    "fullName": "Full name",
+    "phoneNumber": "Phone number",
+    "paymentMethod": "Payment Method",
+    "ePaymentMethod": "Electronic payment method",
+    "roomType": "Room type",
+    "bedType": "Bed type",
+    "originalPrice": "Original price",
+    "discountedPrice": "Discounted price",
+    "lastPrice": "Last price",
+    "greatPrice": "Great price! (non-refundable)",
+    "priceIncluded": "Price included",
+    "maxOccupancy": "Max occupancy",
+    "roomArea": "Room area",
+    "email": "Email",
+
+    "promotionName": "Promotion name",
+    "promotionCode": "Promotion code",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "quantity": "Quantity",
+    "value": "Discount value",
+    "maxDiscountValue": "Maximum discount value",
+    "discountType": "Discount type",
+    "applyTo": "Apply to",
+    "description": "Description",
+    "paymentPolicy": "Payment policy is required",
+    "applySuccess": "Apply success",
+    "discount": "Discount",
+    "applyBtn": "Apply",
+    "completeBtn": "Complete now",
+    "hotelReviews": "Hotel reviews",
+    "bookWithoutCard": "Book without credit card",
+    "payAtLocation": "Pay at location",
+    "soldOut": "Sold out",
+    "offer": "Offer",
+    "bed": "Bed",
+    "max": "Max",
     "showAll": "Show All",
     "destination": "Destination",
-    "review": "Reviews",
-
+    "reviewTitle": "Reviews",
     "noReviewsYet": "No reviews yet",
+    "notChooses": "Not chooses",
     "tour": "Tour",
     "visa": "Visa",
     "activity": "Activity",
@@ -261,7 +517,10 @@
     "searching": "Searching",
     "availability": "Availability",
     "price": "Price",
-
+    "nights": "Nights",
+    "night": "Night",
+    "checkInDate": "Check in Date",
+    "checkOutDate": "Check out Date",
     "bookNow": "Book Now",
     "cancel": "Cancel",
     "confirmBooking": "Confirm Booking",
@@ -273,12 +532,13 @@
     "updateProfile": "Update Profile",
     "changePassword": "Change Password",
     "currentPassword": "Current Password",
-    "newPassword": "New Password",
+
     "confirmPassword": "Confirm Password",
     "saveChanges": "Save Changes",
     "aboutUs": "About Us",
     "contactUs": "Contact Us",
     "terms": "Terms",
+    "information": "Information",
     "privacyPolicy": "Privacy Policy",
     "help": "Help",
     "faq": "FAQ",
@@ -292,7 +552,7 @@
     "vietnamese": "Vietnamese",
     "manageRooms": "Manage Rooms",
     "addRoom": "Add Room",
-    "roomType": "Room Type",
+
     "pendingBookings": "Pending Bookings",
     "approveBooking": "Approve Booking",
     "cancelBooking": "Cancel Booking",
@@ -306,5 +566,603 @@
     "address": "Address",
     "send": "Send",
     "support": "Support",
-    "payment": "Payment"
+    "payment": "Payment",
+
+    "adminLayout": {
+        "home": "Home",
+        "hotelList": "Hotels",
+        "amenities": "Amenities",
+        "addAmenities": "Add Amenities",
+        "allAmenities": "All Amenities",
+        "vouchers": "Promotions",
+        "addPromotion": "Add Promotion",
+        "allPromotions": "All Promotions",
+        "customerList": "Users",
+        "blogPostList": "Blog Post List",
+        "settings": "Settings",
+        "logout": "Logout"
+    },
+    
+    "hotelList": {
+        "allHotels": "Hotel List",
+        "viewProfile": "View Profile",
+        "hotelInfo": "Hotel Information",
+        "searchPlaceholder": "Search here",
+        "name": "Hotel Name",
+        "category": "Hotel Category",
+        "owner": "Owner",
+        "policy": "Payment Policy",
+        "status": "Status",
+        "code": "ID:",
+        "location": "Location",
+        "prev": "Prev",
+        "next": "Next",
+        "active": "Active",
+        "inactive": "Inactive",
+        "action": "Action"
+    },
+
+    "amenityCreate": {
+        "title": "Add Amenity",
+        "nameLabel": "Amenity Name",
+        "namePlaceholder": "Enter amenity name...",
+        "typeLabel": "Amenity Type",
+        "typePlaceholder": "Select amenity type",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "Provide additional details about the amenity",
+        "addButton": "Add Now",
+        "validation": {
+            "requiredFields": "Please fill in all required fields!",
+            "selectAmenityType": "Please select an amenity type"
+        },
+        "success": "Amenity created successfully!",
+        "error": "An error occurred while creating the amenity."
+    },
+
+    "amenityList": {
+        "title": "Amenity List",
+        "viewMore": "View More",
+        "info": "Amenity Information",
+        "searchPlaceholder": "Search here",
+        "name": "Amenity Name",
+        "type": "Type",
+        "description": "Description",
+        "actions": "Actions",
+        "prev": "Prev",
+        "next": "Next",
+        "edit": "Edit",
+        "delete": "Delete"
+    },
+
+    "amenityEdit": {
+        "title": "Edit Amenity",
+        "nameLabel": "Amenity Name",
+        "typeLabel": "Amenity Type",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "Provide additional details about the amenity",
+        "updateButton": "Update",
+        "successMessage": "Amenity updated successfully!",
+        "errorMessage": "An error occurred.",
+        "validation": {
+        "nameRequired": "Please enter the amenity name.",
+        "descriptionRequired": "Please enter the description.",
+        "typeRequired": "Please select an amenity type."
+        }
+    },
+
+    "promotionCreate": {
+        "title": "Add Promotion",
+        "nameLabel": "Promotion Name",
+        "namePlaceholder": "Enter promotion name...",
+        "codeLabel": "Promotion Code",
+        "codePlaceholder": "Enter promotion code...",
+        "startDateLabel": "Start Date",
+        "endDateLabel": "End Date",
+        "quantityLabel": "Quantity",
+        "quantityPlaceholder": "Number of uses...",
+        "typeLabel": "Discount Type",
+        "valueLabel": "Discount Value",
+        "valuePlaceholder": "Enter discount value...",
+        "maxDiscountValueLabel": "Max Discount Value",
+        "maxDiscountValuePlaceholder": "Enter maximum discount value...",
+        "applyToLabel": "Apply To",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "Provide additional details...",
+        "imageLabel": "Promotion Image",
+        "addButton": "Add Now",
+        "successMessage": "Promotion created successfully!",
+        "errorMessage": "An error occurred."
+    },
+
+    "promotionList": {
+        "searchPlaceholder": "Search by name or code...",
+        "listTitle": "Promotion List",
+        "status": "Status",
+        "name": "Promotion Name",
+        "code": "Promotion Code",
+        "quantity": "Quantity",
+        "used": "Used",
+        "value": "Value",
+        "type": "Type",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "applyTo": "Apply To",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "prev": "Prev",
+        "next": "Next",
+        "confirmDelete": "Are you sure you want to delete this promotion?",
+        "deleteSuccess": "Promotion deleted successfully!",
+        "updateStatusSuccess": "Promotion status updated successfully!"
+    },
+
+    "promotionEdit": {
+        "title": "Edit Promotion",
+        "nameLabel": "Promotion Name",
+        "namePlaceholder": "Enter promotion name...",
+        "codeLabel": "Promotion Code",
+        "codePlaceholder": "Enter promotion code...",
+        "startDateLabel": "Start Date",
+        "endDateLabel": "End Date",
+        "quantityLabel": "Quantity",
+        "quantityPlaceholder": "Number of uses...",
+        "valueLabel": "Discount Value",
+        "valuePlaceholder": "Enter discount value...",
+        "maxDiscountValueLabel": "Max Discount Value",
+        "maxDiscountValuePlaceholder": "Enter maximum discount value...",
+        "typeLabel": "Discount Type",
+        "applyToLabel": "Apply To",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "Provide additional details...",
+        "imageLabel": "Promotion Image",
+        "saveButton": "Save Changes",
+        "successMessage": "Promotion updated successfully!",
+        "errorMessage": "An error occurred. Please try again.",
+        "percentType": "Percentage",
+        "fixedType": "Fixed Value",
+        "applyToAll": "All",
+        "applyToCustomer": "Customers",
+        "applyToHotel": "Hotels",
+        "applyToHomestay": "Homestays"
+    },
+
+    "adminCustomerList": {
+        "title": "User List",
+        "overview": "Overview",
+        "totalUsers": "Customers",
+        "hotelOwners": "Owners",
+        "admins": "Admins",
+        "userInfo": "User Information",
+        "searchPlaceholder": "Search here...",
+        "noUsers": "No users available",
+        "id": "ID",
+        "editButton": "Edit",
+        "deleteButton": "Delete",
+        "accountButton": "Account",
+        "statusActive": "Active",
+        "statusInactive": "Inactive"
+    },
+
+    "blogList": {
+        "title": "All Blog Posts",
+        "profileView": "View Profile",
+        "infoTitle": "Blog Information",
+        "searchPlaceholder": "Search here...",
+        "tableHeaders": {
+            "title": "Title",
+            "category": "Category",
+            "author": "Author",
+            "readTime": "Read Time",
+            "status": "Status",
+            "actions": "Actions"
+        },
+        "statusActive": "Active",
+        "statusInactive": "Inactive",
+        "editButton": "Edit",
+        "deleteButton": "Delete",
+        "pagination": {
+            "prev": "Previous",
+            "next": "Next"
+        }
+    },
+
+    "profileSettings": {
+        "title": "Profile Settings",
+        "tabs": {
+            "profile": "Profile",
+            "preferences": "Preferences",
+            "changePassword": "Change Password"
+        },
+        "preferences": {
+            "emailNotifications": {
+                "title": "Email Notifications",
+                "description": "Receive updates and notifications via email."
+            },
+            "newsletter": {
+                "title": "Newsletter",
+                "description": "Subscribe to our newsletter for regular updates."
+            },
+            "automatedReports": {
+                "title": "Automated Reports",
+                "description": "Enable automated reports sent to your email."
+            },
+            "currency": {
+                "label": "Change Currency"
+            },
+            "unit": {
+                "label": "Area Unit"
+            }
+        }
+    },
+
+   "changePasswordSettings": {
+        "title": "Change your password",
+        "oldPasswordLabel": "Old Password*",
+        "currentPasswordLabel": "Current Password*",
+        "noPassword": "No password set for this account",
+        "oldPasswordPlaceholder": "Enter old password",
+        "newPasswordLabel": "New Password*",
+        "newPasswordPlaceholder": "Enter new password",
+        "confirmPasswordLabel": "Confirm Password*",
+        "confirmPasswordPlaceholder": "Confirm new password",
+        "saveButton": "Save Changes",
+        "cancelButton": "Cancel",
+        "successMessage": "Your password has been successfully changed!"
+    },
+
+    "profileInfoes": {
+        "labels": {
+            "firstName": "First Name*",
+            "firstNamePlaceholder": "Enter first name...",
+            "lastName": "Last Name*",
+            "lastNamePlaceholder": "Enter last name...",
+            "email": "Email Address* (Default)",
+            "emailPlaceholder": "Enter email...",
+            "phone": "Phone Number*",
+            "phonePlaceholder": "Enter phone number...",
+            "address": "Address*",
+            "addressPlaceholder": "Enter address...",
+            "country": "Country*",
+            "submitButton": "Save Changes"
+        },
+        "success": "Profile updated successfully!"
+    },
+
+    "imageUploader": {
+        "dragActive": "Drop the image here...",
+        "buttonLabel": "Upload Image",
+        "title": "Upload Profile Picture",
+        "description": "Image requirements: 300*300, JPEG or PNG format.",
+        "error": {
+            "fileTooLarge": "Image size exceeds the 3MB limit."
+        }
+    },
+
+    "customerLayout": {
+        "menu": {
+            "profile": "Profile",
+            "bookedList": "Bookings",
+            "logout": "Logout"
+        }
+    },
+
+    "bookedList": {
+        "title": "Booking History",
+        "bookingHistory": "Detailed History",
+        "tabs": {
+            "hotel": "Hotel",
+            "tour": "Tour",
+           "all": "All",
+            "completed": "Completed",
+            "pending": "Pending",
+            "cancelled": "Cancelled"
+        },
+        "table": {
+            "hotelName": "Hotel Name",
+            "totalPrice": "Total Price",
+            "roomType": "Room Type",
+            "person": "Person",
+            "status": "Status",
+            "bookingDate": "Booking Date",
+            "review": "Review"
+        },
+        "status": {
+            "CONFIRMED": "Confirmed",
+            "CANCELLED": "Cancelled"
+        },
+        "personUnit": "person",
+        "actions": {
+            "review": "Review"
+        },
+        "reviewed": "Reviewed",
+        "notCompleted": "Not Completed",
+        "noHistory": "No Booking History",
+        "noHistoryMessage": "Your booking history will appear here.",
+        "pagination": {
+            "prev": "Prev",
+            "next": "Next"
+        },
+
+        "tourPackageInfo": "Tour Package Info",
+        "allBooking": "All Booking",
+        "completed": "Completed",
+        "processing": "Processing",
+        "cancelled": "Cancelled",
+        "tourPackage": "Tour Package",
+        "type": "Type",
+        "tourist": "Tourist",
+        "price": "Price",
+        "timeline": "Timeline",
+        "exampleTour": "Explore Travel NYC's Museums, Diversity",
+        "exampleLocation": "Nepal + India",
+        "group": "Group",
+        "touristCount": "3 person",
+        "confirmed": "Confirmed",
+        "timelineExample": "July 10, 2023 - July 14, 2023"
+    },
+
+    "HotelOwnerLayout": {
+        "menu": {
+            "home": "Home",
+            "myHotel": "My Hotel",
+            "hotelInfo": "Hotel Information",
+            "addRoom": "Add Room",
+            "allRooms": "All Rooms",
+            "booked": "Booked",
+            "customerList": "Customer List",
+            "settings": "Settings",
+            "logout": "Logout"
+        }
+    },
+    "error": {
+        "fetchUserDetails": "Error fetching user details"
+    },
+    "navigation": {
+        "registerHotelOwner": "Register as a Hotel Owner"
+    },
+
+    "HotelInfoes": {
+        "header": {
+            "editButton": "Edit Information",
+            "category": "Category",
+            "rating": "Rating",
+            "reviews": " reviews",
+            "location": "Location",
+            "description": "Description",
+            "paymentPolicy": "Payment Policy",
+            "numberOfRooms": "Number of Rooms"
+        },
+        "amenities": "Amenities",
+        "gallery": {
+            "viewRoom": "View Room",
+            "viewImage": "View Image",
+            "viewOtherImages": "View Other Images",
+            "viewVideo": "View Video"
+        },
+        "error": {
+            "fetchHotel": "Failed to fetch hotel information.",
+            "fetchUserDetails": "An error occurred while fetching user details."
+        }
+    },
+
+    "RoomCreate": {
+        "title": "Add Room",
+        "labels": {
+            "roomType": "Room Type",
+            "bedType": "Bed Type",
+            "originalPrice": "Original Price",
+            "discountedPrice": "Discounted Price",
+            "maxOccupancy": "Max Occupancy",
+            "roomArea": "Room Area",
+            "facilities": "Facilities",
+            "addButton": "Add Now"
+        },
+        "placeholders": {
+            "enterPrice": "Enter price...",
+            "enterDiscountedPrice": "Enter discounted price...",
+            "enterMaxOccupancy": "Enter max occupancy...",
+            "enterRoomArea": "Enter room area..."
+        },
+        "messages": {
+            "success": "Room added successfully!",
+            "error": "An error occurred while adding the room."
+        }
+    },
+
+    "MultiImageUploader": {
+        "uploadButton": "Upload Images",
+        "title": "Upload Images",
+        "description1": "Images must be under 3MB, in JPEG or PNG format.",
+        "description2": "Minimum 3 images, maximum 10 images.",
+        "errors": {
+            "sizeLimit": "Image exceeds 3MB size limit.",
+            "minImages": "Please upload at least 3 images."
+        },
+        "removeButton": "Remove"
+    },
+
+    "RoomList": {
+        "title": "Room List",
+        "searchPlaceholder": "Search here",
+        "tableHeaders": {
+            "roomType": "Room Type",
+            "pricePerNight": "Price/Night",
+            "capacity": "Capacity",
+            "status": "Status",
+            "reviews": "Reviews",
+            "actions": "Actions"
+        },
+        "status": {
+            "available": "Available",
+            "unavailable": "Unavailable"
+        },
+        "actions": {
+            "viewDetails": "View More"
+        },
+        "emptyRooms": "No rooms available!",
+        "pagination": {
+            "prev": "Prev",
+            "next": "Next"
+        },
+        "area": "Area",
+        "code": "ID"
+    },
+
+    "RoomDetails": {
+        "backButton": "Back",
+        "images": {
+            "viewImage": "View Image",
+            "placeholder": "assets/img/placeholder.jpg"
+        },
+        "roomInfo": {
+            "title": "Room Information",
+            "roomType": "Room Type",
+            "originalPrice": "Original Price",
+            "area": "Area",
+            "status": "Status",
+            "bedType": "Bed Type",
+            "discountedPrice": "Discounted Price",
+            "maxOccupancy": "Max Occupancy",
+            "available": "Available",
+            "unavailable": "Unavailable",
+            "capacityUnit": " person"
+        },
+        "amenities": {
+        "title": "Amenities"
+        },
+        "loading": "Loading room information...",
+        "reviews": {
+            "title": "Reviews",
+            "name": "Name",
+            "date": "Date",
+            "rating": "Rating",
+            "comment": "Comment"
+        }
+    },
+
+    "RoomEdit": {
+        "title": "Room Information",
+        "labels": {
+            "roomType": "Room Type",
+            "bedType": "Bed Type",
+            "originalPrice": "Original Price",
+            "discountedPrice": "Discounted Price",
+            "maxOccupancy": "Max Occupancy",
+            "roomArea": "Room Area",
+            "facilities": "Facilities",
+
+            "fetchError": "Error fetching data!",
+            "deleteConfirm": "Are you sure you want to delete this room?",
+            "deleteSuccess": "Room deleted successfully!",
+            "deleteError": "Error deleting room.",
+            "updateSuccess": "Room updated successfully!",
+            "updateError": "Failed to update room.",
+            "missingAccessToken": "Access token not found. Please log in again."
+        },
+        "placeholders": {
+            "enterOriginalPrice": "Enter original price...",
+            "enterDiscountedPrice": "Enter discounted price...",
+            "enterMaxOccupancy": "Enter maximum occupancy...",
+            "enterRoomArea": "Enter room area..."
+        },
+        "buttons": {
+            "back": "Back",
+            "update": "Update",
+            "delete": "Delete"
+        },
+        "messages": {
+            "fetchError": "Error fetching data!",
+            "updateSuccess": "Room updated successfully!",
+            "updateError": "Failed to update room.",
+            "deleteConfirm": "Are you sure you want to delete this room?",
+            "deleteSuccess": "Room deleted successfully!",
+            "deleteError": "Error deleting room.",
+            "missingAccessToken": "Access token not found. Please log in again."
+        }
+    },
+
+    "BookedListOwner": {
+        "title": "Booking History",
+        "tabs": {
+            "hoteltiltle": "Hotel",
+            "hotel": {
+                "header": "Booking Information",
+                "filters": {
+                    "all": "All",
+                    "booked": "Booked",
+                    "processing": "Processing",
+                    "cancelled": "Cancelled"
+                },
+                "tableHeaders": {
+                    "bookingId": "Booking ID",
+                    "contact": "Contact",
+                    "totalPrice": "Total Price",
+                    "payment": "Payment",
+                    "status": "Status",
+                    "time": "Time",
+                    "actions": "Review"
+                },
+                "labels": {
+                    "code": "ID",
+                    "guest": "Guest",
+                    "notReviewed": "Not Reviewed",
+                    "reviewed": "Reviewed"
+                },
+                "noData": {
+                    "message": "No booking history yet",
+                    "description": "Your bookings will appear here."
+                },
+                "pagination": {
+                    "prev": "Prev",
+                    "next": "Next"
+                },
+                "reviewStatus": {
+                    "notReviewed": "Not Reviewed",
+                    "reviewed": "Reviewed"
+                }
+            },
+            "tourtitle": "Tour",
+            "tour": {
+                "title": "Tour Package Info",
+                "tabNames": {
+                    "all": "All Booking",
+                    "completed": "Completed",
+                    "processing": "Processing",
+                    "cancelled": "Cancelled"
+                },
+                "tableHeaders": {
+                    "package": "Tour Package",
+                    "type": "Type",
+                    "tourist": "Tourist",
+                    "price": "Price",
+                    "status": "Status",
+                    "timeline": "Timeline"
+                },
+                "labels": {
+                    "confirmed": "Confirmed"
+                }
+            }
+        }
+    },
+
+    "CustomerList": {
+        "counters": {
+            "customers": "Customers",
+            "bookings": "Bookings"
+        },
+        "headers": {
+            "title": "Customer List",
+            "searchPlaceholder": "Search customers..."
+        },
+        "pagination": {
+            "noCustomers": "No customers available"
+        },
+        "buttons": {
+            "details": "Details",
+            "delete": "Delete"
+        }
+    }
+
+
 }

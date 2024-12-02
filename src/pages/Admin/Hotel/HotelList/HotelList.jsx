@@ -3,8 +3,12 @@ import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import * as HotelService from "../../../../services/HotelService";
 import * as UserService from "../../../../services/UserService";
+import { useTranslation } from "react-i18next";
+
 
 function HotelList() {
+
+    const { t } = useTranslation();
     const [hotels, setHotels] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5; // Số lượng khách sạn trên mỗi trang
@@ -43,11 +47,11 @@ function HotelList() {
                 <div class="col-xl-12">
                     <div class="main-content-title-profile mb-50">
                         <div class="main-content-title">
-                            <h3>Tất cả khách sạn</h3>
+                            <h3>{t("hotelList.allHotels")}</h3>
                         </div>
-                        <div class="profile">
+                        {/* <div class="profile">
                             <a href="#">
-                                View Profile
+                                {t("hotelList.viewProfile")}
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="8"
@@ -57,18 +61,20 @@ function HotelList() {
                                     <path d="M6.669 2.27202L0.94102 8L0 7.05898L5.72731 1.331H0.679478V0H8V7.32052H6.669V2.27202Z"></path>
                                 </svg>
                             </a>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div class="recent-listing-area">
                         <div class="title-and-tab">
-                            <h6>Thông tin khách sạn</h6>
+                            <h6>{t("hotelList.hotelInfo")}</h6>
                             <div class="search-area">
                                 <form>
                                     <div class="search-box">
                                         <input
                                             type="text"
-                                            placeholder="Tìm kiếm ở đây"
+                                            placeholder={t(
+                                                "hotelList.searchPlaceholder"
+                                            )}
                                         />
                                         <button type="submit">
                                             <i class="bx bx-search"></i>
@@ -82,18 +88,18 @@ function HotelList() {
                             <table class="eg-table2">
                                 <thead>
                                     <tr>
-                                        <th>Tên khách sạn</th>
-                                        <th>Loại khách sạn</th>
-                                        <th>Chủ sở hữu</th>
-                                        <th>Chính sách thanh toán</th>
-                                        <th>Trạng thái</th>
-                                        <th>#</th>
+                                        <th>{t("hotelList.name")}</th>
+                                        <th>{t("hotelList.category")}</th>
+                                        <th>{t("hotelList.owner")}</th>
+                                        <th>{t("hotelList.policy")}</th>
+                                        <th>{t("hotelList.status")}</th>
+                                        <th>{t("hotelList.action")}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {currentHotels.map((hotel, index) => (
                                         <tr>
-                                            <td data-label="Tour Package">
+                                            <td data-label={t("hotelList.name")}>
                                                 <div class="product-name">
                                                     <div class="img">
                                                         <img
@@ -115,7 +121,9 @@ function HotelList() {
                                                         <span className="">
                                                             <strong>
                                                                 {" "}
-                                                                Mã:
+                                                                {t(
+                                                                    "hotelList.code"
+                                                                )}
                                                             </strong>{" "}
                                                             {hotel.id}
                                                         </span>
@@ -135,24 +143,67 @@ function HotelList() {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td data-label="Category">
+                                            <td data-label={t(
+                                                "hotelList.category"
+                                            )}>
                                                 {hotel.categoryDisplayName}
                                             </td>
-                                            <td data-label="Owner">
+                                            <td
+                                                data-label={t(
+                                                    "hotelList.owner"
+                                                )}
+                                            >
                                                 {hotel.ownerName}
                                             </td>
-                                            <td data-label="Policy">
+                                            <td
+                                                data-label={t(
+                                                    "hotelList.policy"
+                                                )}
+                                            >
                                                 {hotel.paymentPolicy}
                                             </td>
-                                            <td data-label="Status">
-                                                <span class="confirmed">
-                                                    {/* {hotel.stat} */}
-                                                    {/* Check Status của tài khoản đăng ký của khách sạn nếu bình thường thì Hiện Hoạt động (Màu xanh lá),
-                                                     nếu tài khoản ngừng họa động/ bị khóa thì hiện tạm dừng (Màu đỏ)*/}
-                                                     
+                                            <td
+                                                data-label={t(
+                                                    "hotelList.status"
+                                                )}
+                                            >
+                                                <span className="confirmed"
+                                                    style={{
+                                                        color: hotel.stat ? "green" : "red",
+                                                        //fontWeight: "bold",
+                                                    }}
+                                                >
+                                                    {hotel.stat
+                                                        ? t("hotelList.active")
+                                                        : t("hotelList.inactive")}
                                                 </span>
                                             </td>
-                                            <td data-label=""></td>
+                                            <td data-label={t(
+                                                "hotelList.action"
+                                            )}
+                                            >
+                                                {/* <button
+                                                    // onClick={() => {
+                                                    //     handleEditAmenity(amenity.id);
+                                                    // }}
+                                                    className="primary-btn1 p-2 me-2"
+                                                    alt="Chỉnh sửa"
+                                                >
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+
+                                                <button
+                                                    // onClick={() => {
+                                                    //     handleDeleteAmenity(amenity.id);
+                                                    // }}
+                                                    className="primary-btn1 p-2"
+                                                    style={{ backgroundColor: "red" }}
+                                                    aLt="Xóa"
+                                                >
+                                                    <i class="bi bi-trash"></i>
+                                                </button> */}
+
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -185,7 +236,7 @@ function HotelList() {
                                                 )
                                             }
                                         >
-                                            Prev
+                                            {t("hotelList.prev")}
                                         </a>
                                     </li>
                                     <li>
@@ -197,7 +248,7 @@ function HotelList() {
                                                 )
                                             }
                                         >
-                                            Next
+                                            {t("hotelList.next")}
                                         </a>
                                     </li>
                                 </ul>

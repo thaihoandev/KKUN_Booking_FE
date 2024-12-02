@@ -1,18 +1,19 @@
+import i18n from "i18next";
 export const getRatingDescription = (rating) => {
     const ratingOutOf10 = convertRating5To10Scale(rating);
 
     if (ratingOutOf10 >= 9) {
-        return "Tuyệt vời";
+        return i18n.t("rating.excellent");
     } else if (ratingOutOf10 >= 7) {
-        return "Tốt";
+        return i18n.t("rating.good");
     } else if (ratingOutOf10 >= 5) {
-        return "Trung bình";
+        return i18n.t("rating.average");
     } else if (ratingOutOf10 >= 3) {
-        return "Kém";
+        return i18n.t("rating.poor");
     } else if (ratingOutOf10 === 0 || ratingOutOf10 === null) {
-        return "Chưa có đánh giá";
+        return i18n.t("rating.noReview");
     } else {
-        return "Rất kém";
+        return i18n.t("rating.veryPoor");
     }
 };
 

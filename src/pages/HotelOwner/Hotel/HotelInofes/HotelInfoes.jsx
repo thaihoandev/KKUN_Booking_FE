@@ -13,14 +13,18 @@ import {
     getRatingDescription,
 } from "../../../../utils/ratingReview";
 import HotelAmenities from "../../../../components/HotelAmenities/HotelAmenities";
+import { useTranslation } from "react-i18next";
 
 function HotelInfoes() {
+
+    const { t } = useTranslation();
     const { roomId } = useParams();
     const [room, setRoom] = useState({});
     const [hotel, setHotel] = useState({});
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const user = useSelector((state) => state.user);
+
     const mutationHotel = useMutation(
         (hotelId) => HotelService.getHotelById(hotelId),
         {
@@ -93,7 +97,7 @@ function HotelInfoes() {
                                                     className="primary-btn1"
                                                     onClick={handleEditHotel}
                                                 >
-                                                    Sửa thông tin
+                                                    {t("HotelInfoes.header.editButton")}
                                                 </button>
                                             </div>
                                         </div>
@@ -120,8 +124,8 @@ function HotelInfoes() {
                                                     {" - "}
                                                 </span>
                                                 <span class="text-secondary small ">
-                                                    {hotel.numOfReviews} đánh
-                                                    giá
+                                                    {hotel.numOfReviews}
+                                                    {t("HotelInfoes.header.reviews")}
                                                 </span>
                                             </div>
                                         </div>
@@ -136,21 +140,21 @@ function HotelInfoes() {
                                         <div className="mb-2 d-flex align-items-center">
                                             <i className="bi bi-info-circle-fill me-2 text-primary"></i>
                                             <strong className="me-2">
-                                                Mô tả:
+                                                {t("HotelInfoes.header.description")}:
                                             </strong>
                                             {hotel.description}
                                         </div>
                                         <div className="mb-2 d-flex align-items-center">
                                             <i className="bi bi-credit-card-fill me-2 text-success"></i>
                                             <strong className="me-2">
-                                                Phương thức thanh toán:
+                                                {t("HotelInfoes.header.paymentPolicy")}:
                                             </strong>
                                             {hotel.paymentPolicy}
                                         </div>
                                         <div className="d-flex align-items-center">
                                             <i className="bi bi-door-open-fill me-2 text-warning"></i>
                                             <strong className="me-2">
-                                                Số lượng phòng:
+                                                {t("HotelInfoes.header.numberOfRooms")}:
                                             </strong>
                                             {hotel.rooms.length}
                                         </div>
@@ -167,7 +171,7 @@ function HotelInfoes() {
                                 >
                                     <div className="w-100 px-4 py-2">
                                         <h4 className="">
-                                            <strong>Tiện ích</strong>
+                                            <strong>{t("HotelInfoes.amenities")}</strong>
                                         </h4>
                                         <HotelAmenities
                                             amenities={hotel.amenities}
@@ -190,7 +194,7 @@ function HotelInfoes() {
                                                 href={displayImages[0]}
                                             >
                                                 <i className="bi bi-eye"></i>{" "}
-                                                Xem phòng
+                                                {t("HotelInfoes.gallery.viewImage")}
                                             </a>
                                         </div>
                                     </div>
@@ -207,7 +211,7 @@ function HotelInfoes() {
                                                         href={displayImages[1]}
                                                     >
                                                         <i className="bi bi-eye"></i>{" "}
-                                                        Xem ảnh
+                                                        {t("HotelInfoes.gallery.viewImage")}
                                                     </a>
                                                 </div>
                                             </div>
@@ -222,7 +226,7 @@ function HotelInfoes() {
                                                         href={displayImages[2]}
                                                     >
                                                         <i className="bi bi-eye"></i>{" "}
-                                                        Xem ảnh
+                                                        {t("HotelInfoes.gallery.viewImage")}
                                                     </a>
                                                 </div>
                                             </div>
@@ -234,7 +238,7 @@ function HotelInfoes() {
                                                     />
                                                     <button className="StartSlideShowFirstImage">
                                                         <i className="bi bi-plus-lg"></i>{" "}
-                                                        Xem ảnh khác
+                                                        {t("HotelInfoes.gallery.viewOtherImages")}
                                                     </button>
                                                 </div>
                                             </div>
@@ -249,7 +253,7 @@ function HotelInfoes() {
                                                         href="https://www.youtube.com/watch?v=u31qwQUeGuM"
                                                     >
                                                         <i className="bi bi-play-circle"></i>{" "}
-                                                        Xem video
+                                                        {t("HotelInfoes.gallery.viewVideo")}
                                                     </a>
                                                 </div>
                                             </div>

@@ -3,24 +3,27 @@ import { Outlet } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu";
 import { ToastContainer } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const AdminLayout = () => {
+
+    const { t } = useTranslation();
     const menuItems = [
         {
             key: "profile",
-            title: "Trang cá nhân",
+            title: t("customerLayout.menu.profile"),
             path: "profile",
             icon: "bi-person",
         },
         {
             key: "bookedList",
-            title: "Đơn đặt",
+            title: t("customerLayout.menu.bookedList"),
             path: "booked",
             icon: "bi-book",
         },
         {
             key: "logout",
-            title: "Đăng xuất",
+            title: t("customerLayout.menu.logout"),
             path: "#",
             icon: "bi-box-arrow-right",
         },

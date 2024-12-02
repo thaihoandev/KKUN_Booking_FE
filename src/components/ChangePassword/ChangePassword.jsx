@@ -7,8 +7,10 @@ import * as UserService from "../../services/UserService";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../store/UserSlide";
 import { toast, ToastContainer } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const ChangePassword = ({ user }) => {
+    const { t } = useTranslation();
     const [showPassword, setShowPassword] = useState({
         oldPassword: false,
         newPassword: false,
@@ -65,7 +67,7 @@ const ChangePassword = ({ user }) => {
         const submitData = {
             oldPassword:
                 (user.authProvider === "LOCAL" || user.hasPassword) &&
-                data.oldPassword
+                    data.oldPassword
                     ? data.oldPassword
                     : null,
             newPassword: data.newPassword,
@@ -92,54 +94,53 @@ const ChangePassword = ({ user }) => {
         >
             <div className="dashboard-profile-tab-content">
                 <div className="profile-tab-content-title">
-                    <h6>Thay đổi mật khẩu của bạn</h6>
+                    <h6>{t("changePasswordSettings.title")}</h6>
                 </div>
                 <form onSubmit={handleSubmit(onSubmitForm)}>
                     <div className="row">
                         {(user.authProvider === "LOCAL" ||
                             user.hasPassword) && (
-                            <div className="col-md-6">
-                                <div className="form-inner mb-30">
-                                    <label>{getPasswordLabel()}</label>
-                                    <div style={styles.formInput}>
-                                        <input
-                                            id="oldPassword"
-                                            type={
-                                                showPassword.oldPassword
-                                                    ? "text"
-                                                    : "password"
-                                            }
-                                            placeholder="Nhập mật khẩu cũ"
-                                            {...register("oldPassword")}
-                                            className={`form-control ${
-                                                errors.oldPassword
+                                <div className="col-md-6">
+                                    <div className="form-inner mb-30">
+                                        <label>{getPasswordLabel()}</label>
+                                        <div style={styles.formInput}>
+                                            <input
+                                                id="oldPassword"
+                                                type={
+                                                    showPassword.oldPassword
+                                                        ? "text"
+                                                        : "password"
+                                                }
+                                                placeholder={t(
+                                                    "changePasswordSettings.oldPasswordPlaceholder"
+                                                )}                                                {...register("oldPassword")}
+                                                className={`form-control ${errors.oldPassword
                                                     ? "is-invalid"
                                                     : ""
-                                            }`}
-                                        />
-                                        <i
-                                            className={`bi ${
-                                                showPassword.oldPassword
+                                                    }`}
+                                            />
+                                            <i
+                                                className={`bi ${showPassword.oldPassword
                                                     ? "bi-eye"
                                                     : "bi-eye-slash"
-                                            }`}
-                                            style={styles.passwordIcon}
-                                            onClick={() =>
-                                                togglePassword("oldPassword")
-                                            }
-                                        ></i>
+                                                    }`}
+                                                style={styles.passwordIcon}
+                                                onClick={() =>
+                                                    togglePassword("oldPassword")
+                                                }
+                                            ></i>
+                                        </div>
+                                        {errors.oldPassword && (
+                                            <p style={styles.errorMessage}>
+                                                {errors.oldPassword.message}
+                                            </p>
+                                        )}
                                     </div>
-                                    {errors.oldPassword && (
-                                        <p style={styles.errorMessage}>
-                                            {errors.oldPassword.message}
-                                        </p>
-                                    )}
                                 </div>
-                            </div>
-                        )}
+                            )}
                         <div className="col-md-6">
                             <div className="form-inner mb-30">
-                                <label>Mật khẩu mới*</label>
+                                <label>{t("changePasswordSettings.newPasswordLabel")}</label>
                                 <div style={styles.formInput}>
                                     <input
                                         id="newPassword"
@@ -148,20 +149,20 @@ const ChangePassword = ({ user }) => {
                                                 ? "text"
                                                 : "password"
                                         }
-                                        placeholder="Nhập mật khẩu mới"
+                                        placeholder={t(
+                                            "changePasswordSettings.newPasswordPlaceholder"
+                                        )}
                                         {...register("newPassword")}
-                                        className={`form-control ${
-                                            errors.newPassword
-                                                ? "is-invalid"
-                                                : ""
-                                        }`}
+                                        className={`form-control ${errors.newPassword
+                                            ? "is-invalid"
+                                            : ""
+                                            }`}
                                     />
                                     <i
-                                        className={`bi ${
-                                            showPassword.newPassword
-                                                ? "bi-eye"
-                                                : "bi-eye-slash"
-                                        }`}
+                                        className={`bi ${showPassword.newPassword
+                                            ? "bi-eye"
+                                            : "bi-eye-slash"
+                                            }`}
                                         style={styles.passwordIcon}
                                         onClick={() =>
                                             togglePassword("newPassword")
@@ -177,7 +178,7 @@ const ChangePassword = ({ user }) => {
                         </div>
                         <div className="col-md-6">
                             <div className="form-inner mb-50">
-                                <label>Xác nhận mật khẩu*</label>
+                                <label>{t("changePasswordSettings.confirmPasswordLabel")}</label>
                                 <div style={styles.formInput}>
                                     <input
                                         id="confirmNewPassword"
@@ -186,20 +187,20 @@ const ChangePassword = ({ user }) => {
                                                 ? "text"
                                                 : "password"
                                         }
-                                        placeholder="Xác nhận mật khẩu mới"
+                                        placeholder={t(
+                                            "changePasswordSettings.confirmPasswordPlaceholder"
+                                        )}
                                         {...register("confirmNewPassword")}
-                                        className={`form-control ${
-                                            errors.confirmNewPassword
-                                                ? "is-invalid"
-                                                : ""
-                                        }`}
+                                        className={`form-control ${errors.confirmNewPassword
+                                            ? "is-invalid"
+                                            : ""
+                                            }`}
                                     />
                                     <i
-                                        className={`bi ${
-                                            showPassword.confirmNewPassword
-                                                ? "bi-eye"
-                                                : "bi-eye-slash"
-                                        }`}
+                                        className={`bi ${showPassword.confirmNewPassword
+                                            ? "bi-eye"
+                                            : "bi-eye-slash"
+                                            }`}
                                         style={styles.passwordIcon}
                                         onClick={() =>
                                             togglePassword("confirmNewPassword")
@@ -216,10 +217,14 @@ const ChangePassword = ({ user }) => {
                     </div>
                     <div className="change-password-form-btns">
                         <button type="submit" className="primary-btn3">
-                            Lưu thay đổi
+                            {t("changePasswordSettings.saveButton")}
                         </button>
-                        <button type="button" className="primary-btn3 cancel">
-                            Hủy
+                        <button
+                            type="button"
+                            className="primary-btn3 cancel"
+                            onClick={() => reset()}
+                        >
+                            {t("changePasswordSettings.cancelButton")}
                         </button>
                     </div>
                 </form>

@@ -65,6 +65,8 @@ import PromotionEditPage from "./pages/Admin/Promotion/PromotionEditPage/Promoti
 import RoomEdit from "./pages/HotelOwner/Room/RoomEdit/RoomEdit";
 import OWRoomDetail from "./pages/HotelOwner/Room/RoomDetails/OWRoomDetail";
 import { LanguageProvider } from "./context/LanguageContext"; // Đảm bảo đúng đường dẫn tới context của bạn
+//import { useTranslation } from "react-i18next";
+import RoomDetailsHotelOwner from "./pages/HotelOwner/Room/RoomDetails/RoomDetails";
 
 const router = createBrowserRouter([
     {
@@ -192,11 +194,15 @@ const router = createBrowserRouter([
             { path: "settings", element: <ProfileSettings /> },
             { path: "my-hotel", element: <HotelInfoes /> },
             { path: "my-hotel/edit", element: <HotelEditPage /> },
-
+            { path: "my-rooms/:roomId/room-edit", element: <RoomEdit /> },
+            {
+                path: "my-rooms/:roomId/room-details",
+                element: <RoomDetailsHotelOwner />,
+            },
             { path: "add-room", element: <RoomCreate /> },
             { path: "my-rooms", element: <RoomList /> },
-               { path: "my-rooms/:roomId/room-edit", element: <RoomEdit /> },
-            { path: "my-rooms/:roomId/room-details", element: <OWRoomDetail /> },
+            //{ path: "my-rooms/:roomId/room-edit", element: <RoomEdit /> },
+            //{ path: "my-rooms/:roomId/room-details", element: <OWRoomDetail /> },
             // hotels/:hotelName/rooms/:roomId
             { path: "booked", element: <BookedListHotelOwner /> },
             { path: "customer-list", element: <CustomerList /> },

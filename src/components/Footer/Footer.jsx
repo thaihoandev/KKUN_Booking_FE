@@ -1,8 +1,18 @@
-import React from "react";
+//import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import React, { useState } from 'react'; // Đảm bảo import useState
+
+
 
 const Footer = () => {
     const { t } = useTranslation();
+    const [activeMenu, setActiveMenu] = useState("/"); // Mặc định là trang chủ
+
+    const handleMenuClick = (menu) => {
+        setActiveMenu(menu); // Cập nhật activeMenu khi menu được click
+    };
+
 
     return (
         <>
@@ -10,17 +20,11 @@ const Footer = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
-                            <div className="banner3-content">
-
-                            {/* <div className="banner3-content mt-100"
+                            <div className="banner3-content mt-100"
                                 style={{
                                     boxShadow: "0px 4px 6px rgba(0, 0, 0, 1)", // Bóng đổ
                                 }}
                             >
-                                <h2>Tham khảo Bản tin mới</h2>
-                                <p>Để nhận được các ưu đãi hàng tháng tốt nhất của chúng tôi</p> */}
-
-                          
                                 <h2>{t("footer.join_newsletter")}</h2>
                                 <p>{t("footer.receive_best_deals")}</p>
                                 <form>

@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 function MultiImageUploader({ onImagesSelect }) {
+
+    const { t } = useTranslation();
     const [selectedImages, setSelectedImages] = useState([]);
     const [error, setError] = useState("");
     const fileInputRef = useRef(null);
@@ -17,7 +20,7 @@ function MultiImageUploader({ onImagesSelect }) {
                     url: URL.createObjectURL(file),
                 });
             } else {
-                setError("Ảnh vượt quá kích thước 3MB.");
+                setError(t("MultiImageUploader.errors.sizeLimit"));
             }
         });
 
@@ -28,7 +31,7 @@ function MultiImageUploader({ onImagesSelect }) {
 
     useEffect(() => {
         if (selectedImages.length < 3) {
-            setError("Vui lòng tải lên tối thiểu 3 ảnh.");
+            setError(t("MultiImageUploader.errors.minImages"));
         } else {
             setError("");
         }
@@ -64,11 +67,10 @@ function MultiImageUploader({ onImagesSelect }) {
                 </div>
 
                 <div className="upload-img-area-content px-2">
-                    <h6>Tải ảnh lên</h6>
-                    <p>
-                        Yêu cầu ảnh tối đa 3MB, định dạng JPEG, PNG.
-                        <br /> Tối thiểu 3 ảnh, tối đa 10 ảnh.
-                    </p>
+                <h6>{t("MultiImageUploader.title")}</h6>
+                <p>{t("MultiImageUploader.description1")}<br />
+                {t("MultiImageUploader.description2")}
+                </p>
                 </div>
             </div>
 

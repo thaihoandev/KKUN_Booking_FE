@@ -5,7 +5,10 @@ import * as RoomService from "../../services/RoomService";
 import Loading from "../Loading/Loading";
 import { toast } from "react-toastify";
 import { convertRating5To10Scale } from "../../utils/ratingReview";
+import { useTranslation } from "react-i18next";
 function ReviewWrapper({ hotel, room }) {
+    const { t } = useTranslation();
+
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
     const mutationReviewRoom = useMutation(
@@ -35,7 +38,7 @@ function ReviewWrapper({ hotel, room }) {
         <>
             <div className="review-wrapper mt-70">
                 <div className="review-box">
-                    <h4>Đánh giá khách sạn</h4>
+                    <h4>{t("hotelReviews")}</h4>
                     <div className="total-review">
                         <h2>{convertRating5To10Scale(hotel.rating)}</h2>
                         <div className="review-wrap">
@@ -64,8 +67,10 @@ function ReviewWrapper({ hotel, room }) {
                             </ul>
                             <span className="">
                                 {hotel.numOfReviews > 0
-                                    ? `${hotel.numOfReviews} đánh giá`
-                                    : "Chưa có đánh giá"}
+                                    ? `${hotel.numOfReviews} ${t(
+                                          "reviewTitle"
+                                      )}`
+                                    : `${t("noReviewsYet")}`}
                             </span>
                         </div>
                     </div>

@@ -5,8 +5,11 @@ import * as UserService from "../../services/UserService";
 import NiceSelect from "../NiceSelect/NiceSelect";
 import { toast } from "react-toastify";
 import ImageUploader from "../UploadImage/ImageUploader/ImageUploader";
+import { useTranslation } from "react-i18next";
 
 function ProfileInfoes() {
+
+    const { t } = useTranslation();
     const user = useSelector((state) => state.user);
     const [selectedFile, setSelectedFile] = useState(null); // Lưu ảnh được chọn
     const [selectedCountry, setSelectedCountry] = useState("United Kingdom");
@@ -44,7 +47,7 @@ function ProfileInfoes() {
                     country: "Viet Nam",
                     type: (data.role || "").toLowerCase(),
                 });
-                toast.success("Cập nhật thành công!");
+                toast.success(t("profileInfoes.success"));
             },
             onError: (error) => {
                 toast.error(error.message);
@@ -75,11 +78,13 @@ function ProfileInfoes() {
                 <div className="row">
                     <div className="col-md-6">
                         <div className="form-inner mb-30">
-                            <label>Họ*</label>
+                            <label>{t("profileInfoes.labels.firstName")}</label>
                             <input
                                 type="text"
                                 name="firstName"
-                                placeholder="Nhập họ..."
+                                placeholder={t(
+                                    "profileInfoes.labels.firstNamePlaceholder"
+                                )}
                                 value={formData.firstName}
                                 onChange={handleInputChange}
                             />
@@ -87,11 +92,13 @@ function ProfileInfoes() {
                     </div>
                     <div className="col-md-6">
                         <div className="form-inner mb-30">
-                            <label>Tên*</label>
+                            <label>{t("profileInfoes.labels.lastName")}</label>
                             <input
                                 type="text"
                                 name="lastName"
-                                placeholder="Nhập tên..."
+                                placeholder={t(
+                                    "profileInfoes.labels.lastNamePlaceholder"
+                                )}
                                 value={formData.lastName}
                                 onChange={handleInputChange}
                             />
@@ -99,23 +106,27 @@ function ProfileInfoes() {
                     </div>
                     <div className="col-md-6">
                         <div className="form-inner mb-30">
-                            <label>Địa chỉ Email* (Mặc định)</label>
+                            <label>{t("profileInfoes.labels.email")}</label>
                             <input
                                 type="email"
                                 name="email"
                                 readOnly
-                                placeholder="Nhập email..."
+                                placeholder={t(
+                                    "profileInfoes.labels.emailPlaceholder"
+                                )}
                                 value={formData.email}
                             />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-inner mb-30">
-                            <label>Số điện thoại*</label>
+                            <label>{t("profileInfoes.labels.phone")}</label>
                             <input
                                 type="text"
                                 name="phone"
-                                placeholder="Nhập số điện thoại..."
+                                placeholder={t(
+                                    "profileInfoes.labels.phonePlaceholder"
+                                )}
                                 value={formData.phone}
                                 onChange={handleInputChange}
                             />
@@ -123,30 +134,32 @@ function ProfileInfoes() {
                     </div>
                     <div className="col-md-6">
                         <div className="form-inner mb-30">
-                            <label>Địa chỉ*</label>
+                            <label>{t("profileInfoes.labels.address")}</label>
                             <input
                                 type="text"
                                 name="address"
-                                placeholder="Nhập địa chỉ..."
+                                placeholder={t(
+                                    "profileInfoes.labels.addressPlaceholder"
+                                )}
                                 value={formData.address}
                                 onChange={handleInputChange}
                             />
                         </div>
                     </div>
-                    <div className="col-md-6 mb-30">
+                    {/* <div div className="col-md-6 mb-30">
                         <NiceSelect
                             options={options}
                             value={selectedCountry}
                             onChange={setSelectedCountry}
-                            label="Quốc gia*"
+                            label={t("profileInfoes.labels.country")}
                         />
-                    </div>
+                    </div> */}
                 </div>
                 <ImageUploader onImageSelect={handleImageSelect} />
 
                 <div className="form-inner mt-30">
                     <button type="submit" className="primary-btn3">
-                        Cập nhật thay đổi
+                        {t("profileInfoes.labels.submitButton")}
                     </button>
                 </div>
             </form>

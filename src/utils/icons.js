@@ -34,4 +34,51 @@ export const getAmenityIcon = (amenityName) => {
     return <i className="bi bi-check-circle"></i>;
 };
 
-export default getAmenityIcon;
+export const getPlaceIcon = (category) => {
+    switch (category) {
+        case "Restaurant":
+            return "bi bi-shop";
+        case "Cafe":
+            return "bi bi-cup-straw";
+        case "Bar":
+            return "bi bi-cup";
+        case "Parking Lot":
+            return "bi bi-signpost";
+        case "Cinema":
+            return "bi bi-film";
+        case "Fast Food":
+            return "bi bi-shop";
+        case "Museum":
+            return "bi bi-bank";
+        case "Zoo":
+            return "bi bi-bug";
+        case "Aquarium":
+            return "bi bi-droplet";
+        case "Theatre":
+            return "bi bi-theater-masks";
+        case "Attraction":
+            return "bi bi-binoculars";
+        case "Viewpoint":
+            return "bi bi-eye";
+        case "Gallery":
+            return "bi bi-easel";
+        case "Theme Park":
+            return "bi bi-balloon";
+        case "Hospital":
+            return "bi bi-hospital";
+        case "Clinic":
+            return "bi bi-clipboard-pulse";
+        case "Pharmacy":
+            return "bi bi-prescription";
+        case "Park":
+            return "bi bi-tree";
+        case "Garden":
+            return "bi bi-flower3";
+        case "Beach":
+            return "bi bi-beach";
+        case "Sports Centre":
+            return "bi bi-building ";
+        default:
+            return "bi bi-geo-alt"; // Default icon
+    }
+};

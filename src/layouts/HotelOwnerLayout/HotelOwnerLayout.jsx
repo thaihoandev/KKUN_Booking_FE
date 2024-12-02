@@ -7,59 +7,62 @@ import { useMutation } from "react-query";
 import * as UserService from "../../services/UserService";
 import { useSelector } from "react-redux";
 import DashboardFooter from "../../components/DashboardFooter/DashboardFooter";
+import { useTranslation } from "react-i18next";
 
 const HotelOwnerLayout = () => {
+
+    const { t } = useTranslation();
     const menuItems = [
         {
             key: "home",
-            title: "Trang chủ",
+            title: t("HotelOwnerLayout.menu.home"),
             path: "dashboard",
             icon: "bi-house-door",
         },
         {
             key: "myHotel",
-            title: "Khách sạn của tôi",
+            title: t("HotelOwnerLayout.menu.myHotel"),
             path: "#",
             icon: "bi-building",
             children: [
                 {
                     key: "hotelInfo",
-                    title: "Thông tin khách sạn",
+                    title: t("HotelOwnerLayout.menu.hotelInfo"),
                     path: "my-hotel",
                 },
                 {
                     key: "addRoom",
-                    title: "Thêm phòng",
+                    title: t("HotelOwnerLayout.menu.addRoom"),
                     path: "add-room",
                 },
                 {
                     key: "allRooms",
-                    title: "Tất cả các phòng",
+                    title: t("HotelOwnerLayout.menu.allRooms"),
                     path: "my-rooms",
                 },
             ],
         },
         {
             key: "booked",
-            title: "Đặt phòng",
+            title: t("HotelOwnerLayout.menu.booked"),
             path: "booked",
             icon: "bi-calendar-check",
         },
         {
             key: "customerList",
-            title: "Danh sách khách hàng",
+            title: t("HotelOwnerLayout.menu.customerList"),
             path: "customer-list",
             icon: "bi-people",
         },
         {
             key: "settings",
-            title: "Cài đặt",
+            title: t("HotelOwnerLayout.menu.settings"),
             path: "settings",
             icon: "bi-gear",
         },
         {
             key: "logout",
-            title: "Đăng xuất",
+            title: t("HotelOwnerLayout.menu.logout"),
             path: "#",
             icon: "bi-box-arrow-right",
         },
@@ -84,7 +87,7 @@ const HotelOwnerLayout = () => {
                 }
             },
             onError: () => {
-                toast.error("Lỗi khi lấy thông tin người dùng");
+                toast.error(t("error.fetchUserDetails"));
             },
         }
     );

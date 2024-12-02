@@ -32,20 +32,17 @@ function HotelSearchList() {
         prePayment: false,
     });
 
-    const [searchResults, setSearchResults] = useState(initialResults);
     const [filteredResults, setFilteredResults] = useState(initialResults);
     const [currentPage, setCurrentPage] = useState(1);
     const resultsPerPage = 6;
 
     const handleSearchResults = (results) => {
-        setSearchResults(results);
         setFilteredResults(results);
         setCurrentPage(1);
     };
 
     // Effect to update results when initial search results change
     useEffect(() => {
-        setSearchResults(initialResults);
         setFilteredResults(initialResults);
         window.scrollTo(0, 0);
     }, [initialResults]);

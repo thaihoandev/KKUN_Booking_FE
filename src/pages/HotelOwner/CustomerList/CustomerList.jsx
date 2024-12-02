@@ -4,9 +4,11 @@ import * as UserService from "../../../services/UserService";
 import Loading from "../../../components/Loading/Loading";
 import { toast } from "react-toastify";
 import { useMutation } from 'react-query';
-
+import { useTranslation } from "react-i18next";
 
 function CustomerList() {
+
+    const { t } = useTranslation();
     const [users, setUsers] = useState([]);
     const [userStats, setUserStats] = useState({ totalUsers: 0, admins: 0, owners: 0 });
     const [bookingCount, setBookingCount] = useState(0);
@@ -34,7 +36,7 @@ function CustomerList() {
             const count = await UserService.getCustomerBookingCountByHotelId();
             setBookingCount(count);
         } catch (error) {
-            toast.error("Lỗi khi lấy số lượng khách hàng đã đặt lịch");
+            toast.error(t("errors.fetchBookingCount"));
         }
     };
 
@@ -67,7 +69,7 @@ function CustomerList() {
                                 </svg>
                             </div>
                             <div class="counter-content">
-                                <p>Khách hàng</p>
+                                <p>{t("CustomerList.counters.customers")}</p>
                                 <div class="number">
                                     <h3 class="counter">{userStats.totalUsers}</h3>
                                     <span>+</span>
@@ -82,11 +84,11 @@ function CustomerList() {
                             <div class="counter-icon">
                                 <svg width="55" height="55" viewBox="0 0 24 24">
                                     <g>
-                                    <path d="M17,10.039c-3.859,0-7,3.14-7,7,0,3.838,3.141,6.961,7,6.961s7-3.14,7-7c0-3.838-3.141-6.961-7-6.961Zm0,11.961c-2.757,0-5-2.226-5-4.961,0-2.757,2.243-5,5-5s5,2.226,5,4.961c0,2.757-2.243,5-5,5Zm1.707-4.707c.391,.391,.391,1.023,0,1.414-.195,.195-.451,.293-.707,.293s-.512-.098-.707-.293l-1-1c-.188-.188-.293-.442-.293-.707v-2c0-.552,.447-1,1-1s1,.448,1,1v1.586l.707,.707Zm5.293-10.293v2c0,.552-.447,1-1,1s-1-.448-1-1v-2c0-1.654-1.346-3-3-3H5c-1.654,0-3,1.346-3,3v1H11c.552,0,1,.448,1,1s-.448,1-1,1H2v9c0,1.654,1.346,3,3,3h4c.552,0,1,.448,1,1s-.448,1-1,1H5c-2.757,0-5-2.243-5-5V7C0,4.243,2.243,2,5,2h1V1c0-.552,.448-1,1-1s1,.448,1,1v1h8V1c0-.552,.447-1,1-1s1,.448,1,1v1h1c2.757,0,5,2.243,5,5Z"/>                                    </g>
+                                        <path d="M17,10.039c-3.859,0-7,3.14-7,7,0,3.838,3.141,6.961,7,6.961s7-3.14,7-7c0-3.838-3.141-6.961-7-6.961Zm0,11.961c-2.757,0-5-2.226-5-4.961,0-2.757,2.243-5,5-5s5,2.226,5,4.961c0,2.757-2.243,5-5,5Zm1.707-4.707c.391,.391,.391,1.023,0,1.414-.195,.195-.451,.293-.707,.293s-.512-.098-.707-.293l-1-1c-.188-.188-.293-.442-.293-.707v-2c0-.552,.447-1,1-1s1,.448,1,1v1.586l.707,.707Zm5.293-10.293v2c0,.552-.447,1-1,1s-1-.448-1-1v-2c0-1.654-1.346-3-3-3H5c-1.654,0-3,1.346-3,3v1H11c.552,0,1,.448,1,1s-.448,1-1,1H2v9c0,1.654,1.346,3,3,3h4c.552,0,1,.448,1,1s-.448,1-1,1H5c-2.757,0-5-2.243-5-5V7C0,4.243,2.243,2,5,2h1V1c0-.552,.448-1,1-1s1,.448,1,1v1h8V1c0-.552,.447-1,1-1s1,.448,1,1v1h1c2.757,0,5,2.243,5,5Z" />                                    </g>
                                 </svg>
                             </div>
                             <div class="counter-content">
-                                <p>Đặt lịch</p>
+                                <p>{t("CustomerList.counters.bookings")}</p>
                                 <div class="number">
                                     <h3 class="counter">{bookingCount}</h3>
                                     <span>+</span>
@@ -100,12 +102,12 @@ function CustomerList() {
 
 
                 <div class="main-content-title">
-                    <h3>Danh sách khách hàng</h3>
+                    <h3>{t("CustomerList.headers.title")}</h3>
                 </div>
                 <div className="search-area mb-4">
                     <form>
                         <div class="search-box">
-                            <input type="text" placeholder="Tìm khách hàng..." />
+                            <input type="text" placeholder={t("CustomerList.headers.searchPlaceholder")} />
                             <button type="submit">
                                 <i className="bx bx-search"></i>
                             </button>
@@ -129,14 +131,18 @@ function CustomerList() {
                                 <h5 className="mb-1">{`${user.firstName || ''} ${user.lastName || ''}`.trim() || "Tên không có sẵn"}</h5>
                                 <p className="text-muted mb-2">ID: {user.id}</p>
                                 <div className="d-flex justify-content-center gap-2">
-                                    <button className="btn btn-sm btn-outline-primary">Chi tiết</button>
-                                    <button className="btn btn-sm btn-outline-danger">Xóa</button>
+                                    <button className="btn btn-sm btn-outline-primary">
+                                        {t("CustomerList.buttons.details")}
+                                    </button>
+                                    <button className="btn btn-sm btn-outline-danger">
+                                        {t("CustomerList.buttons.delete")}
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <p className="text-center">Chưa có khách hàng nào</p>
+                    <p className="text-center">{t("CustomerList.pagination.noCustomers")}</p>
                 )}
             </div>
 

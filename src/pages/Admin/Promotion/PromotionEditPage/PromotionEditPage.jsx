@@ -11,8 +11,11 @@ import ImageUploader from "../../../../components/UploadImage/ImageUploader/Imag
 import Loading from "../../../../components/Loading/Loading";
 import { useSelector } from "react-redux";
 import { promotionUpdateSchema } from "../../../../schemas/validationSchemas";
+import { useTranslation } from "react-i18next";
 
 function PromotionEditPage() {
+
+    const { t } = useTranslation();
     const { voucherId } = useParams(); // Lấy id từ URL
     const navigate = useNavigate();
     const user = useSelector((state) => state.user);
@@ -55,7 +58,7 @@ function PromotionEditPage() {
                 setSelectedFile(data.image || null); // Nếu có ảnh, set lại
             },
             onError: () => {
-                toast.error("Không thể tải thông tin ưu đãi.");
+                toast.error(t("promotionEdit.errorMessage"));
             },
         }
     );
@@ -82,11 +85,11 @@ function PromotionEditPage() {
         },
         {
             onSuccess: () => {
-                toast.success("Cập nhật thành công!");
+                toast.success(t("promotionEdit.successMessage"));
                 navigate("/admin/vouchers");
             },
             onError: () => {
-                toast.error("Có lỗi xảy ra. Vui lòng thử lại.");
+                toast.error(t("promotionEdit.errorMessage"));
             },
         }
     );
@@ -122,7 +125,7 @@ function PromotionEditPage() {
         <>
             <ToastContainer />
             <div className="main-content-title-profile mb-50">
-                <h3>Chỉnh sửa ưu đãi</h3>
+                <h3>{t("promotionEdit.title")}</h3>
             </div>
             <div className="dashboard-profile-wrapper two">
                 <div className="dashboard-profile-tab-content">
@@ -131,10 +134,10 @@ function PromotionEditPage() {
                             {/* Tên ưu đãi */}
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Tên ưu đãi</label>
+                                    <label>{t("promotionEdit.nameLabel")}</label>
                                     <input
                                         {...register("name")}
-                                        placeholder="Tên ưu đãi..."
+                                        placeholder={t("promotionEdit.namePlaceholder")}
                                     />
                                     <p className="text-danger">
                                         {errors.name?.message}
@@ -145,10 +148,10 @@ function PromotionEditPage() {
                             {/* Mã ưu đãi */}
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Mã ưu đãi</label>
+                                    <label>{t("promotionEdit.codeLabel")}</label>
                                     <input
                                         {...register("code")}
-                                        placeholder="Mã ưu đãi..."
+                                        placeholder={t("promotionEdit.codePlaceholder")}
                                     />
                                     <p className="text-danger">
                                         {errors.code?.message}
@@ -159,7 +162,7 @@ function PromotionEditPage() {
                             {/* Thời gian bắt đầu */}
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Thời gian bắt đầu</label>
+                                    <label>{t("promotionEdit.startDateLabel")}</label>
                                     <input
                                         type="datetime-local"
                                         {...register("startDate")}
@@ -170,7 +173,7 @@ function PromotionEditPage() {
                             {/* Thời gian kết thúc */}
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Thời gian kết thúc</label>
+                                    <label>{t("promotionEdit.endDateLabel")}</label>
                                     <input
                                         type="datetime-local"
                                         {...register("endDate")}
@@ -181,11 +184,11 @@ function PromotionEditPage() {
                             {/* Số lượng */}
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Số lượng</label>
+                                    <label>{t("promotionEdit.quantityLabel")}</label>
                                     <input
                                         type="number"
                                         {...register("quantity")}
-                                        placeholder="Số lượng mã sử dụng..."
+                                        placeholder={t("promotionEdit.quantityPlaceholder")}
                                     />
                                     <p className="text-danger">
                                         {errors.quantity?.message}
@@ -194,11 +197,11 @@ function PromotionEditPage() {
                             </div>
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Giá trị</label>
+                                    <label>{t("promotionEdit.valueLabel")}</label>
                                     <input
                                         type="number"
                                         {...register("value")}
-                                        placeholder="Giá trị giảm giá..."
+                                        placeholder={t("promotionEdit.valuePlaceholder")}
                                     />
                                     <p className="text-danger">
                                         {errors.value?.message}
@@ -207,11 +210,11 @@ function PromotionEditPage() {
                             </div>
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Giá trị giảm tối đa</label>
+                                    <label>{t("promotionEdit.maxDiscountValueLabel")}</label>
                                     <input
                                         type="number"
                                         {...register("maxDiscountValue")}
-                                        placeholder="Giá trị giảm giá tối đa..."
+                                        placeholder={t("promotionEdit.maxDiscountValuePlaceholder")}
                                     />
                                     <p className="text-danger">
                                         {errors.maxDiscountValue?.message}
@@ -221,7 +224,7 @@ function PromotionEditPage() {
                             {/* Loại ưu đãi */}
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Loại ưu đãi</label>
+                                    <label>{t("promotionEdit.typeLabel")}</label>
                                     <Controller
                                         name="discountType"
                                         control={control}
@@ -269,7 +272,7 @@ function PromotionEditPage() {
                             {/* Áp dụng */}
                             <div className="col-md-6 mb-30">
                                 <div className="form-inner mb-30">
-                                    <label>Áp dụng</label>
+                                    <label>{t("promotionEdit.applyToLabel")}</label>
                                     <Controller
                                         name="applyTo"
                                         control={control}
@@ -357,7 +360,7 @@ function PromotionEditPage() {
                             {/* Nút submit */}
                             <div className="col-md-12">
                                 <button type="submit" className="primary-btn3">
-                                    Lưu thay đổi
+                                    {t("promotionEdit.saveButton")}
                                 </button>
                             </div>
                         </div>

@@ -8,8 +8,8 @@
         "logout": "Đăng xuất",
         "login": "Đăng nhập",
         "register": "Đăng ký",
-        "registerPropertyHeader": "ĐĂNG KÝ TÀI SẢN CỦA BẠN TRÊN KKUNBOOKING",
-        "registerProperty": "Đăng ký Tài sản cho thuê",
+        "registerPropertyHeader": "ĐĂNG KÝ KHÁCH SẠN CỦA BẠN TRÊN KKUNBOOKING",
+        "registerProperty": "Đăng ký khách cho thuê",
         "account": "Tài khoản",
         "settings": "Cài đặt",
         "paymentMethods": "Phương thức thanh toán",
@@ -30,15 +30,25 @@
     },
     "switchBoard": "Tổng đài",
     "search": {
-        "location": "Địa điểm",
+        "location": "Vị trí",
         "checkIn": "Nhận phòng",
         "checkOut": "Trả phòng",
         "guests": "Khách",
         "searchButton": "Tìm kiếm",
         "clearFilters": "Xóa bộ lọc",
-        "locationSearch": "Tìm kiếm địa điểm",
-        "popularLocations": "Địa điểm phổ biến",
-        "enterLocation": "Nhập địa điểm"
+        "locationSearch": "Tìm kiếm vị trí",
+        "popularLocations": "Vị trí phổ biến",
+        "enterLocation": "Nhập vị trí",
+        "searchPlaceholder": "Tìm kiếm tại đây",
+        "filterPopular": "Lọc theo mức độ phổ biến",
+        "prePayment": "Đặt phòng không thanh toán trước",
+        "freeCancellation": "Hủy miễn phí",
+        "breakfastIncluded": "Bao gồm bữa sáng",
+        "filterPrice": "Lọc theo giá",
+        "applyFilter": "Áp dụng bộ lọc",
+        "facilities": "Tiện nghi",
+        "ratings": "Xếp hạng",
+        "reviewNo": "đánh giá"
     },
     "roomDetails": {
         "roomType": "Loại phòng",
@@ -48,20 +58,24 @@
         "description": "Mô tả",
         "bedType": "Loại giường",
         "capacity": "Sức chứa",
-        "availableFacilities": "Tiện ích sẵn có",
-        "bookNow": "Đặt ngay"
+        "availableFacilities": "Tiện nghi có sẵn",
+        "bookNow": "Đặt phòng ngay",
+        "seeRoom": "Xem phòng",
+        "seeOtherPic": "Xem các hình ảnh khác",
+        "seeVideo": "Xem video",
+        "amenitySpecial": "Tiện nghi nổi bật trong phòng"
     },
     "booking": {
         "booking": "Đặt phòng",
-        "bookingNow": "Đặt ngay",
+        "bookingNow": "Đặt phòng ngay",
         "confirmBooking": "Xác nhận đặt phòng",
         "totalPrice": "Tổng giá",
         "payment": "Thanh toán",
         "paymentMethods": "Phương thức thanh toán",
         "creditCard": "Thẻ tín dụng",
         "payNow": "Thanh toán ngay",
-        "reservationConfirmed": "Đặt phòng thành công",
-        "bookingFailed": "Đặt phòng thất bại, vui lòng thử lại",
+        "reservationConfirmed": "Đã xác nhận đặt phòng",
+        "bookingFailed": "Đặt phòng không thành công, vui lòng thử lại",
         "bookingDetails": "Chi tiết đặt phòng"
     },
     "user": {
@@ -78,75 +92,75 @@
     "reviews": {
         "customerReviews": "Đánh giá của khách hàng",
         "writeReview": "Viết đánh giá",
-        "rating": "Đánh giá",
+        "rating": "Xếp hạng",
         "reviewDetails": "Chi tiết đánh giá",
-        "averageRating": "Đánh giá trung bình"
+        "averageRating": "Xếp hạng trung bình"
     },
     "notifications": {
         "newBooking": "Đặt phòng mới",
-        "paymentReceived": "Thanh toán đã nhận",
-        "roomAvailability": "Tình trạng phòng",
-        "reminder": "Lời nhắc",
-        "discountAlert": "Thông báo giảm giá"
+        "paymentReceived": "Đã nhận thanh toán",
+        "roomAvailability": "Tình trạng phòng trống",
+        "reminder": "Nhắc nhở",
+        "discountAlert": "Cảnh báo giảm giá"
     },
 
     "errorMessages": {
-        "invalidCredentials": "Thông tin đăng nhập không hợp lệ",
-        "bookingError": "Đã có lỗi xảy ra trong quá trình đặt phòng",
-        "paymentError": "Đã có lỗi xảy ra trong quá trình thanh toán",
+        "invalidCredentials": "Thông tin xác thực không hợp lệ",
+        "bookingError": "Đã xảy ra lỗi trong quá trình đặt phòng",
+        "paymentError": "Đã xảy ra lỗi trong quá trình thanh toán",
         "networkError": "Lỗi mạng. Vui lòng kiểm tra kết nối của bạn."
     },
     "successMessages": {
-        "accountCreated": "Tạo tài khoản thành công",
-        "passwordChanged": "Đổi mật khẩu thành công",
-        "bookingConfirmed": "Đặt phòng của bạn đã được xác nhận",
+        "accountCreated": "Đã tạo tài khoản thành công",
+        "passwordChanged": "Đã thay đổi mật khẩu thành công",
+        "bookingConfirmed": "Đặt chỗ của bạn đã được xác nhận",
         "paymentSuccessful": "Thanh toán thành công"
     },
     "banner": {
         "nhaTrang": {
-            "heading": "Hãy đóng gói và khám phá.",
-            "description": "Cuộc sống đầy bất ngờ và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Tận hưởng các tùy chọn đặt phòng linh hoạt để bạn có thể dễ dàng thay đổi lịch trình hoặc điều chỉnh chuyến đi của mình."
+            "heading": "Xếp hành lý và khám phá.",
+            "description": "Cuộc sống là không thể đoán trước, và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Tận hưởng các tùy chọn đặt phòng linh hoạt để bạn có thể dễ dàng thay đổi hành trình hoặc điều chỉnh chuyến đi của mình."
         },
         "haLong": {
             "heading": "Khám phá những kỳ quan hùng vĩ.",
-            "description": "Cuộc sống đầy bất ngờ và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Tận hưởng các tùy chọn đặt phòng linh hoạt để bạn có thể dễ dàng thay đổi lịch trình hoặc điều chỉnh chuyến đi của mình."
+            "description": "Cuộc sống đầy bất ngờ, và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Tận hưởng các tùy chọn đặt phòng linh hoạt để bạn có thể dễ dàng thay đổi hành trình hoặc điều chỉnh chuyến đi của mình."
         },
         "phuQuoc": {
-            "heading": "Hãy khám phá những vùng đất mới cùng nhau.",
-            "description": "Cuộc sống đầy những khám phá mới và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Với các tùy chọn đặt phòng linh hoạt, bạn có thể tự do tùy chỉnh chuyến đi để tận hưởng mọi trải nghiệm theo cách riêng của mình."
+            "heading": "Cùng nhau khám phá những vùng đất mới.",
+            "description": "Cuộc sống đầy những khám phá mới, và chúng tôi hiểu rằng kế hoạch có thể thay đổi. Với các tùy chọn đặt phòng linh hoạt, bạn có thể tự do tùy chỉnh chuyến đi của mình để tận hưởng mọi trải nghiệm theo cách riêng của bạn."
         }
     },
     "homepage": {
-        "travelTo": "Du lịch đến",
-        "desiredVacationDestination": "Điểm đến kỳ nghỉ mong muốn",
-        "yourself": "Bản thân bạn",
-        "personalSuitability": "Phù hợp cá nhân",
-        "notable": "Đáng chú ý",
-        "popularTravelExperiences": "Trải nghiệm du lịch phổ biến",
-        "attractions": "Điểm tham quan",
-        "vietnamMostOutstandingHotels": "Các khách sạn nổi bật nhất Việt Nam"
+        "travelTo": "Đi du lịch đến",
+        "desiredVacationDestination": "Điểm đến nghỉ dưỡng mong muốn",
+        "yourself": "Yourself",
+        "personalSuitability": "Personal Suitability",
+        "notable": "Notable",
+        "popularTravelExperiences": "Những trải nghiệm du lịch phổ biến",
+        "attractions": "Attractions",
+        "vietnamMostOutstandingHotels": "Những khách sạn nổi bật nhất Việt Nam"
     },
     "hotel": {
         "hotelName": "Khách sạn",
-        "breakfastIncluded": "Ăn sáng miễn phí",
+        "breakfastIncluded": "Bữa sáng miễn phí",
         "viewLocation": "Xem vị trí",
         "distanceFromCenter": "{{distance}} km từ trung tâm",
-        "roomAvailable": "Có phòng",
+        "roomAvailable": "Có sẵn",
         "roomUnavailable": "Không có phòng",
-        "freeCancellation": "Hủy phòng miễn phí",
-        "cancellationDeadline": "trước {{hours}} giờ",
+        "freeCancellation": "Hủy miễn phí",
+        "cancellationDeadline": "before {{hours}} giờ",
         "nightFor": "1 đêm, {{capacity}} người",
-        "priceNotAvailable": "Không có giá",
+        "priceNotAvailable": "NaN",
         "checkRoom": "Kiểm tra phòng",
-        "roomTypeUnavailable": "Loại phòng không có sẵn",
-        "unknownCapacity": "Sức chứa không xác định",
+        "roomTypeUnavailable": "Loại phòng không khả dụng",
+        "unknownCapacity": "Không xác định số lượng người",
         "categories": {
             "KHACH_SAN_5_SAO": "Khách sạn 5 sao",
             "KHACH_SAN_4_SAO": "Khách sạn 4 sao",
             "KHACH_SAN_3_SAO": "Khách sạn 3 sao",
             "KHACH_SAN": "Khách sạn",
             "RESORT": "Khu nghỉ dưỡng",
-            "NHA_NGHI": "Nhà nghỉ"
+            "NHA_NGHI": "Nhà khách"
         }
     },
     "roomTypes": {
@@ -154,33 +168,62 @@
         "PHONG_DON": "Phòng đơn",
         "PHONG_VIP": "Phòng VIP",
         "PHONG_GIA_DINH": "Phòng gia đình",
-        "PHONG_SUITE": "Phòng suite",
-        "PHONG_TAP_THE": "Phòng tập thể",
+        "PHONG_SUITE": "Phòng Suite",
+        "PHONG_TAP_THE": "Phòng ký túc xá",
         "PHONG_THUONG": "Phòng tiêu chuẩn"
     },
     "amenities": {
         "dich_vu_phong": "Dịch vụ phòng",
 
-        "san_vuon": "Vườn",
+        "san_vuon": "Sân vườn",
 
-        "may_la_ui": "Máy là ủi",
-        "may_lanh": "Điều hòa",
+        "may_la_ui": "Máy ủi",
+        "may_lanh": "Máy lạnh",
         "may_say": "Máy sấy tóc",
 
         "binh_chua_chay": "Bình chữa cháy",
-        "cctv_trong_khu_vuc_chung": "CCTV trong khu vực chung",
+        "cctv_trong_khu_vuc_chung": "Camera giám sát khu vực công cộng",
 
         "swimming_pool_2.0": "Hồ bơi 2.0",
 
-        "bai_do_xe_mien_phi": "Đậu xe miễn phí",
+        "bai_do_xe_mien_phi": "Bãi đậu xe miễn phí",
 
-        "mien_phi_wifi": "Wi-Fi miễn phí",
-        "wifi": "Wi-Fi"
+        "mien_phi_wifi": "Wifi miễn phí",
+        "wifi": "Wifi"
+    },
+    "amenityTypes": {
+        "BASIC": "Cơ bản",
+        "ENTERTAINMENT": "Giải trí",
+        "COMFORT": "Tiện nghi",
+        "KITCHEN": "Bếp",
+        "SECURITY": "Bảo mật",
+        "SPA": "Spa",
+        "POOL": "Hồ bơi",
+        "GYM": "Phòng tập thể dục",
+        "BUSINESS": "Doanh nghiệp",
+        "PARKING": "Bãi đậu xe",
+        "PET_FRIENDLY": "Thân thiện với vật nuôi",
+        "TRANSPORT": "Vận chuyển",
+        "DINING": "Ăn uống",
+        "LAUNDRY": "Giặt ủi",
+        "WIFI": "Wi-Fi"
+    },
+    "bedTypes": {
+        "SINGLE": "Giường đơn",
+        "DOUBLE": "Giường đôi",
+        "QUEEN": "Giường cỡ Queen",
+        "KING": "Giường cỡ King",
+        "TWIN": "Giường đôi",
+        "BUNK": "Giường tầng",
+        "SOFA_BED": "Giường sofa",
+        "FUTON": "Đệm sàn",
+        "MURPHY": "Giường gấp Murphy",
+        "ROLL_AWAY": "Giường gấp phụ"
     },
     "footer": {
         "join_newsletter": "Tham gia bản tin của chúng tôi",
-        "receive_best_deals": "Để nhận được những ưu đãi tốt nhất hàng tháng",
-        "email_placeholder": "Nhập Gmail của bạn...",
+        "receive_best_deals": "Để nhận được các ưu đãi tốt nhất hàng tháng",
+        "email_placeholder": "Nhập Gmail...",
         "hotel_booking": "Đặt phòng khách sạn",
         "contact_us": "Liên hệ với chúng tôi",
         "address": "Địa chỉ",
@@ -188,13 +231,283 @@
         "social_links": "Theo dõi chúng tôi trên Mạng xã hội",
         "privacy_policy": "Chính sách bảo mật",
         "terms_conditions": "Điều khoản & Điều kiện",
-        "design_by": "Được thiết kế bởi"
+        "design_by": "Được thiết kế bởi",
+        "weAreHere": "Chúng tôi ở đây",
+        "thanksToVisit": "Chúng tôi luôn nỗ lực để cung cấp dịch vụ tốt nhất. Cảm ơn bạn đã ghé thăm trang web của chúng tôi!",
+        "want": "Muốn",
+        "toTravel": "Đi du lịch",
+        "packageTour": "Tour trọn gói"
     },
+
+    "registerForm": {
+        "createAccount": "Tạo tài khoản mới",
+        "enterAccountInfo": "Nhập thông tin tài khoản của bạn để đăng ký.",
+        "emailExists": "Email này đã được đăng ký.",
+        "registerFailed": "Đăng ký không thành công. Vui lòng thử lại sau.",
+        "privacyPolicy": "Chính sách bảo mật",
+        "alreadyHaveAccount": "Bạn đã có tài khoản?",
+        "title": "Tạo tài khoản mới",
+        "description": "Nhập thông tin tài khoản của bạn để đăng ký.",
+        "submitError": "Đăng ký không thành công. Vui lòng thử lại sau.",
+        "firstName": "Tên",
+        "lastName": "Họ",
+        "email": "Địa chỉ email",
+        "password": "Mật khẩu",
+        "rePassword": "Xác nhận mật khẩu",
+        "registering": "Đang đăng ký...",
+        "register": "Đăng ký",
+        "login": "Đăng nhập",
+        "termsLink": "Chính sách bảo mật",
+        "dataUsageInfo": "Dữ liệu của bạn sẽ được sử dụng như mô tả trong chính sách bảo mật của chúng tôi.",
+        "dataUsageDetails": "Chúng tôi sử dụng dữ liệu của bạn để cá nhân hóa trải nghiệm của bạn, quản lý tài khoản của bạn và cung cấp các bản cập nhật và thông tin liên lạc có liên quan."
+    },
+    "loginForm": {
+        "title": "Đăng nhập để tiếp tục",
+        "description": "Nhập thông tin tài khoản của bạn để đăng nhập.",
+        "submitError": "Đăng nhập không thành công. Vui lòng thử lại sau.",
+        "invalidCredentials": "Email hoặc mật khẩu không đúng",
+        "email": "Địa chỉ email",
+        "password": "Mật khẩu",
+        "login": "Đăng nhập",
+        "registerPrompt": "Bạn chưa có tài khoản?",
+        "register": "Đăng ký",
+        "or": "hoặc",
+        "googleLogin": "Đăng nhập bằng Google"
+    },
+    "hotelSearch": {
+        "search": "Tìm kiếm",
+        "hotelNotFound": "Không tìm thấy khách sạn phù hợp",
+        "tryOtherCriteria": "Vui lòng thử với các tiêu chí khác hoặc kiểm tra thông tin tìm kiếm của bạn."
+    },
+    "roomDetailsPage": {
+        "pet": "Thú cưng",
+        "petnotAllowed": "Không được phép mang theo thú cưng",
+        "childAndBed": "Trẻ em và giường phụ",
+        "childAndBedDesc": "Trẻ em được chào đón Trẻ em được miễn phí! Trẻ em được miễn phí khi sử dụng giường có sẵn; trẻ em có thể không đủ điều kiện để được ăn sáng miễn phí. Có giường phụ/giường gấp với giá 10 đô la một ngày.",
+        "amenityTitle": "Tiện nghi",
+        "noPlaces": "Không có địa điểm nào gần đó.",
+        "nearbyPlacesTitle": "Địa điểm gần đó",
+        "bookInviteDesc": "Đặt phòng ngay để tận hưởng các quyền lợi và tiện nghi sớm để tránh mọi rắc rối!",
+        "confirmBookingCheck": "Xác nhận ngày đặt phòng"
+    },
+    "roomInfo": {
+        "selectRoom": "Chọn phòng",
+        "bestPrice": "Đảm bảo giá tốt nhất!",
+        "filters": "Bộ lọc",
+        "clearAll": "Xóa tất cả",
+        "roomCount": "Phòng trống",
+        "roomDetails": "Chi tiết phòng",
+        "checkout": "Thanh toán",
+        "roomSize": "Diện tích phòng",
+        "priceNotTaxAndFees": "Giá không bao gồm thuế và phí",
+        "roomAvailable": "Phòng trống"
+    },
+    "review": {
+        "anonymous": "Anonymous",
+        "cleanliness": "Cleanliness",
+        "comfort": "Comfort",
+        "amenities": "Tiện nghi",
+        "space": "Space",
+        "valueForMoney": "Giá trị đồng tiền",
+        "noReviews": "Chưa có đánh giá nào cho phòng này"
+    },
+    "countdown": {
+        "holdingPrice": "Chúng tôi đang giữ giá cho bạn"
+    },
+    "checkoutBooking": {
+        "nameLabel": "Họ và tên",
+        "emailLabel": "Địa chỉ email",
+        "phoneLabel": "Số điện thoại",
+        "noteLabel": "Ghi chú",
+        "voucherLabel": "Mã phiếu giảm giá",
+        "nextBtn": "Tiếp theo",
+        "infoFormLabel": "Biểu mẫu thông tin",
+        "paymentLabel": "Thanh toán",
+        "ePaymentLabel": "Thanh toán điện tử",
+        "creditCardLabel": "Thẻ tín dụng/ghi nợ",
+        "payAtLocationLabel": "Thanh toán tại địa điểm",
+        "nameLabelPh": "Nhập tên của bạn",
+        "emailLabelPh": "Nhập địa chỉ email của bạn",
+        "phoneLabelPh": "Nhập số điện thoại của bạn",
+        "noteLabelPh": "Nhập ghi chú của bạn",
+        "voucherLabelPh": "Nhập mã của bạn",
+        "noticeNotToPrePayment": "Tin tốt! Bạn có thể đặt phòng ngay mà không cần cung cấp thông tin thanh toán và thanh toán tại chỗ nghỉ trong thời gian lưu trú.",
+        "noCreditCardLabel": "Không cần thẻ tín dụng",
+        "quickToBookRoom": "Nhanh lên! Phòng cuối cùng của chúng tôi với mức giá này."
+    },
+    "validation": {
+        "required": "{{field}} là bắt buộc",
+        "email": "Địa chỉ email không hợp lệ",
+        "password": "Mật khẩu phải chứa ít nhất 8 ký tự, một chữ hoa, một chữ thường, một số và một ký tự đặc biệt",
+        "minLength": "{{field}} phải có ít nhất {{min}} ký tự",
+        "maxLength": "{{field}} không được vượt quá {{max}} ký tự",
+
+        "positive": "{{field}} phải là số dương",
+        "typeError": "{{field}} phải là số hợp lệ",
+        "boolean": "{{field}} phải là boolean",
+        "match": "Mật khẩu không khớp",
+        "title": "Tiêu đề",
+        "readTime": "Thời gian",
+        "category": "Thể loại",
+        "min": "{{field}} phải lớn hơn hoặc bằng {{min}}",
+        "notSameAsOld": "Mật khẩu mới phải khác với mật khẩu cũ",
+
+        "phone": "Số điện thoại phải có ít nhất 10 chữ số",
+
+        "number": "{{field}} phải là số",
+
+        "discountType": "Vui lòng chọn loại giảm giá",
+        "applyTo": "Vui lòng chọn trường áp dụng",
+        "description": "Mô tả là bắt buộc",
+
+        "max": "{{field}} không được vượt quá {{max}}"
+    },
+    "toast": {
+        "finishInfoBeforePayment": "Vui lòng hoàn tất thông tin đặt phòng trước khi thanh toán!",
+        "voucherError": "Đã xảy ra lỗi khi kiểm tra mã phiếu giảm giá",
+        "invalidVoucherCode": "Mã phiếu giảm giá không hợp lệ hoặc đã hết hạn.",
+        "error": "Đã xảy ra lỗi.",
+        "voucherRequired": "Phiếu giảm giá là bắt buộc.",
+        "applyVoucherSuccess": "Mã phiếu giảm giá đã được áp dụng! Giảm giá"
+    },
+    "rating": {
+        "excellent": "Excellent",
+        "good": "Good",
+        "average": "Average",
+        "poor": "Kém",
+        "noReview": "Không có đánh giá",
+        "veryPoor": "Rất kém"
+    },
+    "promotion": {
+        "name": "Khuyến mãi",
+        "code": "Mã",
+        "time": "Thời gian",
+        "discount": "Giảm giá",
+        "apply": "Áp dụng",
+        "daysLeft": "Hết hạn sau {{days}} ngày",
+        "expired": "Phiếu giảm giá đã hết hạn",
+        "copy": "Sao chép",
+        "copied": "Mã phiếu giảm giá đã sao chép vào bảng tạm!"
+    },
+    "productApplicable": "Sản phẩm áp dụng",
+    "offers": "Ưu đãi",
+    "termsOfUse": "Điều khoản sử dụng",
+    "products": {
+        "hotelAndHome": "Khách sạn và Nhà ở",
+        "flights": "Chuyến bay",
+        "flightAndHotel": "Chuyến bay + Khách sạn"
+    },
+    "offerTypes": {
+        "discountVoucher": "Phiếu giảm giá",
+        "creditCard": "Thẻ tín dụng",
+        "specialCampaign": "Chiến dịch đặc biệt",
+        "timedPromotion": "Khuyến mãi theo thời gian"
+    },
+    "productDetails": {
+        "hotelAndHome": "- Khách sạn và Nhà ở: Phiếu giảm giá chỉ áp dụng cho các khách sạn và chỗ nghỉ được đăng ký chính thức trên nền tảng KKUN Booking.",
+        "flights": "- Chuyến bay: Ưu đãi liên quan đến chuyến bay dành riêng cho các đối tác dịch vụ hàng không có hợp đồng với KKUN Booking.",
+        "flightAndHotel": "- Chuyến bay + Khách sạn: Ưu đãi cho các gói kết hợp chuyến bay và khách sạn, áp dụng đến các khách sạn liên kết với KKUN Booking và các hãng hàng không đối tác."
+    },
+    "offerDetails": {
+        "discountVoucher": "- Phiếu giảm giá: Chỉ áp dụng một lần cho mỗi khách hàng và không được hoàn lại, quy đổi thành tiền mặt hoặc chuyển nhượng cho người khác.",
+        "creditCard": "- Thẻ tín dụng: Chỉ có hiệu lực khi thanh toán bằng thẻ tín dụng của các ngân hàng đối tác của KKUN Booking.",
+        "specialCampaign": "- Chiến dịch đặc biệt: Ưu đãi áp dụng trong thời gian có hạn hoặc cho các sự kiện đặc biệt.",
+        "timedPromotion": "- Khuyến mãi có thời hạn: Phiếu giảm giá sẽ hết hạn vào thời điểm được chỉ định trên phiếu giảm giá và không thể sử dụng sau thời gian này.",
+        "note": "Lưu ý: Các điều khoản có thể thay đổi dựa trên các chương trình khuyến mại cụ thể và các điều kiện hợp đồng của chủ khách sạn đã đăng ký trên nền tảng KKUN Booking."
+    },
+
+    "discountInstructions": {
+        "title": "Cách áp dụng phiếu giảm giá",
+        "step1": "Tìm và thu thập phiếu giảm giá. Nếu có mã khuyến mại, đừng quên sao chép!",
+        "step2": "Tìm chỗ nghỉ có nhãn 'Áp dụng phiếu giảm giá' để sử dụng phiếu giảm giá.",
+        "step3": "Hãy đảm bảo áp dụng phiếu giảm giá/mã khuyến mại của bạn trước khi hoàn tất thanh toán."
+    },
+    "blogCategories": {
+        "ADVENTURE": "Phiêu lưu",
+        "CITY_TOUR": "Tour tham quan thành phố",
+        "ROAD_TRIP": "Chuyến đi đường bộ",
+        "TOURISM": "Du lịch",
+        "WILDLIFE": "Động vật hoang dã",
+        "NATURE_EXCURSION": "Chuyến tham quan thiên nhiên",
+        "PHOTOGRAPHY": "Nhiếp ảnh",
+        "CRUISE": "Du ngoạn",
+        "CULTURAL": "Văn hóa",
+        "FOOD": "Đồ ăn",
+        "HISTORY": "Lịch sử",
+        "FESTIVAL": "Lễ hội",
+        "SHOPPING": "Mua sắm",
+        "SEA": "Biển"
+    },
+    "nextPost": "Bài đăng tiếp theo",
+    "prePost": "Bài đăng trước",
+    "views": "Lượt xem",
+    "post": "Bài đăng",
+    "searchBlog": "Tìm kiếm tại đây",
+    "searchPlaceholder": "Tìm kiếm tiêu đề bài đăng...",
+    "categories": "Danh mục",
+    "noCategories": "Không có danh mục nào",
+    "recentPosts": "Bài đăng gần đây",
+    "by": "Bởi",
+    "seeBlog": "Xem bài đăng",
+    "timeRead": "phút đọc",
+    "roomPrice": "Giá phòng",
+    "firstName": "Tên",
+    "lastName": "Họ",
+    "oldPassword": "Mật khẩu cũ",
+    "newPassword": "Mật khẩu mới",
+    "newPasswordConfirm": "Xác nhận mật khẩu mới",
+    "notes": "Ghi chú",
+    "password": "Mật khẩu",
+    "amenityType": "Loại tiện nghi",
+    "location": "Địa chỉ",
+    "province": "Tỉnh/Thành phố",
+    "district": "Quận",
+    "ward": "Phường",
+    "title": "Tiêu đề",
+    "readTime": "Thời gian",
+    "category": "Thể loại",
+    "fullName": "Họ và tên",
+    "phoneNumber": "Số điện thoại",
+    "paymentMethod": "Phương thức thanh toán",
+    "ePaymentMethod": "Phương thức thanh toán điện tử",
+    "roomType": "Loại phòng",
+    "bedType": "Loại giường",
+    "originalPrice": "Giá gốc",
+    "discountedPrice": "Giá đã giảm",
+    "lastPrice": "Giá cuối cùng",
+    "greatPrice": "Giá tuyệt vời! (không hoàn lại)",
+    "priceIncluded": "Giá đã bao gồm",
+    "maxOccupancy": "Sức chứa tối đa",
+    "roomArea": "Diện tích",
+    "email": "Email",
+   
+    "promotionName": "Tên chương trình khuyến mãi",
+    "promotionCode": "Mã khuyến mãi",
+    "startDate": "Ngày bắt đầu",
+    "endDate": "Ngày kết thúc",
+    "quantity": "Số lượng",
+    "value": "Giá trị giảm giá",
+    "maxDiscountValue": "Giá trị giảm giá tối đa",
+    "discountType": "Loại giảm giá",
+    "applyTo": "Áp dụng cho",
+    "description": "Mô tả",
+    "paymentPolicy": "Cần có chính sách thanh toán",
+    "applySuccess": "Áp dụng thành công",
+    "discount": "Giảm giá",
+    "applyBtn": "Áp dụng",
+    "completeBtn": "Hoàn tất ngay",
+    "hotelReviews": "Đánh giá khách sạn",
+    "bookWithoutCard": "Đặt phòng không cần thẻ tín dụng",
+    "payAtLocation": "Thanh toán tại địa điểm",
+    "soldOut": "Hết hàng",
+    "offer": "Ưu đãi",
+    "bed": "Giường",
+    "max": "Tối đa",
     "showAll": "Hiển thị tất cả",
     "destination": "Điểm đến",
-    "review": "Đánh giá",
-
+    "reviewTitle": "Đánh giá",
     "noReviewsYet": "Chưa có đánh giá nào",
+    "notChooses": "Không chọn",
     "tour": "Tour",
     "visa": "Visa",
     "activity": "Hoạt động",
@@ -205,38 +518,41 @@
     "searching": "Đang tìm kiếm",
     "availability": "Tình trạng phòng trống",
     "price": "Giá",
-
+    "nights": "Đêm",
+    "night": "Đêm",
+    "checkInDate": "Ngày nhận phòng",
+    "checkOutDate": "Ngày trả phòng",
     "bookNow": "Đặt phòng ngay",
     "cancel": "Hủy",
-    "confirmBooking": "Xác nhận đặt phòng",
+    "confirmBooking": "Xác nhận Đặt phòng",
     "thankYou": "Cảm ơn",
-    "reservationCode": "Mã đặt phòng",
-    "hotelName": "Tên khách sạn",
-    "totalPrice": "Tổng giá",
-    "bookingHistory": "Lịch sử đặt phòng",
-    "updateProfile": "Cập nhật hồ sơ",
-    "changePassword": "Đổi mật khẩu",
-    "currentPassword": "Mật khẩu hiện tại",
-    "newPassword": "Mật khẩu mới",
+    "reservationCode": "Mã Đặt phòng",
+    "hotelName": "Tên Khách sạn",
+    "totalPrice": "Tổng Giá",
+    "bookingHistory": "Lịch sử Đặt phòng",
+    "updateProfile": "Cập nhật Hồ sơ",
+    "changePassword": "Đổi Mật khẩu",
+    "currentPassword": "Mật khẩu Hiện tại",
+
     "confirmPassword": "Xác nhận mật khẩu",
-    "saveChanges": "Lưu thay đổi",
-    "aboutUs": "Giới thiệu về chúng tôi",
-    "contactUs": "Liên hệ với chúng tôi",
+    "saveChanges": "Lưu Thay đổi",
+    "aboutUs": "Giới thiệu về Chúng tôi",
+    "contactUs": "Liên hệ với Chúng tôi",
     "terms": "Điều khoản",
-    "privacyPolicy": "Chính sách bảo mật",
+    "information": "Thông tin",
+    "privacyPolicy": "Chính sách Bảo mật",
     "help": "Trợ giúp",
     "faq": "Câu hỏi thường gặp",
     "newsletter": "Bản tin",
     "subscribe": "Đăng ký",
-    "pageNotFound": "Không tìm thấy trang",
+    "pageNotFound": "Không Tìm thấy Trang",
     "accessDenied": "Truy cập bị từ chối",
     "invalidCredentials": "Thông tin đăng nhập không hợp lệ",
-    "switchLanguage": "Chuyển ngôn ngữ",
+    "switchLanguage": "Chuyển đổi ngôn ngữ",
     "english": "Tiếng Anh",
     "vietnamese": "Tiếng Việt",
     "manageRooms": "Quản lý phòng",
     "addRoom": "Thêm phòng",
-    "roomType": "Loại phòng",
     "pendingBookings": "Đặt phòng đang chờ xử lý",
     "approveBooking": "Phê duyệt đặt phòng",
     "cancelBooking": "Hủy đặt phòng",
@@ -250,5 +566,602 @@
     "address": "Địa chỉ",
     "send": "Gửi",
     "support": "Hỗ trợ",
-    "payment": "Thanh toán"
+    "payment": "Thanh toán",
+
+    "adminLayout": {
+        "home": "Trang chủ",
+        "hotelList": "Khách sạn",
+        "amenities": "Tiện ích",
+        "addAmenities": "Thêm Tiện ích",
+        "allAmenities": "Tất cả tiện ích",
+        "vouchers": "Khuyến mãi",
+        "addPromotion": "Thêm ưu đãi",
+        "allPromotions": "Tất cả ưu đãi",
+        "customerList": "Người dùng",
+        "blogPostList": "Danh sách bài viết",
+        "settings": "Cài đặt",
+        "logout": "Đăng xuất"
+    },
+    
+    "hotelList": {
+        "allHotels": "Danh sách khách sạn",
+        "viewProfile": "Xem hồ sơ",
+        "hotelInfo": "Thông tin khách sạn",
+        "searchPlaceholder": "Tìm kiếm ở đây",
+        "name": "Tên khách sạn",
+        "category": "Loại khách sạn",
+        "owner": "Chủ sở hữu",
+        "policy": "Chính sách thanh toán",
+        "status": "Trạng thái",
+        "code": "Mã",
+        "location": "Vị trí",
+        "prev": "Trước",
+        "next": "Sau",
+        "active": "Hoạt động",
+        "inactive": "Tạm dừng",
+        "action": "Hành động"
+    },
+
+    "amenityCreate": {
+        "title": "Thêm Tiện ích",
+        "nameLabel": "Tên tiện ích",
+        "namePlaceholder": "Nhập tên tiện ích...",
+        "typeLabel": "Loại tiện ích",
+        "typePlaceholder": "Chọn loại tiện ích",
+        "descriptionLabel": "Mô tả",
+        "descriptionPlaceholder": "Mô tả thêm về tiện nghi",
+        "addButton": "Thêm ngay",
+        "validation": {
+            "requiredFields": "Vui lòng nhập đầy đủ thông tin bắt buộc!",
+            "selectAmenityType": "Vui lòng chọn loại tiện ích"
+        },
+        "success": "Tạo mới tiện ích thành công!",
+        "error": "Đã xảy ra lỗi khi tạo tiện ích."
+    },
+
+    "amenityList": {
+        "title": "Danh sách tiện nghi",
+        "viewMore": "Xem thêm",
+        "info": "Thông tin tiện nghi",
+        "searchPlaceholder": "Tìm kiếm ở đây",
+        "name": "Tên tiện nghi",
+        "type": "Loại",
+        "description": "Mô tả",
+        "actions": "Hành động",
+        "prev": "Trước",
+        "next": "Sau",
+        "edit": "Chỉnh sửa",
+        "delete": "Xóa"
+    },
+
+    "amenityEdit": {
+        "title": "Chỉnh sửa Tiện ích",
+        "nameLabel": "Tên tiện ích",
+        "typeLabel": "Loại tiện ích",
+        "descriptionLabel": "Mô tả",
+        "descriptionPlaceholder": "Mô tả thêm về tiện nghi",
+        "updateButton": "Cập nhật",
+        "successMessage": "Cập nhật tiện ích thành công!",
+        "errorMessage": "Đã xảy ra lỗi.",
+        "validation": {
+            "nameRequired": "Vui lòng nhập tên tiện ích.",
+            "descriptionRequired": "Vui lòng nhập mô tả.",
+            "typeRequired": "Vui lòng chọn loại tiện ích."
+        }
+    },
+
+    "promotionCreate": {
+        "title": "Thêm ưu đãi",
+        "nameLabel": "Tên ưu đãi",
+        "namePlaceholder": "Nhập tên ưu đãi...",
+        "codeLabel": "Mã ưu đãi",
+        "codePlaceholder": "Nhập mã ưu đãi...",
+        "startDateLabel": "Thời gian bắt đầu",
+        "endDateLabel": "Thời gian kết thúc",
+        "quantityLabel": "Số lượng",
+        "quantityPlaceholder": "Số lượng mã sử dụng...",
+        "typeLabel": "Loại ưu đãi",
+        "valueLabel": "Giá trị giảm giá",
+        "valuePlaceholder": "Nhập giá trị giảm giá...",
+        "maxDiscountValueLabel": "Giá trị giảm tối đa",
+        "maxDiscountValuePlaceholder": "Nhập giá trị giảm giá tối đa...",
+        "applyToLabel": "Áp dụng",
+        "descriptionLabel": "Mô tả",
+        "descriptionPlaceholder": "Mô tả thêm về ưu đãi...",
+        "imageLabel": "Ảnh ưu đãi",
+        "addButton": "Thêm ngay",
+        "successMessage": "Tạo mới ưu đãi thành công!",
+        "errorMessage": "Đã xảy ra lỗi."
+    },
+
+    "promotionList": {
+        "searchPlaceholder": "Tìm kiếm theo tên hoặc mã ưu đãi...",
+        "listTitle": "Danh sách ưu đãi",
+        "status": "Trạng thái",
+        "name": "Tên ưu đãi",
+        "code": "Mã ưu đãi",
+        "quantity": "Số lượng",
+        "used": "Đã dùng",
+        "value": "Giá trị",
+        "type": "Loại ưu đãi",
+        "startDate": "Từ ngày",
+        "endDate": "Đến ngày",
+        "applyTo": "Áp dụng",
+        "actions": "Hành động",
+        "edit": "Chỉnh sửa",
+        "delete": "Xóa",
+        "prev": "Trước",
+        "next": "Sau",
+        "confirmDelete": "Bạn có chắc muốn xóa ưu đãi này?",
+        "deleteSuccess": "Đã xóa ưu đãi thành công!",
+        "updateStatusSuccess": "Trạng thái ưu đãi đã được cập nhật!"
+    },
+
+    "promotionEdit": {
+        "title": "Chỉnh sửa ưu đãi",
+        "nameLabel": "Tên ưu đãi",
+        "namePlaceholder": "Nhập tên ưu đãi...",
+        "codeLabel": "Mã ưu đãi",
+        "codePlaceholder": "Nhập mã ưu đãi...",
+        "startDateLabel": "Thời gian bắt đầu",
+        "endDateLabel": "Thời gian kết thúc",
+        "quantityLabel": "Số lượng",
+        "quantityPlaceholder": "Số lượng mã sử dụng...",
+        "valueLabel": "Giá trị giảm giá",
+        "valuePlaceholder": "Nhập giá trị giảm giá...",
+        "maxDiscountValueLabel": "Giá trị giảm tối đa",
+        "maxDiscountValuePlaceholder": "Nhập giá trị giảm giá tối đa...",
+        "typeLabel": "Loại ưu đãi",
+        "applyToLabel": "Áp dụng",
+        "descriptionLabel": "Mô tả",
+        "descriptionPlaceholder": "Mô tả thêm về ưu đãi...",
+        "imageLabel": "Ảnh ưu đãi",
+        "saveButton": "Lưu thay đổi",
+        "successMessage": "Cập nhật thành công!",
+        "errorMessage": "Có lỗi xảy ra. Vui lòng thử lại.",
+        "percentType": "Phần trăm",
+        "fixedType": "Giá trị cố định",
+        "applyToAll": "Tất cả",
+        "applyToCustomer": "Khách hàng",
+        "applyToHotel": "Khách sạn",
+        "applyToHomestay": "Homestay"
+    },
+
+    "adminCustomerList": {
+        "title": "Danh sách người dùng",
+        "overview": "Tổng quan",
+        "totalUsers": "Khách hàng",
+        "hotelOwners": "Chủ cho thuê",
+        "admins": "Quản trị viên",
+        "userInfo": "Thông tin người dùng",
+        "searchPlaceholder": "Tìm ở đây...",
+        "noUsers": "Chưa có người dùng nào",
+        "id": "Mã ID",
+        "editButton": "Sửa",
+        "deleteButton": "Xóa",
+        "accountButton": "Tài khoản",
+        "statusActive": "Hoạt động",
+        "statusInactive": "Không hoạt động"
+    },
+
+    "blogList": {
+        "title": "Tất cả Bài viết",
+        "profileView": "Xem Hồ sơ",
+        "infoTitle": "Thông tin Bài viết",
+        "searchPlaceholder": "Tìm kiếm ở đây...",
+        "tableHeaders": {
+            "title": "Tiêu đề",
+            "category": "Loại bài viết",
+            "author": "Tác giả",
+            "readTime": "Thời gian đọc",
+            "status": "Trạng thái",
+            "actions": "Hành động"
+        },
+        "statusActive": "Hoạt động",
+        "statusInactive": "Không hoạt động",
+        "editButton": "Sửa",
+        "deleteButton": "Xóa",
+        "pagination": {
+            "prev": "Trước",
+            "next": "Sau"
+        }
+    },
+
+    "profileSettings": {
+        "title": "Cài đặt Hồ sơ",
+        "tabs": {
+        "profile": "Hồ sơ",
+        "preferences": "Tùy chọn",
+        "changePassword": "Đổi mật khẩu"
+        },
+        "preferences": {
+            "emailNotifications": {
+                "title": "Thông báo qua email",
+                "description": "Nhận cập nhật và thông báo qua email."
+            },
+            "newsletter": {
+                "title": "Bản tin",
+                "description": "Đăng ký nhận bản tin để nhận thông tin thường xuyên."
+            },
+            "automatedReports": {
+                "title": "Báo cáo tự động",
+                "description": "Bật báo cáo tự động gửi đến email của bạn."
+            },
+            "currency": {
+                "label": "Thay đổi Tiền tệ"
+            },
+            "unit": {
+                "label": "Đơn vị Diện tích"
+            }
+        }
+    },
+
+    "changePasswordSettings": {
+        "title": "Thay đổi mật khẩu của bạn",
+        "oldPasswordLabel": "Mật khẩu cũ*",
+        "currentPasswordLabel": "Mật khẩu hiện tại*",
+        "noPassword": "Tài khoản chưa có mật khẩu",
+        "oldPasswordPlaceholder": "Nhập mật khẩu cũ",
+        "newPasswordLabel": "Mật khẩu mới*",
+        "newPasswordPlaceholder": "Nhập mật khẩu mới",
+        "confirmPasswordLabel": "Xác nhận mật khẩu*",
+        "confirmPasswordPlaceholder": "Xác nhận mật khẩu mới",
+        "saveButton": "Lưu thay đổi",
+        "cancelButton": "Hủy",
+        "successMessage": "Mật khẩu đã được thay đổi thành công!"
+    },
+
+    "profileInfoes": {
+        "labels": {
+            "firstName": "Họ*",
+            "firstNamePlaceholder": "Nhập họ...",
+            "lastName": "Tên*",
+            "lastNamePlaceholder": "Nhập tên...",
+            "email": "Địa chỉ Email* (Mặc định)",
+            "emailPlaceholder": "Nhập email...",
+            "phone": "Số điện thoại*",
+            "phonePlaceholder": "Nhập số điện thoại...",
+            "address": "Địa chỉ*",
+            "addressPlaceholder": "Nhập địa chỉ...",
+            "country": "Quốc gia*",
+            "submitButton": "Cập nhật thay đổi"
+        },
+        "success": "Cập nhật thành công!"
+    },
+
+    "imageUploader": {
+        "dragActive": "Thả ảnh tại đây...",
+        "buttonLabel": "Tải ảnh",
+        "title": "Tải ảnh đại diện",
+        "description": "Yêu cầu ảnh 300*300, định dạng JPEG hoặc PNG.",
+        "error": {
+            "fileTooLarge": "Kích thước ảnh vượt quá giới hạn 3MB"
+        }
+    },
+
+    "customerLayout": {
+        "menu": {
+            "profile": "Trang cá nhân",
+            "bookedList": "Đơn đặt",
+            "logout": "Đăng xuất"
+        }
+    },
+
+    "bookedList": {
+        "title": "Lịch sử đặt phòng",
+        "bookingHistory": "Lịch sử chi tiết",
+        "tabs": {
+            "hotel": "Khách sạn",
+            "tour": "Tour",
+            "all": "Tất cả",
+            "completed": "Đã đặt",
+            "pending": "Đang chờ",
+            "cancelled": "Đã hủy"
+        },
+        "table": {
+            "hotelName": "Tên khách sạn",
+            "totalPrice": "Tổng tiền",
+            "roomType": "Loại phòng",
+            "person": "Số người",
+            "status": "Tình trạng",
+            "bookingDate": "Ngày đặt",
+            "review": "Đánh giá"
+        },
+        "status": {
+            "CONFIRMED": "Xác nhận",
+            "CANCELLED": "Hủy"
+        },
+        "personUnit": "người",
+        "actions": {
+            "review": "Đánh giá"
+        },
+        "reviewed": "Đã đánh giá",
+        "notCompleted": "Chưa hoàn thành",
+        "noHistory": "Chưa có lịch sử đặt phòng",
+        "noHistoryMessage": "Các đơn đặt phòng của bạn sẽ xuất hiện tại đây.",
+        "pagination": {
+            "prev": "Trước",
+            "next": "Tiếp"
+        },
+
+        "tourPackageInfo": "Thông tin Gói Tour",
+        "allBooking": "Tất cả",
+        "completed": "Hoàn thành",
+        "processing": "Đang xử lý",
+        "cancelled": "Đã hủy",
+        "tourPackage": "Gói Tour",
+        "type": "Loại hình",
+        "tourist": "Khách tham gia",
+        "price": "Giá",
+        "timeline": "Thời gian",
+        "exampleTour": "Khám phá NYC: Bảo tàng, Đa dạng văn hóa",
+        "exampleLocation": "Nepal + Ấn Độ",
+        "group": "Nhóm",
+        "touristCount": "3 người",
+        "confirmed": "Xác nhận",
+        "timelineExample": "10/07/2023 - 14/07/2023"
+    },
+
+    "HotelOwnerLayout": {
+        "menu": {
+            "home": "Trang chủ",
+            "myHotel": "Khách sạn của tôi",
+            "hotelInfo": "Thông tin khách sạn",
+            "addRoom": "Thêm phòng",
+            "allRooms": "Tất cả các phòng",
+            "booked": "Đặt phòng",
+            "customerList": "Danh sách khách hàng",
+            "settings": "Cài đặt",
+            "logout": "Đăng xuất"
+        }
+    },
+    "error": {
+        "fetchUserDetails": "Lỗi khi lấy thông tin người dùng"
+    },
+    "navigation": {
+        "registerHotelOwner": "Đăng ký làm chủ khách sạn"
+    },
+
+    "HotelInfoes": {
+        "header": {
+            "editButton": "Sửa thông tin",
+            "category": "Danh mục",
+            "rating": "Xếp hạng",
+            "reviews": " đánh giá",
+            "location": "Vị trí",
+            "description": "Mô tả",
+            "paymentPolicy": "Chính sách thanh toán",
+            "numberOfRooms": "Số lượng phòng"
+        },
+        "amenities": "Tiện ích",
+        "gallery": {
+            "viewRoom": "Xem phòng",
+            "viewImage": "Xem ảnh",
+            "viewOtherImages": "Xem ảnh khác",
+            "viewVideo": "Xem video"
+        },
+        "error": {
+            "fetchHotel": "Không thể tải thông tin khách sạn.",
+            "fetchUserDetails": "Đã xảy ra lỗi khi lấy thông tin người dùng."
+        }
+    },
+
+    "RoomCreate": {
+        "title": "Thêm phòng",
+        "labels": {
+            "roomType": "Loại phòng",
+            "bedType": "Loại giường",
+            "originalPrice": "Giá gốc",
+            "discountedPrice": "Giá giảm",
+            "maxOccupancy": "Số người (Tối đa)",
+            "roomArea": "Diện tích",
+            "facilities": "Tiện ích",
+            "addButton": "Thêm ngay"
+        },
+        "placeholders": {
+            "enterPrice": "Nhập giá...",
+            "enterDiscountedPrice": "Nhập giá giảm...",
+            "enterMaxOccupancy": "Nhập số lượng người...",
+            "enterRoomArea": "Nhập diện tích phòng..."
+        },
+        "messages": {
+            "success": "Thêm phòng thành công!",
+            "error": "Đã xảy ra lỗi khi thêm phòng."
+        }
+    },
+
+    "MultiImageUploader": {
+        "uploadButton": "Tải ảnh lên",
+        "title": "Tải ảnh lên",
+        "description1": "Yêu cầu ảnh tối đa 3MB, định dạng JPEG hoặc PNG. ",
+        "description2": "Tối thiểu 3 ảnh, tối đa 10 ảnh.",
+        "errors": {
+            "sizeLimit": "Ảnh vượt quá kích thước 3MB.",
+            "minImages": "Vui lòng tải lên tối thiểu 3 ảnh."
+        },
+        "removeButton": "Xóa"
+    },
+
+    "RoomList": {
+        "title": "Danh sách phòng",
+        "searchPlaceholder": "Tìm kiếm ở đây",
+        "tableHeaders": {
+            "roomType": "Loại phòng",
+            "pricePerNight": "Giá/đêm",
+            "capacity": "Số người",
+            "status": "Trạng thái",
+            "reviews": "Lượt đánh giá",
+            "actions": "Hành động"
+        },
+        "status": {
+            "available": "Còn phòng",
+            "unavailable": "Hết phòng"
+        },
+        "actions": {
+            "viewDetails": "Xem thêm"
+        },
+        "emptyRooms": "Chưa có phòng nào!",
+        "pagination": {
+            "prev": "Trước",
+            "next": "Tiếp theo"
+        },
+        "area": "Diện tích",
+        "code": "Mã"
+    },
+
+    "RoomDetails": {
+        "backButton": "Trở lại",
+        "images": {
+            "viewImage": "Xem ảnh",
+            "placeholder": "assets/img/placeholder.jpg"
+        },
+        "roomInfo": {
+            "title": "Thông Tin Phòng",
+            "roomType": "Loại phòng",
+            "originalPrice": "Giá gốc",
+            "area": "Diện tích",
+            "status": "Trạng thái",
+            "bedType": "Loại giường",
+            "discountedPrice": "Giá giảm",
+            "maxOccupancy": "Số người tối đa",
+            "available": "Còn phòng",
+            "unavailable": "Hết phòng",
+            "capacityUnit": " người"
+        },
+        "amenities": {
+            "title": "Tiện ích"
+        },
+        "loading": "Đang tải thông tin phòng...",
+        "reviews": {
+            "title": "Đánh giá",
+            "name": "Tên",
+            "date": "Ngày",
+            "rating": "Xếp hạng",
+            "comment": "Bình luận"
+        }
+    },
+
+    "RoomEdit": {
+        "title": "Thông tin phòng",
+        "labels": {
+            "roomType": "Loại phòng",
+            "bedType": "Loại giường",
+            "originalPrice": "Giá gốc",
+            "discountedPrice": "Giá giảm",
+            "maxOccupancy": "Số người tối đa",
+            "roomArea": "Diện tích phòng",
+            "facilities": "Tiện ích",
+
+            "fetchError": "Lỗi khi tải dữ liệu!",
+            "deleteConfirm": "Bạn có chắc chắn muốn xóa phòng này?",
+            "deleteSuccess": "Xóa phòng thành công!",
+            "deleteError": "Lỗi khi xóa phòng.",
+            "updateSuccess": "Cập nhật phòng thành công!",
+            "updateError": "Cập nhật thất bại.",
+            "missingAccessToken": "Không tìm thấy access token. Vui lòng đăng nhập lại."
+        },
+        "placeholders": {
+            "enterOriginalPrice": "Nhập giá gốc...",
+            "enterDiscountedPrice": "Nhập giá giảm...",
+            "enterMaxOccupancy": "Nhập số lượng người...",
+            "enterRoomArea": "Nhập diện tích phòng..."
+        },
+        "buttons": {
+            "back": "Trở lại",
+            "update": "Cập nhật",
+            "delete": "Xóa"
+        },
+        "messages": {
+            "fetchError": "Lỗi khi tải dữ liệu!",
+            "updateSuccess": "Cập nhật phòng thành công!",
+            "updateError": "Cập nhật thất bại.",
+            "deleteConfirm": "Bạn có chắc chắn muốn xóa phòng này?",
+            "deleteSuccess": "Xóa phòng thành công!",
+            "deleteError": "Lỗi khi xóa phòng.",
+            "missingAccessToken": "Không tìm thấy access token. Vui lòng đăng nhập lại."
+        }
+    },
+
+    "BookedListOwner": {
+        "title": "Lịch sử đặt phòng",
+        "tabs": {
+            "hoteltiltle": "Khách sạn",
+            "hotel": {
+                "header": "Thông tin đặt phòng",
+                "filters": {
+                    "all": "Tất cả",
+                    "booked": "Đã đặt",
+                    "processing": "Đang chờ",
+                    "cancelled": "Đã hủy"
+                },
+                "tableHeaders": {
+                    "bookingId": "Mã đặt phòng",
+                    "contact": "Liên hệ",
+                    "totalPrice": "Tổng tiền",
+                    "payment": "Thanh toán",
+                    "status": "Tình trạng",
+                    "time": "Thời gian",
+                    "actions": "#"
+                },
+                "labels": {
+                    "code": "Mã",
+                    "guest": "Khách",
+                    "notReviewed": "Chưa đánh giá",
+                    "reviewed": "Đã đánh giá"
+                },
+                "noData": {
+                    "message": "Chưa có lịch sử đặt phòng",
+                    "description": "Các đơn đặt phòng của bạn sẽ xuất hiện tại đây."
+                },
+                "pagination": {
+                    "prev": "Trước",
+                    "next": "Tiếp theo"
+                },
+                "reviewStatus": {
+                    "notReviewed": "Chưa đánh giá",
+                    "reviewed": "Đã đánh giá"
+                }
+            },
+            "tourtitle": "Tour",
+            "tour": {
+                "title": "Thông tin gói tour",
+                "tabNames": {
+                    "all": "Tất cả đặt tour",
+                    "completed": "Đã hoàn thành",
+                    "processing": "Đang xử lý",
+                    "cancelled": "Đã hủy"
+                },
+                "tableHeaders": {
+                    "package": "Gói tour",
+                    "type": "Loại",
+                    "tourist": "Khách",
+                    "price": "Giá",
+                    "status": "Trạng thái",
+                    "timeline": "Thời gian"
+                },
+                "labels": {
+                    "confirmed": "Đã xác nhận"
+                }
+            }
+        }
+    },
+
+    "CustomerList": {
+        "counters": {
+            "customers": "Khách hàng",
+            "bookings": "Đặt lịch"
+        },
+        "headers": {
+            "title": "Danh sách khách hàng",
+            "searchPlaceholder": "Tìm khách hàng..."
+        },
+        "pagination": {
+          "noCustomers": "Chưa có khách hàng nào"
+        },
+        "buttons": {
+            "details": "Chi tiết",
+            "delete": "Xóa"
+        }
+    }
+
 }

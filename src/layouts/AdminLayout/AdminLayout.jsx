@@ -4,18 +4,23 @@ import Header from "../../components/Header/Header";
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu";
 import { ToastContainer } from "react-toastify";
 import DashboardFooter from "../../components/DashboardFooter/DashboardFooter";
+import { useTranslation } from "react-i18next";
+
 
 const AdminLayout = () => {
+
+    const { t } = useTranslation();
+
     const menuItems = [
         {
             key: "home",
-            title: "Trang chủ",
+            title: t("adminLayout.home"),
             path: "dashboard",
             icon: "bi-house-door",
         },
         {
             key: "hotelList",
-            title: "Khách sạn",
+            title: t("adminLayout.hotelList"),
             path: "hotels",
             //   path: "admin-all-hotel", // hiện thị luôn danh sách khách sạn
             icon: "bi-building",
@@ -39,61 +44,61 @@ const AdminLayout = () => {
         },
         {
             key: "amenities",
-            title: "Tiện ích",
+            title: t("adminLayout.amenities"),
             path: "#",
             icon: "bi-calendar-check",
             children: [
                 {
                     key: "addAmenities",
-                    title: "Thêm Tiện ích",
+                    title: t("adminLayout.addAmenities"),
                     path: "add-amenity",
                 },
                 {
                     key: "allAmenities",
-                    title: "Tất cả tiện ích",
+                    title: t("adminLayout.allAmenities"),
                     path: "amenities",
                 },
             ],
         },
         {
             key: "vouchers",
-            title: "Khuyến mãi",
+            title: t("adminLayout.vouchers"),
             path: "#",
             icon: "bi-gift",
             children: [
                 {
                     key: "addPromotion",
-                    title: "Thêm ưu đãi",
+                    title: t("adminLayout.addPromotion"),
                     path: "add-voucher",
                 },
                 {
                     key: "allPromotions",
-                    title: "Tất cả ưu đãi",
+                    title: t("adminLayout.allPromotions"),
                     path: "vouchers",
                 },
             ],
         },
         {
             key: "customerList",
-            title: "Người dùng",
+            title: t("adminLayout.customerList"),
             path: "customer-list",
             icon: "bi-people",
         },
         {
             key: "blogPostList",
-            title: "Danh sách bài viết",
+            title: t("adminLayout.blogPostList"),
             path: "blog-post-list",
             icon: "bi-newspaper",
         },
         {
             key: "settings",
-            title: "Cài đặt",
+            title: t("adminLayout.settings"),
             path: "settings",
             icon: "bi-gear",
         },
         {
             key: "logout",
-            title: "Đăng xuất",
+            title: t("adminLayout.logout"),
             path: "#",
             icon: "bi-box-arrow-right",
         },

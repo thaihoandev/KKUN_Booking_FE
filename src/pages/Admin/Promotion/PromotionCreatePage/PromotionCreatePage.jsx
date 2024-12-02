@@ -8,10 +8,13 @@ import * as PromotionService from "../../../../services/PromotionService";
 import { useMutation } from "react-query";
 import { toast, ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
-import { promotionCreatechema } from "../../../../schemas/validationSchemas";
+import { promotionCreateSchema } from "../../../../schemas/validationSchemas";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function PromotionCreatePage() {
+
+    const { t } = useTranslation();
     const {
         register,
         handleSubmit,
@@ -20,7 +23,7 @@ function PromotionCreatePage() {
         reset,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(promotionCreatechema),
+        resolver: yupResolver(promotionCreateSchema),
         defaultValues: {
             name: "",
             code: "",
@@ -52,12 +55,12 @@ function PromotionCreatePage() {
         },
         {
             onSuccess: () => {
-                toast.success("Tạo mới ưu đãi thành công!");
+                toast.success(t("promotionCreate.successMessage"));
                 reset();
                 navigate("/admin/vouchers");
             },
             onError: (error) => {
-                toast.error(error.message);
+                toast.error(error.message || t("promotionCreate.errorMessage"));
             },
         }
     );
@@ -85,7 +88,7 @@ function PromotionCreatePage() {
         <>
             <ToastContainer />
             <div className="main-content-title-profile mb-20">
-                <h3>Thêm ưu đãi</h3>
+                <h3>{t("promotionCreate.title")}</h3>
             </div>
             <div className="dashboard-profile-wrapper two">
                 <div className="dashboard-profile-tab-content">
@@ -93,10 +96,10 @@ function PromotionCreatePage() {
                         <div className="row">
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Tên ưu đãi</label>
+                                    <label>{t("promotionCreate.nameLabel")}</label>
                                     <input
                                         {...register("name")}
-                                        placeholder="Tên ưu đãi..."
+                                        placeholder={t("promotionCreate.namePlaceholder")}
                                     />
                                     <p className="text-danger">
                                         {errors.name?.message}
@@ -106,10 +109,10 @@ function PromotionCreatePage() {
 
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Mã ưu đãi</label>
+                                    <label>{t("promotionCreate.codeLabel")}</label>
                                     <input
                                         {...register("code")}
-                                        placeholder="Mã ưu đãi..."
+                                        placeholder={t("promotionCreate.codePlaceholder")}
                                     />
                                     <p className="text-danger">
                                         {errors.code?.message}
@@ -119,7 +122,7 @@ function PromotionCreatePage() {
 
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Thời gian bắt đầu</label>
+                                    <label>{t("promotionCreate.startDateLabel")}</label>
                                     <input
                                         type="datetime-local"
                                         {...register("startDate")}
@@ -129,7 +132,7 @@ function PromotionCreatePage() {
 
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Thời gian kết thúc</label>
+                                    <label>{t("promotionCreate.endDateLabel")}</label>
                                     <input
                                         type="datetime-local"
                                         {...register("endDate")}
@@ -139,11 +142,11 @@ function PromotionCreatePage() {
 
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Số lượng</label>
+                                    <label>{t("promotionCreate.quantityLabel")}</label>
                                     <input
                                         type="number"
                                         {...register("quantity")}
-                                        placeholder="Số lượng mã sử dụng..."
+                                        placeholder={t("promotionCreate.quantityPlaceholder")}
                                     />
                                     <p className="text-danger">
                                         {errors.quantity?.message}
@@ -153,7 +156,7 @@ function PromotionCreatePage() {
 
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Loại ưu đãi</label>
+                                    <label>{t("promotionCreate.typeLabel")}</label>
                                     <Controller
                                         name="discountType"
                                         control={control}
@@ -187,11 +190,11 @@ function PromotionCreatePage() {
 
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Giá trị</label>
+                                    <label>{t("promotionCreate.valueLabel")}</label>
                                     <input
                                         type="number"
                                         {...register("value")}
-                                        placeholder="Giá trị giảm giá..."
+                                        placeholder={t("promotionCreate.valuePlaceholder")}
                                     />
                                     <p className="text-danger">
                                         {errors.value?.message}
@@ -200,11 +203,11 @@ function PromotionCreatePage() {
                             </div>
                             <div className="col-md-6">
                                 <div className="form-inner mb-30">
-                                    <label>Giá trị giảm tối đa</label>
+                                    <label>{t("promotionCreate.maxDiscountValueLabel")}</label>
                                     <input
                                         type="number"
                                         {...register("maxDiscountValue")}
-                                        placeholder="Giá trị giảm giá tối đa..."
+                                        placeholder={t("promotionCreate.maxDiscountValuePlaceholder")}
                                     />
                                     <p className="text-danger">
                                         {errors.maxDiscountValue?.message}
@@ -213,7 +216,7 @@ function PromotionCreatePage() {
                             </div>
                             <div className="col-md-6 mb-30">
                                 <div className="form-inner mb-30">
-                                    <label>Áp dụng</label>
+                                    <label>{t("promotionCreate.applyToLabel")}</label>
                                     <Controller
                                         name="applyTo"
                                         control={control}
@@ -276,10 +279,14 @@ function PromotionCreatePage() {
 
                             <div className="col-md-12">
                                 <div className="form-inner mb-30">
-                                    <label>Mô tả</label>
+                                    <label>
+                                        {t("promotionCreate.descriptionLabel")}
+                                    </label>
                                     <textarea
                                         {...register("description")}
-                                        placeholder="Mô tả thêm về ưu đãi..."
+                                        placeholder={t(
+                                            "promotionCreate.descriptionPlaceholder"
+                                        )}
                                     ></textarea>
                                     <p className="text-danger">
                                         {errors.description?.message}
@@ -289,7 +296,7 @@ function PromotionCreatePage() {
 
                             <div className="col-md-12">
                                 <div className="form-inner mb-30">
-                                    <label>Ảnh ưu đãi</label>
+                                    <label>{t("promotionCreate.imageLabel")}</label>
                                     <ImageUploader
                                         onImageSelect={handleImageSelect}
                                     />
@@ -298,7 +305,7 @@ function PromotionCreatePage() {
 
                             <div className="col-md-12">
                                 <button type="submit" className="primary-btn3">
-                                    Thêm ngay
+                                    {t("promotionCreate.addButton")}
                                 </button>
                             </div>
                         </div>
