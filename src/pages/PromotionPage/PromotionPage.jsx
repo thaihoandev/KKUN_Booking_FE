@@ -19,7 +19,12 @@ function PromotionPage() {
         () => PromotionService.getAllPromotions(),
         {
             onSuccess: (data) => {
-                setPromotions(data);
+                const validPromotions = data.filter((promotion) => {
+                    const currentDate = new Date();
+                    const expiryDate = new Date(promotion.endDate); // Assuming expiryDate exists
+                    return expiryDate > currentDate; // Keep only valid promotions
+                });
+                setPromotions(validPromotions);
                 setIsLoading(false);
             },
             onError: (error) => {

@@ -13,7 +13,6 @@ import unidecode from "unidecode";
 function HotelItemHorizontal({ hotel }) {
     const navigate = useNavigate();
     const { t } = useTranslation();
-    console.log("hotel", hotel);
 
     const handleCheckRoom = () => {
         navigate(

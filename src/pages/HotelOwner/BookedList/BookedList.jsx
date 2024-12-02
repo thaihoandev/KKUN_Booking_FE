@@ -6,13 +6,15 @@ import * as HotelService from "../../../services/HotelService";
 
 import { useSelector } from "react-redux";
 import Loading from "../../../components/Loading/Loading";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import convertToVND from "../../../utils/convertToVND";
 import { formatDateDDMMYYYY } from "../../../utils/utils";
 import moment from "moment";
 import { Link } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import * as BookingService from "../../../services/BookingService";
+import ConfirmDialog from "../../../components/ConfirmDialog/ConfirmDialog";
 
 function BookedList() {
 
@@ -28,6 +30,9 @@ function BookedList() {
         setActiveTab(tab); // Cập nhật tab đang chọn
     };
     const [currentPage, setCurrentPage] = useState(1);
+    const { t } = useTranslation();
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+    const [bookingIdToCancel, setBookingIdToCancel] = useState(null);
 
     // Calculate pagination
     const totalPages = Math.ceil((bookingHistory?.length || 0) / itemsPerPage);
@@ -99,7 +104,40 @@ function BookedList() {
             },
         }
     );
+    const mutationCancelBooking = useMutation(
+        ({ bookingId, accessToken }) => {
+            return BookingService.cancelBooking(bookingId, accessToken);
+        },
+        {
+            onSuccess: () => {
+                toast.success("Booking canceled successfully!");
+                setShowConfirmDialog(false); // Close the confirmation dialog on success
+            },
+            onError: () => {
+                toast.error("Error canceling the booking.");
+                setShowConfirmDialog(false); // Close the confirmation dialog on error
+            },
+        }
+    );
 
+    // Handle cancel action
+    const handleCancelBooking = (bookingId) => {
+        setBookingIdToCancel(bookingId);
+        setShowConfirmDialog(true); // Show the confirmation dialog
+    };
+
+    // Confirm the cancellation
+    const confirmCancellation = () => {
+        mutationCancelBooking.mutate({
+            bookingId: bookingIdToCancel,
+            accessToken: user.accessToken, // Make sure to use the correct token here
+        });
+    };
+
+    // Cancel the action
+    const cancelCancellation = () => {
+        setShowConfirmDialog(false); // Close the confirmation dialog
+    };
     useEffect(() => {
         mutationBookingHistory.mutate(user.accessToken);
     }, [user.accessToken]);
@@ -107,12 +145,12 @@ function BookedList() {
     const handleReviewBooking = (booking) => {
         navigate(`/rooms/${booking.roomId}/bookings/${booking.id}/review`);
     };
-    console.log(currentItems);
     if (loading) {
         return <Loading />;
     }
     return (
         <>
+            <ToastContainer />
             <div className="row">
                 <div className="col-xl-12 mb-30">
                     <div className="page-title">
@@ -296,7 +334,12 @@ function BookedList() {
                                                                 index
                                                             ) => (
                                                                 <tr key={index}>
-                                                                    <td data-label={t("BookedListOwner.tabs.hotel.tableHeaders.bookingId")}>
+                                                                    <td
+                                                                        data-label={t("BookedListOwner.tabs.hotel.tableHeaders.bookingId")}
+                                                                        style={{
+                                                                            width: "30%",
+                                                                        }}
+                                                                    >
                                                                         <div className="product-name">
                                                                             <div className="img">
                                                                                 <img
@@ -395,6 +438,45 @@ function BookedList() {
                                                                         ) : (
                                                                             <strong className="text-warning">
                                                                                 {t("BookedListOwner.tabs.hotel.labels.reviewed")}
+                                                                            </strong>
+                                                                        )}
+                                                                    </td>
+                                                                    <td data-label="#">
+                                                                        {new Date(
+                                                                            booking.checkinDate
+                                                                        ) >
+                                                                            new Date() &&
+                                                                            booking.status !==
+                                                                                "CANCELLED" && (
+                                                                                <button
+                                                                                    onClick={() =>
+                                                                                        handleCancelBooking(
+                                                                                            booking.id
+                                                                                        )
+                                                                                    }
+                                                                                    className="secondary-btn2 p-3 py-2"
+                                                                                    style={{
+                                                                                        fontSize:
+                                                                                            "14px",
+                                                                                    }}
+                                                                                >
+                                                                                    Huỷ
+                                                                                    đơn
+                                                                                </button>
+                                                                            )}
+
+                                                                        {booking.status ===
+                                                                            "CANCELLED" && (
+                                                                            <strong
+                                                                                className="cancelled-status"
+                                                                                style={{
+                                                                                    color: "red",
+                                                                                    fontSize:
+                                                                                        "14px",
+                                                                                }}
+                                                                            >
+                                                                                Đã
+                                                                                hủy
                                                                             </strong>
                                                                         )}
                                                                     </td>
@@ -743,6 +825,12 @@ function BookedList() {
                     )}
                 </div>
             </div>
+            <ConfirmDialog
+                show={showConfirmDialog}
+                onConfirm={confirmCancellation}
+                onCancel={cancelCancellation}
+                message="Are you sure you want to cancel this booking?"
+            />
         </>
     );
 }

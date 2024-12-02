@@ -76,7 +76,10 @@ function HotelSearchList() {
         },
         {
             onSuccess: (data) => {
-                setFilteredResults(data); // Update displayed results
+                console.log(" results:", data);
+
+                setFilteredResults(data);
+
                 setCurrentPage(1); // Reset to the first page
                 toast.success("Tìm thành công!");
             },

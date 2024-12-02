@@ -24,7 +24,26 @@ export const createBooking = async (data, accessToken) => {
         handleAxiosError(error);
     }
 };
+export const cancelBooking = async (bookingId, accessToken) => {
+    console.log(bookingId, accessToken);
 
+    try {
+        const response = await axios.put(
+            `${process.env.REACT_APP_BASE_API_URL}/bookings/${bookingId}/cancel`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+        console.log(response);
+
+        return response.data;
+    } catch (error) {
+        handleAxiosError(error);
+    }
+};
 // Lấy thông tin booking theo ID
 export const getBookingById = async (bookingId) => {
     try {
@@ -36,7 +55,21 @@ export const getBookingById = async (bookingId) => {
         handleAxiosError(error);
     }
 };
-
+export const getAllBooking = async (accessToken) => {
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/bookings`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        handleAxiosError(error);
+    }
+};
 // Bắt đầu thanh toán booking
 export const initiatePayment = async (bookingData, accessToken) => {
     try {
@@ -102,8 +135,8 @@ export const verifyVoucher = async (voucherCode) => {
 // Hàm xử lý lỗi chung cho axios
 const handleAxiosError = (error) => {
     if (error.response && error.response.data) {
-        throw new Error(error.response.data);
+        return error.response.data; // Return the error message instead of throwing
     } else {
-        throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+        return "Đã xảy ra lỗi khi kết nối tới máy chủ."; // Return a generic error message
     }
 };
