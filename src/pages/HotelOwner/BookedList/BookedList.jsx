@@ -30,7 +30,6 @@ function BookedList() {
         setActiveTab(tab); // Cập nhật tab đang chọn
     };
     const [currentPage, setCurrentPage] = useState(1);
-    const { t } = useTranslation();
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
     const [bookingIdToCancel, setBookingIdToCancel] = useState(null);
 
