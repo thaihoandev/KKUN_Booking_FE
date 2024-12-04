@@ -19,6 +19,8 @@ export const getAllHotel = async () => {
 
 export const getHotelById = async (hotelId) => {
     try {
+        console.log("hotel", hotelId);
+
         const response = await axios.get(
             `${process.env.REACT_APP_BASE_API_URL}/hotels/${hotelId}`
         );

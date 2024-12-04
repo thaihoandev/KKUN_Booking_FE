@@ -64,7 +64,7 @@ function BannerContainer() {
                             </SwiperSlide>
                             <SwiperSlide>
                                 <Banner
-                                    backgroundImage="https://thongtinduanbds.com/wp-content/uploads/2021/12/Bac-dao-Phu-Quoc-Vinpearl.jpg"
+                                    backgroundImage="https://rootytrip.com/wp-content/uploads/2024/07/phu-quoc.jpg"
                                     country={t("banner.phuQuoc.heading")}
                                     heading={t("banner.phuQuoc.heading")}
                                     description={t(

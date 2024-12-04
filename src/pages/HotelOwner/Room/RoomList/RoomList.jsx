@@ -61,6 +61,7 @@ function RoomList() {
     );
 
     const totalPages = Math.ceil(rooms.length / pageSize);
+    console.log("pagei", paginatedRooms);
 
     return (
         <>

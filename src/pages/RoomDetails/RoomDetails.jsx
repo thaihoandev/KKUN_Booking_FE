@@ -69,9 +69,12 @@ function RoomDetails() {
     const displayImages = hotel.exteriorImages?.slice(0, 5) || [];
     // Nếu có ít hơn 5 ảnh, thêm ảnh placeholder
     while (displayImages.length < 5) {
-        displayImages.push("assets/img/placeholder.jpg");
+        displayImages.push("/assets/img/places/Ha_Noi/temple.jpg");
     }
+    const encodedAddress = encodeURIComponent(hotel.location);
 
+    // Construct the iframe URL dynamically using the encoded address
+    const mapUrl = `https://www.google.com/maps/embed/v1/place?q=${encodedAddress}&key=AIzaSyAYf61ROkKLsEnpq6ZcbCs-B2qb7cJVzgo	`;
     return (
         <>
             <div className="room-details-area pt-120 mb-120">
@@ -148,12 +151,12 @@ function RoomDetails() {
                                             <div className="col-6">
                                                 <div className="gallery-img-wrap active">
                                                     <img
-                                                        src={displayImages[4]}
+                                                        src="https://hotel84.com/hotel84-images/product/img1/khach-san-muong-thanh-quang.jpg"
                                                         alt={`Room view 5`}
                                                     />
                                                     <a
                                                         data-fancybox="gallery-01"
-                                                        href="https://www.youtube.com/watch?v=u31qwQUeGuM"
+                                                        href="https://www.youtube.com/watch?v=NSnkb1IAjbE"
                                                     >
                                                         <i className="bi bi-play-circle"></i>{" "}
                                                         {t(
@@ -186,14 +189,13 @@ function RoomDetails() {
                                 <h4>{t("hotel.viewLocation")}</h4>
                                 <div className="map-area mb-30">
                                     <iframe
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193325.0481540361!2d-74.06757856146028!3d40.79052383652264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1660366711448!5m2!1sen!2sbd"
+                                        src={mapUrl}
                                         width="600"
                                         height="450"
-                                        style={{ border: "0" }}
-                                        allowFullScreen
+                                        style={{ border: 0 }}
+                                        allowFullScreen=""
                                         loading="lazy"
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                    ></iframe>
+                                    />
                                 </div>
                             </div>
                         </div>
