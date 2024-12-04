@@ -694,7 +694,7 @@ function SearchContainer({ shouldNavigate = false, onSearch }) {
                                                     </div>
                                                     <div className="searchbox-input">
                                                         <label>
-                                                            {t("room")}
+                                                            {t("numberOfRooms")}
                                                         </label>
                                                         <div className="quantity-counter">
                                                             <input

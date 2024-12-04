@@ -57,7 +57,6 @@ import BlogPage from "./pages/Blog/BlogPage/BlogPage";
 import BlogCreate from "./pages/Blog/BlogCreate/BlogCreate";
 import BlogListPage from "./pages/Admin/Blog/BlogListPage/BlogListPage";
 // import Promotions from "./pages/Promotions/Promotions";
-import AllPromotions from "./pages/Admin/AdminPromotions/AllPromotions/AllPromotions"
 import PromotionPage from "./pages/PromotionPage/PromotionPage";
 import PromotionListPage from "./pages/Admin/Promotion/PromotionListPage/PromotionListPage";
 import PromotionCreatePage from "./pages/Admin/Promotion/PromotionCreatePage/PromotionCreatePage";
@@ -160,8 +159,6 @@ const router = createBrowserRouter([
             // { path: "admin-add-amenities", element: <AddNewAmenities/> }, // thêm tiện ích mới
             // { path: "admin-all-amenities", element: <AmenitiesList/> }, // xem danh sách tiện ích
 
-
-
             { index: true, element: <AdminDashboard /> },
             { path: "dashboard", element: <AdminDashboard /> },
             { path: "hotels", element: <HotelList /> },
@@ -174,8 +171,10 @@ const router = createBrowserRouter([
 
             { path: "vouchers", element: <PromotionListPage /> },
             { path: "add-voucher", element: <PromotionCreatePage /> },
-            { path: "vouchers/:voucherId/edit", element: <PromotionEditPage /> },
-
+            {
+                path: "vouchers/:voucherId/edit",
+                element: <PromotionEditPage />,
+            },
 
             { path: "*", element: <NotFoundPage /> },
         ],

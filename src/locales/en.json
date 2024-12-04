@@ -448,6 +448,7 @@
         "SHOPPING": "Shopping",
         "SEA": "Sea"
     },
+    "numberOfRooms": "Number of rooms",
     "errorToBook": "Please check your booking payment again.",
     "backHomeBtn": "Back to homepage",
     "thanksToBook": "Thank you for booking with us. We are very happy to serve you.",
@@ -1013,7 +1014,8 @@
             "capacity": "Capacity",
             "status": "Status",
             "reviews": "Reviews",
-            "actions": "Actions"
+            "actions": "Actions",
+            "numOfBookings": "Number of Bookings"
         },
         "status": {
             "available": "Available",

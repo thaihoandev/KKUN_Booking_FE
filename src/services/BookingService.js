@@ -25,11 +25,28 @@ export const createBooking = async (data, accessToken) => {
     }
 };
 export const cancelBooking = async (bookingId, accessToken) => {
-    console.log(bookingId, accessToken);
-
     try {
         const response = await axios.put(
             `${process.env.REACT_APP_BASE_API_URL}/bookings/${bookingId}/cancel`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+
+        return response.data;
+    } catch (error) {
+        handleAxiosError(error);
+    }
+};
+export const confirmedBooking = async (bookingId, accessToken) => {
+    console.log("booking", bookingId);
+
+    try {
+        const response = await axios.put(
+            `${process.env.REACT_APP_BASE_API_URL}/bookings/${bookingId}/confirmed`,
             {},
             {
                 headers: {

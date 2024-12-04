@@ -8,7 +8,6 @@ import convertToVND from "../../../../utils/convertToVND";
 import { useTranslation } from "react-i18next";
 
 function RoomList() {
-
     const { t } = useTranslation();
     const [hotelId, setHotelId] = useState();
     const [rooms, setRooms] = useState([]);
@@ -41,7 +40,6 @@ function RoomList() {
             },
             onError: (error) => {
                 toast.error(error.message || t("common.error"));
-
             },
         }
     );
@@ -77,7 +75,9 @@ function RoomList() {
                             <div className="search-box">
                                 <input
                                     type="text"
-                                    placeholder={t("RoomList.searchPlaceholder")}
+                                    placeholder={t(
+                                        "RoomList.searchPlaceholder"
+                                    )}
                                 />
                                 <button type="submit">
                                     <i className="bx bx-search"></i>
@@ -91,10 +91,14 @@ function RoomList() {
                         <thead>
                             <tr>
                                 <th>{t("RoomList.tableHeaders.roomType")}</th>
-                                <th>{t("RoomList.tableHeaders.pricePerNight")}</th>
+                                <th>
+                                    {t("RoomList.tableHeaders.pricePerNight")}
+                                </th>
                                 <th>{t("RoomList.tableHeaders.capacity")}</th>
                                 <th>{t("RoomList.tableHeaders.status")}</th>
-                                <th>{t("RoomList.tableHeaders.reviews")}</th>
+                                <th>
+                                    {t("RoomList.tableHeaders.numOfBookings")}
+                                </th>
                                 <th>{t("RoomList.tableHeaders.actions")}</th>
                             </tr>
                         </thead>
@@ -102,7 +106,11 @@ function RoomList() {
                             {paginatedRooms && paginatedRooms.length > 0 ? (
                                 paginatedRooms.map((room, index) => (
                                     <tr key={index}>
-                                        <td data-label={t("RoomList.tableHeaders.roomType")}>
+                                        <td
+                                            data-label={t(
+                                                "RoomList.tableHeaders.roomType"
+                                            )}
+                                        >
                                             <div className="product-name">
                                                 <div className="img">
                                                     <img
@@ -126,13 +134,14 @@ function RoomList() {
                                                     </h6>
                                                     <p className="mb-3">
                                                         <span>
-                                                            {t("RoomList.code")}:{" "}
-                                                            {room.id || "NaN"}{" "}
+                                                            {t("RoomList.code")}
+                                                            : {room.id || "NaN"}{" "}
                                                         </span>
                                                     </p>
                                                     <p>
                                                         <span>
-                                                            {t("RoomList.area")}:{" "}
+                                                            {t("RoomList.area")}
+                                                            :{" "}
                                                             {room.area || "NaN"}{" "}
                                                             m²
                                                         </span>
@@ -140,31 +149,58 @@ function RoomList() {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td data-label={t("RoomList.tableHeaders.pricePerNight")}>
+                                        <td
+                                            data-label={t(
+                                                "RoomList.tableHeaders.pricePerNight"
+                                            )}
+                                        >
                                             {convertToVND(room.basePrice) ||
                                                 "NaN"}
                                         </td>
-                                        <td data-label={t("RoomList.tableHeaders.capacity")}>
+                                        <td
+                                            data-label={t(
+                                                "RoomList.tableHeaders.capacity"
+                                            )}
+                                        >
                                             {room.capacity || "NaN"}
-                                            {t("RoomDetails.roomInfo.capacityUnit")}
+                                            {t(
+                                                "RoomDetails.roomInfo.capacityUnit"
+                                            )}
                                         </td>
-                                        <td data-label={t("RoomList.tableHeaders.status")}>
+                                        <td
+                                            data-label={t(
+                                                "RoomList.tableHeaders.status"
+                                            )}
+                                        >
                                             <span className="confirmed">
                                                 {room.available
-                                                    ? t("RoomList.status.available")
-                                                    : t("RoomList.status.unavailable")}
+                                                    ? t(
+                                                          "RoomList.status.available"
+                                                      )
+                                                    : t(
+                                                          "RoomList.status.unavailable"
+                                                      )}
                                             </span>
                                         </td>
-                                        <td data-label={t("RoomList.tableHeaders.reviews")}>
+                                        <td
+                                            data-label={t(
+                                                "RoomList.tableHeaders.reviews"
+                                            )}
+                                        >
                                             {room.numOfReviews || "NaN"}
                                         </td>
-                                        <td data-label={t("RoomList.tableHeaders.actions")}>
+                                        <td
+                                            data-label={t(
+                                                "RoomList.tableHeaders.actions"
+                                            )}
+                                        >
                                             <a
                                                 href={`/hotelowner/my-rooms/${room.id}/room-edit`}
                                                 className="view-btn"
                                             >
-                                                {t("RoomList.actions.viewDetails")}
-                                                
+                                                {t(
+                                                    "RoomList.actions.viewDetails"
+                                                )}
                                             </a>
                                         </td>
                                     </tr>
@@ -186,10 +222,11 @@ function RoomList() {
                             {[...Array(totalPages)].map((_, index) => (
                                 <li
                                     key={index}
-                                    className={`page-item ${currentPage === index + 1
-                                        ? "active"
-                                        : ""
-                                        }`}
+                                    className={`page-item ${
+                                        currentPage === index + 1
+                                            ? "active"
+                                            : ""
+                                    }`}
                                     onClick={() => setCurrentPage(index + 1)}
                                 >
                                     <a href="#">{index + 1}</a>

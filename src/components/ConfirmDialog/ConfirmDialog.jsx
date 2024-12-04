@@ -9,10 +9,14 @@ const ConfirmDialog = ({ show, onConfirm, onCancel, message }) => {
             </Modal.Header>
             <Modal.Body>{message}</Modal.Body>
             <Modal.Footer>
-                <button variant="secondary" onClick={onCancel}>
+                <button className="btn btn-secondary" onClick={onCancel}>
                     Cancel
                 </button>
-                <button variant="primary" onClick={onConfirm}>
+                <button
+                    className="btn btn-danger"
+                    variant="primary"
+                    onClick={onConfirm}
+                >
                     Yes
                 </button>
             </Modal.Footer>

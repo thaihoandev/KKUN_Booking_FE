@@ -17,7 +17,6 @@ import * as BookingService from "../../../services/BookingService";
 import ConfirmDialog from "../../../components/ConfirmDialog/ConfirmDialog";
 
 function BookedList() {
-
     const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState("hotel"); // Thiết lập tab mặc định là "hotel"
     const [loading, setLoading] = useState(true);
@@ -31,7 +30,7 @@ function BookedList() {
     };
     const [currentPage, setCurrentPage] = useState(1);
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-    const [bookingIdToCancel, setBookingIdToCancel] = useState(null);
+    const [bookingIdToHandle, setBookingIdToHandle] = useState(null);
 
     // Calculate pagination
     const totalPages = Math.ceil((bookingHistory?.length || 0) / itemsPerPage);
@@ -103,6 +102,7 @@ function BookedList() {
             },
         }
     );
+
     const mutationCancelBooking = useMutation(
         ({ bookingId, accessToken }) => {
             return BookingService.cancelBooking(bookingId, accessToken);
@@ -110,6 +110,13 @@ function BookedList() {
         {
             onSuccess: () => {
                 toast.success("Booking canceled successfully!");
+                setBookingHistory((prevBookings) =>
+                    prevBookings.map((booking) =>
+                        booking.id === bookingIdToHandle
+                            ? { ...booking, status: "CANCELLED" } // Cập nhật trạng thái booking thành "CANCELLED"
+                            : booking
+                    )
+                );
                 setShowConfirmDialog(false); // Close the confirmation dialog on success
             },
             onError: () => {
@@ -118,17 +125,45 @@ function BookedList() {
             },
         }
     );
+    const mutationConfirmedBooking = useMutation(
+        ({ bookingId }) => {
+            return BookingService.confirmedBooking(bookingId, user.accessToken);
+        },
+        {
+            onSuccess: (data, { bookingId }) => {
+                toast.success("Booking confirmed successfully!");
 
+                // Cập nhật booking status thành "CONFIRMED"
+                setBookingHistory((prevBookings) =>
+                    prevBookings.map((booking) =>
+                        booking.id === bookingId
+                            ? { ...booking, status: "CONFIRMED" } // Cập nhật trạng thái booking
+                            : booking
+                    )
+                );
+                setShowConfirmDialog(false); // Đóng dialog xác nhận
+            },
+            onError: () => {
+                toast.error("Error confirming the booking.");
+                setShowConfirmDialog(false); // Đóng dialog xác nhận nếu có lỗi
+            },
+        }
+    );
+
+    // Hàm xử lý khi người dùng bấm nút "Duyệt"
+    const handleConfirmedBooking = (bookingId) => {
+        mutationConfirmedBooking.mutate({ bookingId });
+    };
     // Handle cancel action
     const handleCancelBooking = (bookingId) => {
-        setBookingIdToCancel(bookingId);
+        setBookingIdToHandle(bookingId);
         setShowConfirmDialog(true); // Show the confirmation dialog
     };
 
     // Confirm the cancellation
     const confirmCancellation = () => {
         mutationCancelBooking.mutate({
-            bookingId: bookingIdToCancel,
+            bookingId: bookingIdToHandle,
             accessToken: user.accessToken, // Make sure to use the correct token here
         });
     };
@@ -162,10 +197,11 @@ function BookedList() {
                             >
                                 <li className="nav-item" role="presentation">
                                     <button
-                                        className={`nav-link ${activeTab === "hotel"
-                                            ? "active"
-                                            : ""
-                                            }`}
+                                        className={`nav-link ${
+                                            activeTab === "hotel"
+                                                ? "active"
+                                                : ""
+                                        }`}
                                         id="hotel-tab"
                                         type="button"
                                         role="tab"
@@ -188,8 +224,9 @@ function BookedList() {
                                 </li>
                                 <li className="nav-item" role="presentation">
                                     <button
-                                        className={`nav-link ${activeTab === "tour" ? "active" : ""
-                                            }`}
+                                        className={`nav-link ${
+                                            activeTab === "tour" ? "active" : ""
+                                        }`}
                                         id="tour-tab"
                                         type="button"
                                         role="tab"
@@ -227,7 +264,9 @@ function BookedList() {
                         >
                             <div className="recent-listing-area">
                                 <div className="title-and-tab">
-                                    <h6>{t("BookedListOwner.tabs.hotel.header")}</h6>
+                                    <h6>
+                                        {t("BookedListOwner.tabs.hotel.header")}
+                                    </h6>
                                     <ul
                                         className="nav nav-tabs"
                                         id="myTab2"
@@ -247,7 +286,9 @@ function BookedList() {
                                                 aria-controls="all2"
                                                 aria-selected="true"
                                             >
-                                                {t("BookedListOwner.tabs.hotel.filters.all")}
+                                                {t(
+                                                    "BookedListOwner.tabs.hotel.filters.all"
+                                                )}
                                             </button>
                                         </li>
                                         <li
@@ -264,7 +305,9 @@ function BookedList() {
                                                 aria-controls="complite2"
                                                 aria-selected="false"
                                             >
-                                                {t("BookedListOwner.tabs.hotel.filters.booked")}
+                                                {t(
+                                                    "BookedListOwner.tabs.hotel.filters.booked"
+                                                )}
                                             </button>
                                         </li>
                                         <li
@@ -281,7 +324,9 @@ function BookedList() {
                                                 aria-controls="processing2"
                                                 aria-selected="false"
                                             >
-                                                {t("BookedListOwner.tabs.hotel.filters.processing")}
+                                                {t(
+                                                    "BookedListOwner.tabs.hotel.filters.processing"
+                                                )}
                                             </button>
                                         </li>
                                         <li
@@ -298,7 +343,9 @@ function BookedList() {
                                                 aria-controls="cancell2"
                                                 aria-selected="false"
                                             >
-                                                {t("BookedListOwner.tabs.hotel.filters.cancelled")}
+                                                {t(
+                                                    "BookedListOwner.tabs.hotel.filters.cancelled"
+                                                )}
                                             </button>
                                         </li>
                                     </ul>
@@ -314,27 +361,61 @@ function BookedList() {
                                             <table className="eg-table2">
                                                 <thead>
                                                     <tr>
-                                                        <th>{t("BookedListOwner.tabs.hotel.tableHeaders.bookingId")}</th>
-                                                        <th>{t("BookedListOwner.tabs.hotel.tableHeaders.contact")}</th>
-                                                        <th>{t("BookedListOwner.tabs.hotel.tableHeaders.totalPrice")}</th>
-                                                        <th>{t("BookedListOwner.tabs.hotel.tableHeaders.payment")}</th>
-                                                        <th>{t("BookedListOwner.tabs.hotel.tableHeaders.status")}</th>
-                                                        <th>{t("BookedListOwner.tabs.hotel.tableHeaders.time")}</th>
-                                                        <th>{t("BookedListOwner.tabs.hotel.tableHeaders.actions")}</th>
+                                                        <th>
+                                                            {t(
+                                                                "BookedListOwner.tabs.hotel.tableHeaders.bookingId"
+                                                            )}
+                                                        </th>
+                                                        <th>
+                                                            {t(
+                                                                "BookedListOwner.tabs.hotel.tableHeaders.contact"
+                                                            )}
+                                                        </th>
+                                                        <th>
+                                                            {t(
+                                                                "BookedListOwner.tabs.hotel.tableHeaders.totalPrice"
+                                                            )}
+                                                        </th>
+                                                        <th>
+                                                            {t(
+                                                                "BookedListOwner.tabs.hotel.tableHeaders.payment"
+                                                            )}
+                                                        </th>
+                                                        <th>
+                                                            {t(
+                                                                "BookedListOwner.tabs.hotel.tableHeaders.status"
+                                                            )}
+                                                        </th>
+                                                        <th>
+                                                            {t(
+                                                                "BookedListOwner.tabs.hotel.tableHeaders.time"
+                                                            )}
+                                                        </th>
+                                                        <th>
+                                                            {t(
+                                                                "BookedListOwner.tabs.hotel.tableHeaders.actions"
+                                                            )}
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {bookingHistory &&
-                                                        bookingHistory.length >
+                                                    bookingHistory.length >
                                                         0 ? (
                                                         currentItems.map(
                                                             (
                                                                 booking,
                                                                 index
                                                             ) => (
-                                                                <tr key={index}>
+                                                                <tr
+                                                                    key={
+                                                                        booking.id
+                                                                    }
+                                                                >
                                                                     <td
-                                                                        data-label={t("BookedListOwner.tabs.hotel.tableHeaders.bookingId")}
+                                                                        data-label={t(
+                                                                            "BookedListOwner.tabs.hotel.tableHeaders.bookingId"
+                                                                        )}
                                                                         style={{
                                                                             width: "30%",
                                                                         }}
@@ -362,14 +443,23 @@ function BookedList() {
                                                                                 </h6>
                                                                                 <p className="mb-1">
                                                                                     <span>
-                                                                                        {t("BookedListOwner.tabs.hotel.labels.code")}:{" "}:{" "}
+                                                                                        {t(
+                                                                                            "BookedListOwner.tabs.hotel.labels.code"
+                                                                                        )}
+
+                                                                                        :{" "}
+                                                                                        :{" "}
                                                                                         {
                                                                                             booking.id
                                                                                         }
                                                                                     </span>
                                                                                 </p>
                                                                                 <span>
-                                                                                    {t("BookedListOwner.tabs.hotel.labels.guest")}:{" "}
+                                                                                    {t(
+                                                                                        "BookedListOwner.tabs.hotel.labels.guest"
+                                                                                    )}
+
+                                                                                    :{" "}
                                                                                     <strong>
                                                                                         {
                                                                                             booking.bookingName
@@ -380,7 +470,11 @@ function BookedList() {
                                                                         </div>
                                                                     </td>
 
-                                                                    <td data-label={t("BookedListOwner.tabs.hotel.tableHeaders.contact")}>
+                                                                    <td
+                                                                        data-label={t(
+                                                                            "BookedListOwner.tabs.hotel.tableHeaders.contact"
+                                                                        )}
+                                                                    >
                                                                         <div className="d-flex flex-column">
                                                                             <span className="mb-1">
                                                                                 {
@@ -394,20 +488,30 @@ function BookedList() {
                                                                             </span>
                                                                         </div>
                                                                     </td>
-                                                                    <td data-label={t("BookedListOwner.tabs.hotel.tableHeaders.totalPrice")}>
+                                                                    <td
+                                                                        data-label={t(
+                                                                            "BookedListOwner.tabs.hotel.tableHeaders.totalPrice"
+                                                                        )}
+                                                                    >
                                                                         {convertToVND(
                                                                             booking.price
                                                                         )}
                                                                     </td>
                                                                     <td
                                                                         className="text-primary"
-                                                                        data-label={t("BookedListOwner.tabs.hotel.tableHeaders.payment")}
+                                                                        data-label={t(
+                                                                            "BookedListOwner.tabs.hotel.tableHeaders.payment"
+                                                                        )}
                                                                     >
                                                                         {
                                                                             booking.paymentType
                                                                         }{" "}
                                                                     </td>
-                                                                    <td data-label={t("BookedListOwner.tabs.hotel.tableHeaders.status")}>
+                                                                    <td
+                                                                        data-label={t(
+                                                                            "BookedListOwner.tabs.hotel.tableHeaders.status"
+                                                                        )}
+                                                                    >
                                                                         <span class="confirmed">
                                                                             {" "}
                                                                             {
@@ -415,7 +519,11 @@ function BookedList() {
                                                                             }
                                                                         </span>
                                                                     </td>
-                                                                    <td data-label={t("BookedListOwner.tabs.hotel.tableHeaders.time")}>
+                                                                    <td
+                                                                        data-label={t(
+                                                                            "BookedListOwner.tabs.hotel.tableHeaders.time"
+                                                                        )}
+                                                                    >
                                                                         {moment(
                                                                             booking.checkinDate
                                                                         ).format(
@@ -428,56 +536,110 @@ function BookedList() {
                                                                             "DD/MM/YYYY"
                                                                         )}
                                                                     </td>
-                                                                    <td data-label={t("BookedListOwner.tabs.hotel.tableHeaders.review")}>
+                                                                    <td
+                                                                        data-label={t(
+                                                                            "BookedListOwner.tabs.hotel.tableHeaders.review"
+                                                                        )}
+                                                                    >
                                                                         {booking.reviewed ===
-                                                                            false ? (
+                                                                        false ? (
                                                                             <strong className="text-primary">
-                                                                                {t("BookedListOwner.tabs.hotel.labels.notReviewed")}
+                                                                                {t(
+                                                                                    "BookedListOwner.tabs.hotel.labels.notReviewed"
+                                                                                )}
                                                                             </strong>
                                                                         ) : (
                                                                             <strong className="text-warning">
-                                                                                {t("BookedListOwner.tabs.hotel.labels.reviewed")}
+                                                                                {t(
+                                                                                    "BookedListOwner.tabs.hotel.labels.reviewed"
+                                                                                )}
                                                                             </strong>
                                                                         )}
                                                                     </td>
                                                                     <td data-label="#">
-                                                                        {new Date(
-                                                                            booking.checkinDate
-                                                                        ) >
-                                                                            new Date() &&
-                                                                            booking.status !==
-                                                                                "CANCELLED" && (
-                                                                                <button
-                                                                                    onClick={() =>
-                                                                                        handleCancelBooking(
-                                                                                            booking.id
-                                                                                        )
-                                                                                    }
-                                                                                    className="secondary-btn2 p-3 py-2"
-                                                                                    style={{
-                                                                                        fontSize:
-                                                                                            "14px",
-                                                                                    }}
-                                                                                >
-                                                                                    Huỷ
-                                                                                    đơn
-                                                                                </button>
-                                                                            )}
+                                                                        <div className="d-flex justify-content-center align-items-center">
+                                                                            <span>
+                                                                                {/* Hiển thị nút "Duyệt" khi trạng thái là "PENDING" */}
+                                                                                {booking.status ===
+                                                                                    "PENDING" &&
+                                                                                    booking.status !==
+                                                                                        "CANCELLED" && (
+                                                                                        <button
+                                                                                            className="primary-btn3 p-3 py-2 me-2"
+                                                                                            style={{
+                                                                                                fontSize:
+                                                                                                    "14px",
+                                                                                                marginLeft:
+                                                                                                    "10px",
+                                                                                            }}
+                                                                                            onClick={() =>
+                                                                                                handleConfirmedBooking(
+                                                                                                    booking.id
+                                                                                                )
+                                                                                            }
+                                                                                        >
+                                                                                            Duyệt
+                                                                                        </button>
+                                                                                    )}
+                                                                                {/* Hiển thị trạng thái "Đã duyệt" khi trạng thái là "CONFIRMED" */}
+                                                                                {booking.status ===
+                                                                                    "CONFIRMED" && (
+                                                                                    <strong
+                                                                                        className="confirmed-status"
+                                                                                        style={{
+                                                                                            color: "green",
+                                                                                            fontSize:
+                                                                                                "14px",
+                                                                                        }}
+                                                                                    >
+                                                                                        Đã
+                                                                                        duyệt
+                                                                                    </strong>
+                                                                                )}
+                                                                            </span>
 
-                                                                        {booking.status ===
-                                                                            "CANCELLED" && (
-                                                                            <strong
-                                                                                className="cancelled-status"
-                                                                                style={{
-                                                                                    color: "red",
-                                                                                    fontSize:
-                                                                                        "14px",
-                                                                                }}
-                                                                            >
-                                                                                Đã
-                                                                                hủy
-                                                                            </strong>
-                                                                        )}
+                                                                            <span>
+                                                                                {/* Hiển thị nút "Huỷ" khi trạng thái là chưa huỷ */}
+                                                                                {new Date(
+                                                                                    booking.checkinDate
+                                                                                ) >
+                                                                                    new Date() &&
+                                                                                    booking.status !==
+                                                                                        "CANCELLED" && (
+                                                                                        <button
+                                                                                            onClick={() =>
+                                                                                                handleCancelBooking(
+                                                                                                    booking.id
+                                                                                                )
+                                                                                            }
+                                                                                            className="secondary-btn2 p-3 py-2"
+                                                                                            style={{
+                                                                                                fontSize:
+                                                                                                    "14px",
+                                                                                            }}
+                                                                                        >
+                                                                                            Huỷ
+                                                                                            đơn
+                                                                                        </button>
+                                                                                    )}
+
+                                                                                {/* Hiển thị trạng thái "Đã huỷ" khi trạng thái là "CANCELLED" */}
+                                                                                {booking.status ===
+                                                                                    "CANCELLED" && (
+                                                                                    <strong
+                                                                                        className="cancelled-status"
+                                                                                        style={{
+                                                                                            color: "red",
+                                                                                            fontSize:
+                                                                                                "14px",
+                                                                                        }}
+                                                                                    >
+                                                                                        Đã
+                                                                                        huỷ
+                                                                                    </strong>
+                                                                                )}
+                                                                            </span>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             )
@@ -496,7 +658,9 @@ function BookedList() {
                                                                                 "1.1rem",
                                                                         }}
                                                                     >
-                                                                        {t("BookedListOwner.tabs.hotel.noData.message")}
+                                                                        {t(
+                                                                            "BookedListOwner.tabs.hotel.noData.message"
+                                                                        )}
                                                                     </strong>
                                                                     <p
                                                                         className=""
@@ -505,7 +669,9 @@ function BookedList() {
                                                                                 "0.9rem",
                                                                         }}
                                                                     >
-                                                                        {t("BookedListOwner.tabs.hotel.noData.description")}
+                                                                        {t(
+                                                                            "BookedListOwner.tabs.hotel.noData.description"
+                                                                        )}
                                                                     </p>
                                                                 </div>
                                                             </td>
@@ -523,11 +689,12 @@ function BookedList() {
                                                                         key={
                                                                             number
                                                                         }
-                                                                        className={`page-item ${currentPage ===
+                                                                        className={`page-item ${
+                                                                            currentPage ===
                                                                             number
-                                                                            ? "active"
-                                                                            : ""
-                                                                            }`}
+                                                                                ? "active"
+                                                                                : ""
+                                                                        }`}
                                                                     >
                                                                         <a
                                                                             style={{
@@ -555,7 +722,7 @@ function BookedList() {
                                                                     }
                                                                     className={
                                                                         currentPage ===
-                                                                            1
+                                                                        1
                                                                             ? "disabled"
                                                                             : ""
                                                                     }
@@ -571,7 +738,9 @@ function BookedList() {
                                                                     >
                                                                         <path d="M0 7.00008L7 0L2.54545 7.00008L7 14L0 7.00008Z"></path>
                                                                     </svg>
-                                                                    {t("BookedListOwner.tabs.hotel.pagination.prev")}
+                                                                    {t(
+                                                                        "BookedListOwner.tabs.hotel.pagination.prev"
+                                                                    )}
                                                                 </a>
                                                             </li>
                                                             <li>
@@ -581,7 +750,7 @@ function BookedList() {
                                                                     }
                                                                     className={
                                                                         currentPage ===
-                                                                            totalPages
+                                                                        totalPages
                                                                             ? "disabled"
                                                                             : ""
                                                                     }
@@ -589,7 +758,9 @@ function BookedList() {
                                                                         cursor: "pointer",
                                                                     }}
                                                                 >
-                                                                    {t("BookedListOwner.tabs.hotel.pagination.next")}
+                                                                    {t(
+                                                                        "BookedListOwner.tabs.hotel.pagination.next"
+                                                                    )}
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg"
                                                                         width="7"
@@ -622,7 +793,11 @@ function BookedList() {
                             >
                                 <div className="recent-listing-area">
                                     <div className="title-and-tab">
-                                        <h6>{t("BookedListOwner.tabs.tour.title")}</h6>
+                                        <h6>
+                                            {t(
+                                                "BookedListOwner.tabs.tour.title"
+                                            )}
+                                        </h6>
                                         <ul
                                             className="nav nav-tabs"
                                             id="myTab"
@@ -642,7 +817,9 @@ function BookedList() {
                                                     aria-controls="all"
                                                     aria-selected="true"
                                                 >
-                                                    {t("BookedListOwner.tabs.tour.tabNames.all")}
+                                                    {t(
+                                                        "BookedListOwner.tabs.tour.tabNames.all"
+                                                    )}
                                                 </button>
                                             </li>
                                             <li
@@ -659,8 +836,9 @@ function BookedList() {
                                                     aria-controls="complite"
                                                     aria-selected="false"
                                                 >
-                                                    {t("BookedListOwner.tabs.tour.tabNames.completed")}
-
+                                                    {t(
+                                                        "BookedListOwner.tabs.tour.tabNames.completed"
+                                                    )}
                                                 </button>
                                             </li>
                                             <li
@@ -677,7 +855,9 @@ function BookedList() {
                                                     aria-controls="processing"
                                                     aria-selected="false"
                                                 >
-                                                    {t("BookedListOwner.tabs.tour.tabNames.processing")}
+                                                    {t(
+                                                        "BookedListOwner.tabs.tour.tabNames.processing"
+                                                    )}
                                                 </button>
                                             </li>
                                             <li
@@ -694,7 +874,9 @@ function BookedList() {
                                                     aria-controls="cancell"
                                                     aria-selected="false"
                                                 >
-                                                    {t("BookedListOwner.tabs.tour.tabNames.cancelled")}
+                                                    {t(
+                                                        "BookedListOwner.tabs.tour.tabNames.cancelled"
+                                                    )}
                                                 </button>
                                             </li>
                                         </ul>
@@ -713,17 +895,45 @@ function BookedList() {
                                                 <table className="eg-table2">
                                                     <thead>
                                                         <tr>
-                                                            <th>{t("BookedListOwner.tabs.tour.tableHeaders.package")}</th>
-                                                            <th>{t("BookedListOwner.tabs.tour.tableHeaders.type")}</th>
-                                                            <th>{t("BookedListOwner.tabs.tour.tableHeaders.tourist")}</th>
-                                                            <th>{t("BookedListOwner.tabs.tour.tableHeaders.price")}</th>
-                                                            <th>{t("BookedListOwner.tabs.tour.tableHeaders.status")}</th>
-                                                            <th>{t("BookedListOwner.tabs.tour.tableHeaders.timeline")}</th>
+                                                            <th>
+                                                                {t(
+                                                                    "BookedListOwner.tabs.tour.tableHeaders.package"
+                                                                )}
+                                                            </th>
+                                                            <th>
+                                                                {t(
+                                                                    "BookedListOwner.tabs.tour.tableHeaders.type"
+                                                                )}
+                                                            </th>
+                                                            <th>
+                                                                {t(
+                                                                    "BookedListOwner.tabs.tour.tableHeaders.tourist"
+                                                                )}
+                                                            </th>
+                                                            <th>
+                                                                {t(
+                                                                    "BookedListOwner.tabs.tour.tableHeaders.price"
+                                                                )}
+                                                            </th>
+                                                            <th>
+                                                                {t(
+                                                                    "BookedListOwner.tabs.tour.tableHeaders.status"
+                                                                )}
+                                                            </th>
+                                                            <th>
+                                                                {t(
+                                                                    "BookedListOwner.tabs.tour.tableHeaders.timeline"
+                                                                )}
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td data-label={t("BookedListOwner.tabs.tour.tableHeaders.package")}>
+                                                            <td
+                                                                data-label={t(
+                                                                    "BookedListOwner.tabs.tour.tableHeaders.package"
+                                                                )}
+                                                            >
                                                                 <div className="product-name">
                                                                     <div className="img">
                                                                         <img
@@ -759,14 +969,45 @@ function BookedList() {
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td data-label={t("BookedListOwner.tabs.tour.tableHeaders.type")}>Group</td>
-                                                            <td data-label={t("BookedListOwner.tabs.tour.tableHeaders.tourist")}>3 person</td>
-                                                            <td data-label={t("BookedListOwner.tabs.tour.tableHeaders.price")}>$720.00</td>
-                                                            <td data-label={t("BookedListOwner.tabs.tour.tableHeaders.status")}>
-                                                                <span className="confirmed">{t("BookedListOwner.tabs.tour.labels.confirmed")}</span>
+                                                            <td
+                                                                data-label={t(
+                                                                    "BookedListOwner.tabs.tour.tableHeaders.type"
+                                                                )}
+                                                            >
+                                                                Group
                                                             </td>
-                                                            <td data-label={t("BookedListOwner.tabs.tour.tableHeaders.timeline")}>
-                                                                July 10, 2023 - July 14, 2023
+                                                            <td
+                                                                data-label={t(
+                                                                    "BookedListOwner.tabs.tour.tableHeaders.tourist"
+                                                                )}
+                                                            >
+                                                                3 person
+                                                            </td>
+                                                            <td
+                                                                data-label={t(
+                                                                    "BookedListOwner.tabs.tour.tableHeaders.price"
+                                                                )}
+                                                            >
+                                                                $720.00
+                                                            </td>
+                                                            <td
+                                                                data-label={t(
+                                                                    "BookedListOwner.tabs.tour.tableHeaders.status"
+                                                                )}
+                                                            >
+                                                                <span className="confirmed">
+                                                                    {t(
+                                                                        "BookedListOwner.tabs.tour.labels.confirmed"
+                                                                    )}
+                                                                </span>
+                                                            </td>
+                                                            <td
+                                                                data-label={t(
+                                                                    "BookedListOwner.tabs.tour.tableHeaders.timeline"
+                                                                )}
+                                                            >
+                                                                July 10, 2023 -
+                                                                July 14, 2023
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -794,13 +1035,16 @@ function BookedList() {
                                                                 >
                                                                     <path d="M0 7.00008L7 0L2.54545 7.00008L7 14L0 7.00008Z"></path>
                                                                 </svg>
-                                                                {t("BookedListOwner.tabs.hotel.pagination.prev")}
-
+                                                                {t(
+                                                                    "BookedListOwner.tabs.hotel.pagination.prev"
+                                                                )}
                                                             </a>
                                                         </li>
                                                         <li>
                                                             <a href="#">
-                                                            {t("BookedListOwner.tabs.hotel.pagination.next")}
+                                                                {t(
+                                                                    "BookedListOwner.tabs.hotel.pagination.next"
+                                                                )}
 
                                                                 <svg
                                                                     xmlns="http://www.w3.org/2000/svg"

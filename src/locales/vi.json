@@ -450,7 +450,7 @@
         "SEA": "Biển"
     },
     "errorToBook": "Bạn vui lòng kiểm tra lại việc thanh toán đơn đặt phòng.",
-
+    "numberOfRooms": "Số lượng phòng",
     "backHomeBtn": "Quay lại trang chủ",
     "thanksToBook": "Cảm ơn bạn đã đặt phòng với chúng tôi. Chúng tôi rất vui khi được phục vụ bạn.",
     "paymentProcess": "Đang xử lý thanh toán, vui lòng đợi",
@@ -1012,7 +1012,8 @@
             "capacity": "Số người",
             "status": "Trạng thái",
             "reviews": "Lượt đánh giá",
-            "actions": "Hành động"
+            "actions": "Hành động",
+            "numOfBookings": "Số lượng đã đặt"
         },
         "status": {
             "available": "Còn phòng",

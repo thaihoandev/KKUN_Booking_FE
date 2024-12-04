@@ -5,9 +5,7 @@ import * as HotelService from "../../../../services/HotelService";
 import * as UserService from "../../../../services/UserService";
 import { useTranslation } from "react-i18next";
 
-
 function HotelList() {
-
     const { t } = useTranslation();
     const [hotels, setHotels] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -99,7 +97,9 @@ function HotelList() {
                                 <tbody>
                                     {currentHotels.map((hotel, index) => (
                                         <tr>
-                                            <td data-label={t("hotelList.name")}>
+                                            <td
+                                                data-label={t("hotelList.name")}
+                                            >
                                                 <div class="product-name">
                                                     <div class="img">
                                                         <img
@@ -107,7 +107,10 @@ function HotelList() {
                                                                 objectFit:
                                                                     "cover",
                                                             }}
-                                                            src={hotel.exteriorImages[0]}
+                                                            src={
+                                                                hotel
+                                                                    .exteriorImages[0]
+                                                            }
                                                             alt=""
                                                         />
                                                     </div>
@@ -143,9 +146,11 @@ function HotelList() {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td data-label={t(
-                                                "hotelList.category"
-                                            )}>
+                                            <td
+                                                data-label={t(
+                                                    "hotelList.category"
+                                                )}
+                                            >
                                                 {hotel.categoryDisplayName}
                                             </td>
                                             <td
@@ -167,20 +172,26 @@ function HotelList() {
                                                     "hotelList.status"
                                                 )}
                                             >
-                                                <span className="confirmed"
+                                                <span
+                                                    className="confirmed"
                                                     style={{
-                                                        color: hotel.stat ? "green" : "red",
+                                                        color: hotel.status
+                                                            ? "green"
+                                                            : "red",
                                                         //fontWeight: "bold",
                                                     }}
                                                 >
-                                                    {hotel.stat
+                                                    {hotel.status
                                                         ? t("hotelList.active")
-                                                        : t("hotelList.inactive")}
+                                                        : t(
+                                                              "hotelList.inactive"
+                                                          )}
                                                 </span>
                                             </td>
-                                            <td data-label={t(
-                                                "hotelList.action"
-                                            )}
+                                            <td
+                                                data-label={t(
+                                                    "hotelList.action"
+                                                )}
                                             >
                                                 {/* <button
                                                     // onClick={() => {
@@ -202,7 +213,6 @@ function HotelList() {
                                                 >
                                                     <i class="bi bi-trash"></i>
                                                 </button> */}
-
                                             </td>
                                         </tr>
                                     ))}
@@ -214,10 +224,11 @@ function HotelList() {
                                     {[...Array(totalPages)].map((_, i) => (
                                         <li
                                             key={i + 1}
-                                            className={`page-item ${currentPage === i + 1
-                                                ? "active"
-                                                : ""
-                                                }`}
+                                            className={`page-item ${
+                                                currentPage === i + 1
+                                                    ? "active"
+                                                    : ""
+                                            }`}
                                             onClick={() =>
                                                 handlePageChange(i + 1)
                                             }
