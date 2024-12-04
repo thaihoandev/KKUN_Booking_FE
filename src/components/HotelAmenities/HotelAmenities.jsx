@@ -40,7 +40,8 @@ const HotelAmenities = ({ amenities }) => {
                         className="text-lg font-semibold mb-1 "
                         style={{ color: "#63ab45" }}
                     >
-                        {t(`amenityTypes.${amenityType}`)}{" "}
+                        {t(`amenityTypes.${amenityType}`, amenityType)}{" "}
+                        {/* {t(`amenityTypes.${amenityType}`)}{" "} */}
                         {/* Lấy tên từ i18n */}
                     </h5>
 
@@ -51,16 +52,28 @@ const HotelAmenities = ({ amenities }) => {
                                 className="flex items-center gap-2 mb-2"
                             >
                                 <i
-                                    className={`bi ${AmenityType[amenityType].icon} text-lg`}
+                                    className={`bi ${AmenityType[amenityType]?.icon || "bi-question"} text-lg`}
+                                // className={`bi ${AmenityType[amenityType].icon} text-lg`}
                                 ></i>
                                 <span className="px-2">
+                                   
+
                                     {t(
-                                        `amenities.${removeDiacritics(
+                                        //  `${amenity.name}`
+                                        `${removeDiacritics(
                                             amenity.name
                                         )
                                             .toLowerCase()
-                                            .replace(/\s+/g, "_")
-                                            .replace("/", "_")}`
+                                            .replace(/\s+/g, " ")
+                                            .replace("/", "")}`
+
+
+                                        // `amenities.${removeDiacritics(
+                                        //     amenity.name
+                                        // )
+                                        //     .toLowerCase()
+                                        //     .replace(/\s+/g, "_")
+                                        //     .replace("/", "_")}`
                                     )}
                                 </span>
                             </li>

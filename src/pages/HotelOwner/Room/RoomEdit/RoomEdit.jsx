@@ -10,8 +10,11 @@ import * as AmenityService from "../../../../services/AmenityService";
 import NiceSelect from "../../../../components/NiceSelect/NiceSelect";
 import MultiImageUploader from "../../../../components/UploadImage/MultiImageUploader/MultiImageUploader";
 import { createRoomSchema } from "../../../../schemas/validationSchemas";
+import { useTranslation } from "react-i18next";
 
 function RoomEdit() {
+
+    const { t } = useTranslation();
     const { roomId } = useParams();
     const [roomTypes, setRoomTypes] = useState([]);
     const [bedTypes, setBedTypes] = useState([]);
@@ -47,7 +50,7 @@ function RoomEdit() {
                 setValue("roomArea", data.area);
             },
             onError: (error) =>
-                toast.error(error.message || "Lỗi khi tải dữ liệu phòng."),
+                toast.error(t("RoomEdit.labels.fetchError")),
         }
     );
 
@@ -55,11 +58,11 @@ function RoomEdit() {
         (data) => RoomService.updateRoom(roomId, data, user.accessToken),
         {
             onSuccess: () => {
-                toast.success("Cập nhật phòng thành công!");
+                toast.success(t("RoomEdit.labels.updateSuccess"));
                 navigate("/hotelowner/my-rooms");
             },
             onError: (error) =>
-                toast.error(error.message || "Cập nhật thất bại."),
+                toast.error(t("RoomEdit.labels.updateError")),
         }
     );
 
@@ -67,7 +70,7 @@ function RoomEdit() {
         () => RoomService.deleteRoom(roomId, user.accessToken),
         {
             onSuccess: () => {
-                toast.success("Xóa phòng thành công!");
+                toast.success(t("RoomEdit.labels.deleteSuccess"));
                 navigate("/hotelowner/my-rooms");
             },
             onError: (error) => {
@@ -75,7 +78,7 @@ function RoomEdit() {
                     "Delete Room Error:",
                     error.response?.data || error.message
                 );
-                toast.error(error.response?.data || "Lỗi khi xóa phòng.");
+                toast.error(t("RoomEdit.labels.deleteError"));
             },
         }
     );
@@ -87,28 +90,6 @@ function RoomEdit() {
                 : [...prevSelected, facility]
         );
     };
-
-    // useEffect(() => {
-    //     mutationRoomDetail.mutate();
-    //     AmenityService.getAllAmenitiesForRoom().then(setFacilities);
-    //     RoomService.getRoomTypes().then(setRoomTypes);
-    //     RoomService.getBedTypes().then(setBedTypes);
-    // }, [roomId]);
-
-    // const handleDelete = () => {
-    //     console.log("Room ID:", roomId);
-    //     console.log("Access Token:", user.accessToken);
-
-    //     if (window.confirm("Bạn có chắc chắn muốn xóa phòng này?")) {
-    //         mutationDeleteRoom.mutate();
-    //     }
-    // };
-
-    // const accessToken = user.accessToken;
-    // if (!accessToken) {
-    //     toast.error("Không tìm thấy access token. Vui lòng đăng nhập lại.");
-    //     return;
-    // }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -123,7 +104,7 @@ function RoomEdit() {
                 setBedTypes(bedTypes);
             } catch (error) {
                 console.error("Error fetching data:", error);
-                toast.error("Lỗi khi tải dữ liệu!");
+                toast.error(t("RoomEdit.labels.fetchError"));
             }
         };
 
@@ -134,14 +115,14 @@ function RoomEdit() {
         console.log("Room ID:", roomId);
         console.log("Access Token:", user.accessToken);
 
-        if (window.confirm("Bạn có chắc chắn muốn xóa phòng này?")) {
+        if (window.confirm(t("RoomEdit.labels.deleteConfirm"))) {
             mutationDeleteRoom.mutate();
         }
     };
 
     const accessToken = user.accessToken;
     if (!accessToken) {
-        toast.error("Không tìm thấy access token. Vui lòng đăng nhập lại.");
+        toast.error(t("RoomEdit.labels.missingAccessToken"));
         navigate("/login");
         return null; // Ngừng render component
     }
@@ -162,17 +143,6 @@ function RoomEdit() {
             formData.append("roomImageList", image);
         });
 
-        // Log dữ liệu của FormData
-        // console.log("FormData Contents:");
-        // for (let [key, value] of formData.entries()) {
-        //     if (value instanceof File) {
-        //         console.log(`${key}: File Name - ${value.name}`);
-        //     } else {
-        //         console.log(`${key}:`, value);
-        //     }
-        // }
-
-        // Gửi dữ liệu sau khi log
         mutationUpdateRoom.mutate(formData);
     };
 
@@ -184,14 +154,14 @@ function RoomEdit() {
                     <div className="row">
                         <div className="col-xl-12">
                             <div className="main-content-title-profile mb-30">
-                                <h3>Thông tin phòng</h3>
+                                <h3>{t("RoomEdit.title")}</h3>
                             </div>
                             <div className="dashboard-profile-wrapper two">
                                 <div className="dashboard-profile-tab-content">
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <div className="row">
                                             <div className="form-inner mb-30 col-6">
-                                                <label>Loại phòng</label>
+                                                <label>{t("RoomEdit.labels.roomType")}</label>
                                                 <Controller
                                                     name="roomType"
                                                     control={control}
@@ -222,9 +192,9 @@ function RoomEdit() {
                                                     </p>
                                                 )}
                                             </div>
-
+                                            {/*  */}
                                             <div className="form-inner mb-30 col-6">
-                                                <label>Loại giường</label>
+                                                <label>{t("RoomEdit.labels.bedType")}</label>
                                                 <Controller
                                                     name="bedType"
                                                     control={control}
@@ -254,10 +224,10 @@ function RoomEdit() {
                                             </div>
 
                                             <div className="form-inner mb-30 col-6">
-                                                <label>Giá gốc</label>
+                                                <label>{t("RoomEdit.labels.originalPrice")}c</label>
                                                 <input
-                                                    type="text"
-                                                    placeholder="Nhập giá gốc..."
+                                                   type="text"
+                                                   placeholder={t("RoomEdit.placeholders.enterOriginalPrice")}
                                                     {...register(
                                                         "originalPrice"
                                                     )}
@@ -273,10 +243,10 @@ function RoomEdit() {
                                             </div>
 
                                             <div className="form-inner mb-30 col-6">
-                                                <label>Giá giảm</label>
-                                                <input
+                                            <label>{t("RoomEdit.labels.discountedPrice")}</label>
+                                            <input
                                                     type="text"
-                                                    placeholder="Nhập giá giảm..."
+                                                    placeholder={t("RoomEdit.placeholders.enterDiscountedPrice")}
                                                     {...register(
                                                         "discountedPrice"
                                                     )}
@@ -293,10 +263,10 @@ function RoomEdit() {
                                             </div>
 
                                             <div className="form-inner mb-30 col-6">
-                                                <label>Số người (Tối đa)</label>
-                                                <input
+                                            <label>{t("RoomEdit.labels.maxOccupancy")}</label>
+                                            <input
                                                     type="number"
-                                                    placeholder="Nhập số lượng người..."
+                                                    placeholder={t("RoomEdit.placeholders.enterMaxOccupancy")}
                                                     {...register(
                                                         "maxOccupancy"
                                                     )}
@@ -312,11 +282,10 @@ function RoomEdit() {
                                             </div>
 
                                             <div className="form-inner mb-30 col-6">
-                                                <label>Diện tích</label>
+                                            <label>{t("RoomEdit.labels.roomArea")}</label>
                                                 <input
                                                     type="number"
-                                                    placeholder="Nhập diện tích phòng..."
-                                                    {...register("roomArea")}
+                                                    placeholder={t("RoomEdit.placeholders.enterRoomArea")}                                                    {...register("roomArea")}
                                                 />
                                                 {errors.roomArea && (
                                                     <p className="text-danger">
@@ -328,8 +297,8 @@ function RoomEdit() {
                                                 )}
                                             </div>
                                             <div className="mb-30 col-12">
-                                                <strong>Tiện ích</strong>
-                                                <div className="row border rounded m-0 p-2 bg-white">
+                                            <strong>{t("RoomEdit.labels.facilities")}</strong>
+                                                <div className="row border rounded m-0 mt-1 p-2 bg-white">
                                                     {facilities.map(
                                                         (facility) => (
                                                             <div
@@ -393,7 +362,7 @@ function RoomEdit() {
                                                             navigate(-1)
                                                         }
                                                     >
-                                                        Trở lại
+                                                        {t("RoomEdit.buttons.back")}
                                                     </button>
                                                 </div>
 
@@ -402,14 +371,14 @@ function RoomEdit() {
                                                         type="submit"
                                                         className="primary-btn3 me-3"
                                                     >
-                                                        Cập nhật
+                                                        {t("RoomEdit.buttons.update")}
                                                     </button>
                                                     <button
                                                         type="button"
                                                         className="primary-btn3"
                                                         onClick={handleDelete}
                                                     >
-                                                        Xóa
+                                                       {t("RoomEdit.buttons.delete")}
                                                     </button>
                                                 </div>
                                             </div>

@@ -1,8 +1,11 @@
 import React, { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import { useDropzone } from "react-dropzone";
+import { useTranslation } from "react-i18next";
 
 function ImageUploader({ onImageSelect }) {
+
+    const { t } = useTranslation();
     const [preview, setPreview] = useState(null);
 
     const onDrop = useCallback(
@@ -10,7 +13,7 @@ function ImageUploader({ onImageSelect }) {
             if (rejectedFiles.length > 0) {
                 const error = rejectedFiles[0].errors[0];
                 if (error.code === "file-too-large") {
-                    toast.error("Kích thước ảnh vượt quá giới hạn 3MB");
+                    toast.error(t("imageUploader.error.fileTooLarge"));
                 }
                 return;
             }
@@ -54,7 +57,7 @@ function ImageUploader({ onImageSelect }) {
                 <input {...getInputProps()} />
                 <div className="drag-area">
                     {isDragActive ? (
-                        <p>Thả ảnh tại đây...</p>
+                        <p>{t("imageUploader.dragActive")}</p>
                     ) : (
                         <button type="button" className="upload-btn">
                             <i className="bi bi-plus-lg"></i>
@@ -63,8 +66,8 @@ function ImageUploader({ onImageSelect }) {
                 </div>
             </div>
             <div className="upload-img-area-content">
-                <h6>Tải ảnh đại diện</h6>
-                <p>Yêu cầu ảnh 300*300, định dạng JPEG hoặc PNG.</p>
+                <h6>{t("imageUploader.title")}</h6>
+                <p>{t("imageUploader.description")}</p>
             </div>
         </div>
     );

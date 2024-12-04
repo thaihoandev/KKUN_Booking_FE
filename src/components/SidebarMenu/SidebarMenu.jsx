@@ -23,7 +23,13 @@ function SidebarMenu({ menuItems }) {
                     }
                 });
             }
-            if (currentPath.includes(item.path) && item.path !== "#") {
+            // if (currentPath.includes(item.path) && item.path !== "#") {
+            //     setActiveItem(item.key);
+            //     foundActive = true;
+            // }
+
+            // xác định item active mở submenu
+            if (!foundActive && currentPath.includes(item.path) && item.path !== "#") {
                 setActiveItem(item.key);
                 foundActive = true;
             }

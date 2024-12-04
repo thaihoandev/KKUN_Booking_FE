@@ -114,3 +114,22 @@ export const updateAmenity = async (amenityId, data, accessToken) => {
         }
     }
 };
+// export const deleteAmenity = async (amenityId, accessToken) => {
+//     try {
+//         const response = await axios.delete(
+//             `${process.env.REACT_APP_BASE_API_URL}/amenities/${amenityId}`,
+//             {
+//                 headers: {
+//                     Authorization: `Bearer ${accessToken}`,
+//                 },
+//             }
+//         );
+//         return response.data;
+//     } catch (error) {
+//         if (error.response && error.response.data) {
+//             throw new Error(error.response.data);
+//         } else {
+//             throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
+//         }
+//     }
+// };

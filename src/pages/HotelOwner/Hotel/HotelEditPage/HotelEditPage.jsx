@@ -13,33 +13,45 @@ function HotelEditPage() {
     const { hotelId } = useParams(); // Lấy hotelId từ URL
     const [hotelDetails, setHotelDetails] = useState({});
     const [roomDetails, setRoomDetails] = useState({});
-    const [location, setLocation] = useState();
+    const [location, setLocation] = useState({});
     const [activeTab, setActiveTab] = useState("property");
 
     useEffect(() => {
-        // Lấy thông tin khách sạn hiện tại để điền vào form
         async function fetchHotelDetails() {
             try {
                 const response = await HotelService.getHotelById(hotelId);
+                console.log("Dữ liệu khách sạn nhận được:", response);  // Log phản hồi từ API
+    
                 setHotelDetails(response);
                 setLocation(response.location);
                 setRoomDetails(response.rooms[0] || {});
+    
             } catch (error) {
                 console.error("Không thể tải thông tin khách sạn:", error);
-                toast.error("Lỗi khi tải dữ liệu khách sạn");
+    
+                // Log thêm chi tiết lỗi
+                if (error.response) {
+                    console.log("Lỗi từ API:", error.response.data);
+                    console.log("Mã lỗi API:", error.response.status);
+                    toast.error(`Lỗi API: ${error.response.status} - ${error.response.data.message}`);
+                } else if (error.request) {
+                    console.log("Không nhận được phản hồi từ máy chủ:", error.request);
+                    toast.error("Không nhận được phản hồi từ máy chủ");
+                } else {
+                    console.log("Lỗi trong quá trình gửi yêu cầu:", error.message);
+                    toast.error(`Lỗi kết nối: ${error.message}`);
+                }
             }
         }
+
         fetchHotelDetails();
     }, [hotelId]);
+    
 
     // Hàm xử lý cập nhật
     const handleUpdate = async () => {
         try {
-            await HotelService.updateHotel(
-                hotelId,
-                hotelDetails,
-                user.accessToken
-            );
+            await HotelService.updateHotel(hotelId, hotelDetails, user.accessToken);
             toast.success("Cập nhật thành công");
         } catch (error) {
             toast.error("Cập nhật thất bại");
@@ -67,18 +79,10 @@ function HotelEditPage() {
                     </div>
                     <div className="dashboard-profile-wrapper">
                         <div className="dashboard-profile-nav h-100">
-                            <ul
-                                className="nav flex-column nav-pills"
-                                id="pills-tab"
-                                role="tablist"
-                            >
+                            <ul className="nav flex-column nav-pills" id="pills-tab" role="tablist">
                                 <li className="nav-item" role="presentation">
                                     <button
-                                        className={`nav-link ${
-                                            activeTab === "property"
-                                                ? "active"
-                                                : ""
-                                        }`}
+                                        className={`nav-link ${activeTab === "property" ? "active" : ""}`}
                                         onClick={() => setActiveTab("property")}
                                     >
                                         Thông tin khách sạn
@@ -86,71 +90,38 @@ function HotelEditPage() {
                                 </li>
                                 <li className="nav-item" role="presentation">
                                     <button
-                                        className={`nav-link ${
-                                            activeTab === "location"
-                                                ? "active"
-                                                : ""
-                                        }`}
+                                        className={`nav-link ${activeTab === "location" ? "active" : ""}`}
                                         onClick={() => setActiveTab("location")}
                                     >
                                         Vị trí chi tiết
                                     </button>
                                 </li>
-
                                 <li className="nav-item" role="presentation">
                                     <button
-                                        className={`nav-link ${
-                                            activeTab === "confirmation-submit"
-                                                ? "active"
-                                                : ""
-                                        }`}
-                                        onClick={() =>
-                                            setActiveTab("confirmation-submit")
-                                        }
+                                        className={`nav-link ${activeTab === "confirmation-submit" ? "active" : ""}`}
+                                        onClick={() => setActiveTab("confirmation-submit")}
                                     >
                                         Cập nhật
                                     </button>
                                 </li>
                             </ul>
                         </div>
-                        <div
-                            className="tab-content w-100"
-                            id="pills-tabContent"
-                        >
-                            <div
-                                className={`tab-pane fade ${
-                                    activeTab === "property"
-                                        ? "active show"
-                                        : ""
-                                }`}
-                            >
+                        <div className="tab-content w-100" id="pills-tabContent">
+                            <div className={`tab-pane fade ${activeTab === "property" ? "active show" : ""}`}>
                                 <PropertyInfo
                                     hotelDetails={hotelDetails}
                                     setHotelDetails={setHotelDetails}
                                     onNext={handleNextTab}
                                 />
                             </div>
-                            <div
-                                className={`tab-pane fade ${
-                                    activeTab === "location"
-                                        ? "active show"
-                                        : ""
-                                }`}
-                            >
+                            <div className={`tab-pane fade ${activeTab === "location" ? "active show" : ""}`}>
                                 <LocationDetails
                                     location={location}
                                     setLocation={setLocation}
                                     onNext={handleNextTab}
                                 />
                             </div>
-
-                            <div
-                                className={`tab-pane fade ${
-                                    activeTab === "confirmation-submit"
-                                        ? "active show"
-                                        : ""
-                                }`}
-                            >
+                            <div className={`tab-pane fade ${activeTab === "confirmation-submit" ? "active show" : ""}`}>
                                 <ConfirmationRegisterHotelOwner
                                     hotelDetails={hotelDetails}
                                     location={location}
@@ -167,3 +138,4 @@ function HotelEditPage() {
 }
 
 export default HotelEditPage;
+

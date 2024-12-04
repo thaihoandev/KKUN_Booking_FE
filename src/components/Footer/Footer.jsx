@@ -1,8 +1,18 @@
-import React from "react";
+//import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import React, { useState } from 'react'; // Đảm bảo import useState
+
+
 
 const Footer = () => {
     const { t } = useTranslation();
+    const [activeMenu, setActiveMenu] = useState("/"); // Mặc định là trang chủ
+
+    const handleMenuClick = (menu) => {
+        setActiveMenu(menu); // Cập nhật activeMenu khi menu được click
+    };
+
 
     return (
         <>
@@ -10,7 +20,11 @@ const Footer = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
-                            <div className="banner3-content">
+                            <div className="banner3-content mt-100"
+                                style={{
+                                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 1)", // Bóng đổ
+                                }}
+                            >
                                 <h2>{t("footer.join_newsletter")}</h2>
                                 <p>{t("footer.receive_best_deals")}</p>
                                 <form>
@@ -38,12 +52,14 @@ const Footer = () => {
                                     </div>
                                 </form>
                                 <img
-                                    src="https://demo-egenslab.b-cdn.net/html/triprex/preview/assets/img/home1/package-card-img5.png"
+                                    //src="https://demo-egenslab.b-cdn.net/html/triprex/preview/assets/img/home1/package-card-img5.png"
+                                    src={`${process.env.PUBLIC_URL}/assets/img/1.png`}
                                     alt
                                     class="vector1"
                                 />
                                 <img
-                                    src="https://demo-egenslab.b-cdn.net/html/triprex/preview/assets/img/home1/package-card-img5.png"
+                                    //src="https://demo-egenslab.b-cdn.net/html/triprex/preview/assets/img/home1/package-card-img5.png"
+                                    src={`${process.env.PUBLIC_URL}/assets/img/2.png`}
                                     alt
                                     class="vector2"
                                 />
@@ -56,6 +72,7 @@ const Footer = () => {
                 <div className="container">
                     <div className="footer-top">
                         <div className="row g-lg-4 gy-5 justify-content-center">
+
                             <div className="col-lg-3 col-md-6 col-sm-6">
                                 <div className="footer-widget">
                                     <div className="footer-logo">
@@ -87,7 +104,50 @@ const Footer = () => {
                                     </a>
                                 </div>
                             </div>
-                            <div className="col-lg-3 col-md-6 col-sm-6">
+
+                            <div class="col-lg-2 col-md-6 col-sm-6 d-flex justify-content-lg-center justify-content-sm-start">
+                                <div class="footer-widget">
+                                    <div class="widget-title">
+                                        <h5>Liên kết nhanh</h5>
+                                    </div>
+                                    <ul class="widget-list">
+                                        <li
+                                            className={activeMenu === "/" ? "active" : ""}
+                                            onClick={() => handleMenuClick("/")}
+                                        >
+                                            <Link to="/">Trang chủ</Link>
+                                        </li>
+                                        <li
+                                            className={activeMenu === "/about" ? "active" : ""}
+                                            onClick={() => handleMenuClick("/about")}
+                                        >
+                                            <Link to="/about">Về chúng tôi</Link>
+                                        </li>
+                                        <li
+                                            className={
+                                                activeMenu === "/vouchers" ? "active" : ""
+                                            }
+                                            onClick={() => handleMenuClick("/vouchers")}
+                                        >
+                                            <Link to="/vouchers">Khuyến mãi</Link>
+                                        </li>
+                                        <li
+                                            className={activeMenu === "/faq" ? "active" : ""}
+                                            onClick={() => handleMenuClick("/faq")}
+                                        >
+                                            <Link to="/faq">Cẩm nang</Link>
+                                        </li>
+                                        <li
+                                            className={activeMenu === "/blogs" ? "active" : ""}
+                                            onClick={() => handleMenuClick("/blogs")}
+                                        >
+                                            <Link to="/blogs">Bài viết</Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div className="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-lg-center justify-content-md-start">
                                 <div className="footer-widget">
                                     {" "}
                                     <div className="single-contact mb-35">
@@ -144,7 +204,7 @@ const Footer = () => {
                                             </h5>
                                         </div>
                                         <div className="icons">
-                                            <ul>
+                                            <ul style={{ display: 'flex', listStyle: 'none', padding: 0, gap: '15px' }}>
                                                 <li>
                                                     <img
                                                         style={{
@@ -152,6 +212,7 @@ const Footer = () => {
                                                         }}
                                                         src="assets/img/payment/visa.png"
                                                         alt="Visa"
+                                                        title="Thanh toán bằng Visa"
                                                     />
                                                 </li>
                                                 <li>
@@ -218,7 +279,7 @@ const Footer = () => {
                                     ©Copyright 2024 KKun Booking |{" "}
                                     {t("footer.design_by")}{" "}
                                     <a href="https://www.egenslab.com/">
-                                        Egens Lab
+                                        Nhom 18
                                     </a>
                                 </p>
                                 <div className="footer-right">

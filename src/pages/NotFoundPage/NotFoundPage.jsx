@@ -1,6 +1,7 @@
 import React from "react";
 import ErrorPage from "../ErrorPage/ErrorPage";
 
+
 function NotFoundPage() {
     return (
         <>
@@ -10,3 +11,5 @@ function NotFoundPage() {
 }
 
 export default NotFoundPage;
+
+

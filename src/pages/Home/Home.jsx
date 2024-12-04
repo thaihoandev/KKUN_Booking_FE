@@ -118,8 +118,8 @@ function Home() {
 
             <div class="home1-destination-section mb-120">
                 <img
-                    style={{ height: "380px" }}
-                    src="assets/img/places/Ha_Noi/temple.jpg"
+                    //style={{ height: "380px" }}
+                    src="https://demo-egenslab.b-cdn.net/html/triprex/preview/assets/img/home1/section-vector2.png"
                     alt
                     class="section-vector2 rounded"
                 />
@@ -462,7 +462,7 @@ function Home() {
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12 d-flex justify-content-center">
+                        <div class="col-lg-12 d-flex justify-content-center mt-30">
                             <a href="package-grid.html" class="secondary-btn1">
                                 {t("showAll")}
                             </a>
@@ -528,11 +528,10 @@ function Home() {
                         >
                             <li className="nav-item" role="presentation">
                                 <button
-                                    className={`nav-link ${
-                                        selectedCity === "Hà Nội"
+                                    className={`nav-link ${selectedCity === "Hà Nội"
                                             ? "active"
                                             : ""
-                                    }`}
+                                        }`}
                                     onClick={() => setSelectedCity("Hà Nội")}
                                     type="button"
                                     role="tab"
@@ -542,11 +541,10 @@ function Home() {
                             </li>
                             <li className="nav-item" role="presentation">
                                 <button
-                                    className={`nav-link ${
-                                        selectedCity === "Đà Nẵng"
+                                    className={`nav-link ${selectedCity === "Đà Nẵng"
                                             ? "active"
                                             : ""
-                                    }`}
+                                        }`}
                                     onClick={() => setSelectedCity("Đà Nẵng")}
                                     type="button"
                                     role="tab"
@@ -556,11 +554,10 @@ function Home() {
                             </li>
                             <li className="nav-item" role="presentation">
                                 <button
-                                    className={`nav-link ${
-                                        selectedCity === "Hồ Chí Minh"
+                                    className={`nav-link ${selectedCity === "Hồ Chí Minh"
                                             ? "active"
                                             : ""
-                                    }`}
+                                        }`}
                                     onClick={() =>
                                         setSelectedCity("Hồ Chí Minh")
                                     }
@@ -572,11 +569,10 @@ function Home() {
                             </li>
                             <li className="nav-item" role="presentation">
                                 <button
-                                    className={`nav-link ${
-                                        selectedCity === "Vũng Tàu"
+                                    className={`nav-link ${selectedCity === "Vũng Tàu"
                                             ? "active"
                                             : ""
-                                    }`}
+                                        }`}
                                     onClick={() => setSelectedCity("Vũng Tàu")}
                                     type="button"
                                     role="tab"
@@ -586,11 +582,10 @@ function Home() {
                             </li>
                             <li className="nav-item" role="presentation">
                                 <button
-                                    className={`nav-link ${
-                                        selectedCity === "Đà Lạt"
+                                    className={`nav-link ${selectedCity === "Đà Lạt"
                                             ? "active"
                                             : ""
-                                    }`}
+                                        }`}
                                     onClick={() => setSelectedCity("Đà Lạt")}
                                     type="button"
                                     role="tab"

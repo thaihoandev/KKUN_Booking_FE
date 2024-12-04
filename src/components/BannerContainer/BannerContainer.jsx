@@ -64,7 +64,7 @@ function BannerContainer() {
                             </SwiperSlide>
                             <SwiperSlide>
                                 <Banner
-                                    backgroundImage="https://rootytrip.com/wp-content/uploads/2024/07/phu-quoc.jpg"
+                                    backgroundImage="https://rootytrip.com/wp-content/uploads/2024/07/phu-quoc-1536x864.jpg"
                                     country={t("banner.phuQuoc.heading")}
                                     heading={t("banner.phuQuoc.heading")}
                                     description={t(

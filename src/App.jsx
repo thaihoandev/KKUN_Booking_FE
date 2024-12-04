@@ -22,6 +22,7 @@ import Layout from "./layouts/Layout/Layout";
 import ProfileSettings from "./pages/ProfileSettings/ProfileSettings";
 import RoomList from "./pages/HotelOwner/Room/RoomList/RoomList";
 import BookedListHotelOwner from "./pages/HotelOwner/BookedList/BookedList";
+
 import CustomerList from "./pages/HotelOwner/CustomerList/CustomerList";
 import AdminCustomerList from "./pages/Admin/AdminCustomerList/AdminCustomerList";
 import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
@@ -55,12 +56,16 @@ import RegisterAccountHotelOwner from "./pages/RegisterAccount/RegisterAccountHo
 import BlogPage from "./pages/Blog/BlogPage/BlogPage";
 import BlogCreate from "./pages/Blog/BlogCreate/BlogCreate";
 import BlogListPage from "./pages/Admin/Blog/BlogListPage/BlogListPage";
+// import Promotions from "./pages/Promotions/Promotions";
+import AllPromotions from "./pages/Admin/AdminPromotions/AllPromotions/AllPromotions"
 import PromotionPage from "./pages/PromotionPage/PromotionPage";
 import PromotionListPage from "./pages/Admin/Promotion/PromotionListPage/PromotionListPage";
 import PromotionCreatePage from "./pages/Admin/Promotion/PromotionCreatePage/PromotionCreatePage";
 import PromotionEditPage from "./pages/Admin/Promotion/PromotionEditPage/PromotionEditPage";
-import { LanguageProvider } from "./context/LanguageContext"; // Đảm bảo đúng đường dẫn tới context của bạn
 import RoomEdit from "./pages/HotelOwner/Room/RoomEdit/RoomEdit";
+import OWRoomDetail from "./pages/HotelOwner/Room/RoomDetails/OWRoomDetail";
+import { LanguageProvider } from "./context/LanguageContext"; // Đảm bảo đúng đường dẫn tới context của bạn
+//import { useTranslation } from "react-i18next";
 import RoomDetailsHotelOwner from "./pages/HotelOwner/Room/RoomDetails/RoomDetails";
 
 const router = createBrowserRouter([
@@ -70,6 +75,7 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <Home /> },
             { path: "home", element: <Home /> },
+            // { path: "vouchers", element: <Promotions /> },
             { path: "about", element: <AboutPage /> },
             { path: "blogs", element: <BlogPage /> },
             { path: "blogs/:postId", element: <BlogDetails /> },
@@ -85,6 +91,10 @@ const router = createBrowserRouter([
             { path: "register-hotel-owner", element: <HotelOwnerSignUp /> },
 
             { path: "hotels/search", element: <HotelSearchList /> },
+
+            // { path: "sign-up/hotel-owner", element: <HotelOwnerRegistrationForm  /> },
+            // { path: "hotels/search", element: <HotelSearchList /> },
+
             {
                 path: "hotels/:hotelName/rooms/:roomId",
                 element: <RoomDetails />,
@@ -136,6 +146,22 @@ const router = createBrowserRouter([
             </ProtectedRoute>
         ),
         children: [
+            // Other admin routes
+            { index: true, element: <AdminDashboard /> },
+            { path: "dashboard", element: <AdminDashboard /> },
+            // { path: "customer-list", element: <AdminCustomerList/> },
+            // { path: "booking-list", element: <AdminBookingList /> },
+
+            // { path: "admin-add-hotel", element: <AddNewHotell/> }, // thêm khách sạn mới
+
+            // coment 6.11
+            // { path: "admin-all-hotel", element: <AllHotelList/> }, // xem danh sách khách sạn
+
+            // { path: "admin-add-amenities", element: <AddNewAmenities/> }, // thêm tiện ích mới
+            // { path: "admin-all-amenities", element: <AmenitiesList/> }, // xem danh sách tiện ích
+
+
+
             { index: true, element: <AdminDashboard /> },
             { path: "dashboard", element: <AdminDashboard /> },
             { path: "hotels", element: <HotelList /> },
@@ -145,13 +171,13 @@ const router = createBrowserRouter([
             { path: "amenities", element: <AmenityList /> },
             { path: "add-amenity", element: <AmenityCreate /> },
             { path: "amenities/:amenityId/edit", element: <AmenityEdit /> },
-            { path: "*", element: <NotFoundPage /> },
+
             { path: "vouchers", element: <PromotionListPage /> },
             { path: "add-voucher", element: <PromotionCreatePage /> },
-            {
-                path: "vouchers/:voucherId/edit",
-                element: <PromotionEditPage />,
-            },
+            { path: "vouchers/:voucherId/edit", element: <PromotionEditPage /> },
+
+
+            { path: "*", element: <NotFoundPage /> },
         ],
     },
     {
@@ -175,6 +201,9 @@ const router = createBrowserRouter([
             },
             { path: "add-room", element: <RoomCreate /> },
             { path: "my-rooms", element: <RoomList /> },
+            //{ path: "my-rooms/:roomId/room-edit", element: <RoomEdit /> },
+            //{ path: "my-rooms/:roomId/room-details", element: <OWRoomDetail /> },
+            // hotels/:hotelName/rooms/:roomId
             { path: "booked", element: <BookedListHotelOwner /> },
             { path: "customer-list", element: <CustomerList /> },
             { path: "*", element: <NotFoundPage /> },

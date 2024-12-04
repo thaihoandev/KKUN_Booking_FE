@@ -1,12 +1,15 @@
 import React, { useCallback, useState } from "react";
-
 import ProfileInfoes from "../../components/ProfileInfoes/ProfileInfoes";
 import ChangePassword from "../../components/ChangePassword/ChangePassword";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 function ProfileSettings() {
+
+    const { t } = useTranslation();
     const user = useSelector((state) => state.user);
+
     return (
         <>
             <ToastContainer />
@@ -14,10 +17,11 @@ function ProfileSettings() {
                 <div class="col-xl-12">
                     <div class="main-content-title-profile mb-30">
                         <div class="main-content-title">
-                            <h3>Thông tin cá nhân</h3>
+                            <h3>{t("profileSettings.title")}</h3>
                         </div>
                     </div>
                     <div class="dashboard-profile-wrapper">
+                        {/* Sidebar Navigation */}
                         <div class="dashboard-profile-nav">
                             <ul
                                 class="nav flex-column nav-pills"
@@ -49,7 +53,7 @@ function ProfileSettings() {
                                                 ></path>
                                             </g>
                                         </svg>
-                                        Hồ sơ
+                                        {t("profileSettings.tabs.profile")}
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
@@ -75,7 +79,7 @@ function ProfileSettings() {
                                                 <path d="M8.57106 1.17518C8.10994 -0.391074 5.88919 -0.391074 5.42806 1.17518L5.34581 1.4543C5.31361 1.56363 5.25735 1.66437 5.18115 1.74914C5.10496 1.8339 5.01076 1.90054 4.90546 1.94417C4.80016 1.9878 4.68644 2.00731 4.57262 2.00128C4.45881 1.99524 4.34778 1.96382 4.24769 1.9093L3.99219 1.7693C2.55719 0.988801 0.988313 2.55855 1.76969 3.99268L1.90881 4.24818C1.96333 4.34827 1.99476 4.45929 2.00079 4.57311C2.00682 4.68693 1.98731 4.80065 1.94368 4.90595C1.90005 5.01125 1.83342 5.10544 1.74865 5.18164C1.66389 5.25784 1.56315 5.3141 1.45381 5.3463L1.17469 5.42855C-0.391562 5.88968 -0.391562 8.11043 1.17469 8.57155L1.45381 8.6538C1.56315 8.686 1.66389 8.74227 1.74865 8.81846C1.83342 8.89466 1.90005 8.98886 1.94368 9.09415C1.98731 9.19945 2.00682 9.31317 2.00079 9.42699C1.99476 9.54081 1.96333 9.65183 1.90881 9.75193L1.76881 10.0074C0.988313 11.4424 2.55719 13.0122 3.99219 12.2299L4.24769 12.0908C4.34778 12.0363 4.45881 12.0049 4.57262 11.9988C4.68644 11.9928 4.80016 12.0123 4.90546 12.0559C5.01076 12.0996 5.10496 12.1662 5.18115 12.251C5.25735 12.3357 5.31361 12.4365 5.34581 12.5458L5.42806 12.8249C5.88919 14.3912 8.10994 14.3912 8.57106 12.8249L8.65331 12.5458C8.68552 12.4365 8.74178 12.3357 8.81797 12.251C8.89417 12.1662 8.98837 12.0996 9.09366 12.0559C9.19896 12.0123 9.31269 11.9928 9.4265 11.9988C9.54032 12.0049 9.65135 12.0363 9.75144 12.0908L10.0069 12.2308C11.4419 13.0122 13.0117 11.4416 12.2294 10.0074L12.0903 9.75193C12.0358 9.65183 12.0044 9.54081 11.9983 9.42699C11.9923 9.31317 12.0118 9.19945 12.0554 9.09415C12.0991 8.98886 12.1657 8.89466 12.2505 8.81846C12.3352 8.74227 12.436 8.686 12.5453 8.6538L12.8244 8.57155C14.3907 8.11043 14.3907 5.88968 12.8244 5.42855L12.5453 5.3463C12.436 5.3141 12.3352 5.25784 12.2505 5.18164C12.1657 5.10544 12.0991 5.01125 12.0554 4.90595C12.0118 4.80065 11.9923 4.68693 11.9983 4.57311C12.0044 4.45929 12.0358 4.34827 12.0903 4.24818L12.2303 3.99268C13.0117 2.55768 11.4411 0.988801 10.0069 1.77018L9.75144 1.9093C9.65135 1.96382 9.54032 1.99524 9.4265 2.00128C9.31269 2.00731 9.19896 1.9878 9.09366 1.94417C8.98837 1.90054 8.89417 1.8339 8.81797 1.74914C8.74178 1.66437 8.68552 1.56363 8.65331 1.4543L8.57106 1.17518ZM6.26719 1.4228C6.48244 0.692176 7.51669 0.692176 7.73194 1.4228L7.81419 1.70193C7.88333 1.9365 8.00409 2.15263 8.16762 2.33446C8.33115 2.5163 8.5333 2.65923 8.75925 2.75278C8.98521 2.84633 9.22923 2.88813 9.47343 2.87512C9.71764 2.8621 9.95584 2.79459 10.1706 2.67755L10.4252 2.53755C11.0937 2.17443 11.8252 2.90505 11.4612 3.57443L11.3221 3.82993C11.2052 4.04467 11.1379 4.28285 11.125 4.527C11.1121 4.77115 11.154 5.01509 11.2476 5.24094C11.3413 5.46679 11.4842 5.66883 11.6661 5.83225C11.8479 5.99568 12.064 6.11635 12.2986 6.18543L12.5768 6.26768C13.3074 6.48293 13.3074 7.51718 12.5768 7.73243L12.2977 7.81468C12.0631 7.88382 11.847 8.00458 11.6651 8.16811C11.4833 8.33164 11.3404 8.53379 11.2468 8.75974C11.1533 8.98569 11.1115 9.22972 11.1245 9.47392C11.1375 9.71813 11.205 9.95633 11.3221 10.1711L11.4621 10.4257C11.8252 11.0942 11.0946 11.8257 10.4252 11.4617L10.1706 11.3226C9.95578 11.2055 9.71752 11.138 9.47327 11.1251C9.22902 11.1121 8.98496 11.154 8.759 11.2476C8.53303 11.3413 8.3309 11.4843 8.16741 11.6662C8.00392 11.8482 7.88323 12.0644 7.81419 12.2991L7.73194 12.5773C7.51669 13.3079 6.48244 13.3079 6.26719 12.5773L6.18494 12.2982C6.11576 12.0637 5.99502 11.8477 5.83155 11.666C5.66808 11.4842 5.46603 11.3414 5.24019 11.2478C5.01435 11.1543 4.77045 11.1124 4.52635 11.1254C4.28225 11.1383 4.04413 11.2057 3.82944 11.3226L3.57394 11.4626C2.90544 11.8257 2.17394 11.0951 2.53794 10.4257L2.67706 10.1711C2.79427 9.95629 2.86191 9.71802 2.87501 9.47371C2.88811 9.2294 2.84635 8.98525 2.75279 8.75919C2.65922 8.53312 2.51623 8.33088 2.33431 8.16729C2.15238 8.0037 1.93613 7.88291 1.70144 7.8138L1.42231 7.73155C0.691687 7.5163 0.691687 6.48205 1.42231 6.2668L1.70144 6.18455C1.93577 6.11535 2.15166 5.99462 2.33331 5.83122C2.51496 5.66781 2.65778 5.46585 2.75131 5.24012C2.84484 5.0144 2.88671 4.77062 2.87386 4.52662C2.86102 4.28262 2.79378 4.04458 2.67706 3.82993L2.53706 3.57443C2.17394 2.90593 2.90456 2.17443 3.57394 2.53843L3.82944 2.67755C4.04413 2.79443 4.28225 2.8618 4.52635 2.87473C4.77045 2.88767 5.01435 2.84583 5.24019 2.75229C5.46603 2.65875 5.66808 2.51588 5.83155 2.33413C5.99502 2.15239 6.11576 1.93638 6.18494 1.70193L6.26719 1.4228Z"></path>
                                             </g>
                                         </svg>
-                                        Liên kết
+                                        {t("profileSettings.tabs.preferences")}
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
@@ -101,7 +105,7 @@ function ProfileSettings() {
                                                 <path d="M9.4978 4.5028C9.53855 4.54344 9.57087 4.59172 9.59293 4.64487C9.61498 4.69802 9.62633 4.755 9.62633 4.81255C9.62633 4.8701 9.61498 4.92708 9.59293 4.98023C9.57087 5.03338 9.53855 5.08166 9.4978 5.1223L6.8728 7.7473C6.83216 7.78804 6.78388 7.82037 6.73073 7.84242C6.67758 7.86448 6.6206 7.87583 6.56305 7.87583C6.50551 7.87583 6.44853 7.86448 6.39537 7.84242C6.34222 7.82037 6.29394 7.78804 6.2533 7.7473L4.9408 6.4348C4.90013 6.39412 4.86786 6.34583 4.84584 6.29269C4.82383 6.23954 4.8125 6.18258 4.8125 6.12505C4.8125 6.06752 4.82383 6.01056 4.84584 5.95741C4.86786 5.90427 4.90013 5.85598 4.9408 5.8153C4.98148 5.77462 5.02977 5.74236 5.08292 5.72034C5.13606 5.69833 5.19303 5.687 5.25055 5.687C5.30808 5.687 5.36504 5.69833 5.41819 5.72034C5.47134 5.74236 5.51963 5.77462 5.5603 5.8153L6.56305 6.81892L8.8783 4.5028C8.91894 4.46206 8.96722 4.42973 9.02037 4.40768C9.07353 4.38562 9.13051 4.37427 9.18805 4.37427C9.2456 4.37427 9.30258 4.38562 9.35573 4.40768C9.40888 4.42973 9.45716 4.46206 9.4978 4.5028Z"></path>
                                             </g>
                                         </svg>
-                                        Thay đổi mật khẩu
+                                        {t("profileSettings.tabs.changePassword")}
                                     </button>
                                 </li>
                             </ul>
@@ -125,15 +129,8 @@ function ProfileSettings() {
                                     <ul class="preference-list">
                                         <li>
                                             <div class="preference-list-content">
-                                                <h6>Email Notification</h6>
-                                                <p>
-                                                    To set up email
-                                                    notifications, you typically
-                                                    need two components: a
-                                                    server-side application or
-                                                    script to generate and send
-                                                    the emails.
-                                                </p>
+                                                <h6>{t("profileSettings.preferences.emailNotifications.title")}</h6>
+                                                <p>{t("profileSettings.preferences.emailNotifications.description")}</p>
                                             </div>
                                             <div class="form-check form-switch">
                                                 <input
@@ -145,15 +142,8 @@ function ProfileSettings() {
                                         </li>
                                         <li>
                                             <div class="preference-list-content">
-                                                <h6>Newsletter</h6>
-                                                <p>
-                                                    Choose an email service
-                                                    provider that supports
-                                                    sending newsletters. Popular
-                                                    choices include Mailchimp,
-                                                    Sendinblue, Campaign
-                                                    Monitor, and others.
-                                                </p>
+                                                <h6>{t("profileSettings.preferences.newsletter.title")}</h6>
+                                                <p>{t("profileSettings.preferences.newsletter.description")}</p>
                                             </div>
                                             <div class="form-check form-switch">
                                                 <input
@@ -165,15 +155,8 @@ function ProfileSettings() {
                                         </li>
                                         <li>
                                             <div class="preference-list-content">
-                                                <h6>Automated Reports</h6>
-                                                <p>
-                                                    To set up email
-                                                    notifications, you typically
-                                                    need two components: a
-                                                    server-side application or
-                                                    script to generate and send
-                                                    the emails.
-                                                </p>
+                                                <h6>{t("profileSettings.preferences.automatedReports.title")}</h6>
+                                                <p>{t("profileSettings.preferences.automatedReports.description")}</p>
                                             </div>
                                             <div class="form-check form-switch">
                                                 <input
@@ -189,7 +172,7 @@ function ProfileSettings() {
                                             <div class="col-md-6">
                                                 <div class="form-inner">
                                                     <label>
-                                                        Change Currency*
+                                                        <label>{t("profileSettings.preferences.currency.label")}</label>
                                                     </label>
                                                     <select
                                                         style={{
@@ -200,7 +183,7 @@ function ProfileSettings() {
                                                             Dollar (USD)
                                                         </option>
                                                         <option>
-                                                            Taka (BDT)
+                                                            đồng (VND)
                                                         </option>
                                                     </select>
                                                     <div
@@ -208,7 +191,7 @@ function ProfileSettings() {
                                                         tabindex="0"
                                                     >
                                                         <span class="current">
-                                                            Dollar (USD)
+                                                        đồng (VND)
                                                         </span>
                                                         <ul class="list">
                                                             <li
@@ -218,10 +201,10 @@ function ProfileSettings() {
                                                                 Dollar (USD)
                                                             </li>
                                                             <li
-                                                                data-value="Taka (BDT)"
+                                                                data-value="đồng (VND)"
                                                                 class="option"
                                                             >
-                                                                Taka (BDT)
+                                                                đồng (VND)
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -229,13 +212,13 @@ function ProfileSettings() {
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-inner">
-                                                    <label>Area Unit</label>
-                                                    <select
+                                                <label>{t("profileSettings.preferences.unit.label")}</label>
+                                                <select
                                                         style={{
                                                             display: "none",
                                                         }}
                                                     >
-                                                        <option>Sq.ft</option>
+                                                        <option>m^2</option>
                                                         <option>Cm</option>
                                                     </select>
                                                     <div
@@ -243,14 +226,14 @@ function ProfileSettings() {
                                                         tabindex="0"
                                                     >
                                                         <span class="current">
-                                                            Sq.ft
+                                                            mét vuông (m^2)
                                                         </span>
                                                         <ul class="list">
                                                             <li
                                                                 data-value="Sq.ft"
                                                                 class="option selected"
                                                             >
-                                                                Sq.ft
+                                                               mét vuông (m^2)
                                                             </li>
                                                             <li
                                                                 data-value="Cm"

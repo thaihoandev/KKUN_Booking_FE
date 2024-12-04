@@ -55,11 +55,10 @@ function HotelOwnerSignUp() {
                                             role="presentation"
                                         >
                                             <button
-                                                className={`nav-link ${
-                                                    activeTab === "property"
+                                                className={`nav-link ${activeTab === "property"
                                                         ? "active"
                                                         : ""
-                                                }`}
+                                                    }`}
                                                 onClick={() =>
                                                     setActiveTab("property")
                                                 }
@@ -72,11 +71,10 @@ function HotelOwnerSignUp() {
                                             role="presentation"
                                         >
                                             <button
-                                                className={`nav-link ${
-                                                    activeTab === "location"
+                                                className={`nav-link ${activeTab === "location"
                                                         ? "active"
                                                         : ""
-                                                }`}
+                                                    }`}
                                                 onClick={() =>
                                                     setActiveTab("location")
                                                 }
@@ -89,11 +87,10 @@ function HotelOwnerSignUp() {
                                             role="presentation"
                                         >
                                             <button
-                                                className={`nav-link ${
-                                                    activeTab === "roomdetails"
+                                                className={`nav-link ${activeTab === "roomdetails"
                                                         ? "active"
                                                         : ""
-                                                }`}
+                                                    }`}
                                                 onClick={() =>
                                                     setActiveTab("roomdetails")
                                                 }
@@ -106,12 +103,11 @@ function HotelOwnerSignUp() {
                                             role="presentation"
                                         >
                                             <button
-                                                className={`nav-link ${
-                                                    activeTab ===
-                                                    "confirmation-submit"
+                                                className={`nav-link ${activeTab ===
+                                                        "confirmation-submit"
                                                         ? "active"
                                                         : ""
-                                                }`}
+                                                    }`}
                                                 onClick={() =>
                                                     setActiveTab(
                                                         "confirmation-submit"
@@ -128,11 +124,10 @@ function HotelOwnerSignUp() {
                                     id="pills-tabContent"
                                 >
                                     <div
-                                        className={`tab-pane fade ${
-                                            activeTab === "property"
+                                        className={`tab-pane fade ${activeTab === "property"
                                                 ? "active show"
                                                 : ""
-                                        }`}
+                                            }`}
                                     >
                                         <PropertyInfo
                                             hotelDetails={hotelDetails}
@@ -141,11 +136,10 @@ function HotelOwnerSignUp() {
                                         />
                                     </div>
                                     <div
-                                        className={`tab-pane fade ${
-                                            activeTab === "location"
+                                        className={`tab-pane fade ${activeTab === "location"
                                                 ? "active show"
                                                 : ""
-                                        }`}
+                                            }`}
                                     >
                                         <LocationDetails
                                             location={location}
@@ -154,11 +148,10 @@ function HotelOwnerSignUp() {
                                         />
                                     </div>
                                     <div
-                                        className={`tab-pane fade ${
-                                            activeTab === "roomdetails"
+                                        className={`tab-pane fade ${activeTab === "roomdetails"
                                                 ? "active show"
                                                 : ""
-                                        }`}
+                                            }`}
                                     >
                                         <RoomDetails
                                             roomDetails={roomDetails}
@@ -167,11 +160,10 @@ function HotelOwnerSignUp() {
                                         />
                                     </div>
                                     <div
-                                        className={`tab-pane fade ${
-                                            activeTab === "confirmation-submit"
+                                        className={`tab-pane fade ${activeTab === "confirmation-submit"
                                                 ? "active show"
                                                 : ""
-                                        }`}
+                                            }`}
                                     >
                                         <ConfirmationRegisterHotelOwner
                                             hotelDetails={hotelDetails}
@@ -188,5 +180,7 @@ function HotelOwnerSignUp() {
         </>
     );
 }
+
+
 
 export default HotelOwnerSignUp;

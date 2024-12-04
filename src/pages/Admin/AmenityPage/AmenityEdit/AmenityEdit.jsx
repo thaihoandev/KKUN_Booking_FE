@@ -8,8 +8,12 @@ import { Controller, useForm } from "react-hook-form";
 import { amenityEditFormSchema } from "../../../../schemas/validationSchemas";
 import { useNavigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useTranslation } from "react-i18next";
+import * as yup from "yup";
 
 function AmenityEdit() {
+
+    const { t } = useTranslation();
     const { amenityId } = useParams();
     const [amenities, setAmenities] = useState([]);
     const user = useSelector((state) => state.user);
@@ -32,7 +36,7 @@ function AmenityEdit() {
                 setAmenities(data);
             },
             onError: (error) => {
-                toast.error(error.message);
+                toast.error(error.message || t("amenityEdit.errorMessage"));
             },
         }
     );
@@ -49,7 +53,7 @@ function AmenityEdit() {
                 });
             },
             onError: (error) => {
-                toast.error(error.message);
+                toast.error(error.message || t("amenityEdit.errorMessage"));
             },
         }
     );
@@ -59,13 +63,13 @@ function AmenityEdit() {
             AmenityService.updateAmenity(amenityId, data, accessToken),
         {
             onSuccess: () => {
-                toast.success("Cập nhật tiện ích thành công!");
+                toast.success(t("amenityEdit.successMessage"));
                 setTimeout(() => {
                     navigate("/admin/amenities");
                 }, 1000);
             },
             onError: (error) => {
-                toast.error(error.message);
+                toast.error(error.message || t("amenityEdit.errorMessage"));
             },
         }
     );
@@ -93,7 +97,7 @@ function AmenityEdit() {
                 <div className="col-xl-12">
                     <div className="main-content-title-profile mb-50">
                         <div className="main-content-title">
-                            <h3>Chỉnh sửa Tiện ích</h3>
+                        <h3>{t("amenityEdit.title")}</h3>
                         </div>
                     </div>
                     <div className="dashboard-profile-wrapper two">
@@ -102,8 +106,8 @@ function AmenityEdit() {
                                 <div className="row">
                                     <div className="col-md-6">
                                         <div className="form-inner mb-30">
-                                            <label>Tên tiện ích</label>
-                                            <input
+                                        <label>{t("amenityEdit.nameLabel")}</label>
+                                        <input
                                                 type="text"
                                                 placeholder="Tên tiện ích..."
                                                 {...register("name")}
@@ -117,8 +121,8 @@ function AmenityEdit() {
                                     </div>
                                     <div className="col-md-6 mb-30">
                                         <div className="form-inner">
-                                            <label>Loại tiện ích</label>
-                                            <Controller
+                                        <label>{t("amenityEdit.typeLabel")}</label>
+                                        <Controller
                                                 control={control}
                                                 name="amenityType"
                                                 render={({ field }) => (
@@ -146,9 +150,11 @@ function AmenityEdit() {
                                     </div>
                                     <div className="col-md-12 mb-30">
                                         <div className="form-inner">
-                                            <label>Mô tả</label>
-                                            <textarea
-                                                placeholder="Mô tả thêm về tiện nghi"
+                                        <label>{t("amenityEdit.descriptionLabel")}</label>
+                                        <textarea
+                                                placeholder={t(
+                                                    "amenityEdit.descriptionPlaceholder"
+                                                )}
                                                 {...register("description")}
                                             ></textarea>
                                             {errors.description && (
@@ -164,7 +170,7 @@ function AmenityEdit() {
                                         type="submit"
                                         className="primary-btn3"
                                     >
-                                        Cập nhật
+                                         {t("amenityEdit.updateButton")}
                                     </button>
                                 </div>
                             </form>

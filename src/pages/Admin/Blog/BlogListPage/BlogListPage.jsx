@@ -3,8 +3,11 @@ import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import * as BlogService from "../../../../services/BlogService";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function BlogListPage() {
+
+    const { t } = useTranslation();
     const [blogs, setBlogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5; // Số lượng khách sạn trên mỗi trang
@@ -14,7 +17,7 @@ function BlogListPage() {
             setBlogs(data);
         },
         onError: (error) => {
-            toast.error(error.message || "Đã xảy ra lỗi.");
+            toast.error(error.message || t("error.generic"));
         },
     });
 
@@ -47,11 +50,11 @@ function BlogListPage() {
                 <div class="col-xl-12">
                     <div class="main-content-title-profile mb-50">
                         <div class="main-content-title">
-                            <h3>Tất cả khách sạn</h3>
+                            <h3>{t("blogList.title")}</h3>
                         </div>
-                        <div class="profile">
+                        {/* <div class="profile">
                             <a href="#">
-                                View Profile
+                                {t("blogList.profileView")}
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="8"
@@ -61,18 +64,20 @@ function BlogListPage() {
                                     <path d="M6.669 2.27202L0.94102 8L0 7.05898L5.72731 1.331H0.679478V0H8V7.32052H6.669V2.27202Z"></path>
                                 </svg>
                             </a>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div class="recent-listing-area">
                         <div class="title-and-tab">
-                            <h6>Thông tin khách sạn</h6>
+                            <h6>{t("blogList.infoTitle")}</h6>
                             <div class="search-area">
                                 <form>
                                     <div class="search-box">
                                         <input
                                             type="text"
-                                            placeholder="Tìm kiếm ở đây"
+                                            placeholder={t(
+                                                "blogList.searchPlaceholder"
+                                            )}
                                         />
                                         <button type="submit">
                                             <i class="bx bx-search"></i>
@@ -85,12 +90,12 @@ function BlogListPage() {
                             <table class="eg-table2">
                                 <thead>
                                     <tr>
-                                        <th>Tiêu đề</th>
-                                        <th>Loại bài viết</th>
-                                        <th>Tác giả</th>
-                                        <th>Thời gian đọc</th>
-                                        <th>Trạng thái</th>
-                                        <th>#</th>
+                                        <th>{t("blogList.tableHeaders.title")}</th>
+                                        <th>{t("blogList.tableHeaders.category")}</th>
+                                        <th>{t("blogList.tableHeaders.author")}</th>
+                                        <th>{t("blogList.tableHeaders.readTime")}</th>
+                                        <th>{t("blogList.tableHeaders.status")}</th>
+                                        <th>{t("blogList.tableHeaders.actions")}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -109,7 +114,7 @@ function BlogListPage() {
                                                                 blog.contents.find(
                                                                     (c) =>
                                                                         c.type ===
-                                                                            "IMAGE" &&
+                                                                        "IMAGE" &&
                                                                         c.imageUrl
                                                                 )?.imageUrl ||
                                                                 "assets/img/home4/blog-card-img1.jpg"
@@ -141,7 +146,7 @@ function BlogListPage() {
                                             </td>
                                             <td data-label="Status">
                                                 <span class="confirmed">
-                                                    Hoạt động
+                                                    {t("blogList.statusActive")}
                                                 </span>
                                             </td>
                                             <td data-label="">
@@ -171,11 +176,10 @@ function BlogListPage() {
                                     {[...Array(totalPages)].map((_, i) => (
                                         <li
                                             key={i + 1}
-                                            className={`page-item ${
-                                                currentPage === i + 1
-                                                    ? "active"
-                                                    : ""
-                                            }`}
+                                            className={`page-item ${currentPage === i + 1
+                                                ? "active"
+                                                : ""
+                                                }`}
                                             onClick={() =>
                                                 handlePageChange(i + 1)
                                             }
@@ -194,7 +198,7 @@ function BlogListPage() {
                                                 )
                                             }
                                         >
-                                            Prev
+                                            {t("blogList.pagination.prev")}
                                         </a>
                                     </li>
                                     <li>
@@ -206,7 +210,7 @@ function BlogListPage() {
                                                 )
                                             }
                                         >
-                                            Next
+                                            {t("blogList.pagination.next")}
                                         </a>
                                     </li>
                                 </ul>

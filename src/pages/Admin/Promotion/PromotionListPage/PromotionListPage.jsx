@@ -5,8 +5,11 @@ import { toast, ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { formatDateDDMMYYYY } from "../../../../utils/utils";
+import { useTranslation } from "react-i18next";
 
 function PromotionListPage() {
+
+    const { t } = useTranslation();
     const [promotions, setPromotions] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
@@ -39,13 +42,13 @@ function PromotionListPage() {
     };
 
     const handleDeletePromotion = async (promotionId) => {
-        if (window.confirm("Bạn có chắc muốn xóa ưu đãi này?")) {
+        if (window.confirm(t("promotionList.confirmDelete"))) {
             try {
                 await PromotionService.deletePromotion(
                     promotionId,
                     user.accessToken
                 );
-                toast.success("Đã xóa ưu đãi thành công!");
+                toast.success(t("promotionList.deleteSuccess"));
                 setPromotions((prevPromotions) =>
                     prevPromotions.filter((promo) => promo.id !== promotionId)
                 );
@@ -71,7 +74,7 @@ function PromotionListPage() {
                     promo.id === promotion.id ? updatedPromotion : promo
                 )
             );
-            toast.success("Trạng thái ưu đãi đã được cập nhật!");
+            toast.success(t("promotionList.updateStatusSuccess"));
         } catch (error) {
             toast.error(error.message);
         }
@@ -97,7 +100,7 @@ function PromotionListPage() {
                         <div className="search-box">
                             <input
                                 type="text"
-                                placeholder="Tìm kiếm theo tên hoặc mã ưu đãi..."
+                                placeholder={t("promotionList.searchPlaceholder")}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -110,28 +113,28 @@ function PromotionListPage() {
             </div>
             {/* Promotion Listing Area */}
             <div className="recent-listing-area">
-                <h6>Danh sách ưu đãi</h6>
+                <h6>{t("promotionList.listTitle")}</h6>
                 <div className="recent-listing-table">
                     <table className="table table-hover">
-                        <thead>
-                            <tr>
-                                <th style={{ width: "7%" }}>Trạng thái</th>
-                                <th style={{ width: "14%" }}>Tên ưu đãi</th>
-                                <th style={{ width: "10%" }}>Mã ưu đãi</th>
-                                <th style={{ width: "8%" }}>Số lượng</th>
-                                <th style={{ width: "8%" }}>Đã dùng</th>
-                                <th style={{ width: "8%" }}>Giá trị</th>
-                                <th style={{ width: "8%" }}>Loại ưu đãi</th>
-                                <th style={{ width: "10%" }}>Từ ngày</th>
-                                <th style={{ width: "10%" }}>Đến ngày</th>
-                                <th style={{ width: "10%" }}>Áp dụng</th>
-                                <th style={{ width: "15%" }}>Hành động</th>
+                        <thead className="text-center" > 
+                            <tr className="d-flex justify-content-center align-content-center">
+                                <th style={{ width: "7%" }}>{t("promotionList.status")}</th>
+                                <th style={{ width: "14%" }}>{t("promotionList.name")}</th>
+                                <th style={{ width: "10%" }}>{t("promotionList.code")}</th>
+                                <th style={{ width: "8%" }}>{t("promotionList.quantity")}</th>
+                                <th style={{ width: "8%" }}>{t("promotionList.used")}</th>
+                                <th style={{ width: "8%" }}>{t("promotionList.value")}</th>
+                                <th style={{ width: "8%" }}>{t("promotionList.type")}</th>
+                                <th style={{ width: "10%" }}>{t("promotionList.startDate")}</th>
+                                <th style={{ width: "10%" }}>{t("promotionList.endDate")}</th>
+                                <th style={{ width: "10%" }}>{t("promotionList.applyTo")}</th>
+                                <th style={{ width: "15%" }}>{t("promotionList.actions")}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {currentPromotions.map((promotion) => (
                                 <tr key={promotion.id}>
-                                    <td data-label="Trạng thái">
+                                    <td data-label={t("promotionList.status")}>
                                         <div className="form-check form-switch d-flex justify-content-center align-items-center">
                                             <input
                                                 className="form-check-input"
@@ -156,41 +159,39 @@ function PromotionListPage() {
                                             />
                                         </div>
                                     </td>
-                                    <td data-label="Tên ưu đãi">
+                                    <td data-label={t("promotionList.name")}>
                                         {promotion.name}
                                     </td>
-                                    <td data-label="Mã ưu đãi">
+                                    <td data-label={t("promotionList.code")}>
                                         <strong>{promotion.code}</strong>
                                     </td>
-                                    <td data-label="Số lượng">
+                                    <td data-label={t("promotionList.quantity")}>
                                         {promotion.quantity}
                                     </td>
-                                    <td data-label="Đã dùng">
+                                    <td data-label={t("promotionList.used")}>
                                         {promotion.usedCount || 0}
                                     </td>
-                                    <td data-label="Giá trị">
+                                    <td data-label={t("promotionList.value")}>
                                         {promotion.value}{" "}
                                         {promotion.discountType === "PERCENT"
                                             ? "%"
                                             : "₫"}
                                     </td>
-                                    <td data-label="Loại ưu đãi">
+                                    <td data-label={t("promotionList.type")}>
                                         {promotion.discountType}
                                     </td>
-                                    <td data-label="Từ ngày">
-                                        {formatDateDDMMYYYY(
-                                            promotion.startDate
-                                        ) || "Không giới hạn"}
+                                    <td data-label={t("promotionList.startDate")}>
+                                        {formatDateDDMMYYYY(promotion.startDate) ||
+                                            "Không giới hạn"}
                                     </td>
-                                    <td data-label="Đến ngày">
-                                        {formatDateDDMMYYYY(
-                                            promotion.endDate
-                                        ) || "Không giới hạn"}
+                                    <td data-label={t("promotionList.endDate")}>
+                                        {formatDateDDMMYYYY(promotion.endDate) ||
+                                            "Không giới hạn"}
                                     </td>
-                                    <td data-label="Áp dụng">
+                                    <td data-label={t("promotionList.applyTo")}>
                                         {promotion.applyTo}
                                     </td>
-                                    <td data-label="Hành động">
+                                    <td data-label={t("promotionList.actions")}>
                                         <button
                                             onClick={() =>
                                                 handleEditPromotion(
@@ -222,9 +223,8 @@ function PromotionListPage() {
                             {[...Array(totalPages)].map((_, i) => (
                                 <li
                                     key={i + 1}
-                                    className={`page-item ${
-                                        currentPage === i + 1 ? "active" : ""
-                                    }`}
+                                    className={`page-item ${currentPage === i + 1 ? "active" : ""
+                                        }`}
                                     onClick={() => handlePageChange(i + 1)}
                                 >
                                     <a href="#">{i + 1}</a>
@@ -247,7 +247,7 @@ function PromotionListPage() {
                                     >
                                         <path d="M0 7.00008L7 0L2.54545 7.00008L7 14L0 7.00008Z" />
                                     </svg>
-                                    Trước
+                                    {t("promotionList.prev")}
                                 </a>
                             </li>
                             <li>
@@ -257,7 +257,7 @@ function PromotionListPage() {
                                         handlePageChange(currentPage + 1)
                                     }
                                 >
-                                    Sau
+                                    {t("promotionList.next")}
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="7"
