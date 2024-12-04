@@ -361,6 +361,16 @@
 
         "max": "{{field}} must not exceed {{max}}"
     },
+    "room": {
+        "roomType": "Room type",
+        "bedType": "Bed type",
+        "originalPrice": "Original price",
+        "discountedPrice": "Discounted price",
+        "description": "Description",
+        "amenities": "Amenities",
+        "roomArea": "Room area",
+        "maxOccupancy": "Max occupancy"
+    },
     "toast": {
         "finishInfoBeforePayment": "Please complete the booking information before payment!",
         "voucherError": "An error occurred while checking the voucher code",
@@ -571,7 +581,7 @@
     "year": "Year",
     "years": "Years",
     "yearsOld": "Years Old",
-    "room": "Room",
+
     "children": "Children",
     "adults": "Adults",
     "guests": "Guests",
@@ -594,7 +604,7 @@
         "settings": "Settings",
         "logout": "Logout"
     },
-    
+
     "hotelList": {
         "allHotels": "Hotel List",
         "viewProfile": "View Profile",
@@ -656,9 +666,9 @@
         "successMessage": "Amenity updated successfully!",
         "errorMessage": "An error occurred.",
         "validation": {
-        "nameRequired": "Please enter the amenity name.",
-        "descriptionRequired": "Please enter the description.",
-        "typeRequired": "Please select an amenity type."
+            "nameRequired": "Please enter the amenity name.",
+            "descriptionRequired": "Please enter the description.",
+            "typeRequired": "Please select an amenity type."
         }
     },
 
@@ -808,7 +818,7 @@
         }
     },
 
-   "changePasswordSettings": {
+    "changePasswordSettings": {
         "title": "Change your password",
         "oldPasswordLabel": "Old Password*",
         "currentPasswordLabel": "Current Password*",
@@ -865,7 +875,7 @@
         "tabs": {
             "hotel": "Hotel",
             "tour": "Tour",
-           "all": "All",
+            "all": "All",
             "completed": "Completed",
             "pending": "Pending",
             "cancelled": "Cancelled"
@@ -1041,7 +1051,7 @@
             "capacityUnit": " person"
         },
         "amenities": {
-        "title": "Amenities"
+            "title": "Amenities"
         },
         "loading": "Loading room information...",
         "reviews": {
@@ -1175,6 +1185,4 @@
             "delete": "Delete"
         }
     }
-
-
 }

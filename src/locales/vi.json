@@ -362,6 +362,16 @@
 
         "max": "{{field}} không được vượt quá {{max}}"
     },
+    "room": {
+        "roomType": "Loại phòng",
+        "bedType": "Loại giường",
+        "originalPrice": "Giá gốc",
+        "discountedPrice": "Giá đã giảm",
+        "description": "Mô tả",
+        "amenities": "Tiện nghi",
+        "roomArea": "Diện tích phòng",
+        "maxOccupancy": "Sức chứa tối đa"
+    },
     "toast": {
         "finishInfoBeforePayment": "Vui lòng hoàn tất thông tin đặt phòng trước khi thanh toán!",
         "voucherError": "Đã xảy ra lỗi khi kiểm tra mã phiếu giảm giá",
@@ -372,9 +382,9 @@
         "cancelSuccess": "Hủy thất bại!"
     },
     "rating": {
-        "excellent": "Excellent",
-        "good": "Good",
-        "average": "Average",
+        "excellent": "Xuất sắc",
+        "good": "Tốt",
+        "average": "Trung bình",
         "poor": "Kém",
         "noReview": "Không có đánh giá",
         "veryPoor": "Rất kém"
@@ -492,7 +502,7 @@
     "maxOccupancy": "Sức chứa tối đa",
     "roomArea": "Diện tích",
     "email": "Email",
-   
+
     "promotionName": "Tên chương trình khuyến mãi",
     "promotionCode": "Mã khuyến mãi",
     "startDate": "Ngày bắt đầu",
@@ -571,7 +581,6 @@
     "year": "Năm",
     "years": "Năm",
     "yearsOld": "Năm",
-    "room": "Phòng",
     "children": "Trẻ em",
     "adults": "Người lớn",
     "guests": "Khách",
@@ -594,7 +603,7 @@
         "settings": "Cài đặt",
         "logout": "Đăng xuất"
     },
-    
+
     "hotelList": {
         "allHotels": "Danh sách khách sạn",
         "viewProfile": "Xem hồ sơ",
@@ -782,9 +791,9 @@
     "profileSettings": {
         "title": "Cài đặt Hồ sơ",
         "tabs": {
-        "profile": "Hồ sơ",
-        "preferences": "Tùy chọn",
-        "changePassword": "Đổi mật khẩu"
+            "profile": "Hồ sơ",
+            "preferences": "Tùy chọn",
+            "changePassword": "Đổi mật khẩu"
         },
         "preferences": {
             "emailNotifications": {
@@ -1168,12 +1177,11 @@
             "searchPlaceholder": "Tìm khách hàng..."
         },
         "pagination": {
-          "noCustomers": "Chưa có khách hàng nào"
+            "noCustomers": "Chưa có khách hàng nào"
         },
         "buttons": {
             "details": "Chi tiết",
             "delete": "Xóa"
         }
     }
-
 }

@@ -40,7 +40,10 @@ function AllPromotions() {
     const handleDeletePromotion = async (promotionId) => {
         if (window.confirm("Bạn có chắc muốn xóa ưu đãi này?")) {
             try {
-                await PromotionService.deletePromotion(promotionId, user.accessToken);
+                await PromotionService.deletePromotion(
+                    promotionId,
+                    user.accessToken
+                );
                 toast.success("Đã xóa ưu đãi thành công!");
                 setPromotions((prevPromotions) =>
                     prevPromotions.filter((promo) => promo.id !== promotionId)
@@ -57,7 +60,11 @@ function AllPromotions() {
             isActive: !promotion.isActive,
         };
         try {
-            await PromotionService.updatePromotionStatus(promotion.id, updatedPromotion, user.accessToken);
+            await PromotionService.updatePromotionStatus(
+                promotion.id,
+                updatedPromotion,
+                user.accessToken
+            );
             setPromotions((prevPromotions) =>
                 prevPromotions.map((promo) =>
                     promo.id === promotion.id ? updatedPromotion : promo
@@ -71,9 +78,10 @@ function AllPromotions() {
 
     const totalPages = Math.ceil(promotions.length / pageSize);
     const currentPromotions = promotions
-        .filter((promo) =>
-            promo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            promo.code?.toLowerCase().includes(searchTerm.toLowerCase())
+        .filter(
+            (promo) =>
+                promo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                promo.code?.toLowerCase().includes(searchTerm.toLowerCase())
         )
         .slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
@@ -92,7 +100,9 @@ function AllPromotions() {
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
-                            <button type="submit"><i className="bx bx-search"></i></button>
+                            <button type="submit">
+                                <i className="bx bx-search"></i>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -126,40 +136,73 @@ function AllPromotions() {
                                                 className="form-check-input"
                                                 type="checkbox"
                                                 checked={promotion.isActive}
-                                                onChange={() => handleToggleStatus(promotion)}
+                                                onChange={() =>
+                                                    handleToggleStatus(
+                                                        promotion
+                                                    )
+                                                }
                                                 style={{
-                                                    backgroundColor: promotion.isActive ? "var(--primary-color1)" : "#ffffff",
-                                                    borderColor: promotion.isActive ? "var(--primary-color1)" : "#ced4da",
-                                                    boxShadow: "none"
+                                                    backgroundColor:
+                                                        promotion.isActive
+                                                            ? "var(--primary-color1)"
+                                                            : "#ffffff",
+                                                    borderColor:
+                                                        promotion.isActive
+                                                            ? "var(--primary-color1)"
+                                                            : "#ced4da",
+                                                    boxShadow: "none",
                                                 }}
                                             />
                                         </div>
                                     </td>
-                                    <td data-label="Tên ưu đãi">{promotion.name}</td>
-                                    <td data-label="Mã ưu đãi">{promotion.code}</td>
-                                    <td data-label="Số lượng">{promotion.quantity}</td>
-                                    <td data-label="Đã dùng">{promotion.usedCount || 0}</td>
+                                    <td data-label="Tên ưu đãi">
+                                        {promotion.name}
+                                    </td>
+                                    <td data-label="Mã ưu đãi">
+                                        {promotion.code}
+                                    </td>
+                                    <td data-label="Số lượng">
+                                        {promotion.quantity}
+                                    </td>
+                                    <td data-label="Đã dùng">
+                                        {promotion.usedCount || 0}
+                                    </td>
                                     <td data-label="Giá trị">
                                         {promotion.value}{" "}
-                                        {promotion.discountType === "percent" ? "%" : "₫"}
+                                        {promotion.discountType === "percent"
+                                            ? "%"
+                                            : "₫"}
                                     </td>
-                                    <td data-label="Loại ưu đãi">{promotion.type}</td>
+                                    <td data-label="Loại ưu đãi">
+                                        {promotion.type}
+                                    </td>
                                     <td data-label="Từ ngày">
-                                        {promotion.startDate || "Không giới hạn"}
+                                        {promotion.startDate ||
+                                            "Không giới hạn"}
                                     </td>
                                     <td data-label="Đến ngày">
                                         {promotion.endDate || "Không giới hạn"}
                                     </td>
-                                    <td data-label="Áp dụng">{promotion.applyTo}</td>
+                                    <td data-label="Áp dụng">
+                                        {promotion.applyTo}
+                                    </td>
                                     <td data-label="Hành động">
                                         <button
-                                            onClick={() => handleEditPromotion(promotion.id)}
+                                            onClick={() =>
+                                                handleEditPromotion(
+                                                    promotion.id
+                                                )
+                                            }
                                             className="primary-btn1 p-2 me-2"
                                         >
                                             <i className="bi bi-pencil-square"></i>
                                         </button>
                                         <button
-                                            onClick={() => handleDeletePromotion(promotion.id)}
+                                            onClick={() =>
+                                                handleDeletePromotion(
+                                                    promotion.id
+                                                )
+                                            }
                                             className="primary-btn1 p-2"
                                             style={{ backgroundColor: "red" }}
                                         >
@@ -175,7 +218,9 @@ function AllPromotions() {
                             {[...Array(totalPages)].map((_, i) => (
                                 <li
                                     key={i + 1}
-                                    className={`page-item ${currentPage === i + 1 ? "active" : ""}`}
+                                    className={`page-item ${
+                                        currentPage === i + 1 ? "active" : ""
+                                    }`}
                                     onClick={() => handlePageChange(i + 1)}
                                 >
                                     <a href="#">{i + 1}</a>
@@ -184,17 +229,38 @@ function AllPromotions() {
                         </ul>
                         <ul className="paginations-buttons">
                             <li>
-                                <a href="#" onClick={() => handlePageChange(currentPage - 1)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="14" viewBox="0 0 7 14">
+                                <a
+                                    href="#"
+                                    onClick={() =>
+                                        handlePageChange(currentPage - 1)
+                                    }
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="7"
+                                        height="14"
+                                        viewBox="0 0 7 14"
+                                    >
                                         <path d="M0 7.00008L7 0L2.54545 7.00008L7 14L0 7.00008Z" />
                                     </svg>
                                     Prev
                                 </a>
                             </li>
                             <li>
-                                <a href="#" onClick={() => handlePageChange(currentPage + 1)}>
+                                <a
+                                    href="#"
+                                    onClick={() =>
+                                        handlePageChange(currentPage + 1)
+                                    }
+                                >
                                     Next
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="14" viewBox="0 0 7 14" fill="none">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="7"
+                                        height="14"
+                                        viewBox="0 0 7 14"
+                                        fill="none"
+                                    >
                                         <path d="M7 7.00008L0 0L4.45455 7.00008L0 14L7 7.00008Z" />
                                     </svg>
                                 </a>
