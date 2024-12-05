@@ -8,6 +8,11 @@ import RoomDetails from "../../../../components/HotelOwner/RoomDetails/RoomDetai
 import ConfirmationRegisterHotelOwner from "../../../../components/HotelOwner/ConfirmationRegisterHotelOwner/ConfirmationRegisterHotelOwner";
 import * as HotelService from "../../../../services/HotelService";
 
+import { useMutation } from "react-query";
+import * as UserService from "../../../../services/UserService";
+import Loading from "../../../../components/Loading/Loading";
+
+
 function HotelEditPage() {
     const user = useSelector((state) => state.user);
     const { hotelId } = useParams(); // Lấy hotelId từ URL
@@ -16,42 +21,72 @@ function HotelEditPage() {
     const [location, setLocation] = useState({});
     const [activeTab, setActiveTab] = useState("property");
 
-    useEffect(() => {
-        async function fetchHotelDetails() {
-            try {
-                const response = await HotelService.getHotelById(hotelId);
-                console.log("Dữ liệu khách sạn nhận được:", response);  // Log phản hồi từ API
-    
-                setHotelDetails(response);
-                setLocation(response.location);
-                setRoomDetails(response.rooms[0] || {});
-    
-            } catch (error) {
-                console.error("Không thể tải thông tin khách sạn:", error);
-    
-                // Log thêm chi tiết lỗi
-                if (error.response) {
-                    console.log("Lỗi từ API:", error.response.data);
-                    console.log("Mã lỗi API:", error.response.status);
-                    toast.error(`Lỗi API: ${error.response.status} - ${error.response.data.message}`);
-                } else if (error.request) {
-                    console.log("Không nhận được phản hồi từ máy chủ:", error.request);
-                    toast.error("Không nhận được phản hồi từ máy chủ");
-                } else {
-                    console.log("Lỗi trong quá trình gửi yêu cầu:", error.message);
-                    toast.error(`Lỗi kết nối: ${error.message}`);
-                }
-            }
-        }
+    const [loading, setLoading] = useState(true);
 
-        fetchHotelDetails();
-    }, [hotelId]);
-    
+
+
+    const mutationHotel = useMutation(
+        (hotelId) => HotelService.getHotelById(hotelId),
+        {
+            onSuccess: (data) => {
+
+                setHotelDetails({
+                    name: data.name,
+                    category: data.category,
+                    description: data.description,
+                    paymentPolicy: data.paymentPolicy,
+                    freeCancellation: data.freeCancellation,
+                    breakfastIncluded: data.breakfastIncluded,
+                    prePayment: data.prePayment,
+                    facilities: data.amenities.map((amenity) => amenity.id),
+                    images: data.exteriorImages,
+                }); // Gán thông tin khách sạn vào state
+                setLocation(data.location || {}); // Gán location
+                setRoomDetails(data.rooms?.[0] || {}); // Gán thông tin phòng
+                setLoading(false); // Tắt trạng thái loading
+
+                //console.log("Dữ hotel detail:", hotelDetails);  // Log phản hồi từ API
+
+                setLoading(false);
+            },
+            onError: (error) => {
+                toast.error(error.message);
+
+                setLoading(false);
+            },
+        }
+    );
+
+    const mutationGetUserDetails = useMutation(
+        ({ userId, accessToken }) => {
+            return UserService.getDetailsUser(userId, accessToken);
+        },
+        {
+            onSuccess: (data) => {
+                mutationHotel.mutate(data.hotelId);
+            },
+            onError: (error) => {
+                toast.error(error.message || "Đã xảy ra lỗi.");
+            },
+        }
+    );
+    useEffect(() => {
+        mutationGetUserDetails.mutate({
+            userId: user.id,
+            accessToken: user.accessToken,
+        });
+    }, []);
+
+
 
     // Hàm xử lý cập nhật
     const handleUpdate = async () => {
         try {
-            await HotelService.updateHotel(hotelId, hotelDetails, user.accessToken);
+            const updatedHotel = {
+                ...hotelDetails,
+                location,
+            };
+            await HotelService.updateHotel(hotelId, updatedHotel, user.accessToken);
             toast.success("Cập nhật thành công");
         } catch (error) {
             toast.error("Cập nhật thất bại");
@@ -69,6 +104,10 @@ function HotelEditPage() {
         window.scrollTo(0, 0);
     };
 
+    if (loading) {
+        return <Loading />;
+    }
+
     return (
         <>
             <ToastContainer closeOnClick />
@@ -78,6 +117,7 @@ function HotelEditPage() {
                         <h3>Chỉnh sửa thông tin khách sạn</h3>
                     </div>
                     <div className="dashboard-profile-wrapper">
+                        {/* Sidebar */}
                         <div className="dashboard-profile-nav h-100">
                             <ul className="nav flex-column nav-pills" id="pills-tab" role="tablist">
                                 <li className="nav-item" role="presentation">
@@ -106,7 +146,10 @@ function HotelEditPage() {
                                 </li>
                             </ul>
                         </div>
+
+                        {/* Content */}
                         <div className="tab-content w-100" id="pills-tabContent">
+                            {/* Tab: Thông tin khách sạn */}
                             <div className={`tab-pane fade ${activeTab === "property" ? "active show" : ""}`}>
                                 <PropertyInfo
                                     hotelDetails={hotelDetails}
@@ -114,18 +157,22 @@ function HotelEditPage() {
                                     onNext={handleNextTab}
                                 />
                             </div>
+
+                            {/* Tab: Vị trí chi tiết */}
                             <div className={`tab-pane fade ${activeTab === "location" ? "active show" : ""}`}>
                                 <LocationDetails
                                     location={location}
-                                    setLocation={setLocation}
+                                    setHotelLocation={setLocation}
                                     onNext={handleNextTab}
                                 />
                             </div>
+
+                            {/* Tab: Cập nhật */}
                             <div className={`tab-pane fade ${activeTab === "confirmation-submit" ? "active show" : ""}`}>
                                 <ConfirmationRegisterHotelOwner
                                     hotelDetails={hotelDetails}
-                                    location={location}
-                                    roomDetails={roomDetails}
+                                    setHotelLocation={setLocation}
+                                    // roomDetails={roomDetails}
                                     onUpdate={handleUpdate}
                                 />
                             </div>
@@ -135,6 +182,7 @@ function HotelEditPage() {
             </div>
         </>
     );
+
 }
 
 export default HotelEditPage;

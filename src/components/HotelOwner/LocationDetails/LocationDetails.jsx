@@ -5,13 +5,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import addressData from "../../../data/vietnamAddress.json";
 import { locationHotelschema } from "../../../schemas/validationSchemas";
 
-function LocationDetails({ setLocation, onNext }) {
+function LocationDetails({ setHotelLocation,onNext , hotelLocation }) { //location -> hotelLocation
     const [districtOptions, setDistrictOptions] = useState([]);
     const [wardOptions, setWardOptions] = useState([]);
 
     const {
         control,
         handleSubmit,
+        setValue,
         watch,
         formState: { errors },
     } = useForm({
@@ -26,6 +27,15 @@ function LocationDetails({ setLocation, onNext }) {
 
     const selectedProvince = watch("province");
     const selectedDistrict = watch("district");
+
+    // Đổ dữ liệu vào form khi có dữ liệu vị trí
+    useEffect(() => {
+        if (hotelLocation) {
+            Object.keys(hotelLocation).forEach((key) => {
+                setValue(key, hotelLocation[key]);
+            });
+        }
+    }, [hotelLocation, setValue]);
 
     // Cập nhật danh sách quận/huyện khi chọn tỉnh/thành
     useEffect(() => {
@@ -74,7 +84,7 @@ function LocationDetails({ setLocation, onNext }) {
             .filter(Boolean) // Loại bỏ các giá trị null hoặc undefined
             .join(", "); // Nối các phần tử thành chuỗi với dấu phẩy
 
-        setLocation(combinedLocation); // Lưu chuỗi vào state setLocation
+            setHotelLocation(combinedLocation); // Lưu chuỗi vào state setLocation
 
         onNext(); // Chuyển sang bước tiếp theo
     };

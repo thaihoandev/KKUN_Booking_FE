@@ -116,8 +116,8 @@ function PromotionListPage() {
                 <h6>{t("promotionList.listTitle")}</h6>
                 <div className="recent-listing-table">
                     <table className="table table-hover">
-                        <thead className="text-center" > 
-                            <tr className="d-flex justify-content-center align-content-center">
+                        <thead>
+                            <tr>
                                 <th style={{ width: "7%" }}>{t("promotionList.status")}</th>
                                 <th style={{ width: "14%" }}>{t("promotionList.name")}</th>
                                 <th style={{ width: "10%" }}>{t("promotionList.code")}</th>
@@ -135,7 +135,7 @@ function PromotionListPage() {
                             {currentPromotions.map((promotion) => (
                                 <tr key={promotion.id}>
                                     <td data-label={t("promotionList.status")}>
-                                        <div className="form-check form-switch d-flex justify-content-center align-items-center">
+                                        <div className="form-check form-switch d-flex justify-content-start ms-2 align-items-center">
                                             <input
                                                 className="form-check-input"
                                                 type="checkbox"
