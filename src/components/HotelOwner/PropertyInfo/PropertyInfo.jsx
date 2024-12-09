@@ -24,7 +24,7 @@ function PropertyInfo({ hotelDetails, setHotelDetails, onNext }) {
         formState: { errors },
     } = useForm({
         resolver: yupResolver(hotelDetailsSchema),
-        defaultValues: {
+        defaultValues: hotelDetails || {
             name: "",
             category: "",
             description: "",
@@ -63,6 +63,23 @@ function PropertyInfo({ hotelDetails, setHotelDetails, onNext }) {
         mutationHotelCategories.mutate();
         mutationFacilities.mutate();
     }, []);
+    // Đồng bộ dữ liệu khi hotelDetails thay đổi:
+    useEffect(() => {
+        console.log("Dữ liệu khách sạn nhận được:", hotelDetails); // Log phản hồi từ API
+        if (hotelDetails) {
+            Object.keys(hotelDetails).forEach((key) => {
+                setValue(key, hotelDetails[key]);
+            });
+        }
+    }, [hotelDetails, setValue]);
+    // Sử dụng watch để theo dõi thay đổi và cập nhật hotelDetails:
+    useEffect(() => {
+        const formData = watch();
+        setHotelDetails({
+            ...hotelDetails,
+            ...formData,
+        });
+    }, [watch, setHotelDetails]);
 
     // Update hotelDetails when form or selections change
     useEffect(() => {

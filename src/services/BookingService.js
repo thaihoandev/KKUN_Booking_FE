@@ -152,8 +152,8 @@ export const verifyVoucher = async (voucherCode) => {
 // Hàm xử lý lỗi chung cho axios
 const handleAxiosError = (error) => {
     if (error.response && error.response.data) {
-        return error.response.data; // Return the error message instead of throwing
+        throw new Error(error.response.data);
     } else {
-        return "Đã xảy ra lỗi khi kết nối tới máy chủ."; // Return a generic error message
+        throw new Error("Đã xảy ra lỗi khi kết nối tới máy chủ.");
     }
 };

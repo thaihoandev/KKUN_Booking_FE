@@ -163,12 +163,16 @@ function BookingForm({ hotel, room, discount, setDiscount }) {
             onSuccess: (data) => {
                 toast.info(`${t("pendingBookings")}...!`);
                 console.log(data);
-                if (data.code === "200" && data.paymentUrl != null) {
+                if (
+                    data.code &&
+                    data.code === "200" &&
+                    data.paymentUrl != null
+                ) {
                     window.location.href = data.paymentUrl;
                 } else {
                     setTimeout(() => {
                         navigate("/bookings/booking-success");
-                    }, 1000); // Độ trễ 2 giây
+                    }, 500); // Độ trễ 2 giây
                 }
             },
             onError: (error) => {

@@ -13,9 +13,8 @@ import moment from "moment";
 import { Link } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
+import * as PaymentService from "../../../services/PaymentService";
 function BookedList() {
-
     const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState("hotel"); // Thiết lập tab mặc định là "hotel"
     const [loading, setLoading] = useState(true);
@@ -107,7 +106,29 @@ function BookedList() {
     const handleReviewBooking = (booking) => {
         navigate(`/rooms/${booking.roomId}/bookings/${booking.id}/review`);
     };
-    console.log(currentItems);
+    const mutationInitPayment = useMutation(
+        (bookingId) => PaymentService.initiatePayment(bookingId), // Simplified the mutation function
+        {
+            onSuccess: (data) => {
+                // Check if the response contains a successful code and payment URL
+                if (data.code === "200" && data.paymentUrl) {
+                    window.open(data.paymentUrl, "_blank");
+                } else {
+                    toast.error("Đã có lỗi xảy ra.");
+                }
+            },
+            onError: (error) => {
+                toast.error(error.message);
+            },
+        }
+    );
+
+    // The function to trigger the mutation
+    const handleInitPayment = (bookingId) => {
+        mutationInitPayment.mutate(bookingId);
+    };
+    console.log(bookingHistory);
+
     if (loading) {
         return <Loading />;
     }
@@ -125,10 +146,11 @@ function BookedList() {
                             >
                                 <li className="nav-item" role="presentation">
                                     <button
-                                        className={`nav-link ${activeTab === "hotel"
-                                            ? "active"
-                                            : ""
-                                            }`}
+                                        className={`nav-link ${
+                                            activeTab === "hotel"
+                                                ? "active"
+                                                : ""
+                                        }`}
                                         id="hotel-tab"
                                         type="button"
                                         role="tab"
@@ -151,8 +173,9 @@ function BookedList() {
                                 </li>
                                 <li className="nav-item" role="presentation">
                                     <button
-                                        className={`nav-link ${activeTab === "tour" ? "active" : ""
-                                            }`}
+                                        className={`nav-link ${
+                                            activeTab === "tour" ? "active" : ""
+                                        }`}
                                         id="tour-tab"
                                         type="button"
                                         role="tab"
@@ -277,18 +300,46 @@ function BookedList() {
                                             <table className="eg-table2">
                                                 <thead>
                                                     <tr>
-                                                        <th>{t("bookedList.table.hotelName")}</th>
-                                                        <th>{t("bookedList.table.totalPrice")}</th>
-                                                        <th>{t("bookedList.table.roomType")}</th>
-                                                        <th>{t("bookedList.table.person")}</th>
-                                                        <th>{t("bookedList.table.status")}</th>
-                                                        <th>{t("bookedList.table.bookingDate")}</th>
-                                                        <th>{t("bookedList.table.review")}</th>
+                                                        <th>
+                                                            {t(
+                                                                "bookedList.table.hotelName"
+                                                            )}
+                                                        </th>
+                                                        <th>
+                                                            {t(
+                                                                "bookedList.table.totalPrice"
+                                                            )}
+                                                        </th>
+                                                        <th>
+                                                            {t(
+                                                                "bookedList.table.roomType"
+                                                            )}
+                                                        </th>
+                                                        <th>
+                                                            {t(
+                                                                "bookedList.table.person"
+                                                            )}
+                                                        </th>
+                                                        <th>
+                                                            {t(
+                                                                "bookedList.table.status"
+                                                            )}
+                                                        </th>
+                                                        <th>
+                                                            {t(
+                                                                "bookedList.table.bookingDate"
+                                                            )}
+                                                        </th>
+                                                        <th>
+                                                            {t(
+                                                                "bookedList.table.review"
+                                                            )}
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {bookingHistory &&
-                                                        bookingHistory.length >
+                                                    bookingHistory.length >
                                                         0 ? (
                                                         currentItems.map(
                                                             (
@@ -296,7 +347,11 @@ function BookedList() {
                                                                 index
                                                             ) => (
                                                                 <tr key={index}>
-                                                                    <td data-label={t("bookedList.table.hotelName")}>
+                                                                    <td
+                                                                        data-label={t(
+                                                                            "bookedList.table.hotelName"
+                                                                        )}
+                                                                    >
                                                                         <div className="product-name">
                                                                             <div className="img">
                                                                                 <img
@@ -336,31 +391,108 @@ function BookedList() {
                                                                             </div>
                                                                         </div>
                                                                     </td>
-                                                                    <td data-label={t("bookedList.table.totalPrice")}>
+                                                                    <td
+                                                                        data-label={t(
+                                                                            "bookedList.table.totalPrice"
+                                                                        )}
+                                                                    >
                                                                         {convertToVND(
                                                                             booking.price
                                                                         )}
                                                                     </td>
-                                                                    <td data-label={t("bookedList.table.roomType")}>
+                                                                    <td
+                                                                        data-label={t(
+                                                                            "bookedList.table.roomType"
+                                                                        )}
+                                                                    >
                                                                         {
                                                                             booking.roomType
                                                                         }
                                                                     </td>
-                                                                    <td data-label={t("bookedList.table.person")}>
+                                                                    <td
+                                                                        data-label={t(
+                                                                            "bookedList.table.person"
+                                                                        )}
+                                                                    >
                                                                         {
                                                                             booking.person
                                                                         }{" "}
-                                                                        {t("bookedList.personUnit")}
+                                                                        {t(
+                                                                            "bookedList.personUnit"
+                                                                        )}
                                                                     </td>
-                                                                    <td data-label={t("bookedList.table.status")}>
-                                                                        <span class="confirmed">
-                                                                            {" "}
-                                                                            {
-                                                                                booking.status
-                                                                            }
+                                                                    <td
+                                                                        data-label={t(
+                                                                            "bookedList.table.status"
+                                                                        )}
+                                                                    >
+                                                                        <span className="confirmed">
+                                                                            {/* Show button if booking status is CONFIRMED and payment status is PENDING */}
+                                                                            {booking.status ===
+                                                                                "CONFIRMED" &&
+                                                                                booking
+                                                                                    .payment
+                                                                                    .status ===
+                                                                                    "PENDING" && (
+                                                                                    <button
+                                                                                        className="primary-btn2"
+                                                                                        onClick={() =>
+                                                                                            handleInitPayment(
+                                                                                                booking.id
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        Thanh
+                                                                                        toán
+                                                                                    </button>
+                                                                                )}
+                                                                            {booking.status ===
+                                                                                "PENDING" &&
+                                                                                booking
+                                                                                    .payment
+                                                                                    .status ===
+                                                                                    "PENDING" && (
+                                                                                    <button
+                                                                                        className="primary-btn2"
+                                                                                        onClick={() =>
+                                                                                            handleInitPayment(
+                                                                                                booking.id
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        Thanh
+                                                                                        toán
+                                                                                    </button>
+                                                                                )}
+                                                                            {/* Show "Thanh toán tại nơi" if booking status is PAY_ON_CHECKOUT */}
+                                                                            {booking.status ===
+                                                                                "PAY_ON_CHECKOUT" && (
+                                                                                <div className="pending">
+                                                                                    Thanh
+                                                                                    toán
+                                                                                    tại
+                                                                                    nơi
+                                                                                </div>
+                                                                            )}
+
+                                                                            {/* Show "Đã thanh toán" if payment status is confirmed */}
+                                                                            {booking
+                                                                                .payment
+                                                                                .status ===
+                                                                                "COMPLETED" && (
+                                                                                <div className="payment-confirmed">
+                                                                                    Đã
+                                                                                    thanh
+                                                                                    toán
+                                                                                </div>
+                                                                            )}
                                                                         </span>
                                                                     </td>
-                                                                    <td data-label={t("bookedList.table.bookingDate")}>
+                                                                    <td
+                                                                        data-label={t(
+                                                                            "bookedList.table.bookingDate"
+                                                                        )}
+                                                                    >
                                                                         {moment(
                                                                             booking.checkinDate
                                                                         ).format(
@@ -373,11 +505,19 @@ function BookedList() {
                                                                             "DD/MM/YYYY"
                                                                         )}
                                                                     </td>
-                                                                    <td data-label={t("bookedList.table.review")}>
+                                                                    <td
+                                                                        data-label={t(
+                                                                            "bookedList.table.review"
+                                                                        )}
+                                                                    >
                                                                         {booking.reviewed ===
                                                                             false &&
-                                                                            booking.status ===
-                                                                            "CONFIRMED" ? (
+                                                                        booking.status ===
+                                                                            "CONFIRMED" &&
+                                                                        booking
+                                                                            .payment
+                                                                            .status ===
+                                                                            "COMPLETED" ? (
                                                                             <a
                                                                                 style={{
                                                                                     cursor: "pointer",
@@ -389,16 +529,22 @@ function BookedList() {
                                                                                     );
                                                                                 }}
                                                                             >
-                                                                                {t("bookedList.actions.review")}
+                                                                                {t(
+                                                                                    "bookedList.actions.review"
+                                                                                )}
                                                                                 <i className="bi bi-arrow-right"></i>
                                                                             </a>
                                                                         ) : booking.reviewed ? (
                                                                             <strong className="text-warning">
-                                                                                {t("bookedList.reviewed")}
+                                                                                {t(
+                                                                                    "bookedList.reviewed"
+                                                                                )}
                                                                             </strong>
                                                                         ) : (
                                                                             <strong className="text-danger">
-                                                                                {t("bookedList.notCompleted")}
+                                                                                {t(
+                                                                                    "bookedList.notCompleted"
+                                                                                )}
                                                                             </strong>
                                                                         )}
                                                                     </td>
@@ -419,7 +565,9 @@ function BookedList() {
                                                                                 "1.1rem",
                                                                         }}
                                                                     >
-                                                                        {t("bookedList.noHistory")}
+                                                                        {t(
+                                                                            "bookedList.noHistory"
+                                                                        )}
                                                                     </strong>
                                                                     <p
                                                                         className=""
@@ -428,7 +576,9 @@ function BookedList() {
                                                                                 "0.9rem",
                                                                         }}
                                                                     >
-                                                                        {t("bookedList.noHistoryMessage")}
+                                                                        {t(
+                                                                            "bookedList.noHistoryMessage"
+                                                                        )}
                                                                     </p>
                                                                 </div>
                                                             </td>
@@ -436,7 +586,6 @@ function BookedList() {
                                                     )}
                                                 </tbody>
                                             </table>
-
 
                                             {/* 2222222222222222222 */}
                                             {bookingHistory &&
@@ -449,11 +598,12 @@ function BookedList() {
                                                                         key={
                                                                             number
                                                                         }
-                                                                        className={`page-item ${currentPage ===
+                                                                        className={`page-item ${
+                                                                            currentPage ===
                                                                             number
-                                                                            ? "active"
-                                                                            : ""
-                                                                            }`}
+                                                                                ? "active"
+                                                                                : ""
+                                                                        }`}
                                                                     >
                                                                         <a
                                                                             style={{
@@ -481,7 +631,7 @@ function BookedList() {
                                                                     }
                                                                     className={
                                                                         currentPage ===
-                                                                            1
+                                                                        1
                                                                             ? "disabled"
                                                                             : ""
                                                                     }
@@ -497,7 +647,9 @@ function BookedList() {
                                                                     >
                                                                         <path d="M0 7.00008L7 0L2.54545 7.00008L7 14L0 7.00008Z"></path>
                                                                     </svg>
-                                                                    {t("bookedList.pagination.prev")}
+                                                                    {t(
+                                                                        "bookedList.pagination.prev"
+                                                                    )}
                                                                 </a>
                                                             </li>
                                                             <li>
@@ -507,7 +659,7 @@ function BookedList() {
                                                                     }
                                                                     className={
                                                                         currentPage ===
-                                                                            totalPages
+                                                                        totalPages
                                                                             ? "disabled"
                                                                             : ""
                                                                     }
@@ -515,7 +667,9 @@ function BookedList() {
                                                                         cursor: "pointer",
                                                                     }}
                                                                 >
-                                                                    {t("bookedList.pagination.next")}
+                                                                    {t(
+                                                                        "bookedList.pagination.next"
+                                                                    )}
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg"
                                                                         width="7"
@@ -548,7 +702,9 @@ function BookedList() {
                             >
                                 <div className="recent-listing-area">
                                     <div className="title-and-tab">
-                                        <h6>{t("bookedList.tourPackageInfo")}</h6>
+                                        <h6>
+                                            {t("bookedList.tourPackageInfo")}
+                                        </h6>
                                         <ul
                                             className="nav nav-tabs"
                                             id="myTab"
@@ -638,17 +794,45 @@ function BookedList() {
                                                 <table className="eg-table2">
                                                     <thead>
                                                         <tr>
-                                                            <th>{t("bookedList.tourPackage")}</th>
-                                                            <th>{t("bookedList.type")}</th>
-                                                            <th>{t("bookedList.tourist")}</th>
-                                                            <th>{t("bookedList.price")}</th>
-                                                            <th>{t("bookedList.table.status")}</th>
-                                                            <th>{t("bookedList.timeline")}</th>
+                                                            <th>
+                                                                {t(
+                                                                    "bookedList.tourPackage"
+                                                                )}
+                                                            </th>
+                                                            <th>
+                                                                {t(
+                                                                    "bookedList.type"
+                                                                )}
+                                                            </th>
+                                                            <th>
+                                                                {t(
+                                                                    "bookedList.tourist"
+                                                                )}
+                                                            </th>
+                                                            <th>
+                                                                {t(
+                                                                    "bookedList.price"
+                                                                )}
+                                                            </th>
+                                                            <th>
+                                                                {t(
+                                                                    "bookedList.table.status"
+                                                                )}
+                                                            </th>
+                                                            <th>
+                                                                {t(
+                                                                    "bookedList.timeline"
+                                                                )}
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td data-label={t("bookedList.tourPackage")}>
+                                                            <td
+                                                                data-label={t(
+                                                                    "bookedList.tourPackage"
+                                                                )}
+                                                            >
                                                                 <div className="product-name">
                                                                     <div className="img">
                                                                         <img
@@ -659,7 +843,9 @@ function BookedList() {
                                                                     <div className="product-content">
                                                                         <h6>
                                                                             <a href="package-details.html">
-                                                                                {t("bookedList.exampleTour")}
+                                                                                {t(
+                                                                                    "bookedList.exampleTour"
+                                                                                )}
                                                                             </a>
                                                                         </h6>
                                                                         <p>
@@ -672,28 +858,58 @@ function BookedList() {
                                                                                 <path d="M8.99939 0C5.40484 0 2.48047 2.92437 2.48047 6.51888C2.48047 10.9798 8.31426 17.5287 8.56264 17.8053C8.79594 18.0651 9.20326 18.0646 9.43613 17.8053C9.68451 17.5287 15.5183 10.9798 15.5183 6.51888C15.5182 2.92437 12.5939 0 8.99939 0ZM8.99939 9.79871C7.19088 9.79871 5.71959 8.32739 5.71959 6.51888C5.71959 4.71037 7.19091 3.23909 8.99939 3.23909C10.8079 3.23909 12.2791 4.71041 12.2791 6.51892C12.2791 8.32743 10.8079 9.79871 8.99939 9.79871Z"></path>
                                                                             </svg>{" "}
                                                                             <span>
-                                                                                {t("bookedList.exampleLocation")}
+                                                                                {t(
+                                                                                    "bookedList.exampleLocation"
+                                                                                )}
                                                                             </span>
                                                                         </p>
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td data-label={t("bookedList.type")}>
-                                                                {t("bookedList.group")}
+                                                            <td
+                                                                data-label={t(
+                                                                    "bookedList.type"
+                                                                )}
+                                                            >
+                                                                {t(
+                                                                    "bookedList.group"
+                                                                )}
                                                             </td>
-                                                            <td data-label={t("bookedList.tourist")}>
-                                                                {t("bookedList.touristCount")}
+                                                            <td
+                                                                data-label={t(
+                                                                    "bookedList.tourist"
+                                                                )}
+                                                            >
+                                                                {t(
+                                                                    "bookedList.touristCount"
+                                                                )}
                                                             </td>
-                                                            <td data-label={t("bookedList.price")}>
+                                                            <td
+                                                                data-label={t(
+                                                                    "bookedList.price"
+                                                                )}
+                                                            >
                                                                 $720.00
                                                             </td>
-                                                            <td data-label={t("bookedList.status")}>
+                                                            <td
+                                                                data-label={t(
+                                                                    "bookedList.status"
+                                                                )}
+                                                            >
                                                                 <span className="confirmed">
-                                                                    {t("bookedList.confirmed")}
+                                                                    {t(
+                                                                        "bookedList.confirmed"
+                                                                    )}
                                                                 </span>
                                                             </td>
-                                                            <td data-label={t("bookedList.timeline")}>
-                                                                {t("bookedList.timelineExample")}
+                                                            <td
+                                                                data-label={t(
+                                                                    "bookedList.timeline"
+                                                                )}
+                                                            >
+                                                                {t(
+                                                                    "bookedList.timelineExample"
+                                                                )}
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -721,13 +937,16 @@ function BookedList() {
                                                                 >
                                                                     <path d="M0 7.00008L7 0L2.54545 7.00008L7 14L0 7.00008Z"></path>
                                                                 </svg>
-                                                                {t("bookedList.pagination.prev")}
-
+                                                                {t(
+                                                                    "bookedList.pagination.prev"
+                                                                )}
                                                             </a>
                                                         </li>
                                                         <li>
                                                             <a href="#">
-                                                                {t("bookedList.pagination.next")}
+                                                                {t(
+                                                                    "bookedList.pagination.next"
+                                                                )}
                                                                 <svg
                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                     width="7"

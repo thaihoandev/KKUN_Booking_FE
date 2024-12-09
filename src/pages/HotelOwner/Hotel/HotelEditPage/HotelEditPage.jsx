@@ -7,6 +7,9 @@ import LocationDetails from "../../../../components/HotelOwner/LocationDetails/L
 import RoomDetails from "../../../../components/HotelOwner/RoomDetails/RoomDetails";
 import ConfirmationRegisterHotelOwner from "../../../../components/HotelOwner/ConfirmationRegisterHotelOwner/ConfirmationRegisterHotelOwner";
 import * as HotelService from "../../../../services/HotelService";
+import { useMutation } from "react-query";
+import * as UserService from "../../../../services/UserService";
+import Loading from "../../../../components/Loading/Loading";
 
 function HotelEditPage() {
     const user = useSelector((state) => state.user);
@@ -16,42 +19,65 @@ function HotelEditPage() {
     const [location, setLocation] = useState({});
     const [activeTab, setActiveTab] = useState("property");
 
-    useEffect(() => {
-        async function fetchHotelDetails() {
-            try {
-                const response = await HotelService.getHotelById(hotelId);
-                console.log("Dữ liệu khách sạn nhận được:", response);  // Log phản hồi từ API
-    
-                setHotelDetails(response);
-                setLocation(response.location);
-                setRoomDetails(response.rooms[0] || {});
-    
-            } catch (error) {
-                console.error("Không thể tải thông tin khách sạn:", error);
-    
-                // Log thêm chi tiết lỗi
-                if (error.response) {
-                    console.log("Lỗi từ API:", error.response.data);
-                    console.log("Mã lỗi API:", error.response.status);
-                    toast.error(`Lỗi API: ${error.response.status} - ${error.response.data.message}`);
-                } else if (error.request) {
-                    console.log("Không nhận được phản hồi từ máy chủ:", error.request);
-                    toast.error("Không nhận được phản hồi từ máy chủ");
-                } else {
-                    console.log("Lỗi trong quá trình gửi yêu cầu:", error.message);
-                    toast.error(`Lỗi kết nối: ${error.message}`);
-                }
-            }
+    const [loading, setLoading] = useState(true);
+    const mutationHotel = useMutation(
+        (hotelId) => HotelService.getHotelById(hotelId),
+        {
+            onSuccess: (data) => {
+                setHotelDetails({
+                    name: data.name,
+                    category: data.category,
+                    description: data.description,
+                    paymentPolicy: data.paymentPolicy,
+                    freeCancellation: data.freeCancellation,
+                    breakfastIncluded: data.breakfastIncluded,
+                    prePayment: data.prePayment,
+                    facilities: data.amenities.map((amenity) => amenity.id),
+                    images: data.exteriorImages,
+                }); // Gán thông tin khách sạn vào state
+                setLocation(data.location || {}); // Gán location
+                setRoomDetails(data.rooms?.[0] || {}); // Gán thông tin phòng
+                setLoading(false); // Tắt trạng thái loading
+                //console.log("Dữ hotel detail:", hotelDetails);  // Log phản hồi từ API
+                setLoading(false);
+            },
+            onError: (error) => {
+                toast.error(error.message);
+                setLoading(false);
+            },
         }
-
-        fetchHotelDetails();
-    }, [hotelId]);
-    
-
+    );
+    const mutationGetUserDetails = useMutation(
+        ({ userId, accessToken }) => {
+            return UserService.getDetailsUser(userId, accessToken);
+        },
+        {
+            onSuccess: (data) => {
+                mutationHotel.mutate(data.hotelId);
+            },
+            onError: (error) => {
+                toast.error(error.message || "Đã xảy ra lỗi.");
+            },
+        }
+    );
+    useEffect(() => {
+        mutationGetUserDetails.mutate({
+            userId: user.id,
+            accessToken: user.accessToken,
+        });
+    }, []);
     // Hàm xử lý cập nhật
     const handleUpdate = async () => {
         try {
-            await HotelService.updateHotel(hotelId, hotelDetails, user.accessToken);
+            const updatedHotel = {
+                ...hotelDetails,
+                location,
+            };
+            await HotelService.updateHotel(
+                hotelId,
+                updatedHotel,
+                user.accessToken
+            );
             toast.success("Cập nhật thành công");
         } catch (error) {
             toast.error("Cập nhật thất bại");
@@ -68,7 +94,9 @@ function HotelEditPage() {
         }
         window.scrollTo(0, 0);
     };
-
+    if (loading) {
+        return <Loading />;
+    }
     return (
         <>
             <ToastContainer closeOnClick />
@@ -79,10 +107,18 @@ function HotelEditPage() {
                     </div>
                     <div className="dashboard-profile-wrapper">
                         <div className="dashboard-profile-nav h-100">
-                            <ul className="nav flex-column nav-pills" id="pills-tab" role="tablist">
+                            <ul
+                                className="nav flex-column nav-pills"
+                                id="pills-tab"
+                                role="tablist"
+                            >
                                 <li className="nav-item" role="presentation">
                                     <button
-                                        className={`nav-link ${activeTab === "property" ? "active" : ""}`}
+                                        className={`nav-link ${
+                                            activeTab === "property"
+                                                ? "active"
+                                                : ""
+                                        }`}
                                         onClick={() => setActiveTab("property")}
                                     >
                                         Thông tin khách sạn
@@ -90,7 +126,11 @@ function HotelEditPage() {
                                 </li>
                                 <li className="nav-item" role="presentation">
                                     <button
-                                        className={`nav-link ${activeTab === "location" ? "active" : ""}`}
+                                        className={`nav-link ${
+                                            activeTab === "location"
+                                                ? "active"
+                                                : ""
+                                        }`}
                                         onClick={() => setActiveTab("location")}
                                     >
                                         Vị trí chi tiết
@@ -98,30 +138,57 @@ function HotelEditPage() {
                                 </li>
                                 <li className="nav-item" role="presentation">
                                     <button
-                                        className={`nav-link ${activeTab === "confirmation-submit" ? "active" : ""}`}
-                                        onClick={() => setActiveTab("confirmation-submit")}
+                                        className={`nav-link ${
+                                            activeTab === "confirmation-submit"
+                                                ? "active"
+                                                : ""
+                                        }`}
+                                        onClick={() =>
+                                            setActiveTab("confirmation-submit")
+                                        }
                                     >
                                         Cập nhật
                                     </button>
                                 </li>
                             </ul>
                         </div>
-                        <div className="tab-content w-100" id="pills-tabContent">
-                            <div className={`tab-pane fade ${activeTab === "property" ? "active show" : ""}`}>
+                        <div
+                            className="tab-content w-100"
+                            id="pills-tabContent"
+                        >
+                            <div
+                                className={`tab-pane fade ${
+                                    activeTab === "property"
+                                        ? "active show"
+                                        : ""
+                                }`}
+                            >
                                 <PropertyInfo
                                     hotelDetails={hotelDetails}
                                     setHotelDetails={setHotelDetails}
                                     onNext={handleNextTab}
                                 />
                             </div>
-                            <div className={`tab-pane fade ${activeTab === "location" ? "active show" : ""}`}>
+                            <div
+                                className={`tab-pane fade ${
+                                    activeTab === "location"
+                                        ? "active show"
+                                        : ""
+                                }`}
+                            >
                                 <LocationDetails
                                     location={location}
                                     setLocation={setLocation}
                                     onNext={handleNextTab}
                                 />
                             </div>
-                            <div className={`tab-pane fade ${activeTab === "confirmation-submit" ? "active show" : ""}`}>
+                            <div
+                                className={`tab-pane fade ${
+                                    activeTab === "confirmation-submit"
+                                        ? "active show"
+                                        : ""
+                                }`}
+                            >
                                 <ConfirmationRegisterHotelOwner
                                     hotelDetails={hotelDetails}
                                     location={location}
@@ -138,4 +205,3 @@ function HotelEditPage() {
 }
 
 export default HotelEditPage;
-

@@ -81,14 +81,14 @@ function ConfirmationRegisterHotelOwner({
 
     return (
         <div>
-            <h3>Xác nhận Đăng ký</h3>
-            <p>Vui lòng kiểm tra thông tin trước khi hoàn tất đăng ký.</p>
+            <h3>Xác nhận thông tin</h3>
+            <p>Vui lòng kiểm tra thông tin trước khi hoàn tất.</p>
             <button
                 onClick={handleRegisterHotel}
                 className="primary-btn3"
                 disabled={loading}
             >
-                {loading ? "Đang xử lý..." : "Đăng ký"}
+                {loading ? "Đang xử lý..." : "Xác nhận"}
             </button>
         </div>
     );
