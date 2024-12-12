@@ -1184,5 +1184,8 @@
             "details": "Chi tiết",
             "delete": "Xóa"
         }
+    },
+    "chatbot": {
+        "initialGreeting": "Chào mừng bạn đến với KKunBooking! Nếu bạn cần hỗ trợ hoặc có bất kỳ câu hỏi nào về đặt phòng, vui lòng liên hệ với chúng tôi. Chúng tôi luôn sẵn sàng giúp đỡ bạn!"
     }
 }

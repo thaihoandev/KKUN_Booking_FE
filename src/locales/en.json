@@ -1186,5 +1186,9 @@
             "details": "Details",
             "delete": "Delete"
         }
+    },
+
+    "chatbot": {
+        "initialGreeting": "Welcome to KKunBooking! If you need any assistance or have any questions about booking, please contact us. We are always ready to help you!"
     }
 }

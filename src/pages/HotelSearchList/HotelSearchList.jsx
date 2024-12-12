@@ -14,7 +14,10 @@ import { useTranslation } from "react-i18next";
 
 function HotelSearchList() {
     const location = useLocation();
-    const initialResults = location.state?.results || [];
+    const [initialResults, setInitialResults] = useState(
+        location.state?.results || []
+    );
+
     const booking = useSelector((state) => state.booking); // Get booking state from Redux
     const { t } = useTranslation();
     // Initialize filterCriteria from Redux booking state
@@ -31,11 +34,29 @@ function HotelSearchList() {
         breakfastIncluded: false,
         prePayment: false,
     });
-
+    useEffect(() => {
+        if (booking) {
+            setFilterCriteria((prevState) => ({
+                ...prevState,
+                location: booking.location || "",
+                checkInDate: booking.checkInDate || null,
+                checkOutDate: booking.checkOutDate || null,
+                guests: (booking.adultQty || 0) + (booking.childQty || 0) || 1,
+                minPrice: 100000,
+                maxPrice: 5000000,
+                amenities: [],
+                rating: null,
+            }));
+        }
+    }, [booking]);
     const [filteredResults, setFilteredResults] = useState(initialResults);
     const [currentPage, setCurrentPage] = useState(1);
     const resultsPerPage = 6;
-
+    useEffect(() => {
+        if (location.state?.results) {
+            setInitialResults(location.state.results);
+        }
+    }, [location.state?.results]);
     const handleSearchResults = (results) => {
         setFilteredResults(results);
         setCurrentPage(1);

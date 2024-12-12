@@ -248,7 +248,20 @@ function ChatbotPage() {
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
+    const initialGreetingMutation = () => {
+        const initialGreeting = {
+            user: "bot",
+            text: t("chatbot.initialGreeting"),
+            timestamp: new Date(),
+        };
+        setMessages([initialGreeting]);
+    };
 
+    // Send initial greeting when component mounts
+    useEffect(() => {
+        sessionStorage.setItem("sessionId", sessionId.current);
+        initialGreetingMutation();
+    }, []);
     const sendMessageMutation = useMutation(
         (message) => ChatService.sendChatMessage(message, sessionId.current),
         {
@@ -294,7 +307,6 @@ function ChatbotPage() {
         if (!input.trim()) return;
         sendMessageMutation.mutate(input);
     };
-
     const formatTime = (date) => {
         return new Date(date).toLocaleTimeString("vi-VN", {
             hour: "2-digit",
